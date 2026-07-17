@@ -27,11 +27,28 @@ simulation.
 
 ## Structure
 
-- `src/`: application and domain logic.
+- `src/`: React application and deterministic domain logic.
 - `tests/`: deterministic unit, interaction, and browser tests.
 - `data/`: licensed source data plus provenance metadata.
 - `docs/`: product thesis, judging map, planning PDF source, and submission log.
 - `public/`: licensed visual assets.
+
+## Development
+
+Use Node 22.12+ and pnpm 11. The Codex bundled Node 24 runtime is valid when the
+machine default is older.
+
+```bash
+pnpm install
+pnpm dev
+pnpm verify
+pnpm test:e2e
+```
+
+Keep football calculations in `src/domain/` and cover them with deterministic
+tests. UI prototypes must say when their coefficients are synthetic; do not
+present them as data-backed recommendations before `pnpm data:audit` reports an
+accepted source and a tested transformation owns the output.
 
 ## Competition Harness
 
@@ -41,6 +58,12 @@ interaction quality, visual polish, and reliability. Keep one bounded exploratio
 lane until the differentiator is validated. Use independent subagents for football
 domain review, UX critique, data audit, adversarial testing, and submission review.
 Every loop must produce a test, product change, evaluation, or submission artifact.
+
+Use the narrowest repo skill under `.agents/skills/`: `orchestration`,
+`product-gate`, `data-audit`, `browser-acceptance`, `submission`,
+`retrospective`, or `session-handoff`. Product and data decisions belong in
+`docs/product-thesis.md`, `docs/decision-registry.md`, and
+`data/source-manifest.json`; chat-only conclusions are not accepted state.
 
 ## Quality And Submission
 

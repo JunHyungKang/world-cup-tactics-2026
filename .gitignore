@@ -1,0 +1,15 @@
+node_modules/
+dist/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+!.env.example
+data/raw/*
+!data/raw/.gitkeep
+public/data/*
+!public/data/.gitkeep
+submissions/*
+!submissions/.gitkeep

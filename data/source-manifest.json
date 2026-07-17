@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "sources": [],
+  "status": "pending-discovery",
+  "note": "No football dataset is accepted yet. The prototype logic is UX-only until a licensed source and tested transformation are recorded."
+}

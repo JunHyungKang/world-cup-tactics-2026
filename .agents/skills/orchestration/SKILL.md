@@ -5,11 +5,30 @@ description: Coordinate rubric-first World Cup tactics product work, bounded exp
 
 # World Cup Tactics Orchestration
 
-1. Recheck both deadlines, official rules, and the current deployable artifact.
-2. Rank work by differentiation, data credibility, interaction quality, polish, reliability, and effort.
-3. Maintain one bounded exploration lane until the product's differentiator has user-visible proof.
-4. Use independent reviewers for football logic, UX, data licensing, adversarial reliability, and compliance.
-5. Reject features that do not strengthen the manager decision loop or demo narrative.
-6. End every loop with a concrete artifact and the next highest-value action.
+## Start From Current State
+
+Read the portfolio board and recheck both deadlines, official rules, current
+deployable artifact, and remaining hours. Stay a bounded P1 lane until the
+media-statistics P0 submission is frozen or the board explicitly changes.
+
+## Select Work
+
+Rank artifacts by differentiation, data credibility, interaction quality,
+visual clarity, reliability, demo value, and effort. Run `product-gate` before
+committing to a concept or major feature and `data-audit` before presenting any
+output as evidence-backed. The app's first screen must expose a real manager
+decision loop; reject static-dashboard work and decorative features that do not
+change a choice, feedback, or demo beat.
+
+Keep one time-boxed exploration with a hypothesis, visible success signal, and
+stop condition. Submission blockers override exploration near a deadline.
+
+## Close The Loop
+
+When reviewers are available, assign distinct football-logic, UX, data/license,
+adversarial-browser, and compliance roles. The main agent integrates and tests.
+Every loop leaves code plus a test, research decision, interaction evidence,
+planning artifact, deployment proof, or harness improvement. Use `retrospective`
+after failures and `session-handoff` at a session boundary.
 
 Before final submission, test the public URL without login or secret keys and freeze commits before the deadline.

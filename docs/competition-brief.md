@@ -1,5 +1,8 @@
 # Competition Brief
 
+Verified against the official DAKER page on 2026-07-17 KST. Recheck notices
+before each submission because organizer updates take precedence.
+
 ## Ownership
 
 - Organizer and operator: DACON, through its DAKER monthly hackathon
@@ -14,6 +17,10 @@
 - Browser-playable without installation, login, payment, or judge API key
 - Planning PDF covers manager-experience intent, pages, interactions, data, and flow
 - No commits after the final deadline
+
+The official page also requires the service to work in major browsers and stay
+externally accessible during judging. Dynamic interactions that do not actually
+work may be excluded from evaluation.
 
 ## Initial Product Gate
 
