@@ -8,6 +8,15 @@ using real World Cup data. The planning PDF is due 2026-07-27 10:00 KST; the
 deployed URL, public GitHub repository, and YouTube demo are due 2026-08-03
 10:00 KST.
 
+## Portfolio Coordination
+
+At the start of each serious session, read
+`/Users/jhkang/code/competitions/COMPETITION_BOARD.md`. Treat it as the source of
+truth for cross-competition deadlines and priority. Update its verification date,
+gate, and next action when live rules or this project's submission state changes.
+Remain a bounded P1 exploration lane until the P0 media-statistics submission is
+frozen or the board explicitly changes priority.
+
 ## Product Standard
 
 Build the actual interactive experience as the first screen. Prioritize a clear
