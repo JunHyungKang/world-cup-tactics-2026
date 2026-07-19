@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "study_id": "primary-wave-1",
+  "status": "pending",
+  "build": {
+    "source_commit": null,
+    "app_url": "http://127.0.0.1:4173",
+    "evidence_fingerprint": "877e015b716ffdee",
+    "started_at": null,
+    "completed_at": null,
+    "moderator": null
+  },
+  "participants": [
+    { "id": "P1", "familiarity": null, "device_path": null, "browser_viewport": null, "reduced_motion": null, "five_second_answer": null, "tradeoff_pass": null, "first_valid_move_seconds": null, "neutral_prompt_used": null, "opened_evidence_at_seconds": null, "played_counterexample_at_seconds": null, "evidence_distinction_pass": null, "evidence_distinction_verbatim": null, "misconception_present": null, "misconception_verbatim": null, "spontaneous_loop_pass": null, "guided_path_pass": null, "guided_defect": null },
+    { "id": "P2", "familiarity": null, "device_path": null, "browser_viewport": null, "reduced_motion": null, "five_second_answer": null, "tradeoff_pass": null, "first_valid_move_seconds": null, "neutral_prompt_used": null, "opened_evidence_at_seconds": null, "played_counterexample_at_seconds": null, "evidence_distinction_pass": null, "evidence_distinction_verbatim": null, "misconception_present": null, "misconception_verbatim": null, "spontaneous_loop_pass": null, "guided_path_pass": null, "guided_defect": null },
+    { "id": "P3", "familiarity": null, "device_path": null, "browser_viewport": null, "reduced_motion": null, "five_second_answer": null, "tradeoff_pass": null, "first_valid_move_seconds": null, "neutral_prompt_used": null, "opened_evidence_at_seconds": null, "played_counterexample_at_seconds": null, "evidence_distinction_pass": null, "evidence_distinction_verbatim": null, "misconception_present": null, "misconception_verbatim": null, "spontaneous_loop_pass": null, "guided_path_pass": null, "guided_defect": null },
+    { "id": "P4", "familiarity": null, "device_path": null, "browser_viewport": null, "reduced_motion": null, "five_second_answer": null, "tradeoff_pass": null, "first_valid_move_seconds": null, "neutral_prompt_used": null, "opened_evidence_at_seconds": null, "played_counterexample_at_seconds": null, "evidence_distinction_pass": null, "evidence_distinction_verbatim": null, "misconception_present": null, "misconception_verbatim": null, "spontaneous_loop_pass": null, "guided_path_pass": null, "guided_defect": null },
+    { "id": "P5", "familiarity": null, "device_path": null, "browser_viewport": null, "reduced_motion": null, "five_second_answer": null, "tradeoff_pass": null, "first_valid_move_seconds": null, "neutral_prompt_used": null, "opened_evidence_at_seconds": null, "played_counterexample_at_seconds": null, "evidence_distinction_pass": null, "evidence_distinction_verbatim": null, "misconception_present": null, "misconception_verbatim": null, "spontaneous_loop_pass": null, "guided_path_pass": null, "guided_defect": null }
+  ],
+  "summary": null
+}

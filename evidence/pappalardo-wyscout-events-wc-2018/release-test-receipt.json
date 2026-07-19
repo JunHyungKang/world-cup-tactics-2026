@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-events-wc-2018",
+  "test_argv": ["node_modules/vitest/vitest.mjs", "run", "scripts/release-artifact.test.mjs"],
+  "completed_at": "2026-07-18T21:41:48+09:00",
+  "result": "1/1 passed — committed 42-window release artifact, review records, and pinned provenance; ignored raw not required"
+}

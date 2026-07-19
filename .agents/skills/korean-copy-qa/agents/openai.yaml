@@ -1,0 +1,4 @@
+interface:
+  display_name: "Korean Copy QA"
+  short_description: "대회 문구의 번역투와 주장 경계를 함께 점검합니다"
+  default_prompt: "Use $korean-copy-qa to audit and safely revise the current Korean product and submission copy."

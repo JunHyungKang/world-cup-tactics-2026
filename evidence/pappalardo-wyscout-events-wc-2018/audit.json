@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-events-wc-2018",
+  "reviewer": "eligibility_escape_audit",
+  "checked_at": "2026-07-18T11:50:00+09:00",
+  "public_json_sha256": "42dbbf6801697013e943d81715cba792618b1a8f8ee57325c11aa007e0d8d6c4",
+  "final_result": {
+    "structural_pass": 42,
+    "semantic_pass": 42,
+    "uncertain": 0,
+    "fail": 0
+  },
+  "semantic_review": {
+    "path": "data/audit/brazil-corner-semantic-review.json",
+    "sha256": "a40be65d9c5bc8034ede84ad0330ecbecaf489891d44aa186a2712f0eeb4d043"
+  },
+  "window_review": {
+    "path": "data/audit/brazil-corner-window-review.csv",
+    "sha256": "47ad47af89d4ba3de7417ff953e86cebfdb9a109dda34aa9570bc84bd748f863"
+  },
+  "assertions": [
+    "42/42 structural window review passed",
+    "42/42 semantic wording review passed after straight-line endpoint assumption disclosure",
+    "nominal counts and corrected half-open boundary sensitivity independently reproduced",
+    "four robust Skeptic corner IDs independently reproduced",
+    "shot placeholders are markers and Pass/Clearance placeholder terminals are not segments"
+  ],
+  "review_receipt": "data/audit/brazil-corner-semantic-review.json",
+  "review_csv": "data/audit/brazil-corner-window-review.csv"
+}

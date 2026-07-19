@@ -1,0 +1,44 @@
+{
+  "schema_version": 3,
+  "official_scope_text": "2026 FIFA 월드컵 데이터를 활용",
+  "official_url": "https://daker.ai/public/hackathons/world-cup-manager-tactics-web-challenge",
+  "status": "resolved-official-open-historical",
+  "route": "official-open-historical-tactics",
+  "question_status": "withdrawn-not-needed",
+  "question_evidence": null,
+  "answer_evidence": null,
+  "scope_evidence": {
+    "api_url": "https://daker.ai/api/hackathons/world-cup-manager-tactics-web-challenge",
+    "hackathon_updated_at": "2026-07-13T04:47:47.898Z",
+    "checked_at": "2026-07-19T22:03:56+09:00",
+    "quote": "특정 연도·대회·선수 구성에 대한 제한은 없으며, 참가자가 자유롭게 설정할 수 있습니다.",
+    "stable_fields_sha256": "7d56d0d02e620caa81f00a67a7933190512570cb13689ee14a8e07d136765adc",
+    "capture": {
+      "path": "docs/official-state.md",
+      "sha256": "7769a2a9ad0d89cad0ed61956b5560509a89003d72030f02a4a027c6d1080ba8"
+    },
+    "independent_review": {
+      "reviewer": "eligibility_escape_audit",
+      "verdict": "PASS",
+      "reviewed_at": "2026-07-18T10:39:36+09:00"
+    }
+  },
+  "evidence_source_ids": [
+    "pappalardo-wyscout-events-wc-2018",
+    "pappalardo-wyscout-matches-wc-2018"
+  ],
+  "binding": {
+    "product_id": "corner-policy-lab",
+    "official_state_sha256": "7769a2a9ad0d89cad0ed61956b5560509a89003d72030f02a4a027c6d1080ba8",
+    "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
+    "product_thesis_sha256": "9f92a85ed6d3b06934fd26188526610b643e532f7391e471b492d781b99bfffa",
+    "planning_source_sha256": "d0cab3bea76d88ef76dee4f56b5434fd68dd23a6698832a18a056a610bb87266",
+    "source_manifest_sha256": "e3344c561e1cf77ed0857ff837d8daf920ecdcbba5d4282359167ce72794cedb",
+    "product_selection_sha256": "ea674f7b52b8a9627cf2aa32b4185fa8f04887f8ada107ea2bd96c6d9c2c3abc",
+    "derived_binding": {
+      "path": "public/data/product-binding.json",
+      "sha256": "26562b6b5dd875155380d0a3b0622eec0c19f8d6f46b1b0797faf24d815c8c2e"
+    }
+  },
+  "note": "The official DAKER Data-tab rule resolves year eligibility without a board post. Two CC BY 4.0 Figshare sources and the fixed, independently tested 48-8-8 public derivative are now bound to Corner Policy Lab for promotion. Product selection PASS does not change the causal recommendation REJECT or empirical campaign REVISE boundaries."
+}

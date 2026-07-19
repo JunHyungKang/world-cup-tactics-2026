@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "product_id": "corner-policy-lab",
+  "gallery": {
+    "title": "Corner Policy Lab — 한 정책, 두 번의 미공개 검증",
+    "one_line": "2018 월드컵 48경기로 정책을 세운 뒤, 같은 정책을 16강 8경기와 봉인된 8경기에서 바꾸지 않고 반박해 본다.",
+    "first_image": "docs/assets/gallery/corner-policy-lab-first-image.png",
+    "source_images": [
+      "docs/assets/policy-lab-planning/01-initial.png",
+      "docs/assets/policy-lab-planning/03-heldout-result.png",
+      "docs/assets/policy-lab-planning/05-final-verification.png"
+    ],
+    "hook": "조별리그에서 세우고, 토너먼트에서 깨뜨리세요."
+  },
+  "campaign": {
+    "reference_matches": 48,
+    "rehearsal_matches": 8,
+    "final_audit_matches": 8,
+    "policy_changes": 0
+  },
+  "video": {
+    "title": "Corner Policy Lab | 한 정책을 두 번 반박하는 59.52초",
+    "duration_limit_seconds": 60,
+    "narrated_duration_seconds": 59.52,
+    "visual_duration_seconds": 59.68,
+    "beat_order": ["hook", "reference", "lock", "r16", "seal", "final-audit", "final"],
+    "narration": { "voice": "Yuna", "locale": "ko_KR", "rate_words_per_minute": 205 },
+    "interaction": {
+      "timed_events": 7,
+      "activations": 5,
+      "policy_locks": 1,
+      "explicit_scrolls": 1,
+      "final_receipt_seconds": 34.005
+    },
+    "beats": [
+      { "id": "hook", "start": 0, "end": 5, "action": "48 → 8 → 8 경기 단위 캠페인과 한계를 첫 화면에 보여 준다.", "proof": "조별리그에서 세우고, 토너먼트에서 깨뜨리세요." },
+      { "id": "reference", "start": 5, "end": 12, "action": "조별리그 참고 기록만 보고 숏 코너와 니어포스트를 고른다.", "proof": "397/436 분류 가능 · 두 구역만 선택" },
+      { "id": "lock", "start": 12, "end": 16, "action": "한 정책을 두 미공개 시험에 적용하도록 잠근다.", "proof": "정책 지문 1개 · 이후 변경 불가" },
+      { "id": "r16", "start": 16, "end": 27, "action": "16강 8경기 요약, 전체 기록표, 대표 반례와 출처를 공개한다.", "proof": "84/89 · 8개 영수증의 동일 정책 ID" },
+      { "id": "seal", "start": 27, "end": 34, "action": "8강 이후 기록이 여전히 봉인됐고 정책도 바꿀 수 없음을 확인한다.", "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가" },
+      { "id": "final-audit", "start": 34, "end": 45, "action": "같은 정책으로 봉인된 8경기를 공개하고 선택 밖 전달과 출처를 확인한다.", "proof": "76/78 · 결정론적 대표 반례" },
+      { "id": "final", "start": 45, "end": 59.5, "action": "최종 영수증과 온톨로지 금지 관계를 남긴다.", "proof": "정책 변경 0회 · 인과 추천 REJECT" }
+    ]
+  },
+  "evidence": {
+    "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "2f761b98b1c8063a420a1e846578dec8e3c70b4e50a4ece9c1ccd96fc30b3844" },
+    "visual_manifest": { "path": "output/policy-lab-demo/visual-manifest.json" },
+    "narration_manifest": { "path": "output/policy-lab-demo/narration-manifest.json" },
+    "visual_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-visual.webm", "sha256": "5b30b4c3603983edfaaeb73c92f0f5da821dc0a8a0bcd84a673bd7d08cf31999" },
+    "narrated_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm", "sha256": "558e8f0b02aab094e2eb366acfa8becf50527f9f5f16ebea96a8fd30e586e22f" }
+  },
+  "claim_boundary": {
+    "human_evidence": "unavailable",
+    "result_prediction": false,
+    "causal_recommendation_status": "REJECT",
+    "empirical_campaign_status": "REVISE",
+    "forbidden": ["예방했다", "선수가 닿는다", "승률", "xG 변화", "최적 정책입니다", "2026 성향", "AI 추천", "사용자 선호", "기억에 남는다", "강화학습이 학습했다"]
+  }
+}

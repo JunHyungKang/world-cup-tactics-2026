@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "scope": "independent-agent-document-qa-not-human-participant-usability-preference-evidence",
+  "reviewed_at": "2026-07-19T16:06:39+09:00",
+  "reviewer": {
+    "task": "/root/plan_pdf_agent_reviewer",
+    "role": "independent-agent",
+    "artifact_creator": false
+  },
+  "artifact": {
+    "path": "output/pdf/corner-war-room-planning.pdf",
+    "sha256": "10d48250ef48aaebb75256bca8768b28f88230463d6d8ccaf5ece1e6e48c53af",
+    "pages": 8
+  },
+  "planning_source": {
+    "path": "docs/planning-outline.md",
+    "sha256": "28bcdc19891c8df6217410f64800315cae78de58643ac7583e574c0b1660e008"
+  },
+  "review_packet": {
+    "path": "output/plan-review/10d48250ef48aaeb/review-manifest.json",
+    "sha256": "59a42f3bd5e31e851f3bbd9846014d8bc495402ce61b5b52b13e1e7d45a4184d",
+    "renderer": "pdftoppm/26.05.0"
+  },
+  "criteria": [
+    "clipping",
+    "overlap",
+    "glyphs",
+    "table_legibility",
+    "page_numbers",
+    "headers_footers",
+    "citations",
+    "claim_boundaries"
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "path": "pages/page-1.png",
+      "sha256": "121eae1d54dafcc20aa82368f9e4bd5c46614b132a4d76d911137d763b41c69c",
+      "bytes": 203843,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    },
+    {
+      "page": 2,
+      "path": "pages/page-2.png",
+      "sha256": "bb003d276591b18157a61a9c6d03d28684fc9345c39a3eae4885b4a4141d9214",
+      "bytes": 126301,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    },
+    {
+      "page": 3,
+      "path": "pages/page-3.png",
+      "sha256": "63dce5a0e0909771dd07d35f5d4949bb9e9c836058b87e7392762c66c946bffb",
+      "bytes": 71731,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    },
+    {
+      "page": 4,
+      "path": "pages/page-4.png",
+      "sha256": "6719029c94bedf58b71e5ed0dffb55a129a181ea6ef12b845f5864ee4e639a29",
+      "bytes": 169690,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    },
+    {
+      "page": 5,
+      "path": "pages/page-5.png",
+      "sha256": "0cbf2f7f831139cbea91d1c95f3242789cc37cf5bc43761f26f551b2fd05ea0f",
+      "bytes": 91106,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    },
+    {
+      "page": 6,
+      "path": "pages/page-6.png",
+      "sha256": "35edde163e76fac546bee1f6b182b0203dbb0cdef586245c37481d62ab79ff4b",
+      "bytes": 79874,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    },
+    {
+      "page": 7,
+      "path": "pages/page-7.png",
+      "sha256": "d5a48272a980baa162bee1b9d7fdc73092cc71f8eac2bf8f605d6c0d0f35ec52",
+      "bytes": 78477,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    },
+    {
+      "page": 8,
+      "path": "pages/page-8.png",
+      "sha256": "2332a5236f390721d607ef36aed3881437a7611e3e20accc9293d5fc17b32a3e",
+      "bytes": 98409,
+      "width": 1404,
+      "height": 993,
+      "checks": {
+        "clipping": true,
+        "overlap": true,
+        "glyphs": true,
+        "table_legibility": true,
+        "page_numbers": true,
+        "headers_footers": true,
+        "citations": true,
+        "claim_boundaries": true
+      },
+      "findings": []
+    }
+  ],
+  "summary": {
+    "pages_passed": 8,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "finding_count": 0
+  }
+}

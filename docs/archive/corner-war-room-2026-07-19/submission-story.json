@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "product_id": "corner-war-room",
+  "gallery": {
+    "title": "코너 워룸 — 코너 수비에 한 명 더, 역습에는 한 명 덜",
+    "one_line": "역습 역할 1명을 수비로 전환하고, 그 선택으로 설명되지 않는 2018 월드컵 슈팅 기록을 통해 감독의 판단을 되묻는다.",
+    "first_image": "docs/assets/gallery/corner-war-room-first-image.png",
+    "hook": "코너 수비에 한 명 더. 역습에는 한 명 덜."
+  },
+  "video": {
+    "title": "Corner War Room | 선택을 칭찬하는 대신 반례로 되묻는 60초",
+    "duration_seconds": 60,
+    "beats": [
+      {
+        "id": "hook",
+        "start": 0,
+        "end": 5,
+        "action": "릴리스 커밋에 포함된 현재 빌드의 세 장면(선택 전 → 수비 전환 → 반례)을 합친 타이틀 카드를 5초 동안 보여 준 뒤, 고정된 공개 URL에서 연속 조작을 시작한다.",
+        "proof": "코너 수비에 한 명 더. 역습에는 한 명 덜. 선택은 바뀌고, 근거는 그대로다."
+      },
+      {
+        "id": "commit",
+        "start": 5,
+        "end": 12,
+        "action": "역습 역할 1명을 세컨드볼 대비 임무로 전환한다.",
+        "proof": "세컨드볼 대비 우선 · 역습 1명 수비 전환"
+      },
+      {
+        "id": "replay",
+        "start": 12,
+        "end": 25,
+        "action": "출처가 표시된 기록을 재생한다. 13–22초에는 피치의 선택 구역과 이벤트 표시를 보여 준 뒤 ‘내 약속’ 패널로 돌아온다.",
+        "proof": "전술 효과를 나타내는 점수가 아닙니다."
+      },
+      {
+        "id": "separate",
+        "start": 25,
+        "end": 32,
+        "action": "선택에 따라 바뀌는 표시와 그대로 유지되는 과거 기록을 구분한다.",
+        "proof": "두 기록은 서로 다른 장면이므로 하나의 점수로 합치지 않습니다."
+      },
+      {
+        "id": "reverse",
+        "start": 32,
+        "end": 38,
+        "action": "니어포스트 수비로 바꾼 뒤 초기화한다.",
+        "proof": "처음 상태로 돌아왔습니다."
+      },
+      {
+        "id": "counterexample",
+        "start": 38,
+        "end": 55,
+        "action": "세컨드볼 대비를 다시 선택하고 반례를 연다. 39–48초에는 선택 구역과 겹치지 않는 슈팅 기록을 재생한 뒤 판정과 출처 ID를 보여 준다.",
+        "proof": "이 선택이 슈팅을 막았을지는 알 수 없습니다."
+      },
+      {
+        "id": "receipt",
+        "start": 55,
+        "end": 60,
+        "action": "반례의 판정과 출처 ID, ‘2018 경기 기록·결과 예측 아님’이라는 경계를 마지막 프레임에 남긴다.",
+        "proof": "출처 이벤트 #"
+      }
+    ]
+  },
+  "claim_boundary": {
+    "human_evidence": "unavailable",
+    "result_prediction": false,
+    "forbidden": [
+      "예방했다",
+      "선수가 닿는다",
+      "승률",
+      "xG 변화",
+      "최적 전술",
+      "브라질 2026 성향",
+      "AI 추천",
+      "사용자 선호",
+      "기억에 남는다"
+    ]
+  }
+}

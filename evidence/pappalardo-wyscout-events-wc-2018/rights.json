@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "CLEARED",
+  "source_id": "pappalardo-wyscout-events-wc-2018",
+  "source_url": "https://figshare.com/articles/dataset/Events/7770599",
+  "license": "CC BY 4.0 as displayed on the Figshare Events item; attribution and change indication required",
+  "evidence_url": "https://api.figshare.com/v2/articles/7770599",
+  "checked_at": "2026-07-18T11:50:00+09:00",
+  "allowed_uses": [
+    "public_prize_entry",
+    "public_github",
+    "hosted_app",
+    "youtube_demo",
+    "derived_distribution"
+  ],
+  "conditions": ["credit authors and source", "link CC BY 4.0", "indicate transformation and coordinate normalization"]
+}

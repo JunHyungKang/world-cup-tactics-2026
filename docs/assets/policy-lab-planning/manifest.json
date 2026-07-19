@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "product_id": "corner-policy-lab",
+  "captured_at": "2026-07-19T14:48:40.579Z",
+  "release_manifest_sha256": "2f761b98b1c8063a420a1e846578dec8e3c70b4e50a4ece9c1ccd96fc30b3844",
+  "viewport_contract": {
+    "desktop": "1440x900",
+    "mobile": "390x844"
+  },
+  "source_binding": {
+    "paths": [
+      "prototypes/policy-dojo/index.html",
+      "prototypes/policy-dojo/app.js",
+      "prototypes/policy-dojo/styles.css",
+      "public/data/policy-lab-spike.json"
+    ],
+    "sha256": "b9f03e1a03b0503472bbb7375dde5e299e0925f655e64cf7d4d7b4c09dd2d818"
+  },
+  "build_binding": {
+    "sha256": "2f761b98b1c8063a420a1e846578dec8e3c70b4e50a4ece9c1ccd96fc30b3844",
+    "file_count": 4,
+    "files": [
+      {
+        "path": "index.html",
+        "bytes": 495,
+        "sha256": "019c7ec79fb9e5554dd46f54bb1b9bd08339d7351c977f43d997e29ab38a9208"
+      },
+      {
+        "path": "app.js",
+        "bytes": 22089,
+        "sha256": "57015adac50011dff7c7bb237f34d0f32843176656c74c5a9d7abccdad84948d"
+      },
+      {
+        "path": "styles.css",
+        "bytes": 9823,
+        "sha256": "343e0b360e1fbc33e48b8f4c5483d322e0d2aff85a648f873cd31e3058484384"
+      },
+      {
+        "path": "data/policy-lab-spike.json",
+        "bytes": 1157403,
+        "sha256": "9ade957173f0f8c870dbf577d17e1c03c9160a32aab04640c035993c2c24e383"
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "name": "01-initial",
+      "path": "docs/assets/policy-lab-planning/01-initial.png",
+      "bytes": 184214,
+      "sha256": "95eb4d8c388a9ab7e4967516fa8a3246705d422628ed43d713b2bd13357e6046"
+    },
+    {
+      "name": "02-policy-selected",
+      "path": "docs/assets/policy-lab-planning/02-policy-selected.png",
+      "bytes": 183245,
+      "sha256": "d4326cf67ab603e8e5f0ef255558e7646b909733e1888efe1e1c36e848f48466"
+    },
+    {
+      "name": "03-heldout-result",
+      "path": "docs/assets/policy-lab-planning/03-heldout-result.png",
+      "bytes": 312924,
+      "sha256": "dafed5ed0c60c8cd92e7d38e3d160106554afcfd15fed7b868031d7b5f03f832"
+    },
+    {
+      "name": "04-contradiction",
+      "path": "docs/assets/policy-lab-planning/04-contradiction.png",
+      "bytes": 994256,
+      "sha256": "05afdcfc5eb145ec2a3138fbc59b53458f2c0e4a618d8740f4e3cc49215c2af3"
+    },
+    {
+      "name": "05-final-verification",
+      "path": "docs/assets/policy-lab-planning/05-final-verification.png",
+      "bytes": 317618,
+      "sha256": "3a5862f74def032dde62cca647b26108ca3ede29ed5170fa38994456c993b424"
+    },
+    {
+      "name": "06-mobile-initial",
+      "path": "docs/assets/policy-lab-planning/06-mobile-initial.png",
+      "bytes": 102132,
+      "sha256": "ab12d659786c1dc546c01e5afd144b5834e5e3f444bab7e0734e8a95c02b6d09"
+    }
+  ]
+}

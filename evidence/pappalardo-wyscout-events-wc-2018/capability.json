@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-events-wc-2018",
+  "capabilities": ["historical_tactical_events_2018"],
+  "schema_assertions": [
+    "101759 event rows map to 64 World Cup matches",
+    "42 Brazil corners have two finite inclusive 0..100 positions",
+    "inclusive 10-second same-period windows contain 223 source events",
+    "event IDs, periods, times, tags, teams, and source positions remain reversible"
+  ],
+  "reviewer": "eligibility_escape_audit",
+  "checked_at": "2026-07-18T11:50:00+09:00"
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "scope": "independent-agent-document-qa-not-human-participant-usability-preference-evidence",
+  "reviewed_at": "2026-07-20T00:08:06+09:00",
+  "reviewer": {
+    "task": "/root/policy_lab_final_candidate_review",
+    "role": "independent-agent",
+    "artifact_creator": false
+  },
+  "artifact": {
+    "path": "output/pdf/corner-policy-lab-planning.pdf",
+    "sha256": "2e1c9a477203ccea8f293c78cda36b635042e73195053b837e500ae28c82a71d",
+    "pages": 8
+  },
+  "planning_source": {
+    "path": "docs/planning-outline.md",
+    "sha256": "d0cab3bea76d88ef76dee4f56b5434fd68dd23a6698832a18a056a610bb87266"
+  },
+  "review_packet": {
+    "path": "output/plan-review/2e1c9a477203ccea/review-manifest.json",
+    "sha256": "93b6156ceaf1aa9d5011c6d27fff85275c4fbd8d8b377bf274cee79b7b5c94df",
+    "renderer": "pdftoppm/26.05.0"
+  },
+  "criteria": [
+    "clipping",
+    "overlap",
+    "glyphs",
+    "table_legibility",
+    "page_numbers",
+    "headers_footers",
+    "citations",
+    "claim_boundaries"
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "path": "pages/page-1.png",
+      "sha256": "d278d7ad9a1df4f35e5d30d3fce11f734aa97507a51313c8b219442e0fc19f02",
+      "bytes": 137616,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 2,
+      "path": "pages/page-2.png",
+      "sha256": "b132e757b68d6f0c3ff09eb04cca4118776f48f92729a8efe4a10e0aae161530",
+      "bytes": 135712,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 3,
+      "path": "pages/page-3.png",
+      "sha256": "c00a22524f2f9997a315e486470ec61af996345053766138ca52ccab7cab6b65",
+      "bytes": 120579,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 4,
+      "path": "pages/page-4.png",
+      "sha256": "c2dbd8c4c36e59305c1176fc0412ef64b46ec399a683d127932e21c56af928a1",
+      "bytes": 87684,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 5,
+      "path": "pages/page-5.png",
+      "sha256": "8d5fa577394c4f20609686878d0eba3d430a39a93099587b3b496f711675f382",
+      "bytes": 71289,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 6,
+      "path": "pages/page-6.png",
+      "sha256": "54ec617fe2acbfe1544a7e350949a743e984e6f43b48162ec755cd4f0d53b1a4",
+      "bytes": 132827,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 7,
+      "path": "pages/page-7.png",
+      "sha256": "f1fcebc4e7fce72c8c21b347ec8d5546789d5767fdbb09821054db3d6a0b3503",
+      "bytes": 91089,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 8,
+      "path": "pages/page-8.png",
+      "sha256": "76009361c8432dd3cbcb75a68a221f5836abf605c24aea72384101c6934d8d4c",
+      "bytes": 82651,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    }
+  ],
+  "summary": {
+    "pages_passed": 8,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "finding_count": 0
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "source": "current production build rendered locally",
+  "captured_at": "2026-07-19T12:45:12.603Z",
+  "base_url": "http://127.0.0.1:4183",
+  "source_binding": {
+    "paths": [
+      "package.json",
+      "pnpm-lock.yaml",
+      "vite.config.ts",
+      "index.html",
+      "src/App.tsx",
+      "src/styles.css",
+      "src/domain/cornerEvidence.ts",
+      "public/data/corner-scenarios.json",
+      "public/data/product-binding.json"
+    ],
+    "sha256": "873d39aa3680910a3057fd3ada41ff3a676d860f7d34a14f07a036a0194429a4"
+  },
+  "build_binding": {
+    "sha256": "ee4b318fbd01c2e374abf38278dd8518698fb30df5d8112185dd3b864c13a90c",
+    "file_count": 6,
+    "files": [
+      {
+        "path": "assets/index-B_yrLRHh.css",
+        "bytes": 6764,
+        "sha256": "2a26ea3c0b073b58adab49f47aec27bfe71143cd7e775dbee6198861336473d6"
+      },
+      {
+        "path": "assets/index-CA4i2cQP.js",
+        "bytes": 291223,
+        "sha256": "14ea0cf954d47f5013c0059f578f8bf135553ff35d16d48817ac9f5e15aa341c"
+      },
+      {
+        "path": "data/.gitkeep",
+        "bytes": 1,
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "path": "data/corner-scenarios.json",
+        "bytes": 209883,
+        "sha256": "42dbbf6801697013e943d81715cba792618b1a8f8ee57325c11aa007e0d8d6c4"
+      },
+      {
+        "path": "data/product-binding.json",
+        "bytes": 464,
+        "sha256": "b8245093abf8363f1a056cb43246f171e1f24743e724eafd5e1bbcf3676c2f69"
+      },
+      {
+        "path": "index.html",
+        "bytes": 571,
+        "sha256": "c7cbfd28746c5a9d95067af6268dd1e0f4a94032da520cf1d390fca8ed1a881e"
+      }
+    ]
+  },
+  "viewport_contract": {
+    "desktop": "1440x900",
+    "mobile": "390x844"
+  },
+  "artifacts": [
+    {
+      "path": "docs/assets/planning/desktop-initial.png",
+      "sha256": "43a8e963533fe3a2db1da147a48ca7290e9e980050f6d17f0598db5c841297ef",
+      "bytes": 59023
+    },
+    {
+      "path": "docs/assets/planning/desktop-selected.png",
+      "sha256": "0a5ec72c36d31a4f656e9f1d4b194364c78283f20bb9cd442e5e96e4c46c6f3f",
+      "bytes": 95876
+    },
+    {
+      "path": "docs/assets/planning/desktop-counterexample.png",
+      "sha256": "e120bd1fad9409f6b2a7ba61fea193db99803a5922c6c94033b5127ee57bb69e",
+      "bytes": 106825
+    },
+    {
+      "path": "docs/assets/planning/mobile-initial.png",
+      "sha256": "5d63346f5bb11c220690906fbca40056bfffcd129809193e2a8aeb13a3cbfb76",
+      "bytes": 41974
+    },
+    {
+      "path": "docs/assets/planning/mobile-selected.png",
+      "sha256": "4bd90230c6cc84b85f9042ec8050d8861b678925ec52eaba290cf436325563de",
+      "bytes": 67594
+    },
+    {
+      "path": "docs/assets/planning/mobile-counterexample.png",
+      "sha256": "5ef43a55ac24a19167b1fd0521c7d032a4661e819d319f6369298f4a8f053ffa",
+      "bytes": 74778
+    }
+  ]
+}

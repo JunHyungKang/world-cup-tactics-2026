@@ -13,8 +13,13 @@ media-statistics P0 submission is frozen or the board explicitly changes.
 
 ## Select Work
 
-Rank artifacts by differentiation, data credibility, interaction quality,
-visual clarity, reliability, demo value, and effort. Run `product-gate` before
+Rank artifacts by expected official judging gain per hour: originality `30`,
+manager-experience design `25`, functional completeness `25`, and planning-to-
+implementation consistency `20`. Treat data credibility, accessibility, visual
+clarity, browser reliability, and demo value as evidence under those four scored
+criteria, not as invented organizer categories. Keep `docs/judging-map.md`
+current and require every planning/demo claim to name its scored criterion and
+observable proof. Run `product-gate` before
 committing to a concept or major feature and `data-audit` before presenting any
 output as evidence-backed. The app's first screen must expose a real manager
 decision loop; reject static-dashboard work and decorative features that do not

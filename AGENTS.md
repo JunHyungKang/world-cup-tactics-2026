@@ -61,7 +61,8 @@ Every loop must produce a test, product change, evaluation, or submission artifa
 
 Use the narrowest repo skill under `.agents/skills/`: `orchestration`,
 `product-gate`, `data-audit`, `browser-acceptance`, `submission`,
-`retrospective`, or `session-handoff`. Product and data decisions belong in
+`retrospective`, `session-handoff`, or `korean-copy-qa`. Use `korean-copy-qa`
+before freezing Korean product, planning, gallery, caption, or demo copy. Product and data decisions belong in
 `docs/product-thesis.md`, `docs/decision-registry.md`, and
 `data/source-manifest.json`; chat-only conclusions are not accepted state.
 

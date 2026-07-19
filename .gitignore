@@ -1,7 +1,9 @@
 node_modules/
 dist/
+dist-policy-lab/
 playwright-report/
 test-results/
+artifacts/
 *.tsbuildinfo
 .DS_Store
 .env
@@ -11,5 +13,10 @@ data/raw/*
 !data/raw/.gitkeep
 public/data/*
 !public/data/.gitkeep
+!public/data/corner-scenarios.json
+!public/data/product-binding.json
+!public/data/policy-lab-spike.json
 submissions/*
 !submissions/.gitkeep
+tmp/
+output/

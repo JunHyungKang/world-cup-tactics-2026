@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "selected",
+  "product_id": "corner-policy-lab",
+  "data_scope": "official-open-historical-tactics",
+  "source_ids": [
+    "pappalardo-wyscout-events-wc-2018",
+    "pappalardo-wyscout-matches-wc-2018"
+  ],
+  "core_tactical_source_ids": [
+    "pappalardo-wyscout-events-wc-2018"
+  ],
+  "data_files": [
+    {
+      "path": "public/data/policy-lab-spike.json",
+      "sha256": "9ade957173f0f8c870dbf577d17e1c03c9160a32aab04640c035993c2c24e383"
+    }
+  ],
+  "note": "Selected after a 98/100 exact-artifact comparison, fixed 48-8-8 match holdouts, one immutable policy across both tests, 7/7 data and source checks, 12/12 four-environment release checks, and explicit separation of product PASS from empirical REVISE and causal REJECT."
+}

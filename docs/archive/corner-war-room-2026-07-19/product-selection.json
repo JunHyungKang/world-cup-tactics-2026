@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "selected",
+  "product_id": "corner-war-room",
+  "data_scope": "official-open-historical-tactics",
+  "source_ids": [
+    "pappalardo-wyscout-events-wc-2018",
+    "pappalardo-wyscout-matches-wc-2018"
+  ],
+  "core_tactical_source_ids": [
+    "pappalardo-wyscout-events-wc-2018"
+  ],
+  "data_files": [
+    {
+      "path": "public/data/corner-scenarios.json",
+      "sha256": "42dbbf6801697013e943d81715cba792618b1a8f8ee57325c11aa007e0d8d6c4"
+    }
+  ],
+  "note": "Selected after pinned source verification, CC BY 4.0 rights review, deterministic transformation, 42/42 structural and semantic audit, corrected boundary sensitivity, and public derived-lineage binding."
+}

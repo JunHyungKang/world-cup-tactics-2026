@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-matches-wc-2018",
+  "capabilities": ["historical_match_context_2018"],
+  "schema_assertions": [
+    "64 match rows uniquely map by wyId",
+    "all 42 selected corner rows map to one of five Brazil match labels",
+    "only match ID and source label enter the public evidence receipt"
+  ],
+  "reviewer": "eligibility_escape_audit",
+  "checked_at": "2026-07-18T11:50:00+09:00"
+}

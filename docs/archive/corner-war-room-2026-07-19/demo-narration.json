@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "local-tts-rehearsal-not-final-voice",
+  "voice": "Yuna",
+  "locale": "ko_KR",
+  "rate_words_per_minute": 190,
+  "cues": [
+    {
+      "id": "hook",
+      "start": 0,
+      "end": 5,
+      "caption_end": 4.8,
+      "text": "코너 수비에 한 명을 더 두면, 역습에 나설 선수는 한 명 줄어듭니다."
+    },
+    {
+      "id": "commit",
+      "start": 5,
+      "end": 12,
+      "caption_end": 9.6,
+      "text": "저는 역습 역할 한 명을 세컨드볼 대비로 전환합니다."
+    },
+    {
+      "id": "replay",
+      "start": 12,
+      "end": 25,
+      "caption_end": 19.2,
+      "text": "점수도 추천도 아닙니다. 2018 월드컵 기록 중 제가 정한 우선 구역과 겹친 장면을 재생합니다."
+    },
+    {
+      "id": "separate",
+      "start": 25,
+      "end": 32,
+      "caption_end": 31.4,
+      "text": "선택에 따라 바뀌는 강조 표시와, 무엇을 골라도 그대로인 과거 기록을 구분해 보여 줍니다."
+    },
+    {
+      "id": "reverse",
+      "start": 32,
+      "end": 38,
+      "caption_end": 35.9,
+      "text": "임무를 바꾸고 초기화해도 원본 기록은 그대로입니다."
+    },
+    {
+      "id": "counterexample",
+      "start": 38,
+      "end": 55,
+      "caption_end": 51.2,
+      "text": "세컨드볼을 다시 선택해 반례를 엽니다. 이 슈팅 기록에는 우선 구역과 겹치는 지점이 없습니다. 이 선택이 슈팅을 막았을지는 알 수 없습니다. 출처 이벤트 번호와 함께 판단의 한계를 밝힙니다."
+    },
+    {
+      "id": "receipt",
+      "start": 55,
+      "end": 60,
+      "caption_end": 59.6,
+      "text": "선택은 바뀌고, 근거는 고정됩니다. 코너 워룸입니다."
+    }
+  ]
+}

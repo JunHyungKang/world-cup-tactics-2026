@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-matches-wc-2018",
+  "test_argv": ["node_modules/vitest/vitest.mjs", "run", "scripts/derive-corner-scenarios.test.mjs"],
+  "completed_at": "2026-07-18T11:50:00+09:00",
+  "result": "7/7 passed"
+}

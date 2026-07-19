@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "status": "local-tts-rehearsal-not-final-voice",
+  "voice": "Yuna",
+  "locale": "ko_KR",
+  "rate_words_per_minute": 205,
+  "cues": [
+    { "id": "hook", "start": 0, "end": 5, "caption_end": 4.8, "text": "조별리그에서 세우고, 토너먼트에서 깨뜨립니다." },
+    { "id": "reference", "start": 5, "end": 12, "caption_end": 11.8, "text": "조별리그에서 전달 위치를 분류할 수 있는 기록만 보고 우선 구역 두 개를 고릅니다." },
+    { "id": "lock", "start": 12, "end": 16, "caption_end": 15.8, "text": "이 정책을 잠가 두 시험에 적용합니다." },
+    { "id": "r16", "start": 16, "end": 27, "caption_end": 26.8, "text": "16강 여덟 경기에서 위치 겹침과 대표 반례를 확인합니다. 평가 영수증 여덟 개에는 모두 같은 정책이 기록됩니다." },
+    { "id": "seal", "start": 27, "end": 34, "caption_end": 33.8, "text": "8강 이후 기록은 아직 봉인됐고, 정책도 바꿀 수 없습니다." },
+    { "id": "final-audit", "start": 34, "end": 45, "caption_end": 44.8, "text": "같은 정책으로 봉인한 8경기를 공개해, 선택 밖 전달과 출처를 다시 확인합니다." },
+    { "id": "final", "start": 45, "end": 59.5, "caption_end": 59.4, "text": "정책 변경은 없습니다. 위치 겹침만 세며, ‘막았을 것이다’ 또는 ‘최적 정책이다’라는 추론은 하지 않습니다." }
+  ]
+}

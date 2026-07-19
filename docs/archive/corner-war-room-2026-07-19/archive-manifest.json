@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "product_id": "corner-war-room",
+  "status": "frozen-runner-up-evidence",
+  "frozen_at_kst": "2026-07-19T23:21:14+09:00",
+  "repository_head_at_freeze": "db9c886844d8f02020df8c8a64f9abd28f87b13c",
+  "reason": "Corner Policy Lab v5 won the exact same-reviewer comparison 98/100 to 97/100. Preserve the prior canonical package before reversible conversion.",
+  "copied_text_artifacts": {
+    "README-root.md": "98a3d310df6848980c1a49486ffe069a8f25b9d995c1d18bd409b538b41b8a41",
+    "demo-captions.ko.srt": "0725ca10155692a7d2a7ecc7bed8562812e12dcf4d6c650170aa07764dc163ab",
+    "demo-narration.json": "ee64a7b58cbb6f93541576592e147a4408b82abe2b8dde01a15a2ec87a77ad91",
+    "demo-script.md": "6134b597bf8314a7522514ca89d6f26d2ea54a3a42635c987e5c2f0d2748d22a",
+    "final-submission-contract.md": "4fc486bca6037573f985249aaff26de3f2742021346bb2db4f5240d2f28e545a",
+    "first-place-goal.md": "0818aed57a04379bc1a53ed533e86fa60188f432dcb135fcdced940c850c3e5b",
+    "interaction-acceptance-contract.md": "5133e4551bb351d7a1cb21dbafc52b624ef6df715b1c747be9be1833d677deef",
+    "judge-differentiation-gate.md": "9419a942d9e892af6d4dafb1b7802d6f2295ac6c89baeea7b652926d4ae1a6fd",
+    "planning-outline.md": "28bcdc19891c8df6217410f64800315cae78de58643ac7583e574c0b1660e008",
+    "product-selection.json": "654599808e0698b3b88e26da60e5116ed3b8d0b26cc0f50a3339a478d23149dc",
+    "product-thesis.md": "b96e523eb6b89eaadf86b161bcc340f5f576700b23b4ea6d97272ef4cacb3e09",
+    "public-product-binding.json": "b8245093abf8363f1a056cb43246f171e1f24743e724eafd5e1bbcf3676c2f69",
+    "submission-story.json": "66bfb4e57ef8ec7b27b536046ac53402b9a0889c2eb37a32a3459ecfafba7b11"
+  },
+  "retained_exact_artifacts": {
+    "output/pdf/corner-war-room-planning.pdf": "be48c9859b5f1521ba6ad23782cce67fbe92f43af8226b6674ccab6e679101b9",
+    "output/demo/corner-war-room-60s-narrated-rehearsal.webm": "2e23636bf5779cb4c7c7314088ed03d3f13f07c501f41988d28182db34203d9b",
+    "docs/assets/gallery/manifest.json": "8c41d8d1a049e13cb6586e6d82c50e64806c0ea55e7ccce5fad85cd35af10cd4",
+    "docs/assets/planning/manifest.json": "07ffe0fea7376265a5d4eb42560504e54011e59b391668d8c67e1994ff9c849e",
+    "docs/assets/demo-storyboard/manifest.json": "6fc79987affc800d9c6f356fe3f762094fe493f19cd035aebc3822fe7e3c5cdb"
+  },
+  "claim_boundary": {
+    "winner_of_current_comparison": false,
+    "comparison_score": 97,
+    "submission_receipt": false,
+    "human_evidence": "unavailable-no-claim"
+  }
+}

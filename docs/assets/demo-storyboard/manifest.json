@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "status": "local-rehearsal-not-youtube-evidence",
+  "source": {
+    "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm",
+    "sha256": "558e8f0b02aab094e2eb366acfa8becf50527f9f5f16ebea96a8fd30e586e22f"
+  },
+  "viewport": "1440x900",
+  "submission_story_sha256": "cde50e49b0dc9e409db82ea567871ca731dd42f68d96cc947c7a1f8552c0edf5",
+  "artifacts": [
+    {
+      "order": 1,
+      "id": "hook",
+      "timecode": "0–5s",
+      "proof": "조별리그에서 세우고, 토너먼트에서 깨뜨리세요.",
+      "path": "docs/assets/demo-storyboard/01-hook.png",
+      "sha256": "e50910e44ae1dfb9b77fe2038c05719ab2b0b7abfd4a1dae96a0b28779a822f7",
+      "bytes": 481544
+    },
+    {
+      "order": 2,
+      "id": "reference",
+      "timecode": "5–12s",
+      "proof": "397/436 분류 가능 · 두 구역만 선택",
+      "path": "docs/assets/demo-storyboard/02-reference.png",
+      "sha256": "d8a2057ec2064b34b56c8f9e61d572a052aa0d90a009571139fc60449981023f",
+      "bytes": 528798
+    },
+    {
+      "order": 3,
+      "id": "lock",
+      "timecode": "12–16s",
+      "proof": "정책 지문 1개 · 이후 변경 불가",
+      "path": "docs/assets/demo-storyboard/03-lock.png",
+      "sha256": "a63ce00e624c876f1cd0f81b4b948cf26905212ef446a72c161378487e9e4457",
+      "bytes": 390340
+    },
+    {
+      "order": 4,
+      "id": "r16",
+      "timecode": "16–27s",
+      "proof": "84/89 · 8개 영수증의 동일 정책 ID",
+      "path": "docs/assets/demo-storyboard/04-r16.png",
+      "sha256": "6b513982c63dabc2bb33da7b850a44e7eea5f18678737661f7eda6371ba0c261",
+      "bytes": 417446
+    },
+    {
+      "order": 5,
+      "id": "seal",
+      "timecode": "27–34s",
+      "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가",
+      "path": "docs/assets/demo-storyboard/05-seal.png",
+      "sha256": "3270194ec06448aa926f861157369275011cc860c2ee76ec1df1d3576e3afe06",
+      "bytes": 392825
+    },
+    {
+      "order": 6,
+      "id": "final-audit",
+      "timecode": "34–45s",
+      "proof": "76/78 · 결정론적 대표 반례",
+      "path": "docs/assets/demo-storyboard/06-final-audit.png",
+      "sha256": "d34f3edf4b20695d3b892c6fbf12b6e143f6cb96b75b05d797c056776331e666",
+      "bytes": 410210
+    },
+    {
+      "order": 7,
+      "id": "final",
+      "timecode": "45–59.5s",
+      "proof": "정책 변경 0회 · 인과 추천 REJECT",
+      "path": "docs/assets/demo-storyboard/07-final.png",
+      "sha256": "bebad3d6e2149be53ba8afcceecac3a0eda9b5d6966711fff1fc32971f060f69",
+      "bytes": 419659
+    }
+  ]
+}

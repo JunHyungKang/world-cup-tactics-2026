@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "product_id": "corner-policy-lab",
+  "data_scope": "official-open-historical-tactics",
+  "source_ids": [
+    "pappalardo-wyscout-events-wc-2018",
+    "pappalardo-wyscout-matches-wc-2018"
+  ],
+  "core_tactical_source_ids": [
+    "pappalardo-wyscout-events-wc-2018"
+  ],
+  "data_files": [
+    {
+      "path": "public/data/policy-lab-spike.json",
+      "sha256": "9ade957173f0f8c870dbf577d17e1c03c9160a32aab04640c035993c2c24e383"
+    }
+  ]
+}
