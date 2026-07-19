@@ -17,6 +17,7 @@ export const copyFiles = [
   "docs/policy-lab-demo-60s.md",
   "docs/policy-lab-planning-outline.md",
   "scripts/render-policy-lab-plan.py",
+  "scripts/prepare-external-owner-console.mjs",
 ];
 
 export const rules = [

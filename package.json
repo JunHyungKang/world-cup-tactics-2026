@@ -46,6 +46,7 @@
     "demo:narration:audit": "node scripts/check-demo-narration.mjs",
     "harness:audit": "node scripts/check-harness.mjs",
     "submission:preflight": "node scripts/preflight-submission.mjs",
+    "submission:owner-console": "node scripts/prepare-external-owner-console.mjs",
     "submission:drill": "node scripts/drill-release-build.mjs",
     "submission:build": "node scripts/build-release.mjs",
     "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm deployment:audit && pnpm harness:audit && pnpm data:audit && pnpm copy:audit && pnpm eligibility:audit && pnpm planning:audit && pnpm demo:audit && pnpm user:audit"

@@ -80,6 +80,11 @@ rebuilds and audits the project before uploading only `dist/`; branch pushes do
 not deploy automatically. The resulting HTTPS URL becomes submission evidence
 only after the remote-byte parity gate passes.
 
+`pnpm submission:owner-console` prepares one local handoff page for the exact
+planning PDF and the later web, GitHub, YouTube, and DAKER fields. It keeps the
+local rehearsal visibly locked from final upload until public-release parity and
+the frozen-URL recording gates pass.
+
 ## Tech stack
 
 - Static HTML, CSS, and JavaScript for the keyless manager interaction.
