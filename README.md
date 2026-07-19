@@ -75,6 +75,11 @@ this portable-build check and the mandatory public BG-12/final-preflight proof.
 The audit reports the live Git-remote state separately; it never turns a local
 build into a public-deployment claim.
 
+The release repository includes a manually triggered GitHub Pages workflow. It
+rebuilds and audits the project before uploading only `dist/`; branch pushes do
+not deploy automatically. The resulting HTTPS URL becomes submission evidence
+only after the remote-byte parity gate passes.
+
 ## Tech stack
 
 - Static HTML, CSS, and JavaScript for the keyless manager interaction.
