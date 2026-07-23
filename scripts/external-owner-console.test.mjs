@@ -17,6 +17,12 @@ describe("external owner console", () => {
       local_rehearsal_sha256: "558e8f0b02aab094e2eb366acfa8becf50527f9f5f16ebea96a8fd30e586e22f",
     });
     expect(model.final_release.status).toBe("LOCKED");
+    expect(model.public_release).toEqual({
+      status: "CANDIDATE-PUBLIC",
+      deployed_url: "https://junhyungkang.github.io/world-cup-tactics-2026/",
+      github_url: "https://github.com/JunHyungKang/world-cup-tactics-2026",
+      boundary: "현재 후보는 공개됐지만 최종 BG-12와 DAKER 제출 영수증은 아닙니다",
+    });
   });
 
   it("states the claim and evidence boundaries in the rendered console", async () => {
@@ -25,6 +31,8 @@ describe("external owner console", () => {
     expect(html).toContain("현재 59.52초 파일은 화면 검토용 리허설이며 최종 YouTube 업로드 파일이 아닙니다.");
     expect(html).toContain("인과 효과·승률·최적 정책을 주장하지 않습니다.");
     expect(html).toContain("에이전트 검토는 사람 참가자 테스트가 아니며");
+    expect(html).toContain('value="https://junhyungkang.github.io/world-cup-tactics-2026/"');
+    expect(html).toContain('value="https://github.com/JunHyungKang/world-cup-tactics-2026"');
     expect(html).not.toContain("READY TO SUBMIT");
   });
 

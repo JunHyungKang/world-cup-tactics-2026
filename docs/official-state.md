@@ -1,9 +1,13 @@
 # Official State
 
-Verified: `2026-07-19T22:03:56+09:00` against:
+Verified: `2026-07-23T23:57:30+09:00` against:
 
 - https://daker.ai/public/hackathons/world-cup-manager-tactics-web-challenge
 - https://daker.ai/api/hackathons/world-cup-manager-tactics-web-challenge
+
+The public page and API record were refreshed at the timestamp above. The stable
+API-field digest remains unchanged from the separately admitted `2026-07-19`
+record.
 
 Confirmed requirements:
 
@@ -38,3 +42,23 @@ Canonical stable fields from the live API (`id`, `slug`, `tagline`,
 `dataDescription`, `updatedAt`) have SHA-256
 `7d56d0d02e620caa81f00a67a7933190512570cb13689ee14a8e07d136765adc`.
 Volatile counters such as views are deliberately excluded.
+
+## Public candidate release
+
+Verified `2026-07-23T23:54:19+09:00`:
+
+- public repository: `https://github.com/JunHyungKang/world-cup-tactics-2026`;
+- public keyless candidate:
+  `https://junhyungkang.github.io/world-cup-tactics-2026/`;
+- GitHub Pages uses the manually triggered Actions workflow with HTTPS enforced;
+- `release-manifest.json`, `index.html`, `app.js`, `styles.css`, and
+  `data/policy-lab-spike.json` all returned HTTP 200 and matched the local
+  SHA-256 values; release-manifest SHA-256 is `2f761b98…`;
+- Chromium, Firefox, WebKit, and Pixel 7 emulation completed the one-lock
+  48–8–8 loop, reset cleanly on refresh, contacted only the Pages origin, and
+  returned zero automated accessibility violations.
+
+This is current-candidate public smoke evidence, not the stamped final BG-12
+report. The final freeze must still add and verify `submission-build.json`,
+rerun the twelve-screenshot final browser suite, record from that exact URL,
+publish YouTube, and capture owner-observed DAKER receipts.

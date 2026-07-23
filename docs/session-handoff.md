@@ -1,5 +1,26 @@
 # Session Handoff
 
+## 2026-07-23 23:54 KST — public candidate checkpoint
+
+This checkpoint supersedes the older external-release status below.
+
+- Public GitHub is live at
+  `https://github.com/JunHyungKang/world-cup-tactics-2026`; the default branch is
+  `main`.
+- The keyless candidate is live at
+  `https://junhyungkang.github.io/world-cup-tactics-2026/` through a manually
+  triggered GitHub Pages workflow with HTTPS enforced.
+- Five deployed files matched the local release SHA-256 values. Chromium,
+  Firefox, WebKit, and Pixel 7 emulation each completed the one-lock 48–8–8
+  interaction, refreshed to an empty state, contacted only the Pages origin,
+  and returned zero automated accessibility violations.
+- This closes public-candidate GitHub, hosting, byte-parity smoke, and keyless
+  interaction checks. It does not close final BG-12 because the final
+  `submission-build.json`, twelve-screenshot browser report, frozen-URL video,
+  YouTube upload, and DAKER owner receipts do not exist yet.
+- The exact planning PDF remains `READY` for owner upload before
+  `2026-07-27T10:00:00+09:00`; no `plan-submitted` receipt is present.
+
 ## 2026-07-19 23:59 KST — canonical Policy Lab conversion checkpoint
 
 This checkpoint supersedes every older section below for current product,
@@ -32,9 +53,9 @@ provenance only; its exact runner-up package is preserved under
 - Exact PDF review and plan preflight now PASS for PDF `2e1c9a47…`, packet
   `93b6156c…`, and independent-agent review `98f63fb9…`; the owner handoff is
   `READY`. This remains document QA, not human outcome evidence or a DAKER receipt.
-- Remaining critical path: obtain a clean release commit, publish GitHub and a keyless HTTPS build, run
-  deployed final browser checks, publish YouTube, and record owner-observed DAKER
-  receipts. None is currently claimed complete.
+- Remaining critical path: owner-upload the planning PDF, create the stamped
+  final release and BG-12 browser evidence from the public URL, publish YouTube,
+  and record owner-observed DAKER receipts.
 
 ## 2026-07-19 22:29 KST — exact plan handoff and sub-60 demo checkpoint
 

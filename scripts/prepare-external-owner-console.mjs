@@ -73,7 +73,13 @@ export async function buildOwnerConsoleModel() {
     },
     final_release: {
       status: "LOCKED",
-      reason: "공개 GitHub, HTTPS 배포본 일치 확인, 공개 URL 기준 최종 녹화가 아직 끝나지 않았습니다",
+      reason: "최종 제출용 스탬프 검증과 공개 URL 기준 최종 녹화가 아직 끝나지 않았습니다",
+    },
+    public_release: {
+      status: "CANDIDATE-PUBLIC",
+      deployed_url: "https://junhyungkang.github.io/world-cup-tactics-2026/",
+      github_url: "https://github.com/JunHyungKang/world-cup-tactics-2026",
+      boundary: "현재 후보는 공개됐지만 최종 BG-12와 DAKER 제출 영수증은 아닙니다",
     },
     youtube: {
       status: "LOCKED",
@@ -105,7 +111,7 @@ export function renderOwnerConsole(model) {
 <div class="grid">
 <section class="card"><span class="state ready">기획서 · 준비됨</span><h2>기획서 PDF</h2><p class="muted">독립 검토와 계획 단계 사전 점검을 통과한 8쪽 파일입니다.</p><code class="hash">${escapeHtml(model.planning.sha256)}</code><a class="button" href="../pdf/corner-policy-lab-planning.pdf">정확 PDF 열기</a></section>
 <section class="card"><span class="state locked">최종 제출 · 잠김</span><h2>웹·GitHub·YouTube</h2><p class="muted">${escapeHtml(model.final_release.reason)} 현재 59.52초 파일은 화면 검토용 리허설이며 최종 YouTube 업로드 파일이 아닙니다.</p><code class="hash">리허설 ${escapeHtml(model.youtube.local_rehearsal_sha256)}</code><a class="button secondary" href="../policy-lab-demo/corner-policy-lab-60s-narrated.webm">리허설만 확인</a></section>
-<section class="card wide"><span class="state locked">제출 정보 · URL 필요</span><h2>공개 후 복사할 제출 문구</h2><div class="grid"><div><label for="web">공개 웹서비스 URL</label><input id="web" type="url" placeholder="https://..."><label for="github">공개 GitHub URL</label><input id="github" type="url" placeholder="https://github.com/..."><label for="youtube">공개 YouTube 시청 URL</label><input id="youtube" type="url" placeholder="https://www.youtube.com/watch?v=..."></div><div><label for="description">YouTube 설명</label><textarea id="description" readonly></textarea></div></div><div class="actions"><button class="button secondary" id="copy-description" disabled>YouTube 설명 복사</button><button class="button secondary" id="copy-daker" disabled>DAKER 최종 필드 복사</button></div><div class="statusline" id="metadata-status">세 공개 URL이 모두 있어야 복사가 열립니다.</div></section>
+<section class="card wide"><span class="state locked">제출 정보 · YouTube 필요</span><h2>공개 후 복사할 제출 문구</h2><div class="grid"><div><label for="web">공개 웹서비스 URL</label><input id="web" type="url" value="${escapeHtml(model.public_release.deployed_url)}"><label for="github">공개 GitHub URL</label><input id="github" type="url" value="${escapeHtml(model.public_release.github_url)}"><label for="youtube">공개 YouTube 시청 URL</label><input id="youtube" type="url" placeholder="https://www.youtube.com/watch?v=..."></div><div><label for="description">YouTube 설명</label><textarea id="description" readonly></textarea></div></div><div class="actions"><button class="button secondary" id="copy-description" disabled>YouTube 설명 복사</button><button class="button secondary" id="copy-daker" disabled>DAKER 최종 필드 복사</button></div><div class="statusline" id="metadata-status">최종 영상의 공개 YouTube URL이 있어야 복사가 열립니다.</div></section>
 <section class="card wide"><span class="state locked">영수증 · 실제 확인만</span><h2>외부 확인을 대신 만들지 않기</h2><label class="check"><input id="attest" type="checkbox"><span>제가 실제 공개 화면과 DAKER 최종 저장 확인을 직접 관찰한 뒤에만 영수증을 기록하겠습니다.</span></label><p class="muted">에이전트 검토는 사람 참가자 테스트가 아니며, 리허설 파일은 YouTube 공개 증거가 아닙니다.</p></section>
 </div></main><script>
 const model=${embedded};const fields=["web","github","youtube"].map(id=>document.getElementById(id));const description=document.getElementById("description");const copyDescription=document.getElementById("copy-description");const copyDaker=document.getElementById("copy-daker");const status=document.getElementById("metadata-status");
