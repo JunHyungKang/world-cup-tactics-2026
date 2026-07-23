@@ -8,7 +8,7 @@ Status: `PROMOTED OFFICIAL CANDIDATE — NOT SUBMITTED`
 
 ## 1. One policy, three tournament phases
 
-Headline: `조별리그에서 세우고, 토너먼트에서 깨뜨리세요.` The manager
+Headline: `조별리그에서 세우고, 토너먼트에서 검증하세요.` The manager
 chooses two set-piece meeting priorities. The other two areas are explicitly
 excluded from priority review. The fixed campaign is 48 group-stage reference
 matches, eight round-of-16 evaluation matches, and eight sealed
@@ -24,7 +24,10 @@ delivery-location overlap only, never defensive effectiveness.
 Locking freezes the selected area IDs, abstention state, split rule, and policy
 fingerprint. The area controls then stay disabled. The manager can inspect the
 first result and its contradiction, but cannot silently tune the policy before
-opening the final eight matches.
+opening the final eight matches. After the sealed result, the manager records a
+separate next-meeting note: keep the priorities, revise them at the next
+meeting, or defer judgment. This note never rewrites the sealed policy, overlap
+results, or evaluation receipts.
 
 ## 3. Evidence argues back
 
@@ -59,35 +62,41 @@ The judge selects two priorities and locks one immutable policy snapshot before
 exposure. A second action reveals all eight round-of-16 evaluations and eight
 receipts with the same fingerprint while the final eight matches stay sealed. A
 third action applies that identical snapshot to the sealed final verification and
-opens its representative contradiction.
+opens its representative contradiction. The manager then chooses one
+next-meeting response and leaves a short reason, completing the decision loop
+without changing the experiment that just finished.
 
-The local static-release rehearsal is `59.520` seconds with five activations, one
-policy lock, one explicit scroll, seven fitted Korean cues, burned captions, and
-the final receipt at approximately 34 seconds. It remains local and is not public
-YouTube or human evidence.
+The refreshed local static-release rehearsal must fit the two priority choices,
+one policy lock, two reveals, one next-meeting response, and one saved note into
+60 seconds with burned Korean captions. It remains local until the exact public
+release is recorded and uploaded; it is not human evidence.
 
 ## 7. Deployable and fail-closed
 
 The keyless static release contains a root HTML entrypoint, JavaScript, CSS,
 public policy report, and release manifest. Policy data/release contracts pass
-7/7. Source browser contracts pass 7/7. The built release passes 12/12 across
+7/7. Source browser contracts pass 8/8. The built release passes 12/12 across
 Chromium, Firefox, WebKit, and mobile, including invalid-report fail-closed and
-the complete one-lock-to-sealed-final path.
+the complete one-lock-to-next-meeting-note path.
 
 Product selection is `PASS`. The causal recommendation is `REJECT`, the
 empirical campaign is `REVISE`, and human evidence is `unavailable/no-claim`.
 
 ## 8. Submission plan and risks
 
-An exact-artifact same-reviewer comparison scored Policy Lab `98/100` and Corner
-War Room `97/100`, so Policy Lab is the promoted product. Originality comes from
-the falsifiable tournament-stage campaign. Manager experience comes from scarce
-priorities, one pre-reveal commitment, direct pitch placement, abstention, eight
-same-fingerprint evaluation receipts, and a final sealed verification.
+Policy Lab is the promoted product because its visible loop is memorable without
+an invented recommendation score: choose two priorities, lock one policy before
+the reveal, and let historical records expose a concrete contradiction.
+Originality comes from the falsifiable tournament-stage campaign. Manager
+experience comes from scarce priorities, one pre-reveal commitment, direct pitch
+placement, abstention, same-fingerprint evaluation receipts, a final sealed
+verification, and a separate next-meeting decision that cannot rewrite the
+evidence.
 
-Public hosting, GitHub, YouTube, DAKER upload, final commit binding, public-URL
-browser evidence, and final receipts remain pending. Human preference and
-comprehension remain unavailable/no-claim.
+Public GitHub and the keyless GitHub Pages candidate are live and have passed the
+public browser smoke. The final stamped release, YouTube upload, DAKER final
+submission, final commit binding, and external receipts remain pending. Human
+preference and comprehension remain unavailable/no-claim.
 
 The first round selects ten teams by submitter `60%`, participant `20%`, and
 public `20%` voting. The second round scores originality `30`, manager-experience

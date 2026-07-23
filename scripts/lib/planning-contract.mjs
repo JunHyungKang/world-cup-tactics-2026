@@ -4,30 +4,30 @@ const pageContracts = [
   { title: "Evidence argues back", markers: ["record table", "representative contradiction", "not statistically strongest"] },
   { title: "All 603 corners, missingness visible", markers: ["603 corners", "397/436", "must not imply that a 2018"] },
   { title: "Ontology as a safety mechanism", markers: ["MatchContext", "DEFENSIVE_DUTY_CAUSED", "does not generate missing actions"] },
-  { title: "Actual 60-second proof", markers: ["`59.520` seconds", "five activations", "burned captions"] },
-  { title: "Deployable and fail-closed", markers: ["7/7", "12/12", "causal recommendation is `REJECT`"] },
-  { title: "Submission plan and risks", markers: ["98/100", "submitter `60%`", "2026-07-27 10:00 KST", "2026-08-03 10:00 KST"] },
+  { title: "Actual 60-second proof", markers: ["one next-meeting response", "60 seconds", "burned Korean captions"] },
+  { title: "Deployable and fail-closed", markers: ["8/8", "12/12", "causal recommendation is `REJECT`"] },
+  { title: "Submission plan and risks", markers: ["submitter `60%`", "2026-07-27 10:00 KST", "2026-08-03 10:00 KST"] },
 ];
 
 export const requiredPlanningPages = [
-  "조별리그에서 세우고, 토너먼트에서 깨뜨리세요.",
+  "조별리그에서 세우고, 토너먼트에서 검증하세요.",
   "감독이 정책을 먼저 확정합니다.",
-  "기록으로 정책을 반박합니다.",
+  "숨겨 둔 기록이 감독의 정책을 반박합니다.",
   "603개 코너, 누락도 숨기지 않습니다.",
-  "온톨로지는 추천 엔진이 아니라 안전장치입니다.",
-  "59.52초, 다섯 번의 조작으로 봉인 검증까지 갑니다.",
-  "주장과 빌드를 같은 해시에 묶었습니다.",
-  "독립 비교를 통과해 공식 후보로 승격했습니다.",
+  "온톨로지는 정답이 아니라 과장을 막는 안전장치입니다.",
+  "60초 안에 선택·검증·다음 결정까지 끝냅니다.",
+  "기획서의 약속이 공개 화면에서 그대로 작동합니다.",
+  "AI가 답을 대신하지 않습니다. 기록이 감독의 선택을 시험합니다.",
 ];
 export const requiredPdfPageMarkers = [
   "48경기",
   "한 번만 잠금",
-  "대표 반례 규칙",
+  "반례를 고르는 순서",
   "397/436",
   "WOULD_PREVENT",
   "정책 변경 0회",
   "12/12",
-  "98 / 100",
+  "제출팀 60%",
 ];
 
 const stalePatterns = [

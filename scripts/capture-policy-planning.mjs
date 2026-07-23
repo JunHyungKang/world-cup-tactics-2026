@@ -49,6 +49,9 @@ try {
   await page.locator(".event-ledger summary").click();
   await capture(page, "04-contradiction");
   await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+  await page.getByLabel("판단 보류").check();
+  await page.getByLabel("이유 (120자 이내)").fill("봉인 검증만으로 우선 구역을 바꾸지 않고 다음 미팅에서 판단");
+  await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
   await capture(page, "05-final-verification");
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
   await mobile.goto(baseUrl);

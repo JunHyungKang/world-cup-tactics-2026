@@ -109,6 +109,21 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
 .history li strong { color: #fff; }
 .final-receipt { display: grid; gap: 6px; margin-top: 14px; padding: 14px; border-radius: 12px; background: rgba(241,200,75,.1); }
 .final-receipt span { color: #d9d5c8; }
+.meeting-note, .meeting-note-receipt { margin-top: 14px; padding: 16px; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; background: rgba(0,0,0,.2); }
+.meeting-note fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.meeting-note legend { color: #fff; font-size: 1.05rem; font-weight: 850; }
+.meeting-note p { color: #c9c5b9; line-height: 1.5; }
+.meeting-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.meeting-options label { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: center; min-height: 48px; padding: 9px 11px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; color: #fff; cursor: pointer; }
+.meeting-options input { width: 18px; height: 18px; accent-color: #f1c84b; }
+.meeting-options label:has(input:checked) { border-color: #f1c84b; background: rgba(241,200,75,.12); color: #fff4bf; }
+.meeting-reason { display: block; margin: 14px 0 6px; font-weight: 800; }
+.meeting-reason span { color: #b7c8c0; font-size: .8rem; font-weight: 600; }
+.meeting-note textarea { display: block; width: 100%; min-height: 80px; resize: vertical; padding: 10px 12px; border: 1px solid rgba(255,255,255,.28); border-radius: 10px; background: #06100c; color: #fff; font: inherit; line-height: 1.5; }
+.meeting-note textarea:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.meeting-note-receipt h4 { margin: 0; font-size: 1.05rem; }
+.meeting-note-receipt p { margin: 7px 0; line-height: 1.5; }
+.meeting-note-receipt .sealed-anchor { color: #c9c5b9; font-size: .84rem; }
 .revision-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .revision-actions .secondary { margin-top: 14px; }
 
@@ -126,10 +141,11 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
   .policy-layout { grid-template-columns: 1fr; }
   .lane-cards { grid-template-columns: 1fr 1fr; }
   .metrics { grid-template-columns: 1fr; }
+  .meeting-options { grid-template-columns: 1fr; }
   .event-ledger li { grid-template-columns: 1fr 1fr; }
   .history li { grid-template-columns: 1fr 1fr; }
-  .phase { overflow-x: auto; }
-  .phase span { flex: 0 0 auto; }
+  .phase { flex-wrap: wrap; }
+  .phase span { flex: 0 1 auto; }
   .agent { grid-template-columns: 1fr; }
 }
 

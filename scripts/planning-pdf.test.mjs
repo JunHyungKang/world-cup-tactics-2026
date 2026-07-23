@@ -62,7 +62,7 @@ beforeAll(async () => {
   python = findPdfPython();
   const sourceSha256 = createHash("sha256").update(await readFile("docs/planning-outline.md")).digest("hex");
   const screenshotManifestSha256 = createHash("sha256").update(await readFile("docs/assets/policy-lab-planning/manifest.json")).digest("hex");
-  const binding = `POLICY LAB · 후보 기획서 인간 연구 없음 인과 추천 REJECT 경험적 캠페인 REVISE 기획 ${sourceSha256.slice(0, 12)} 캡처 ${screenshotManifestSha256.slice(0, 12)} 48경기 603 397/436 WOULD_PREVENT 정책 변경 0회 12/12 98 / 100 제출팀 60% 2026-07-27 10:00 KST 인간 연구는 없으며`;
+  const binding = `DAKER · 기획서 인간 연구 없음 인과 추천 REJECT 경험적 캠페인 REVISE 기획 ${sourceSha256.slice(0, 12)} 캡처 ${screenshotManifestSha256.slice(0, 12)} 48경기 603 397/436 WOULD_PREVENT 정책 변경 0회 12/12 다음 미팅 제출팀 60% 2026-07-27 10:00 KST`;
   const pages = requiredPlanningPages.map((title, index) => ({ title, marker: requiredPdfPageMarkers[index] }));
   execFileSync(python, ["-c", generator, validPdf, JSON.stringify(pages), JSON.stringify(binding)]);
   execFileSync(python, ["-c", generator, onePagePdf, JSON.stringify([pages[0]]), JSON.stringify(binding)]);

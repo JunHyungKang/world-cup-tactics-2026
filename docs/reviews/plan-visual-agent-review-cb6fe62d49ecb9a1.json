@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "scope": "independent-agent-document-qa-not-human-participant-usability-preference-evidence",
+  "reviewed_at": "2026-07-24T01:36:29+09:00",
+  "reviewer": {
+    "task": "/root/pdf_v2_final_judge",
+    "role": "independent-agent",
+    "artifact_creator": false
+  },
+  "artifact": {
+    "path": "output/pdf/corner-policy-lab-planning.pdf",
+    "sha256": "cb6fe62d49ecb9a1c1d7a888635e2e57e509141d82b0d8c291ad53474d493bb7",
+    "pages": 8
+  },
+  "planning_source": {
+    "path": "docs/planning-outline.md",
+    "sha256": "c2d494a40bbc0e872ff3347e216a2bdd90a6aae0826235b1ca414e255107cdef"
+  },
+  "review_packet": {
+    "path": "output/plan-review/cb6fe62d49ecb9a1/review-manifest.json",
+    "sha256": "c3db96d01faeb9317ed9c7db2d3b47353415ae4322216326cae457bc6ad6e349",
+    "renderer": "pdftoppm/26.05.0"
+  },
+  "criteria": [
+    "clipping",
+    "overlap",
+    "glyphs",
+    "table_legibility",
+    "page_numbers",
+    "headers_footers",
+    "citations",
+    "claim_boundaries"
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "path": "pages/page-1.png",
+      "sha256": "7e83aa5d1c4f9835dbe003d214cf5ea053c00e4d2f06881fe523e92fef605ee3",
+      "bytes": 137703,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 2,
+      "path": "pages/page-2.png",
+      "sha256": "038837660f0bf4e758a7c392acd7052f22b3730b5822acf34750a5c0b66af792",
+      "bytes": 136957,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 3,
+      "path": "pages/page-3.png",
+      "sha256": "acdd60a5265430c67f2deefa988e348dac58ea2acf95f6646b5c6b8d7c0baabb",
+      "bytes": 184328,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 4,
+      "path": "pages/page-4.png",
+      "sha256": "d0b6d3df4d842e9476199cfcd7ee63045a733603ce605162d500f42bf5d8cc42",
+      "bytes": 88828,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 5,
+      "path": "pages/page-5.png",
+      "sha256": "d1dbb412ccf7ca15e7d011f48adf0549544de83d2941a31ffe43c0e07c600396",
+      "bytes": 81998,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 6,
+      "path": "pages/page-6.png",
+      "sha256": "a6023eadc5b8987c0b6052af2ef727fb30dd9cdf4b6fc8def44dca8a23c24e12",
+      "bytes": 154090,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 7,
+      "path": "pages/page-7.png",
+      "sha256": "b498c807c4a8630f20cff745dcd9f04aa44a440760819ba4d845664ea513a7c5",
+      "bytes": 92172,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 8,
+      "path": "pages/page-8.png",
+      "sha256": "8683b2df5ed82841a5d68c9367cc3b9a38d4a892d5c2c246a4c058dda329ba73",
+      "bytes": 89198,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    }
+  ],
+  "blocking_findings": [],
+  "non_blocking_findings": [],
+  "verdict": "PASS: exact canonical PDF 8/8 pages are submission-ready. Korean copy is natural, visual hierarchy and key screenshots remain legible, the explicit judging-weight labels do not read as self-awarded scoring, unsupported causal claims are visibly rejected, and the choice-lock-reveal-contradiction-next-decision flow remains consistent with the implemented product evidence.",
+  "summary": {
+    "pages_passed": 8,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "finding_count": 0
+  }
+}

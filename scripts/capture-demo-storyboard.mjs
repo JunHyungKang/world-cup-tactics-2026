@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const outputDirectory = "docs/assets/demo-storyboard";
 const videoPath = "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm";
-const frameSeconds = [2, 8, 14, 20, 32, 38, 53];
+const frameSeconds = [2, 8, 14, 20, 32, 38, 49, 56];
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 await mkdir(outputDirectory, { recursive: true });

@@ -113,6 +113,34 @@ test("uses one immutable policy snapshot across both held-out audits", async ({ 
   await expect(page.getByTestId("final-receipt")).toContainText(policyId);
 });
 
+test("records a next-meeting decision without changing the sealed policy or results", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto("/prototypes/policy-dojo/");
+  await page.locator('.lane-card[data-lane="short"]').click();
+  await page.locator('.lane-card[data-lane="near"]').click();
+  await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
+  const policyId = (await page.getByTestId("lock-receipt").locator(".policy-id").innerText()).trim();
+  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+
+  const finalReceiptBefore = (await page.getByTestId("final-receipt").innerText()).trim();
+  const resultBefore = (await page.getByRole("heading", { name: /8강 이후 8경기 · 위치 겹침/ }).innerText()).trim();
+  await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
+  await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토");
+  await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
+
+  const note = page.getByTestId("meeting-note-receipt");
+  await expect(note).toBeFocused();
+  await expect(note).toContainText("다음 미팅에서 우선 구역 수정");
+  await expect(note).toContainText("다음 미팅에서 구역 조합을 다시 검토");
+  await expect(note).toContainText(`봉인 정책 ${policyId} · 정책 변경 0회 · 검증 결과는 그대로입니다.`);
+  expect((await page.getByTestId("final-receipt").innerText()).trim()).toBe(finalReceiptBefore);
+  await expect(page.getByRole("heading", { name: resultBefore, exact: true })).toBeVisible();
+  await expect(page.locator(".lane-card").first()).toBeDisabled();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+});
+
 test("keeps the first policy decision operable and accessible at 320px", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 });
   await page.goto("/prototypes/policy-dojo/");

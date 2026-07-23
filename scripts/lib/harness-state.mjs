@@ -60,7 +60,7 @@ export function validateCurrentHarnessState({
     ]);
     requireMarkers(errors, "current product thesis", productThesis, [
       "Product selection ID: `corner-policy-lab`", "policy data/release contracts: `7/7`",
-      "built static release: `12/12`", "human comprehension or\npreference evidence remain incomplete",
+      "built static release: `12/12`", "human comprehension or preference\nevidence remain incomplete",
     ]);
     requireMarkers(errors, "official state judging contract", officialState, [
       "First-round voting weights are submitter 60%, participant 20%, and public 20%",

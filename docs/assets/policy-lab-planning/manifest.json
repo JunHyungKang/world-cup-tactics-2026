@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "product_id": "corner-policy-lab",
-  "captured_at": "2026-07-19T14:48:40.579Z",
-  "release_manifest_sha256": "2f761b98b1c8063a420a1e846578dec8e3c70b4e50a4ece9c1ccd96fc30b3844",
+  "captured_at": "2026-07-23T16:03:16.980Z",
+  "release_manifest_sha256": "673604c28e7d112705474d178807661ecd5ea1e98848db88ea5131ca1930b03d",
   "viewport_contract": {
     "desktop": "1440x900",
     "mobile": "390x844"
@@ -14,10 +14,10 @@
       "prototypes/policy-dojo/styles.css",
       "public/data/policy-lab-spike.json"
     ],
-    "sha256": "b9f03e1a03b0503472bbb7375dde5e299e0925f655e64cf7d4d7b4c09dd2d818"
+    "sha256": "ec18dac7de267b168dd9fc388716213486aa90dde10b7f58a052c3f14d5c8cca"
   },
   "build_binding": {
-    "sha256": "2f761b98b1c8063a420a1e846578dec8e3c70b4e50a4ece9c1ccd96fc30b3844",
+    "sha256": "673604c28e7d112705474d178807661ecd5ea1e98848db88ea5131ca1930b03d",
     "file_count": 4,
     "files": [
       {
@@ -27,13 +27,13 @@
       },
       {
         "path": "app.js",
-        "bytes": 22089,
-        "sha256": "57015adac50011dff7c7bb237f34d0f32843176656c74c5a9d7abccdad84948d"
+        "bytes": 25069,
+        "sha256": "c9200908a168d1e690df1821637802d1cd85575518d0b4deb1fefd9f641b128c"
       },
       {
         "path": "styles.css",
-        "bytes": 9823,
-        "sha256": "343e0b360e1fbc33e48b8f4c5483d322e0d2aff85a648f873cd31e3058484384"
+        "bytes": 11433,
+        "sha256": "7641fd3143568957e0eb8db2a40c80a79480d768ee1d474260f3e6e8117721c2"
       },
       {
         "path": "data/policy-lab-spike.json",
@@ -46,38 +46,38 @@
     {
       "name": "01-initial",
       "path": "docs/assets/policy-lab-planning/01-initial.png",
-      "bytes": 184214,
-      "sha256": "95eb4d8c388a9ab7e4967516fa8a3246705d422628ed43d713b2bd13357e6046"
+      "bytes": 185665,
+      "sha256": "a88c042a898976ddada0f6956947d13770c76a07c647e8a9a31eb31f6a8e23c1"
     },
     {
       "name": "02-policy-selected",
       "path": "docs/assets/policy-lab-planning/02-policy-selected.png",
-      "bytes": 183245,
-      "sha256": "d4326cf67ab603e8e5f0ef255558e7646b909733e1888efe1e1c36e848f48466"
+      "bytes": 184686,
+      "sha256": "6c449f7c0af7701327188c8f55d775658148b378b55550f5366e069b54a2cb6f"
     },
     {
       "name": "03-heldout-result",
       "path": "docs/assets/policy-lab-planning/03-heldout-result.png",
-      "bytes": 312924,
-      "sha256": "dafed5ed0c60c8cd92e7d38e3d160106554afcfd15fed7b868031d7b5f03f832"
+      "bytes": 314540,
+      "sha256": "68987b5bc3bf61d74f9d97ad82e6723a7011e2ff0ebcadc40e44775be75020bb"
     },
     {
       "name": "04-contradiction",
       "path": "docs/assets/policy-lab-planning/04-contradiction.png",
-      "bytes": 994256,
-      "sha256": "05afdcfc5eb145ec2a3138fbc59b53458f2c0e4a618d8740f4e3cc49215c2af3"
+      "bytes": 995947,
+      "sha256": "adfc56456b87526ef5875a93f1afcd7941b0ed8e79c35a83c2dff45624128667"
     },
     {
       "name": "05-final-verification",
       "path": "docs/assets/policy-lab-planning/05-final-verification.png",
-      "bytes": 317618,
-      "sha256": "3a5862f74def032dde62cca647b26108ca3ede29ed5170fa38994456c993b424"
+      "bytes": 340584,
+      "sha256": "5d4342d53778a4f0f05889a44d0fa854a659f7c6bf09d6c1a1c41ea31c709b96"
     },
     {
       "name": "06-mobile-initial",
       "path": "docs/assets/policy-lab-planning/06-mobile-initial.png",
-      "bytes": 102132,
-      "sha256": "ab12d659786c1dc546c01e5afd144b5834e5e3f444bab7e0734e8a95c02b6d09"
+      "bytes": 103317,
+      "sha256": "b5ec442b41873384435ac72e9e3ccd84dd6c73c3f1dbc5424be8848f2a717cea"
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 
-const exactBeatIds = ["hook", "reference", "lock", "r16", "seal", "final-audit", "final"];
+const exactBeatIds = ["hook", "reference", "lock", "r16", "seal", "final-audit", "next-meeting", "final"];
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 export function validateSubmissionStory(story, sources) {
@@ -8,7 +8,7 @@ export function validateSubmissionStory(story, sources) {
   if (story?.schema_version !== 2) errors.push("submission story schema_version must be 2");
   if (story?.product_id !== "corner-policy-lab") errors.push("submission story must bind corner-policy-lab");
   const gallery = story?.gallery ?? {};
-  if (gallery.hook !== "조별리그에서 세우고, 토너먼트에서 깨뜨리세요.") errors.push("gallery hook drifted from the product promise");
+  if (gallery.hook !== "조별리그에서 세우고, 토너먼트에서 검증하세요.") errors.push("gallery hook drifted from the product promise");
   if (!gallery.title?.includes("한 정책") || !gallery.one_line?.includes("2018 월드컵") || !gallery.one_line?.includes("봉인")) {
     errors.push("gallery surface must state the immutable policy, historical scope, and sealed audit");
   }
@@ -22,9 +22,9 @@ export function validateSubmissionStory(story, sources) {
   }
   const video = story?.video ?? {};
   const beats = video.beats;
-  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.52 || video.visual_duration_seconds !== 59.68 ||
+  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.52 || video.visual_duration_seconds !== 59.8 ||
       !Array.isArray(beats) || beats.length !== exactBeatIds.length || JSON.stringify(video.beat_order) !== JSON.stringify(exactBeatIds)) {
-    errors.push("video contract must contain the exact seven-beat sub-60 Policy Lab sequence");
+    errors.push("video contract must contain the exact eight-beat sub-60 Policy Lab sequence");
   } else {
     let cursor = 0;
     beats.forEach((beat, index) => {
@@ -36,9 +36,10 @@ export function validateSubmissionStory(story, sources) {
     if (cursor !== 59.5 || cursor > video.duration_limit_seconds) errors.push("video beats must end at 59.5 seconds within the 60-second limit");
   }
   const interaction = video.interaction ?? {};
-  if (interaction.timed_events !== 7 || interaction.activations !== 5 || interaction.policy_locks !== 1 ||
-      interaction.explicit_scrolls !== 1 || interaction.final_receipt_seconds !== 34.005) {
-    errors.push("video interaction contract must preserve 7 events, 5 activations, one lock, one scroll, and the 34.005s receipt");
+  if (interaction.timed_events !== 11 || interaction.activations !== 7 || interaction.policy_locks !== 1 ||
+      interaction.explicit_scrolls !== 2 || interaction.final_receipt_seconds !== 34.008 ||
+      interaction.meeting_note_seconds !== 48.047) {
+    errors.push("video interaction contract must preserve 11 events, 7 activations, one lock, two scrolls, the 34.008s receipt, and the 48.047s next-meeting note");
   }
   if (story?.claim_boundary?.human_evidence !== "unavailable" || story?.claim_boundary?.result_prediction !== false ||
       story?.claim_boundary?.causal_recommendation_status !== "REJECT" || story?.claim_boundary?.empirical_campaign_status !== "REVISE") {
@@ -90,7 +91,7 @@ export function validateStoryboardManifest(storyBytes, story, manifest, artifact
   if (manifest?.schema_version !== 1 || manifest?.status !== "local-rehearsal-not-youtube-evidence") errors.push("storyboard manifest must remain explicitly local rehearsal evidence");
   if (manifest?.viewport !== "1440x900") errors.push("storyboard viewport must be 1440x900");
   if (manifest?.submission_story_sha256 !== sha256(storyBytes)) errors.push("storyboard manifest is not bound to the current submission story");
-  if (!Array.isArray(manifest?.artifacts) || manifest.artifacts.length !== exactBeatIds.length) return [...errors, "storyboard manifest must contain seven captured beats"];
+  if (!Array.isArray(manifest?.artifacts) || manifest.artifacts.length !== exactBeatIds.length) return [...errors, "storyboard manifest must contain eight captured beats"];
   const digests = new Set();
   manifest.artifacts.forEach((artifact, index) => {
     const beat = story.video.beats[index];
@@ -143,7 +144,7 @@ export function validateLocalPolicyDemoEvidence(storyBytes, story, evidence) {
   const visual = evidence.visualManifest;
   const narrated = evidence.narrationManifest;
   if (visual?.status !== "local-static-release-rehearsal-not-youtube-or-human-evidence" || visual?.release_manifest?.sha256 !== story.evidence.release_manifest.sha256) errors.push("visual demo lost its local boundary or release binding");
-  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 5 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 1 || !visual?.final_receipt?.includes("정책 변경 0회") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/video binding drifted");
+  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 7 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 2 || !visual?.final_receipt?.includes("정책 변경 0회") || !visual?.meeting_note?.includes("검증 결과는 그대로") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/note/video binding drifted");
   if (Math.abs(visual?.video?.duration_seconds - story.video.visual_duration_seconds) > 0.001) errors.push("visual demo duration drifted");
   const visualManifestBytes = evidence.bytes.get(story.evidence.visual_manifest.path);
   const narrationManifestBytes = evidence.bytes.get(story.evidence.narration_manifest.path);

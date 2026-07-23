@@ -29,7 +29,7 @@ describe("planning candidate PDF", () => {
     const sourceSha = createHash("sha256").update(await readFile("docs/planning-outline.md")).digest("hex").slice(0, 16);
     const screenshotSha = createHash("sha256").update(await readFile("docs/assets/policy-lab-planning/manifest.json")).digest("hex").slice(0, 12);
     for (const page of result.pages) {
-      expect(page.text).toContain("POLICY LAB · 후보 기획서");
+      expect(page.text).toContain("DAKER · 기획서");
       expect(page.text).not.toContain("NOT SUBMITTED");
       expect(page.text).toContain(`기획 ${sourceSha.slice(0, 12)}`);
       expect(page.text).toContain(`캡처 ${screenshotSha}`);
@@ -40,7 +40,9 @@ describe("planning candidate PDF", () => {
   it("contains official rubric/current proof and rejects old pending language", async () => {
     const result = await inspectPlanningPdf(pdfPath, { render: false });
     const text = result.pages.map((page) => page.text).join("\n");
-    for (const marker of ["제출팀 60%", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "12/12", "98 / 100"]) expect(text).toContain(marker);
+    for (const marker of ["제출팀 60%", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "12/12", "다음 미팅"]) expect(text).toContain(marker);
+    expect(text).not.toContain("98 / 100");
+    expect(text).not.toContain("공식 후보로 승격");
     for (const stale of ["DATA AUDIT PENDING", "implementation pending", "transform/full audit pending", "Touchline Lab"]) expect(text).not.toContain(stale);
   });
 

@@ -31,8 +31,8 @@
     "product_id": "corner-policy-lab",
     "official_state_sha256": "7b1f45f602fa2225c8c1dbbcaa55f31ecee94a4d573f4d2f9f76c28111a13f1f",
     "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
-    "product_thesis_sha256": "9f92a85ed6d3b06934fd26188526610b643e532f7391e471b492d781b99bfffa",
-    "planning_source_sha256": "d0cab3bea76d88ef76dee4f56b5434fd68dd23a6698832a18a056a610bb87266",
+    "product_thesis_sha256": "187840f7b945eca940d0ab4b219cec99df5c4ec34785cdda23204cbda068a426",
+    "planning_source_sha256": "c2d494a40bbc0e872ff3347e216a2bdd90a6aae0826235b1ca414e255107cdef",
     "source_manifest_sha256": "e3344c561e1cf77ed0857ff837d8daf920ecdcbba5d4282359167ce72794cedb",
     "product_selection_sha256": "ea674f7b52b8a9627cf2aa32b4185fa8f04887f8ada107ea2bd96c6d9c2c3abc",
     "derived_binding": {

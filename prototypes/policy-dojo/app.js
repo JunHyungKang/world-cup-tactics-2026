@@ -1,13 +1,18 @@
 const LANES = ["short", "near", "central-far", "other"];
 const LABEL = { short: "숏 코너", near: "니어포스트", "central-far": "중앙·파포스트", other: "그 밖의 전달" };
 const SHORT = { short: "숏", near: "니어", "central-far": "중앙·파", other: "그 밖" };
+const MEETING_DECISIONS = {
+  keep: "유지",
+  revise: "다음 미팅에서 우선 구역 수정",
+  defer: "판단 보류",
+};
 
 const app = document.querySelector("#app");
 let report;
 let state = freshState();
 
 function freshState() {
-  return { stage: "rehearsal", matchIndex: 0, selected: [], locked: false, abstained: false, revealed: false, counterexampleOpen: false, history: [], quickFixed: false, policySnapshot: null };
+  return { stage: "rehearsal", matchIndex: 0, selected: [], locked: false, abstained: false, revealed: false, counterexampleOpen: false, history: [], quickFixed: false, policySnapshot: null, meetingNote: null };
 }
 
 function validate(value) {
@@ -72,6 +77,39 @@ function policyFingerprint(selected, abstained = false) {
   return `P-${(hash >>> 0).toString(16).padStart(8, "0")}`;
 }
 
+function sealedPolicyId() {
+  return state.policySnapshot?.fingerprint ?? policyFingerprint(state.selected, state.abstained);
+}
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/gu, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
+}
+
+function meetingNoteMarkup() {
+  if (state.meetingNote) {
+    return `<section class="meeting-note-receipt" data-testid="meeting-note-receipt" role="status" tabindex="-1">
+      <p class="eyebrow">NEXT MEETING NOTE</p>
+      <h4>다음 미팅 메모 저장됨</h4>
+      <p><strong>${MEETING_DECISIONS[state.meetingNote.decision]}</strong></p>
+      <p>${escapeHtml(state.meetingNote.reason)}</p>
+      <p class="sealed-anchor">봉인 정책 ${state.meetingNote.policyId} · 정책 변경 0회 · 검증 결과는 그대로입니다.</p>
+      <button class="primary" type="button" data-action="restart">처음부터 다시 실험</button>
+    </section>`;
+  }
+  return `<form class="meeting-note" data-action="save-meeting-note">
+    <fieldset>
+      <legend>이 검증을 보고 다음 미팅 메모를 남기세요.</legend>
+      <p id="meeting-note-help">아래 선택은 다음 세트피스 미팅을 위한 메모입니다. 봉인 정책, 위치 겹침 결과, 평가 영수증은 바뀌지 않습니다.</p>
+      <div class="meeting-options" role="radiogroup" aria-describedby="meeting-note-help">
+        ${Object.entries(MEETING_DECISIONS).map(([value, label]) => `<label><input required type="radio" name="meeting-decision" value="${value}"><span>${label}</span></label>`).join("")}
+      </div>
+      <label class="meeting-reason" for="meeting-reason">이유 <span>(120자 이내)</span></label>
+      <textarea id="meeting-reason" maxlength="120" name="meeting-reason" required rows="3" placeholder="예: 선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토"></textarea>
+      <button class="primary" type="submit">다음 미팅 메모 저장</button>
+    </fieldset>
+  </form>`;
+}
+
 function supportPath() {
   const campaign = report.policy_campaign;
   const selectedCounts = state.selected.map((lane) => `${LABEL[lane]} ${campaign.reference_summary[lane].corners}회`);
@@ -131,7 +169,7 @@ function render() {
     </header>
     <section class="stage" aria-labelledby="policy-title" data-partitions-disjoint="${campaign.partitions_disjoint}" data-stage="${state.stage}">
       <div class="round"><span>${experiment.label}</span><span>16강 평가 영수증 ${state.history.length}개</span></div>
-      <div class="phase"><span class="active">1 정책 설정</span><span class="${state.locked ? "active" : ""}">2 잠금</span><span class="${state.revealed ? "active" : ""}">3 반례 검토</span></div>
+      <div class="phase"><span class="active">1 정책 설정</span><span class="${state.locked ? "active" : ""}">2 잠금</span><span class="${state.revealed ? "active" : ""}">3 반례 검토</span><span class="${finalStage && state.counterexampleOpen ? "active" : ""}">4 다음 미팅 메모</span></div>
       <h2 id="policy-title">세트피스 미팅에서 우선 검토할 구역 두 곳을 고르세요 <small>${state.selected.length}/2</small></h2>
       <p class="tradeoff">고르지 않은 두 구역은 이번 미팅의 우선 검토에서 제외됩니다.</p>
       <p class="training-scope">고정 참고 집합: 조별리그 48경기 · ${campaign.segment_coverage.reference.source_corners}개 중 ${campaign.reference_corners}개 분류 가능 (${(campaign.segment_coverage.reference.classified_rate * 100).toFixed(1)}%)</p>
@@ -147,7 +185,7 @@ function render() {
           <p class="causal-warning">이 수치는 수비 성공률이 아닙니다. ${state.quickFixed ? `전달 위치를 분류할 수 없는 ${finalStage ? "2" : "5"}개 기록은 어느 구역에도 넣지 않았습니다. ` : ""}실제 선수 배치와 반사실적 경기 결과는 데이터에 없습니다.</p>
           <details class="event-ledger"><summary>${finalStage ? "최종 검증" : state.quickFixed ? "16강 중간 평가" : "이번 경기"} 코너 ${evaluation.trials.length}개 기록표</summary><ol>${resultRows(evaluation)}</ol></details>
           <button class="skeptic" type="button" data-action="counterexample">대표 반례 보기</button>
-          ${state.counterexampleOpen ? `<article class="counterexample" tabindex="-1" data-testid="counterexample"><p class="eyebrow">ONTOLOGY CONTRADICTION</p><h3>${evaluation.reason}</h3><p>${evaluation.counterexample.provenance.match_name} · 코너 #${evaluation.counterexample.provenance.corner_event_id} · 실제 전달 ${LABEL[evaluation.counterexample.observed_action.value]}${evaluation.counterexample.observed_outcome.attacking_shot ? " · 10초 이내 슈팅 기록" : ""}</p><ol class="path"><li>MatchContext TESTED_IN ScoutingPolicy</li><li>ScoutingPolicy: ${policyLabel()}${state.policySnapshot ? ` · ${state.policySnapshot.fingerprint}` : ""}</li><li>CornerRestart RECORDED_ACTION DeliveryAction: ${LABEL[evaluation.counterexample.observed_action.value]}</li><li>CornerRestart OBSERVED_NEXT ObservedEvent</li><li>ObservedEvent OBSERVED_OUTCOME OutcomeProxy: ${evaluation.counterexample.observed_outcome.attacking_shot ? "공격팀 슈팅 기록" : "슈팅 기록 없음"}</li><li>ObservedEvent DERIVED_FROM Source: Pappalardo Wyscout World Cup 2018 · CC BY 4.0</li><li>금지 관계: WOULD_PREVENT · OPTIMAL_POLICY</li></ol>${finalStage ? `<div class="final-receipt" data-testid="final-receipt"><strong>최종 정책 검증 완료</strong><span>${state.quickFixed ? `정책 변경 0회 · 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `16강 평가 영수증 ${state.history.length}개를 남긴 뒤, 최종 정책을 남겨 둔 8경기에 한 번만 적용했습니다.`}</span><button class="primary" type="button" data-action="restart">처음부터 다시 실험</button></div>` : state.quickFixed ? `<div class="fixed-policy-actions"><p>8강 이후 8경기는 아직 봉인돼 있습니다. 정책 ${state.policySnapshot.fingerprint}은 바꿀 수 없습니다.</p><button class="primary" type="button" data-action="quick-final">같은 정책으로 봉인 검증 8경기 공개</button></div>` : `<div class="revision-actions"><button class="primary" type="button" data-action="revise">평가 영수증 남기고 다음 미공개 경기</button><button class="secondary" type="button" data-action="batch-rehearsal">현재 정책으로 남은 16강 일괄 검증</button></div>`}</article>` : ""}
+          ${state.counterexampleOpen ? `<article class="counterexample" tabindex="-1" data-testid="counterexample"><p class="eyebrow">ONTOLOGY CONTRADICTION</p><h3>${evaluation.reason}</h3><p>${evaluation.counterexample.provenance.match_name} · 코너 #${evaluation.counterexample.provenance.corner_event_id} · 실제 전달 ${LABEL[evaluation.counterexample.observed_action.value]}${evaluation.counterexample.observed_outcome.attacking_shot ? " · 10초 이내 슈팅 기록" : ""}</p><ol class="path"><li>MatchContext TESTED_IN ScoutingPolicy</li><li>ScoutingPolicy: ${policyLabel()}${state.policySnapshot ? ` · ${state.policySnapshot.fingerprint}` : ""}</li><li>CornerRestart RECORDED_ACTION DeliveryAction: ${LABEL[evaluation.counterexample.observed_action.value]}</li><li>CornerRestart OBSERVED_NEXT ObservedEvent</li><li>ObservedEvent OBSERVED_OUTCOME OutcomeProxy: ${evaluation.counterexample.observed_outcome.attacking_shot ? "공격팀 슈팅 기록" : "슈팅 기록 없음"}</li><li>ObservedEvent DERIVED_FROM Source: Pappalardo Wyscout World Cup 2018 · CC BY 4.0</li><li>금지 관계: WOULD_PREVENT · OPTIMAL_POLICY</li></ol>${finalStage ? `<div class="final-receipt" data-testid="final-receipt"><strong>최종 정책 검증 완료</strong><span>${state.quickFixed ? `정책 변경 0회 · 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `16강 평가 영수증 ${state.history.length}개를 남긴 뒤, 최종 정책을 남겨 둔 8경기에 한 번만 적용했습니다.`}</span></div>${meetingNoteMarkup()}` : state.quickFixed ? `<div class="fixed-policy-actions"><p>8강 이후 8경기는 아직 봉인돼 있습니다. 정책 ${state.policySnapshot.fingerprint}은 바꿀 수 없습니다.</p><button class="primary" type="button" data-action="quick-final">같은 정책으로 봉인 검증 8경기 공개</button></div>` : `<div class="revision-actions"><button class="primary" type="button" data-action="revise">평가 영수증 남기고 다음 미공개 경기</button><button class="secondary" type="button" data-action="batch-rehearsal">현재 정책으로 남은 16강 일괄 검증</button></div>`}</article>` : ""}
         </section>`}
       ${historyMarkup()}
     </section>
@@ -204,6 +242,20 @@ app.addEventListener("click", (event) => {
   if (action === "counterexample" || action === "reveal" && state.quickFixed || action === "quick-final" || action === "final-verify" || action === "final-abstain") document.querySelector("[data-testid=counterexample]")?.focus();
 }
 );
+
+app.addEventListener("submit", (event) => {
+  const form = event.target.closest('[data-action="save-meeting-note"]');
+  if (!(form instanceof HTMLFormElement)) return;
+  event.preventDefault();
+  if (!state.locked || !state.revealed || !state.counterexampleOpen || currentExperiment().kind !== "final" || state.meetingNote) return;
+  const formData = new FormData(form);
+  const decision = String(formData.get("meeting-decision") ?? "");
+  const reason = String(formData.get("meeting-reason") ?? "").trim();
+  if (!(decision in MEETING_DECISIONS) || reason.length === 0 || reason.length > 120) return;
+  state = { ...state, meetingNote: { decision, reason, policyId: sealedPolicyId() } };
+  render();
+  document.querySelector("[data-testid=meeting-note-receipt]")?.focus();
+});
 
 try {
   const reportUrl = document.querySelector('meta[name="policy-report"]')?.content ?? "../../data/audit/policy-lab-spike.json";

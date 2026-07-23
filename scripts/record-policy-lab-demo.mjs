@@ -108,8 +108,21 @@ try {
     await waitUntil(34);
     await page.getByTestId("final-receipt").waitFor();
     mark("final-receipt", 34);
+    await waitUntil(38);
+    await scrollTo(page.locator('[data-action="save-meeting-note"]'));
+    mark("meeting-note-view", 38);
+    await waitUntil(42);
+    await page.getByLabel("판단 보류").check();
+    mark("meeting-decision", 42);
+    await waitUntil(45);
+    await page.getByLabel("이유 (120자 이내)").fill("봉인 검증만으로 우선 구역을 바꾸지 않고 다음 미팅에서 판단");
+    mark("meeting-reason", 45);
+    await waitUntil(48);
+    await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
+    mark("meeting-note-save", 48);
     await waitUntil(59.8);
     const finalReceipt = await page.getByTestId("final-receipt").innerText();
+    const meetingNote = await page.getByTestId("meeting-note-receipt").innerText();
     const video = page.video();
     await context.close();
     const recordedPath = await video.path();
@@ -126,8 +139,9 @@ try {
       capture_started_at: new Date(Date.now() - Math.round(rawMedia.duration_seconds * 1000)).toISOString(),
       capture_completed_at: new Date().toISOString(),
       actions,
-      interaction_contract: { activations: 5, policy_locks: 1, explicit_scrolls: 1, final_receipt_target_seconds: 45 },
+      interaction_contract: { activations: 7, policy_locks: 1, explicit_scrolls: 2, final_receipt_target_seconds: 45, meeting_note_target_seconds: 52 },
       final_receipt: finalReceipt,
+      meeting_note: meetingNote,
       video: { path: rawVideoPath, sha256: digest(rawBytes), bytes: rawBytes.length, audio: "none-local-visual-rehearsal", ...rawMedia },
     };
     await writeFile(visualManifestPath, `${JSON.stringify(visualManifest, null, 2)}\n`);

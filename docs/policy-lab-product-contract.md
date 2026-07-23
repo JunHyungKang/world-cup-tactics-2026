@@ -1,6 +1,6 @@
 # Corner Policy Lab Product Contract
 
-Status: `PROMOTED OFFICIAL CANDIDATE — 98/100; EXTERNAL RELEASE PENDING`
+Status: `PROMOTED OFFICIAL CANDIDATE — PUBLIC CANDIDATE LIVE; FINAL STAMP PENDING`
 
 ## Product identity
 
@@ -36,8 +36,11 @@ matches and creates eight match-specific receipts with the same policy
 fingerprint. The final eight matches remain sealed and the selection controls
 stay disabled. `같은 정책으로 봉인 검증 8경기 공개` applies the identical
 snapshot once more; the final receipt states `정책 변경 0회`. The detailed
-one-match-at-a-time revision loop remains available under progressive disclosure,
-but the five-activation judge path never moves a match or changes the policy.
+one-match-at-a-time revision loop remains available under progressive disclosure.
+After the sealed receipt, the manager chooses `유지`, `다음 미팅에서 우선 구역
+수정`, or `판단 보류` and saves one reason. This separate next-meeting note
+cannot mutate the sealed policy, overlap result, or receipts. The seven-activation
+judge path never moves a match or changes the policy.
 
 ## Data invariants
 
@@ -76,9 +79,9 @@ user abstention path.
 
 ## Promotion decision
 
-The exact-artifact same-reviewer comparison scored Policy Lab `98/100` and
-Corner War Room `97/100`. Policy Lab is therefore the official product candidate.
-The promotion preserves causal recommendation `REJECT`, empirical campaign
-`REVISE`, and human evidence `unavailable/no-claim`. Public hosting, GitHub,
-YouTube, DAKER upload, final commit binding, and public-URL browser evidence are
-still required before submission readiness can be claimed.
+An earlier exact-artifact comparison selected Policy Lab over Corner War Room;
+that internal benchmark is not presented as a judge score. The promotion
+preserves causal recommendation `REJECT`, empirical campaign `REVISE`, and human
+evidence `unavailable/no-claim`. Public hosting and GitHub are live as candidate
+evidence. YouTube, DAKER final submission, final commit binding, and final
+public-URL browser evidence are still required before completion can be claimed.

@@ -44,6 +44,8 @@ check(narrated.narration_contract.sha256 === digest(narrationBytes), "narration 
 const expectedActions = [
   ["priority-short", 5], ["priority-near", 8], ["policy-lock", 12], ["r16-reveal", 16],
   ["r16-summary", 18], ["final-reveal", 30], ["final-receipt", 34],
+  ["meeting-note-view", 38], ["meeting-decision", 42], ["meeting-reason", 45],
+  ["meeting-note-save", 48],
 ];
 check(visual.actions.length === expectedActions.length, "visual action count drifted");
 for (const [index, [id, scheduled]] of expectedActions.entries()) {
@@ -52,8 +54,10 @@ for (const [index, [id, scheduled]] of expectedActions.entries()) {
   check(Math.abs((action?.actual_seconds ?? 99) - scheduled) <= 0.25, `visual action ${id} missed its timing window`);
 }
 check(visual.final_receipt.includes("정책 변경 0회") && visual.final_receipt.includes("16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용"), "final receipt boundary drifted");
-check(visual.interaction_contract?.activations === 5 && visual.interaction_contract?.policy_locks === 1 && visual.interaction_contract?.explicit_scrolls === 1, "one-lock interaction contract drifted");
+check(visual.meeting_note.includes("판단 보류") && visual.meeting_note.includes("정책 변경 0회") && visual.meeting_note.includes("검증 결과는 그대로"), "next-meeting note boundary drifted");
+check(visual.interaction_contract?.activations === 7 && visual.interaction_contract?.policy_locks === 1 && visual.interaction_contract?.explicit_scrolls === 2, "one-lock interaction contract drifted");
 check(visual.actions.find((action) => action.id === "final-receipt")?.actual_seconds <= 45.25, "final receipt missed the 45-second judge target");
+check(visual.actions.find((action) => action.id === "meeting-note-save")?.actual_seconds <= 52.25, "next-meeting note missed the 52-second judge target");
 
 const rawBytes = await readFile(visual.video.path);
 check(visual.video.sha256 === digest(rawBytes) && visual.video.bytes === rawBytes.length, "visual video byte binding drifted");
@@ -63,7 +67,7 @@ check(Number(rawMedia.format.duration) >= 59.5 && Number(rawMedia.format.duratio
 check(rawVideo?.codec_name === "vp8" && rawVideo.width === 1440 && rawVideo.height === 900, "visual stream contract drifted");
 
 check(narration.schema_version === 1 && narration.status === "local-tts-rehearsal-not-final-voice", "narration contract status drifted");
-check(narration.cues.length === 7 && narrated.cues.length === 7, "narration cue count drifted");
+check(narration.cues.length === 8 && narrated.cues.length === 8, "narration cue count drifted");
 const expectedSrt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.text}`).join("\n\n") + "\n";
 const captionBytes = await readFile(narrated.captions.path);
 check(captionBytes.toString("utf8") === expectedSrt, "Korean captions drifted from narration cues");
@@ -92,4 +96,4 @@ if (errors.length) {
   console.error(errors.map((error) => `[FAIL] ${error}`).join("\n"));
   process.exit(1);
 }
-console.log(`[PASS] Policy Lab demo audit: ${Number(narratedMedia.format.duration).toFixed(3)}s, 7 timed events, 5 activations, 1 policy lock, 7 fitted cues, burned captions, SHA=${narrated.narrated_video.sha256}`);
+console.log(`[PASS] Policy Lab demo audit: ${Number(narratedMedia.format.duration).toFixed(3)}s, 11 timed events, 7 activations, 1 policy lock, 8 fitted cues, burned captions, SHA=${narrated.narrated_video.sha256}`);

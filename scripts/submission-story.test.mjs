@@ -54,13 +54,13 @@ describe("submission story", () => {
     expect(validateSubmissionStory(campaign, sources)).toContain("submission story must preserve the fixed 48-8-8 campaign and zero policy changes");
     const interaction = structuredClone(story);
     interaction.video.interaction.policy_locks = 2;
-    expect(validateSubmissionStory(interaction, sources)).toContain("video interaction contract must preserve 7 events, 5 activations, one lock, one scroll, and the 34.005s receipt");
+    expect(validateSubmissionStory(interaction, sources)).toContain("video interaction contract must preserve 11 events, 7 activations, one lock, two scrolls, the 34.008s receipt, and the 48.047s next-meeting note");
     const claim = structuredClone(story);
     claim.claim_boundary.causal_recommendation_status = "PASS";
     expect(validateSubmissionStory(claim, sources)).toContain("submission story must preserve unavailable human evidence, causal REJECT, empirical REVISE, and no-result-prediction boundaries");
   });
 
-  it("accepts seven distinct narrated-video storyboard frames", () => {
+  it("accepts eight distinct narrated-video storyboard frames", () => {
     expect(validateStoryboardManifest(Buffer.from(storyText), story, storyboard, artifactBytes)).toEqual([]);
   });
 

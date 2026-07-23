@@ -23,15 +23,15 @@ the manager commit under scarcity, preserves the commitment as a fingerprint,
 then lets the historical record argue back through a full match ledger, a
 deterministic representative contradiction, and source-linked ontology paths.
 
-> 조별리그에서 세우고, 토너먼트에서 깨뜨리세요.
+> 조별리그에서 세우고, 토너먼트에서 검증하세요.
 
 ## Selection evidence
 
-An exact-artifact same-reviewer comparison scored Corner Policy Lab v5 `98/100`
-and Corner War Room `97/100` on originality `30`, manager-experience design `25`,
-functional completeness `25`, and planning-to-implementation consistency `20`.
-Policy Lab won through its one-policy/two-holdout campaign and exact artifact
-binding while keeping the causal boundary unchanged.
+An earlier exact-artifact same-reviewer comparison informed the internal product
+choice across originality, manager-experience design, functional completeness,
+and planning-to-implementation consistency. It is selection history, not a score
+claimed to DAKER judges. Policy Lab was selected for its one-policy/two-holdout
+campaign and exact artifact binding while keeping the causal boundary unchanged.
 
 Corner War Room remains preserved as a byte-bound runner-up under
 `docs/archive/corner-war-room-2026-07-19/`. It is not the selected submission
@@ -53,17 +53,21 @@ The manager selects two of four delivery areas—`숏 코너`, `니어포스트`
 Choosing two areas also means excluding the other two from the meeting's priority
 review. This is a real tradeoff, not a decorative filter.
 
-The primary judge path is five activations:
+The primary judge path is seven activations:
 
 1. select the first area;
 2. select the second area;
 3. lock one policy for both tests;
 4. reveal the round-of-16 evaluation;
-5. reveal the final sealed evaluation with the same policy.
+5. reveal the final sealed evaluation with the same policy;
+6. choose `유지`, `다음 미팅에서 우선 구역 수정`, or `판단 보류`;
+7. save one short reason as the next-meeting note.
 
 The final receipt must show `정책 변경 0회` and the same policy fingerprint used
-for both held-out partitions. The one-match-at-a-time revision path remains
-available under progressive disclosure but is not the primary judging path.
+for both held-out partitions. The next-meeting note is a separate decision record
+and cannot mutate that receipt, the overlap results, or the sealed policy. The
+one-match-at-a-time revision path remains available under progressive disclosure
+but is not the primary judging path.
 
 ## Real data and fixed split
 
@@ -144,16 +148,18 @@ source, and forbidden relations remain visible.
 ## Current verified evidence
 
 - policy data/release contracts: `7/7`;
-- source Chromium interaction contracts: `7/7`;
+- source Chromium interaction contracts: `8/8`;
 - built static release: `12/12` across Chromium, Firefox, WebKit, and mobile;
-- Korean copy audit: 15 canonical surfaces with zero high-confidence findings;
-- narrated local rehearsal: `59.520s`, five activations, one policy lock, one
-  explicit scroll, seven fitted Korean cues, and burned captions;
-- final receipt appears by approximately 34 seconds and records zero revisions.
+- Korean copy audit: 16 canonical surfaces with zero high-confidence findings;
+- narrated local rehearsal: `59.520s`, 11 timed events, seven activations, one
+  policy lock, two explicit scrolls, eight fitted Korean cues, and burned captions;
+- final receipt appears by approximately 34 seconds and the immutable
+  next-meeting note is saved by approximately 48 seconds.
 
-These are local product and machine-verification results. Public hosting, public
-GitHub, YouTube, DAKER submission, physical VoiceOver, and human comprehension or
-preference evidence remain incomplete and must not be claimed.
+These are product and machine-verification results. Public hosting and public
+GitHub are live as candidate evidence. The final stamped release, YouTube, DAKER
+final submission, physical VoiceOver, and human comprehension or preference
+evidence remain incomplete and must not be claimed.
 
 ## Submission completion gate
 

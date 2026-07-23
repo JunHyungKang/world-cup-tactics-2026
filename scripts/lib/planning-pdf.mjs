@@ -108,7 +108,7 @@ export function validatePlanningCandidateBindings(pages, { sourceSha256, screens
   const screenshotPrefix = screenshotManifestSha256.slice(0, 12);
   for (const [index, page] of pages.entries()) {
     const text = normalizeText(page.text ?? "");
-    if (!text.includes("POLICY LAB · 후보 기획서")) errors.push(`PDF page ${index + 1} lacks the promoted-candidate planning ribbon`);
+    if (!text.includes("DAKER · 기획서")) errors.push(`PDF page ${index + 1} lacks the DAKER planning ribbon`);
     if (!text.includes("인간 연구 없음")) errors.push(`PDF page ${index + 1} lacks human-evidence boundary`);
     if (!text.includes(`기획 ${sourcePrefix}`)) errors.push(`PDF page ${index + 1} is not bound to current planning source`);
     if (!text.includes(`캡처 ${screenshotPrefix}`)) errors.push(`PDF page ${index + 1} is not bound to current screenshots`);
@@ -117,8 +117,11 @@ export function validatePlanningCandidateBindings(pages, { sourceSha256, screens
     }
   }
   const allText = pages.map(({ text }) => normalizeText(text ?? "")).join("\n");
-  for (const marker of ["48경기", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "12/12", "98 / 100", "제출팀 60%", "2026-07-27 10:00 KST", "인간 연구는 없으며"]) {
+  for (const marker of ["48경기", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "12/12", "다음 미팅", "제출팀 60%", "2026-07-27 10:00 KST", "인간 연구 없음"]) {
     if (!allText.includes(marker)) errors.push(`planning candidate lacks official/current marker: ${marker}`);
+  }
+  if (allText.includes("98 / 100") || allText.includes("공식 후보로 승격")) {
+    errors.push("planning candidate must not contain self-awarded scoring or internal promotion language");
   }
   for (const stale of [/DATA AUDIT PENDING/iu, /implementation pending/iu, /transform\/full audit pending/iu, /Touchline Lab/iu, /4\/5 fresh users/iu]) {
     if (stale.test(allText)) errors.push(`planning candidate contains stale marker: ${stale.source}`);
