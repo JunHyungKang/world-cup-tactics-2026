@@ -9,6 +9,7 @@ test("the built release runs the keyless commit and held-out reveal loop", async
   await expect(page.locator(".stage")).toHaveAttribute("data-partitions-disjoint", "true");
   await page.locator('.lane-card[data-lane="short"]').click();
   await page.locator('.lane-card[data-lane="near"]').click();
+  await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
   await page.getByText("한 경기씩 검토하며 정책 바꾸기", { exact: true }).click();
   await page.getByRole("button", { name: "첫 16강 경기만 잠금" }).click();
   await expect(page.getByRole("heading", { name: /Uruguay - Portugal/ })).toHaveCount(0);
@@ -30,12 +31,16 @@ test("the built release applies one snapshot to both held-out audits", async ({ 
   await page.goto("/");
   await page.locator('.lane-card[data-lane="short"]').click();
   await page.locator('.lane-card[data-lane="near"]').click();
+  await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
   await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
   const policyId = (await page.getByTestId("lock-receipt").locator(".policy-id").innerText()).trim();
+  await expect(page.getByTestId("lock-receipt")).toContainText("사전 위치 겹침 기준 50%도 함께 잠갔습니다");
   await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 미달");
   await expect(page.locator(".round").getByText("16강 평가 영수증 8개")).toBeVisible();
   await expect(page.locator(".lane-card").first()).toBeDisabled();
   await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 충족");
   await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 위치 겹침/ })).toBeVisible();
   await expect(page.getByTestId("final-receipt")).toContainText("정책 변경 0회");
   await expect(page.getByTestId("final-receipt")).toContainText(policyId);

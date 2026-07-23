@@ -44,7 +44,7 @@ describe("current harness state drift", () => {
   it("rejects stale active claims in each authoritative surface", () => {
     const cases = [
       { key: "board", value: board.replace("Corner Policy Lab is the canonical root product", "CWR remains the root/submission package") },
-      { key: "judgeGate", value: judgeGate.replace("Corner Policy Lab technical product proof passed", "implementation unauthorized") },
+      { key: "judgeGate", value: judgeGate.replace("technical product proof and public candidate byte parity passed", "implementation unauthorized") },
       { key: "readme", value: readme.replace("The app is **Corner Policy Lab**", "The app is **Corner War Room**") },
       { key: "handoff", value: handoff.replace("selected `corner-policy-lab`", "official product remains `corner-war-room`") },
       { key: "runbook", value: runbook.replace("PASS — LOCAL FREEZE", "portfolio P0 freeze boundary is `PENDING`") },

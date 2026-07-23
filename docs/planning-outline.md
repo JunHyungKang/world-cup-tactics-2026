@@ -17,17 +17,18 @@ quarter-final-and-later verification matches.
 ## 2. A real manager commitment
 
 The manager places two priorities directly on the pitch or through accessible
-cards, may abstain, and locks before any held-out match identity or outcome
-appears. One immutable fingerprint is used in both sequential tests. The score is
-delivery-location overlap only, never defensive effectiveness.
+cards, declares a minimum location-overlap criterion of 40%, 50%, or 60%, may
+abstain, and locks before any held-out match identity or outcome appears. One immutable fingerprint
+binds the areas and criterion in both sequential tests.
+The score is delivery-location overlap only, never defensive effectiveness.
 
-Locking freezes the selected area IDs, abstention state, split rule, and policy
+Locking freezes the selected area IDs, minimum criterion, abstention state, split rule, and policy
 fingerprint. The area controls then stay disabled. The manager can inspect the
 first result and its contradiction, but cannot silently tune the policy before
 opening the final eight matches. After the sealed result, the manager records a
 separate next-meeting note: keep the priorities, revise them at the next
 meeting, or defer judgment. This note never rewrites the sealed policy, overlap
-results, or evaluation receipts.
+criterion verdicts, results, or evaluation receipts.
 
 ## 3. Evidence argues back
 
@@ -35,7 +36,9 @@ Every classifiable corner in the revealed partition appears in the record table.
 A deterministic representative contradiction is the first unselected-area shot,
 otherwise the first unselected delivery, otherwise a selected-area shot. It is
 representative, not statistically strongest. The match, event ID, action,
-outcome, source, and forbidden inference remain visible.
+outcome, source, and forbidden inference remain visible. Each held-out result
+also closes as `사전 기준 충족` or `사전 기준 미달`, using only the criterion
+declared before exposure.
 
 ## 4. All 603 corners, missingness visible
 
@@ -54,20 +57,24 @@ pattern describes a 2026 team**.
 `MatchContext`, `ScoutingPolicy`, `CornerRestart`, `DeliveryAction`,
 `ObservedEvent`, `OutcomeProxy`, and `Source` form the explanation path. The UI
 shows `DERIVED_FROM` and forbids `DEFENSIVE_DUTY_CAUSED`, `WOULD_PREVENT`, and
-`OPTIMAL_POLICY`. The ontology types evidence and prohibited inference. It does not generate missing actions or causal effects.
+`OPTIMAL_POLICY`. This is an inspectable evidence path and forbidden-inference
+guardrail, not a graph reasoning engine. The ontology types evidence and
+prohibited inference. It does not generate missing actions or causal effects.
 
 ## 6. Actual 60-second proof
 
-The judge selects two priorities and locks one immutable policy snapshot before
+The judge selects two priorities, declares one minimum overlap criterion, and
+locks one immutable policy snapshot before
 exposure. A second action reveals all eight round-of-16 evaluations and eight
 receipts with the same fingerprint while the final eight matches stay sealed. A
 third action applies that identical snapshot to the sealed final verification and
-opens its representative contradiction. The manager then chooses one
-next-meeting response and leaves a short reason, completing the decision loop
+opens its representative contradiction. The manager then chooses one next-meeting response
+and leaves a short reason, completing the decision loop
 without changing the experiment that just finished.
 
 The refreshed local static-release rehearsal must fit the two priority choices,
-one policy lock, two reveals, one next-meeting response, and one saved note into
+one predeclared criterion, one policy lock, two reveals, one next-meeting
+response, and one saved note into
 60 seconds with burned Korean captions. It remains local until the exact public
 release is recorded and uploaded; it is not human evidence.
 
@@ -75,7 +82,8 @@ release is recorded and uploaded; it is not human evidence.
 
 The keyless static release contains a root HTML entrypoint, JavaScript, CSS,
 public policy report, and release manifest. Policy data/release contracts pass
-7/7. Source browser contracts pass 8/8. The built release passes 12/12 across
+7/7. The exact eight-beat storyboard captures pass 8/8. Source browser contracts
+pass 10/10. The built release passes 12/12 across
 Chromium, Firefox, WebKit, and mobile, including invalid-report fail-closed and
 the complete one-lock-to-next-meeting-note path.
 
@@ -88,7 +96,7 @@ Policy Lab is the promoted product because its visible loop is memorable without
 an invented recommendation score: choose two priorities, lock one policy before
 the reveal, and let historical records expose a concrete contradiction.
 Originality comes from the falsifiable tournament-stage campaign. Manager
-experience comes from scarce priorities, one pre-reveal commitment, direct pitch
+experience comes from scarce priorities, one pre-reveal criterion, direct pitch
 placement, abstention, same-fingerprint evaluation receipts, a final sealed
 verification, and a separate next-meeting decision that cannot rewrite the
 evidence.

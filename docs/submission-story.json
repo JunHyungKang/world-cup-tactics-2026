@@ -26,30 +26,30 @@
     "beat_order": ["hook", "reference", "lock", "r16", "seal", "final-audit", "next-meeting", "final"],
     "narration": { "voice": "Yuna", "locale": "ko_KR", "rate_words_per_minute": 205 },
     "interaction": {
-      "timed_events": 11,
-      "activations": 7,
+      "timed_events": 12,
+      "activations": 8,
       "policy_locks": 1,
       "explicit_scrolls": 2,
-      "final_receipt_seconds": 34.005,
-      "meeting_note_seconds": 48.023
+      "final_receipt_seconds": 34.009,
+      "meeting_note_seconds": 48.037
     },
     "beats": [
       { "id": "hook", "start": 0, "end": 5, "action": "48 → 8 → 8 경기 단위 캠페인과 한계를 첫 화면에 보여 준다.", "proof": "조별리그에서 세우고, 토너먼트에서 검증하세요." },
-      { "id": "reference", "start": 5, "end": 12, "action": "조별리그 참고 기록만 보고 숏 코너와 니어포스트를 고른다.", "proof": "397/436 분류 가능 · 두 구역만 선택" },
-      { "id": "lock", "start": 12, "end": 16, "action": "한 정책을 두 미공개 시험에 적용하도록 잠근다.", "proof": "정책 지문 1개 · 이후 변경 불가" },
-      { "id": "r16", "start": 16, "end": 27, "action": "16강 8경기 요약, 전체 기록표, 대표 반례와 출처를 공개한다.", "proof": "84/89 · 8개 영수증의 동일 정책 ID" },
+      { "id": "reference", "start": 5, "end": 12, "action": "조별리그 참고 기록만 보고 숏 코너와 니어포스트, 최소 위치 겹침률 50%를 고른다.", "proof": "397/436 분류 가능 · 두 구역과 사전 기준 선택" },
+      { "id": "lock", "start": 12, "end": 16, "action": "구역과 사전 기준을 한 정책으로 묶어 두 미공개 시험에 적용하도록 잠근다.", "proof": "정책 지문 1개 · 구역과 기준 이후 변경 불가" },
+      { "id": "r16", "start": 16, "end": 27, "action": "16강 8경기 요약, 사전 기준 판정, 전체 기록표, 대표 반례와 출처를 공개한다.", "proof": "위치 겹침 48% · 사전 50% 기준 미달" },
       { "id": "seal", "start": 27, "end": 34, "action": "8강 이후 기록이 여전히 봉인됐고 정책도 바꿀 수 없음을 확인한다.", "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가" },
-      { "id": "final-audit", "start": 34, "end": 45, "action": "같은 정책으로 봉인된 8경기를 공개하고 선택 밖 전달과 출처를 확인한다.", "proof": "76/78 · 결정론적 대표 반례" },
-      { "id": "next-meeting", "start": 45, "end": 53, "action": "다음 미팅의 판단을 고르고 이유를 한 줄로 남긴다.", "proof": "판단 보류 · 봉인 정책과 검증 결과 불변" },
-      { "id": "final", "start": 53, "end": 59.5, "action": "최종 영수증과 다음 미팅 메모를 함께 확인한다.", "proof": "정책 변경 0회 · 인과 추천 REJECT" }
+      { "id": "final-audit", "start": 34, "end": 45, "action": "같은 정책으로 봉인된 8경기를 공개하고 사전 기준 판정, 선택 밖 전달과 출처를 확인한다.", "proof": "위치 겹침 51% · 사전 50% 기준 충족" },
+      { "id": "next-meeting", "start": 45, "end": 53, "action": "다음 미팅에서 우선 구역 수정을 고르고 이유를 한 줄로 남긴다.", "proof": "다음 미팅 수정 메모 · 봉인 정책과 검증 결과 불변" },
+      { "id": "final", "start": 53, "end": 59.5, "action": "최종 영수증과 다음 미팅 메모를 함께 확인한다.", "proof": "사전 기준 충족 · 정책 변경 0회 · 인과 추천 REJECT" }
     ]
   },
   "evidence": {
-    "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "2ea3317669cffb77f37a9c00f26482283fcece4ddafc2b844ea30893802a1ad2" },
+    "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "3de1b3b5f281ef2bcc285b44dcea63fb47c4d091254440e9f368bf624968c66b" },
     "visual_manifest": { "path": "output/policy-lab-demo/visual-manifest.json" },
     "narration_manifest": { "path": "output/policy-lab-demo/narration-manifest.json" },
-    "visual_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-visual.webm", "sha256": "57f5da35d9dca169b17b5bd13f738ebb8de4100282f39e30fc6cbb90ad03de8b" },
-    "narrated_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm", "sha256": "56cfa02434464a2b15c204c44d367295a7f05eee966e08daea772fbe03444ec8" }
+    "visual_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-visual.webm", "sha256": "9b000e82016bc9ef357063eca55a7cfb729e964e1ad926ac2522e29e6f05e7be" },
+    "narrated_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm", "sha256": "dbddebacaf3b74dd041bf00c303e9efdb47f20fec36312e9cda8b6ad918f3c13" }
   },
   "claim_boundary": {
     "human_evidence": "unavailable",

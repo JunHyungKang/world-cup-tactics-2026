@@ -42,7 +42,7 @@ export function validateCurrentHarnessState({
     requireMarkers(errors, "competition board active row", boardRow, [
       "Corner Policy Lab is the canonical root product", "558e8f0b", "exact refreshed PDF review and plan preflight PASS",
     ]);
-    requireMarkers(errors, "judge gate status", judgeStatus, ["Corner Policy Lab technical product proof passed"]);
+    requireMarkers(errors, "judge gate status", judgeStatus, ["technical product proof and public candidate byte parity passed"]);
     requireMarkers(errors, "README current product", readme, [
       "The app is **Corner Policy Lab**", "48-match group-stage reference", "causal recommendation is `REJECT`",
     ]);

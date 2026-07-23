@@ -49,19 +49,22 @@ The first screen exposes three fixed phases:
 3. `8경기 8강 이후 봉인 검증`.
 
 The manager selects two of four delivery areas—`숏 코너`, `니어포스트`,
-`중앙·파포스트`, and `그 밖의 전달`—or explicitly chooses `판단 보류`.
+`중앙·파포스트`, and `그 밖의 전달`—then declares `40%`, `50%`, or `60%`
+as the minimum location-overlap criterion, or explicitly chooses `판단 보류`.
 Choosing two areas also means excluding the other two from the meeting's priority
 review. This is a real tradeoff, not a decorative filter.
 
-The primary judge path is seven activations:
+The primary judge path is eight activations:
 
 1. select the first area;
 2. select the second area;
-3. lock one policy for both tests;
-4. reveal the round-of-16 evaluation;
-5. reveal the final sealed evaluation with the same policy;
-6. choose `유지`, `다음 미팅에서 우선 구역 수정`, or `판단 보류`;
-7. save one short reason as the next-meeting note.
+3. declare the minimum location-overlap criterion;
+4. lock one policy for both tests;
+5. reveal the round-of-16 evaluation;
+6. reveal the final sealed evaluation with the same policy;
+7. choose `다음 미팅도 이 구역 유지`, `다음 미팅에서 우선 구역 수정`, or
+   `다음 미팅 결정 보류`;
+8. save one short reason as the next-meeting note.
 
 The final receipt must show `정책 변경 0회` and the same policy fingerprint used
 for both held-out partitions. The next-meeting note is a separate decision record
@@ -94,7 +97,9 @@ evidence lens and **must not imply that a 2018 pattern describes a 2026 team**.
 
 ## What the calculation means
 
-The score is delivery-location overlap only. It answers:
+The score is delivery-location overlap only. The manager predeclares a minimum
+criterion before either holdout is exposed, so the result closes as `사전 기준
+충족` or `사전 기준 미달` without post-hoc reinterpretation. It answers:
 
 > Of the historical deliveries whose endpoints can be classified, how many fell
 > inside the two areas the manager chose to inspect first?
@@ -126,8 +131,9 @@ Allowed edges describe fixed membership, recorded action, observed transition,
 observed outcome, and provenance. The UI exposes `DERIVED_FROM` and the forbidden
 relations `DEFENSIVE_DUTY_CAUSED`, `WOULD_PREVENT`, and `OPTIMAL_POLICY`.
 
-The ontology does not fill missing actions or invent counterfactual effects. Its
-job is to make the evidence path inspectable and make prohibited inference
+The ontology does not fill missing actions or invent counterfactual effects. It
+is an inspectable evidence path and forbidden-inference guardrail, not a graph
+reasoning engine. Its job is to make provenance visible and prohibited inference
 machine-checkable.
 
 ## Representative contradiction
@@ -148,13 +154,14 @@ source, and forbidden relations remain visible.
 ## Current verified evidence
 
 - policy data/release contracts: `7/7`;
-- source Chromium interaction contracts: `8/8`;
+- source Chromium interaction contracts: `10/10`;
 - built static release: `12/12` across Chromium, Firefox, WebKit, and mobile;
 - Korean copy audit: 16 canonical surfaces with zero high-confidence findings;
-- narrated local rehearsal: `59.520s`, 11 timed events, seven activations, one
-  policy lock, two explicit scrolls, eight fitted Korean cues, and burned captions;
-- final receipt appears by approximately 34 seconds and the immutable
-  next-meeting note is saved by approximately 48 seconds.
+- narrated local rehearsal: `59.520s`, VP8 + Opus, burned Korean captions,
+  SHA-256 `dbddebacaf3b74dd041bf00c303e9efdb47f20fec36312e9cda8b6ad918f3c13`;
+- all `12/12` timed events land within 0.08 seconds; the criterion-aware final
+  receipt appears at `34.009s` and the immutable next-meeting note is saved at
+  `48.037s`.
 
 These are product and machine-verification results. Public hosting and public
 GitHub are live as candidate evidence. The final stamped release, YouTube, DAKER

@@ -11,6 +11,26 @@ clearly labeled historical World Cup evidence. It does not claim to model a
 
 Official page: https://daker.ai/public/hackathons/world-cup-manager-tactics-web-challenge
 
+**Live judge path:** https://junhyungkang.github.io/world-cup-tactics-2026/
+
+![Corner Policy Lab: one policy tested against two hidden tournament stages](docs/assets/gallery/corner-policy-lab-first-image.png)
+
+## Judge experience
+
+1. Choose two corner-delivery areas from the 48 group-stage matches.
+2. Lock one policy before either knockout-stage record is revealed.
+3. Test the same fingerprint against the round of 16 and the sealed final eight
+   matches.
+4. Inspect the complete record, one deterministic contradiction, and its source
+   path.
+5. Record the next meeting decision without changing the sealed policy or its
+   results.
+
+The keyless path takes eight activations and fits the local captioned rehearsal
+within 60 seconds. The current candidate passes 93 deterministic tests and 12/12
+pre-release checks across Chromium, Firefox, WebKit, and mobile. Those machine
+checks are not human-preference evidence.
+
 ## Local setup
 
 Requires Node.js 22.12+, pnpm 11, Python 3, and Poppler (`pdftoppm`) for the
@@ -27,12 +47,15 @@ On macOS, install Poppler with `brew install poppler` before `pnpm verify`.
 `pnpm dev` and `pnpm build` do not require the Python/Poppler verification tools.
 
 The app is **Corner Policy Lab**: choose two corner-delivery areas from the
-48-match group-stage reference, lock one immutable policy, then expose it
+48-match group-stage reference, declare a minimum location-overlap criterion,
+lock one immutable policy, then expose it
 unchanged to the eight round-of-16 matches and eight still-sealed
 quarter-final-and-later matches. The full record table and deterministic
 representative contradiction let the historical evidence argue back. The app
 measures delivery-location overlap only; causal recommendation is `REJECT` and
-the empirical campaign remains `REVISE`.
+the empirical campaign remains `REVISE`. The final next-meeting note is a
+separate decision record: it cannot mutate the locked fingerprint, the two
+holdout results, or the evidence receipts.
 
 `pnpm data:audit` checks source admission, `pnpm copy:audit` rejects known
 translationese and stale Korean UI phrases, and `pnpm eligibility:audit` binds the

@@ -6,11 +6,11 @@
   "rate_words_per_minute": 205,
   "cues": [
     { "id": "hook", "start": 0, "end": 5, "caption_end": 4.8, "text": "조별리그에서 세우고, 토너먼트에서 검증합니다." },
-    { "id": "reference", "start": 5, "end": 12, "caption_end": 11.8, "text": "조별리그에서 전달 위치를 분류할 수 있는 기록만 보고 우선 구역 두 개를 고릅니다." },
+    { "id": "reference", "start": 5, "end": 12, "caption_end": 11.8, "text": "조별리그 기록만 보고 우선 구역 두 개와 최소 겹침률 오십 퍼센트를 고릅니다." },
     { "id": "lock", "start": 12, "end": 16, "caption_end": 15.8, "text": "이 정책을 잠가 두 시험에 적용합니다." },
-    { "id": "r16", "start": 16, "end": 27, "caption_end": 26.8, "text": "16강 여덟 경기에서 위치 겹침과 대표 반례를 확인합니다. 평가 영수증 여덟 개에는 모두 같은 정책이 기록됩니다." },
+    { "id": "r16", "start": 16, "end": 27, "caption_end": 26.8, "text": "16강 여덟 경기의 위치 겹침은 사전 기준에 못 미칩니다. 평가 영수증에는 모두 같은 정책이 기록됩니다." },
     { "id": "seal", "start": 27, "end": 34, "caption_end": 33.8, "text": "8강 이후 기록은 아직 봉인됐고, 정책도 바꿀 수 없습니다." },
-    { "id": "final-audit", "start": 34, "end": 45, "caption_end": 44.8, "text": "같은 정책으로 봉인한 8경기를 공개해, 선택 밖 전달과 출처를 다시 확인합니다." },
+    { "id": "final-audit", "start": 34, "end": 45, "caption_end": 44.8, "text": "같은 정책으로 봉인한 여덟 경기는 사전 기준을 충족합니다. 선택 밖 전달과 출처도 다시 확인합니다." },
     { "id": "next-meeting", "start": 45, "end": 53, "caption_end": 52.8, "text": "이제 다음 미팅의 결정을 고르고 이유를 남깁니다." },
     { "id": "final", "start": 53, "end": 59.5, "caption_end": 59.4, "text": "이 메모는 봉인 정책과 검증 결과를 바꾸지 않습니다." }
   ]

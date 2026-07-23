@@ -45,7 +45,7 @@ Volatile counters such as views are deliberately excluded.
 
 ## Public candidate release
 
-Verified `2026-07-23T23:54:19+09:00`:
+Verified `2026-07-24T01:53:00+09:00`:
 
 - public repository: `https://github.com/JunHyungKang/world-cup-tactics-2026`;
 - public keyless candidate:
@@ -53,12 +53,13 @@ Verified `2026-07-23T23:54:19+09:00`:
 - GitHub Pages uses the manually triggered Actions workflow with HTTPS enforced;
 - `release-manifest.json`, `index.html`, `app.js`, `styles.css`, and
   `data/policy-lab-spike.json` all returned HTTP 200 and matched the local
-  SHA-256 values; release-manifest SHA-256 is `2f761b98…`;
-- Chromium, Firefox, WebKit, and Pixel 7 emulation completed the one-lock
-  48–8–8 loop, reset cleanly on refresh, contacted only the Pages origin, and
-  returned zero automated accessibility violations.
+  SHA-256 values; release-manifest SHA-256 is `2ea33176…` and its status is
+  `candidate-public`;
+- the exact local bytes pass `12/12` across Chromium, Firefox, WebKit, and Pixel
+  7 emulation, including the one-lock 48–8–8 loop and fail-closed invalid data.
 
 This is current-candidate public smoke evidence, not the stamped final BG-12
-report. The final freeze must still add and verify `submission-build.json`,
-rerun the twelve-screenshot final browser suite, record from that exact URL,
-publish YouTube, and capture owner-observed DAKER receipts.
+report. Byte parity plus local multi-browser tests do not replace a public-URL
+browser run. The final freeze must still add and verify `submission-build.json`,
+run the twelve-screenshot BG-12 suite against the stamped URL, record from that
+exact URL, publish YouTube, and capture owner-observed DAKER receipts.

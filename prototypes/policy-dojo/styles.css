@@ -73,6 +73,12 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
 .lane-card[aria-pressed="true"] { border-color: #f1c84b; background: #f1c84b; color: #17241e; }
 .lane-card[aria-pressed="true"] strong, .lane-card[aria-pressed="true"] small { color: #17241e; }
 .lane-card:disabled { cursor: not-allowed; }
+.threshold-picker { min-width: 0; margin: 14px 0 0; padding: 12px 14px; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; }
+.threshold-picker legend { padding: 0 5px; color: #fff4bf; font-size: .86rem; font-weight: 850; }
+.threshold-picker div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.threshold-picker button { min-height: 44px; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; background: #183f34; color: #fff; font-weight: 850; cursor: pointer; }
+.threshold-picker button[aria-pressed="true"] { border-color: #f1c84b; background: #f1c84b; color: #17241e; }
+.threshold-picker p { margin: 8px 0 0; color: #b7c8c0; font-size: .76rem; line-height: 1.45; }
 .primary { width: 100%; margin-top: 14px; background: #f1c84b; color: #17241e; }
 .primary:disabled { opacity: .45; cursor: not-allowed; }
 .policy-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -90,6 +96,10 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
 .receipt { margin-top: 16px; padding: 16px; border-radius: 16px; background: rgba(0,0,0,.18); }
 .receipt-label, .source { color: #f1c84b; font-weight: 850; }
 .scorecard { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.14); }
+.threshold-verdict { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid currentColor; border-radius: 12px; }
+.threshold-verdict.passed { color: #83e6b8; background: rgba(131,230,184,.08); }
+.threshold-verdict.missed { color: #ffd0a8; background: rgba(240,165,106,.08); }
+.threshold-verdict span { color: #d9d5c8; font-size: .82rem; }
 .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .metrics div { display: grid; gap: 3px; padding: 14px; border-radius: 14px; background: rgba(0,0,0,.2); }
 .metrics strong { color: #f1c84b; font-size: 1.8rem; }
@@ -124,6 +134,8 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
 .meeting-note-receipt h4 { margin: 0; font-size: 1.05rem; }
 .meeting-note-receipt p { margin: 7px 0; line-height: 1.5; }
 .meeting-note-receipt .sealed-anchor { color: #c9c5b9; font-size: .84rem; }
+.ontology-path { margin-top: 14px; padding: 10px 12px; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; }
+.ontology-path summary { min-height: 44px; cursor: pointer; font-weight: 800; }
 .revision-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .revision-actions .secondary { margin-top: 14px; }
 
@@ -164,10 +176,19 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
   .stage h2 { margin: 9px 0 6px; font-size: 1.25rem; }
   .training-scope { margin: 0 0 8px; font-size: .72rem; }
   .tradeoff { margin: -2px 0 7px; font-size: .68rem; }
-  .pitch { display: none; }
-  .lane-cards { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .lane-card { min-height: 54px; padding: 7px 9px; font-size: .8rem; }
-  .lane-card small { font-size: .65rem; }
+  .policy-layout { gap: 6px; }
+  .pitch { display: block; min-height: 136px; border-radius: 12px; }
+  .pitch::before { inset-block: 10%; }
+  .corner { right: 5px; top: 2px; font-size: 1rem; }
+  .zone { padding: 3px; font-size: .58rem; line-height: 1.1; }
+  .lane-cards { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .lane-card { min-height: 48px; padding: 5px 3px; font-size: .66rem; }
+  .lane-card strong { font-size: .8rem; }
+  .lane-card small { display: none; }
+  .threshold-picker { margin-top: 7px; padding: 7px 8px; }
+  .threshold-picker legend { font-size: .7rem; }
+  .threshold-picker button { min-height: 40px; }
+  .threshold-picker p { margin-top: 5px; font-size: .64rem; }
   .primary { margin-top: 8px; }
   .policy-actions { gap: 6px; }
   .policy-actions .primary, .policy-actions .secondary { margin-top: 8px; padding: 5px; font-size: .72rem; }

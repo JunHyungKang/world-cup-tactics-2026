@@ -36,10 +36,10 @@ export function validateSubmissionStory(story, sources) {
     if (cursor !== 59.5 || cursor > video.duration_limit_seconds) errors.push("video beats must end at 59.5 seconds within the 60-second limit");
   }
   const interaction = video.interaction ?? {};
-  if (interaction.timed_events !== 11 || interaction.activations !== 7 || interaction.policy_locks !== 1 ||
-      interaction.explicit_scrolls !== 2 || interaction.final_receipt_seconds !== 34.005 ||
-      interaction.meeting_note_seconds !== 48.023) {
-    errors.push("video interaction contract must preserve 11 events, 7 activations, one lock, two scrolls, the 34.005s receipt, and the 48.023s next-meeting note");
+  if (interaction.timed_events !== 12 || interaction.activations !== 8 || interaction.policy_locks !== 1 ||
+      interaction.explicit_scrolls !== 2 || interaction.final_receipt_seconds !== 34.009 ||
+      interaction.meeting_note_seconds !== 48.037) {
+    errors.push("video interaction contract must preserve 12 events, 8 activations, one lock, two scrolls, the 34.009s receipt, and the 48.037s next-meeting note");
   }
   if (story?.claim_boundary?.human_evidence !== "unavailable" || story?.claim_boundary?.result_prediction !== false ||
       story?.claim_boundary?.causal_recommendation_status !== "REJECT" || story?.claim_boundary?.empirical_campaign_status !== "REVISE") {
@@ -144,7 +144,7 @@ export function validateLocalPolicyDemoEvidence(storyBytes, story, evidence) {
   const visual = evidence.visualManifest;
   const narrated = evidence.narrationManifest;
   if (visual?.status !== "local-static-release-rehearsal-not-youtube-or-human-evidence" || visual?.release_manifest?.sha256 !== story.evidence.release_manifest.sha256) errors.push("visual demo lost its local boundary or release binding");
-  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 7 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 2 || !visual?.final_receipt?.includes("정책 변경 0회") || !visual?.meeting_note?.includes("검증 결과는 그대로") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/note/video binding drifted");
+  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 8 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 2 || !visual?.final_receipt?.includes("사전 기준 충족") || !visual?.final_receipt?.includes("사전 위치 겹침 기준 50%") || !visual?.final_receipt?.includes("정책 변경 0회") || !visual?.meeting_note?.includes("검증 결과는 그대로") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/note/video binding drifted");
   if (Math.abs(visual?.video?.duration_seconds - story.video.visual_duration_seconds) > 0.001) errors.push("visual demo duration drifted");
   const visualManifestBytes = evidence.bytes.get(story.evidence.visual_manifest.path);
   const narrationManifestBytes = evidence.bytes.get(story.evidence.narration_manifest.path);

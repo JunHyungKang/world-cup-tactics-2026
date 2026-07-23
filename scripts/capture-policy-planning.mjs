@@ -42,6 +42,7 @@ try {
   await capture(page, "01-initial");
   await page.getByRole("button", { name: "숏 코너에 주의 토큰 배치" }).click();
   await page.getByRole("button", { name: "니어포스트에 주의 토큰 배치" }).click();
+  await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
   await capture(page, "02-policy-selected");
   await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
   await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
@@ -49,8 +50,8 @@ try {
   await page.locator(".event-ledger summary").click();
   await capture(page, "04-contradiction");
   await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
-  await page.getByLabel("판단 보류").check();
-  await page.getByLabel("이유 (120자 이내)").fill("봉인 검증만으로 우선 구역을 바꾸지 않고 다음 미팅에서 판단");
+  await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
+  await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토");
   await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
   await capture(page, "05-final-verification");
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });

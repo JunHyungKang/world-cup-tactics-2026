@@ -15,7 +15,7 @@
     "stable_fields_sha256": "7d56d0d02e620caa81f00a67a7933190512570cb13689ee14a8e07d136765adc",
     "capture": {
       "path": "docs/official-state.md",
-      "sha256": "7b1f45f602fa2225c8c1dbbcaa55f31ecee94a4d573f4d2f9f76c28111a13f1f"
+      "sha256": "641432120d3e8f4eee59937751e6bb3b4adfabdc2c2cc757e7469aaae7e57eae"
     },
     "independent_review": {
       "reviewer": "eligibility_escape_audit",
@@ -29,12 +29,12 @@
   ],
   "binding": {
     "product_id": "corner-policy-lab",
-    "official_state_sha256": "7b1f45f602fa2225c8c1dbbcaa55f31ecee94a4d573f4d2f9f76c28111a13f1f",
+    "official_state_sha256": "641432120d3e8f4eee59937751e6bb3b4adfabdc2c2cc757e7469aaae7e57eae",
     "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
-    "product_thesis_sha256": "187840f7b945eca940d0ab4b219cec99df5c4ec34785cdda23204cbda068a426",
-    "planning_source_sha256": "c2d494a40bbc0e872ff3347e216a2bdd90a6aae0826235b1ca414e255107cdef",
+    "product_thesis_sha256": "8f312f9c18f6ec057ea2e1b3f5f73f5c5e3b034337b73a867758a7aa99a1c7f4",
+    "planning_source_sha256": "48df4d062b5e1a5fdbeb29af964d5a2db1b279bd79bdf687171d3f284ebb7048",
     "source_manifest_sha256": "e3344c561e1cf77ed0857ff837d8daf920ecdcbba5d4282359167ce72794cedb",
-    "product_selection_sha256": "ea674f7b52b8a9627cf2aa32b4185fa8f04887f8ada107ea2bd96c6d9c2c3abc",
+    "product_selection_sha256": "46d0369db67b5b2315d786e1a529e6d700fdb95a7c0ba1bcc70d7454fa716a65",
     "derived_binding": {
       "path": "public/data/product-binding.json",
       "sha256": "26562b6b5dd875155380d0a3b0622eec0c19f8d6f46b1b0797faf24d815c8c2e"

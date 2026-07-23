@@ -8,7 +8,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 export const paths = {
   story: "docs/submission-story.json",
-  planHandoff: "output/plan-owner-handoff/81e2ae3c74519f86/handoff-manifest.json",
+  planHandoff: "output/plan-owner-handoff/b9e050a13ff31e4d/handoff-manifest.json",
   planPdf: "output/pdf/corner-policy-lab-planning.pdf",
   rehearsalVideo: "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm",
   gallery: "docs/assets/gallery/corner-policy-lab-first-image.png",

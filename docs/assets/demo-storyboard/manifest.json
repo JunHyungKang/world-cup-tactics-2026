@@ -3,10 +3,10 @@
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
     "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm",
-    "sha256": "56cfa02434464a2b15c204c44d367295a7f05eee966e08daea772fbe03444ec8"
+    "sha256": "dbddebacaf3b74dd041bf00c303e9efdb47f20fec36312e9cda8b6ad918f3c13"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "2141115051bc62f139d214a6ac18559938dc53e03b58209450a47865bceaeed7",
+  "submission_story_sha256": "331a15d706d48709dd527152c9d473b07d2c641eb51cc56b5f4784c15bcd7417",
   "artifacts": [
     {
       "order": 1,
@@ -14,35 +14,35 @@
       "timecode": "0–5s",
       "proof": "조별리그에서 세우고, 토너먼트에서 검증하세요.",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "cbafc494fbe6667d08c7fa760594f5fc366129e174fd780d434a80bc4e427a3c",
-      "bytes": 578601
+      "sha256": "55ce3b184385d8970e78652b29cfd7739a6b644a459e09e68d59dd8434ec9fe8",
+      "bytes": 626386
     },
     {
       "order": 2,
       "id": "reference",
       "timecode": "5–12s",
-      "proof": "397/436 분류 가능 · 두 구역만 선택",
+      "proof": "397/436 분류 가능 · 두 구역과 사전 기준 선택",
       "path": "docs/assets/demo-storyboard/02-reference.png",
-      "sha256": "aa6f6e97ca7a8aac19c0420f03cc5c3d44aab19998493ded1c59e1b5c563bdd0",
-      "bytes": 525800
+      "sha256": "9b1868a12da9f472d4ed4fbfd6ab4517293e21d44ff3ff073107bcf507a168d0",
+      "bytes": 504537
     },
     {
       "order": 3,
       "id": "lock",
       "timecode": "12–16s",
-      "proof": "정책 지문 1개 · 이후 변경 불가",
+      "proof": "정책 지문 1개 · 구역과 기준 이후 변경 불가",
       "path": "docs/assets/demo-storyboard/03-lock.png",
-      "sha256": "888c949dce35efe85eb588a7d88b68f0714014d8d5e12b63fa1f7e29e34ff87a",
-      "bytes": 409173
+      "sha256": "48f50ffa644e07f868b72b00c1f96e357d2ce960872612eeb47bbc7468f42c05",
+      "bytes": 441894
     },
     {
       "order": 4,
       "id": "r16",
       "timecode": "16–27s",
-      "proof": "84/89 · 8개 영수증의 동일 정책 ID",
+      "proof": "위치 겹침 48% · 사전 50% 기준 미달",
       "path": "docs/assets/demo-storyboard/04-r16.png",
-      "sha256": "bfb302d0096f996a7e7e1c5267f6f3b2f0fa704af9256204d00093c7aea189c2",
-      "bytes": 432431
+      "sha256": "e1e7e7e274c1d6c5c9295b82890db683a0dcee40bca5427b93ef13300819a6fe",
+      "bytes": 449242
     },
     {
       "order": 5,
@@ -50,35 +50,35 @@
       "timecode": "27–34s",
       "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가",
       "path": "docs/assets/demo-storyboard/05-seal.png",
-      "sha256": "6d9f0595ab4dfe162e56b1201585c5daed2840beed075db9b9b354bd6abe6eb7",
-      "bytes": 379725
+      "sha256": "aefdd58388d017411432710b438f2aff67fe6c47c723613fe7a13d065f81805b",
+      "bytes": 374463
     },
     {
       "order": 6,
       "id": "final-audit",
       "timecode": "34–45s",
-      "proof": "76/78 · 결정론적 대표 반례",
+      "proof": "위치 겹침 51% · 사전 50% 기준 충족",
       "path": "docs/assets/demo-storyboard/06-final-audit.png",
-      "sha256": "52c6448d535eba8a08803f64dea5f9ec2bc31e5ddbea4e0c62a8bf898cb411e3",
-      "bytes": 393553
+      "sha256": "6d86ab350f72ce858b9253cd8fa536b1a24fc687a9786d5dbe85356e00b8b6b4",
+      "bytes": 377435
     },
     {
       "order": 7,
       "id": "next-meeting",
       "timecode": "45–53s",
-      "proof": "판단 보류 · 봉인 정책과 검증 결과 불변",
+      "proof": "다음 미팅 수정 메모 · 봉인 정책과 검증 결과 불변",
       "path": "docs/assets/demo-storyboard/07-next-meeting.png",
-      "sha256": "0c657f54844b99b8761de43148461cffb6322d7383f6c375fe166fdf8ca7e9cb",
-      "bytes": 377816
+      "sha256": "3d5400a0712c2c1e499311bcbdee810764908c0594223e8b7211ae58e7acaa60",
+      "bytes": 319212
     },
     {
       "order": 8,
       "id": "final",
       "timecode": "53–59.5s",
-      "proof": "정책 변경 0회 · 인과 추천 REJECT",
+      "proof": "사전 기준 충족 · 정책 변경 0회 · 인과 추천 REJECT",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "c1e5294653de2b17586bf7cacf1e7fcb9aeca356af1fcec7a5b195d86e6eb5c0",
-      "bytes": 382585
+      "sha256": "788809c090a07cfa9ce960906b374bdbe0f90ec829683912b62ed64f169e261f",
+      "bytes": 320577
     }
   ]
 }

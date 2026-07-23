@@ -93,6 +93,9 @@ try {
     await waitUntil(8);
     await page.locator('.lane-card[data-lane="near"]').click();
     mark("priority-near", 8);
+    await waitUntil(10);
+    await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
+    mark("minimum-overlap", 10);
     await waitUntil(12);
     await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
     mark("policy-lock", 12);
@@ -112,10 +115,10 @@ try {
     await scrollTo(page.locator('[data-action="save-meeting-note"]'));
     mark("meeting-note-view", 38);
     await waitUntil(42);
-    await page.getByLabel("판단 보류").check();
+    await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
     mark("meeting-decision", 42);
     await waitUntil(45);
-    await page.getByLabel("이유 (120자 이내)").fill("봉인 검증만으로 우선 구역을 바꾸지 않고 다음 미팅에서 판단");
+    await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토");
     mark("meeting-reason", 45);
     await waitUntil(48);
     await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
@@ -139,7 +142,7 @@ try {
       capture_started_at: new Date(Date.now() - Math.round(rawMedia.duration_seconds * 1000)).toISOString(),
       capture_completed_at: new Date().toISOString(),
       actions,
-      interaction_contract: { activations: 7, policy_locks: 1, explicit_scrolls: 2, final_receipt_target_seconds: 45, meeting_note_target_seconds: 52 },
+      interaction_contract: { activations: 8, policy_locks: 1, explicit_scrolls: 2, final_receipt_target_seconds: 45, meeting_note_target_seconds: 52 },
       final_receipt: finalReceipt,
       meeting_note: meetingNote,
       video: { path: rawVideoPath, sha256: digest(rawBytes), bytes: rawBytes.length, audio: "none-local-visual-rehearsal", ...rawMedia },
@@ -177,7 +180,7 @@ run("ffmpeg", ["-y", ...inputArgs, "-filter_complex", `${delayed.join(";")};${mi
 run("ffmpeg", [
   "-y", "-i", rawVideoPath, "-i", audioPath, "-map", "0:v:0", "-map", "1:a:0",
   "-vf", `subtitles=${srtPath}:force_style='FontName=D2Coding,FontSize=8,PrimaryColour=&H00FFFFFF,BackColour=&H80000000,OutlineColour=&H00000000,BorderStyle=3,Outline=1,Shadow=0,Alignment=2,MarginV=15'`,
-  "-c:v", "libvpx", "-b:v", "3M", "-c:a", "libopus", "-b:a", "96k", "-t", "59.5",
+  "-c:v", "libvpx", "-b:v", "3M", "-deadline", "good", "-cpu-used", "4", "-c:a", "libopus", "-b:a", "96k", "-t", "59.5",
   "-metadata", "title=CORNER POLICY LAB - LOCAL REHEARSAL - NOT FINAL", "-metadata", "comment=Static local candidate; not YouTube or human evidence", narratedVideoPath,
 ]);
 const narratedBytes = await readFile(narratedVideoPath);

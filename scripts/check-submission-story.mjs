@@ -42,4 +42,4 @@ if (errors.length) {
   errors.forEach((error) => console.error(`[FAIL] ${error}`));
   process.exit(1);
 }
-console.log("[PASS] Policy Lab submission story: 48-8-8, one lock, seven beats, exact local video chain, safe claims");
+console.log("[PASS] Policy Lab submission story: 48-8-8, one lock, eight beats, exact local video chain, safe claims");

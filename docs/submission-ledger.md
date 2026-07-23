@@ -2,7 +2,7 @@
 
 | Timestamp (KST) | Phase | Artifact/URL | SHA/commit | Checks | External status | Notes |
 |---|---|---|---|---|---|---|
-| 2026-07-24T01:45:19+09:00 | plan-visual-qa | output/pdf/corner-policy-lab-planning.pdf | pdf=81e2ae3c74519f86990b203f157302e57b4ea8b3ebd2d68e83374b43a02ab645 source=c2d494a40bbc0e872ff3347e216a2bdd90a6aae0826235b1ca414e255107cdef | visual 8/8 PASS | local | reviewer=/root/pdf_v2_final_judge role=independent-agent renderer=pdftoppm/26.05.0 packet=45fa622286759fc8cdf70f5129b8af75a5256bcbd313f225e7f221467fcfdbd5 review=1f38a5826ceb5f7f38d9f3264908059ed98b1ba0339b1f0a8b92aa739aa8c8d1 |
+| 2026-07-24T03:10:16+09:00 | plan-visual-qa | output/pdf/corner-policy-lab-planning.pdf | pdf=b9e050a13ff31e4decf9791131607d12613b56a9c2e428b1330f4f19352cba3b source=48df4d062b5e1a5fdbeb29af964d5a2db1b279bd79bdf687171d3f284ebb7048 | visual 8/8 PASS | local | reviewer=/root/pdf_criterion_judge role=independent-agent renderer=pdftoppm/26.05.0 packet=cbff0ff83a149f52caae8ee38efeb7da3da9f0ed1a1a818bf51b9fc1d9876de9 review=6038e217b4c9392f6518a0db9da6a3883facb67a76fdcd5973577fa54f4128da |
 
 For the planning PDF, add a row only after inspecting every rendered page. The
 machine-readable fields are:
