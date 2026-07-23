@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "product_id": "corner-policy-lab",
-  "captured_at": "2026-07-23T16:03:16.980Z",
-  "release_manifest_sha256": "673604c28e7d112705474d178807661ecd5ea1e98848db88ea5131ca1930b03d",
+  "captured_at": "2026-07-23T16:44:07.183Z",
+  "release_manifest_sha256": "2ea3317669cffb77f37a9c00f26482283fcece4ddafc2b844ea30893802a1ad2",
   "viewport_contract": {
     "desktop": "1440x900",
     "mobile": "390x844"
@@ -17,7 +17,7 @@
     "sha256": "ec18dac7de267b168dd9fc388716213486aa90dde10b7f58a052c3f14d5c8cca"
   },
   "build_binding": {
-    "sha256": "673604c28e7d112705474d178807661ecd5ea1e98848db88ea5131ca1930b03d",
+    "sha256": "2ea3317669cffb77f37a9c00f26482283fcece4ddafc2b844ea30893802a1ad2",
     "file_count": 4,
     "files": [
       {

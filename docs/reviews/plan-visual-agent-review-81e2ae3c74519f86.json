@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "PASS",
   "scope": "independent-agent-document-qa-not-human-participant-usability-preference-evidence",
-  "reviewed_at": "2026-07-24T01:36:29+09:00",
+  "reviewed_at": "2026-07-24T01:45:19+09:00",
   "reviewer": {
     "task": "/root/pdf_v2_final_judge",
     "role": "independent-agent",
@@ -10,7 +10,7 @@
   },
   "artifact": {
     "path": "output/pdf/corner-policy-lab-planning.pdf",
-    "sha256": "cb6fe62d49ecb9a1c1d7a888635e2e57e509141d82b0d8c291ad53474d493bb7",
+    "sha256": "81e2ae3c74519f86990b203f157302e57b4ea8b3ebd2d68e83374b43a02ab645",
     "pages": 8
   },
   "planning_source": {
@@ -18,8 +18,8 @@
     "sha256": "c2d494a40bbc0e872ff3347e216a2bdd90a6aae0826235b1ca414e255107cdef"
   },
   "review_packet": {
-    "path": "output/plan-review/cb6fe62d49ecb9a1/review-manifest.json",
-    "sha256": "c3db96d01faeb9317ed9c7db2d3b47353415ae4322216326cae457bc6ad6e349",
+    "path": "output/plan-review/81e2ae3c74519f86/review-manifest.json",
+    "sha256": "45fa622286759fc8cdf70f5129b8af75a5256bcbd313f225e7f221467fcfdbd5",
     "renderer": "pdftoppm/26.05.0"
   },
   "criteria": [
@@ -36,8 +36,8 @@
     {
       "page": 1,
       "path": "pages/page-1.png",
-      "sha256": "7e83aa5d1c4f9835dbe003d214cf5ea053c00e4d2f06881fe523e92fef605ee3",
-      "bytes": 137703,
+      "sha256": "77a855a9378e575027373e1a7037f8fd5af0b3f7aecf0b010ade47fe24671c4c",
+      "bytes": 137754,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -46,8 +46,8 @@
     {
       "page": 2,
       "path": "pages/page-2.png",
-      "sha256": "038837660f0bf4e758a7c392acd7052f22b3730b5822acf34750a5c0b66af792",
-      "bytes": 136957,
+      "sha256": "3443c3b9569e2ea1598dce1e946f02fadda05137d09850cecca4ad5928ebbc5e",
+      "bytes": 137014,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -56,8 +56,8 @@
     {
       "page": 3,
       "path": "pages/page-3.png",
-      "sha256": "acdd60a5265430c67f2deefa988e348dac58ea2acf95f6646b5c6b8d7c0baabb",
-      "bytes": 184328,
+      "sha256": "1009167ad48b09b2e2ce97afa12b1e6d2359fa1385ddc66dd43f4b1ce914ff04",
+      "bytes": 184390,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -66,8 +66,8 @@
     {
       "page": 4,
       "path": "pages/page-4.png",
-      "sha256": "d0b6d3df4d842e9476199cfcd7ee63045a733603ce605162d500f42bf5d8cc42",
-      "bytes": 88828,
+      "sha256": "08be1d6fe22e46461194c1b561981d36e5da9d316ff54abaa5cea8deee1276c4",
+      "bytes": 88887,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -76,8 +76,8 @@
     {
       "page": 5,
       "path": "pages/page-5.png",
-      "sha256": "d1dbb412ccf7ca15e7d011f48adf0549544de83d2941a31ffe43c0e07c600396",
-      "bytes": 81998,
+      "sha256": "d29865d7a5f8d32367072736de6787d94982c07c983765a2c2cbe8280bd4b11a",
+      "bytes": 82061,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -86,8 +86,8 @@
     {
       "page": 6,
       "path": "pages/page-6.png",
-      "sha256": "a6023eadc5b8987c0b6052af2ef727fb30dd9cdf4b6fc8def44dca8a23c24e12",
-      "bytes": 154090,
+      "sha256": "78256313bb8082c32228ab89133b0fc88c7b921f645a268ac5cc6a335416f86e",
+      "bytes": 154155,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -96,8 +96,8 @@
     {
       "page": 7,
       "path": "pages/page-7.png",
-      "sha256": "b498c807c4a8630f20cff745dcd9f04aa44a440760819ba4d845664ea513a7c5",
-      "bytes": 92172,
+      "sha256": "8e299dd634a4e420f791c5b9c22b7a7f69dc911e5824302f613e9a936ae2ca52",
+      "bytes": 92206,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -106,8 +106,8 @@
     {
       "page": 8,
       "path": "pages/page-8.png",
-      "sha256": "8683b2df5ed82841a5d68c9367cc3b9a38d4a892d5c2c246a4c058dda329ba73",
-      "bytes": 89198,
+      "sha256": "c2043011bc38c899da02caccfb57a0b2b5d3f6386c3970cb568c8dd4dee85853",
+      "bytes": 89253,
       "width": 1404,
       "height": 993,
       "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
@@ -116,7 +116,7 @@
   ],
   "blocking_findings": [],
   "non_blocking_findings": [],
-  "verdict": "PASS: exact canonical PDF 8/8 pages are submission-ready. Korean copy is natural, visual hierarchy and key screenshots remain legible, the explicit judging-weight labels do not read as self-awarded scoring, unsupported causal claims are visibly rejected, and the choice-lock-reveal-contradiction-next-decision flow remains consistent with the implemented product evidence.",
+  "verdict": "PASS: exact canonical PDF 8/8 pages are submission-ready. The public-candidate capture binding changes only the footer hash; all page bodies are pixel-identical to the prior approved render. Footer text remains unclipped and legible, Korean copy is natural, self-awarded scoring and unsupported causal claims are absent, and the implemented manager decision loop remains consistent with the planning narrative.",
   "summary": {
     "pages_passed": 8,
     "blocker": 0,

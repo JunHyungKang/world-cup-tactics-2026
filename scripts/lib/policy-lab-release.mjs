@@ -32,7 +32,7 @@ export async function buildPolicyLabRelease({ outputRoot = "dist-policy-lab" } =
   const manifest = {
     schema_version: 1,
     product_id: "corner-policy-lab",
-    release_status: "candidate-not-public",
+    release_status: "candidate-public",
     product_selection_status: "PASS",
     causal_recommendation_status: "REJECT",
     empirical_campaign_status: "REVISE",

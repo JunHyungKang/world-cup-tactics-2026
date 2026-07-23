@@ -3,10 +3,10 @@
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
     "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm",
-    "sha256": "020a57881b17ae4fe11b128ed619ba714dba424377b02843736e2cabb1689a81"
+    "sha256": "56cfa02434464a2b15c204c44d367295a7f05eee966e08daea772fbe03444ec8"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "0e041f2f97b996087c61f8540fa9d0025db54ffcce28cd0e0fd9aaf6758d2ea4",
+  "submission_story_sha256": "2141115051bc62f139d214a6ac18559938dc53e03b58209450a47865bceaeed7",
   "artifacts": [
     {
       "order": 1,
@@ -14,8 +14,8 @@
       "timecode": "0–5s",
       "proof": "조별리그에서 세우고, 토너먼트에서 검증하세요.",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "fdbd6ddfa8e8cb5fd5d21c86b8978c343ac1cc1437954390d42f91264d5b4a7c",
-      "bytes": 579499
+      "sha256": "cbafc494fbe6667d08c7fa760594f5fc366129e174fd780d434a80bc4e427a3c",
+      "bytes": 578601
     },
     {
       "order": 2,
@@ -23,8 +23,8 @@
       "timecode": "5–12s",
       "proof": "397/436 분류 가능 · 두 구역만 선택",
       "path": "docs/assets/demo-storyboard/02-reference.png",
-      "sha256": "edeeebcba9b9c398402b019af07d07117937cac18ed26d6f171456c2622e0441",
-      "bytes": 538350
+      "sha256": "aa6f6e97ca7a8aac19c0420f03cc5c3d44aab19998493ded1c59e1b5c563bdd0",
+      "bytes": 525800
     },
     {
       "order": 3,
@@ -32,8 +32,8 @@
       "timecode": "12–16s",
       "proof": "정책 지문 1개 · 이후 변경 불가",
       "path": "docs/assets/demo-storyboard/03-lock.png",
-      "sha256": "2efb2dafbe2882aa0689ec6cf52aa927c61d8d1e7f623860c60ee4c56d15e3f6",
-      "bytes": 394231
+      "sha256": "888c949dce35efe85eb588a7d88b68f0714014d8d5e12b63fa1f7e29e34ff87a",
+      "bytes": 409173
     },
     {
       "order": 4,
@@ -41,8 +41,8 @@
       "timecode": "16–27s",
       "proof": "84/89 · 8개 영수증의 동일 정책 ID",
       "path": "docs/assets/demo-storyboard/04-r16.png",
-      "sha256": "e9f56ff710c924663cbe59264de09b7500bde945a1805eeb5432608090776b19",
-      "bytes": 433059
+      "sha256": "bfb302d0096f996a7e7e1c5267f6f3b2f0fa704af9256204d00093c7aea189c2",
+      "bytes": 432431
     },
     {
       "order": 5,
@@ -50,8 +50,8 @@
       "timecode": "27–34s",
       "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가",
       "path": "docs/assets/demo-storyboard/05-seal.png",
-      "sha256": "a94c9bccc266c044f9e7cfc290319bd04ee093713f8fbacf98cfde5dcef350c6",
-      "bytes": 388647
+      "sha256": "6d9f0595ab4dfe162e56b1201585c5daed2840beed075db9b9b354bd6abe6eb7",
+      "bytes": 379725
     },
     {
       "order": 6,
@@ -59,8 +59,8 @@
       "timecode": "34–45s",
       "proof": "76/78 · 결정론적 대표 반례",
       "path": "docs/assets/demo-storyboard/06-final-audit.png",
-      "sha256": "3766676b926dd3d11ca486153849156b935ddc7f5aaebb09ef8436b00f241e16",
-      "bytes": 405061
+      "sha256": "52c6448d535eba8a08803f64dea5f9ec2bc31e5ddbea4e0c62a8bf898cb411e3",
+      "bytes": 393553
     },
     {
       "order": 7,
@@ -68,8 +68,8 @@
       "timecode": "45–53s",
       "proof": "판단 보류 · 봉인 정책과 검증 결과 불변",
       "path": "docs/assets/demo-storyboard/07-next-meeting.png",
-      "sha256": "a3e761ad24dfeb268c0f039b4c03f354dd6b081376189cfb503dddfb3670b5bd",
-      "bytes": 391558
+      "sha256": "0c657f54844b99b8761de43148461cffb6322d7383f6c375fe166fdf8ca7e9cb",
+      "bytes": 377816
     },
     {
       "order": 8,
@@ -77,8 +77,8 @@
       "timecode": "53–59.5s",
       "proof": "정책 변경 0회 · 인과 추천 REJECT",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "4cadb6c61df84dc4a3d8508249349b56d39d2b4c96fea5b42497e6f80dddfa9e",
-      "bytes": 393446
+      "sha256": "c1e5294653de2b17586bf7cacf1e7fcb9aeca356af1fcec7a5b195d86e6eb5c0",
+      "bytes": 382585
     }
   ]
 }

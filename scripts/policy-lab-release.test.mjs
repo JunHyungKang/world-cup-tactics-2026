@@ -21,7 +21,7 @@ describe("Policy Lab static candidate release", () => {
   it("binds a keyless root entrypoint and the exact empirical report", async () => {
     expect(result.manifest).toMatchObject({
       product_id: "corner-policy-lab",
-      release_status: "candidate-not-public",
+      release_status: "candidate-public",
       product_selection_status: "PASS",
       causal_recommendation_status: "REJECT",
       empirical_campaign_status: "REVISE",

@@ -52,11 +52,11 @@ Do not promote Policy Lab on novelty alone.
 
 - Narrated video: `output/policy-lab-demo/corner-policy-lab-60s-narrated.webm`
 - Duration and streams: `59.520s`, `1440×900`, VP8 video, Opus audio
-- Video SHA-256: `020a57881b17ae4fe11b128ed619ba714dba424377b02843736e2cabb1689a81`
+- Video SHA-256: `56cfa02434464a2b15c204c44d367295a7f05eee966e08daea772fbe03444ec8`
 - Captions: Korean captions are burned into the rehearsal and retained as a byte-bound SRT sidecar
 - Timed path: `11/11` timed events within 0.16 seconds, seven activations, one
-  policy lock, two explicit scrolls, final receipt visible at `34.008s`, and the
-  next-meeting note saved at `48.047s`
+  policy lock, two explicit scrolls, final receipt visible at `34.005s`, and the
+  next-meeting note saved at `48.023s`
 - Re-record requirement: regenerate the exact local artifact after every Quick
   Trial code or copy change
 - Narration: 8/8 cues fit their allocated intervals

@@ -59,7 +59,7 @@ const submissionStoryBytes = await readFile(submissionStoryPath);
 const submissionStory = JSON.parse(submissionStoryBytes.toString("utf8"));
 if (submissionStory.product_id !== "corner-policy-lab") throw new Error("canonical submission story is not Policy Lab");
 const release = JSON.parse(releaseBytes.toString("utf8"));
-if (release.release_status !== "candidate-not-public" || release.causal_recommendation_status !== "REJECT" || release.empirical_campaign_status !== "REVISE") {
+if (release.release_status !== "candidate-public" || release.causal_recommendation_status !== "REJECT" || release.empirical_campaign_status !== "REVISE") {
   throw new Error("Policy Lab release claim boundary is not recordable");
 }
 const server = spawn(node, ["scripts/serve-policy-release.mjs"], { stdio: "inherit" });
