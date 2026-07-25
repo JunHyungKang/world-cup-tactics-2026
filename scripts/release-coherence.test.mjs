@@ -14,13 +14,14 @@ const paths = {
   pagesWorkflow: ".github/workflows/deploy-pages.yml",
   demoRecorder: "scripts/record-demo-rehearsal.mjs",
   narrationRenderer: "scripts/render-demo-narration.mjs",
+  editorialTreatment: "docs/demo-editorial-treatment.json",
   interactionContract: "docs/interaction-acceptance-contract.md",
   judgingMap: "docs/judging-map.md",
 };
 const input = {};
 for (const [key, path] of Object.entries(paths)) {
   const text = await readFile(path, "utf8");
-  input[key] = key === "selection" || key === "packageJson" ? JSON.parse(text) : text;
+  input[key] = key === "selection" || key === "packageJson" || key === "editorialTreatment" ? JSON.parse(text) : text;
 }
 
 describe("selected-product release coherence", () => {
@@ -34,6 +35,7 @@ describe("selected-product release coherence", () => {
       { key: "preReleaseRunner", value: input.preReleaseRunner.replace("build-policy-lab.mjs", "node_modules/vite/bin/vite.js") },
       { key: "finalSpec", value: input.finalSpec.replace("조별리그에서 세우고, 토너먼트에서 검증하세요.", "코너 수비에 한 명 더") },
       { key: "demoRecorder", value: input.demoRecorder.replace("corner-policy-lab-first-image.png", "corner-war-room-first-image.png") },
+      { key: "editorialTreatment", value: { ...input.editorialTreatment, label: "[제품 화면]" } },
       { key: "interactionContract", value: input.interactionContract.replace("# Corner Policy Lab", "# Corner War Room") },
     ];
     for (const changed of cases) {

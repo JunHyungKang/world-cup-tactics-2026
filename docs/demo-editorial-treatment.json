@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "status": "editorial-overlay-not-product-ui-or-human-evidence",
+  "label": "[편집 요약]",
+  "transition_ms": 160,
+  "chapters": [
+    {
+      "id": "hook",
+      "scheduled_seconds": 0,
+      "kicker": "60초 제품 데모",
+      "title": "한 정책 · 두 미공개 검증",
+      "detail": "결과 전에 잠그고 · 반례 뒤에도 변경 0회",
+      "tone": "promise"
+    },
+    {
+      "id": "reference",
+      "scheduled_seconds": 5,
+      "kicker": "01 · 사전 결정",
+      "title": "48경기만 보고 고릅니다",
+      "detail": "숏 코너 + 니어포스트 · 기준 50%",
+      "tone": "decision"
+    },
+    {
+      "id": "lock",
+      "scheduled_seconds": 12,
+      "kicker": "02 · 정책 잠금",
+      "title": "두 시험에 같은 정책",
+      "detail": "결과 공개 전 · 정책 지문 1개",
+      "tone": "lock"
+    },
+    {
+      "id": "r16",
+      "scheduled_seconds": 16,
+      "kicker": "03 · 첫 시험",
+      "title": "48% < 사전 기준 50%",
+      "detail": "16강 8경기 · 기준 미달",
+      "tone": "counterexample"
+    },
+    {
+      "id": "receipts",
+      "scheduled_seconds": 20.5,
+      "kicker": "동일 정책",
+      "title": "8경기 영수증 · 지문 1개",
+      "detail": "결과를 본 뒤에도 정책 변경 0회",
+      "tone": "evidence"
+    },
+    {
+      "id": "counterexample",
+      "scheduled_seconds": 23,
+      "kicker": "실제 반례",
+      "title": "선택 밖 전달이 남았습니다",
+      "detail": "관찰 기록 · 경기·코너 출처 공개",
+      "tone": "counterexample"
+    },
+    {
+      "id": "sealed",
+      "scheduled_seconds": 27,
+      "kicker": "04 · 봉인 유지",
+      "title": "실패 뒤에도 고치지 않습니다",
+      "detail": "8강 이후 8경기 · 아직 미공개",
+      "tone": "lock"
+    },
+    {
+      "id": "final-audit",
+      "scheduled_seconds": 30,
+      "kicker": "05 · 마지막 검증",
+      "title": "51% ≥ 사전 기준 50%",
+      "detail": "같은 정책 · 봉인 8경기",
+      "tone": "result"
+    },
+    {
+      "id": "boundary",
+      "scheduled_seconds": 36,
+      "kicker": "해석 경계",
+      "title": "관찰 기록 ≠ 인과 효과",
+      "detail": "경기 결과·최적 정책을 판정하지 않음",
+      "tone": "boundary"
+    },
+    {
+      "id": "next-meeting",
+      "scheduled_seconds": 40,
+      "kicker": "06 · 다음 결정",
+      "title": "검증은 그대로, 메모만 추가",
+      "detail": "다음 미팅에서 바꿀 항목과 이유",
+      "tone": "decision"
+    },
+    {
+      "id": "final-hold",
+      "scheduled_seconds": 53,
+      "kicker": "최종 결론",
+      "title": "기준과 반례를 남깁니다",
+      "detail": "정책 변경 0회 · 다음 미팅 메모",
+      "tone": "promise"
+    }
+  ],
+  "claim_boundary": {
+    "product_ui": false,
+    "human_evidence": false,
+    "causal_effect": false,
+    "result_prediction": false,
+    "optimal_policy": false
+  }
+}

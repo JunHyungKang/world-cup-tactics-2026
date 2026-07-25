@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { parsePairedFlags } from "./lib/cli.mjs";
 import { parseDeploymentUrl } from "./lib/final-submission.mjs";
+import { validateEditorialTreatment } from "./lib/submission-story.mjs";
 
 const args = parsePairedFlags(process.argv.slice(2));
 for (const flag of args.keys()) if (flag !== "--manifest") throw new Error(`unsupported demo audit flag: ${flag}`);
@@ -11,6 +12,8 @@ const storyBytes = await readFile("docs/submission-story.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const videoBytes = await readFile(manifest.video.path);
 const coldOpenBytes = await readFile(manifest.cold_open.path);
+const editorialTreatmentBytes = await readFile(manifest.editorial_treatment.path);
+const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 const errors = [];
 const check = (condition, message) => { if (!condition) errors.push(message); };
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
@@ -22,10 +25,27 @@ check(manifest.submission_story_sha256 === digest(storyBytes), "rehearsal story 
 check(manifest.cold_open.path === "docs/assets/gallery/corner-policy-lab-first-image.png", "rehearsal cold-open path drifted");
 check(manifest.cold_open.sha256 === digest(coldOpenBytes), "rehearsal cold-open SHA mismatch");
 check(manifest.cold_open.duration_seconds === 5, "rehearsal cold-open duration must be five seconds");
+check(manifest.cold_open.motion === "slow-zoom-1.04x", "rehearsal cold-open must preserve the restrained slow zoom");
 check(finalMode || manifest.video.path === "output/demo/corner-policy-lab-60s-rehearsal.webm", "rehearsal video path drifted");
 check(manifest.video.sha256 === digest(videoBytes), "rehearsal video SHA mismatch");
 check(manifest.video.bytes === videoBytes.length, "rehearsal video byte length mismatch");
 check(manifest.video.audio === (finalMode ? "none-frozen-public-visual-candidate" : "none-local-visual-rehearsal"), "demo visual must disclose that it has no narration track");
+for (const error of validateEditorialTreatment(editorialTreatment)) errors.push(error);
+check(manifest.editorial_treatment.sha256 === digest(editorialTreatmentBytes), "demo editorial treatment SHA mismatch");
+check(manifest.editorial_treatment.status === editorialTreatment.status, "demo editorial treatment status drifted");
+check(manifest.editorial_treatment.label === "[편집 요약]", "demo editorial overlay must stay visibly labeled");
+const expectedEditorial = editorialTreatment.chapters.map(({ id, scheduled_seconds }) => [id, scheduled_seconds]);
+check(Array.isArray(manifest.editorial_treatment.transitions) &&
+  manifest.editorial_treatment.transitions.length === expectedEditorial.length,
+"demo editorial transition ledger must contain eleven chapters");
+for (const [index, [id, scheduled]] of expectedEditorial.entries()) {
+  const transition = manifest.editorial_treatment.transitions?.[index];
+  check(transition?.id === id && transition?.scheduled_seconds === scheduled, `demo editorial transition ${index + 1} drifted`);
+  check(Math.abs((transition?.actual_seconds ?? 99) - scheduled) <= 0.5, `demo editorial transition ${id} missed its timing window`);
+}
+check(JSON.stringify(expectedEditorial.slice(3, 7)) === JSON.stringify([
+  ["r16", 16], ["receipts", 20.5], ["counterexample", 23], ["sealed", 27],
+]), "demo editorial treatment must split the former static first-audit hold into four cuts");
 
 if (finalMode) {
   try {

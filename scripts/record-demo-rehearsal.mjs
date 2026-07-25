@@ -55,7 +55,11 @@ function probe(path) {
 
 await mkdir(outputDirectory, { recursive: true });
 await mkdir(dirname(manifestPath), { recursive: true });
-const storyBytes = await readFile("docs/submission-story.json");
+const [storyBytes, editorialTreatmentBytes] = await Promise.all([
+  readFile("docs/submission-story.json"),
+  readFile("docs/demo-editorial-treatment.json"),
+]);
+const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 let preview;
 let releaseEvidence;
 if (finalMode) {
@@ -99,19 +103,99 @@ try {
     await page.goto(baseURL);
     await page.getByRole("heading", { name: /조별리그에서 세우고/u }).waitFor();
     const galleryImage = await readFile("docs/assets/gallery/corner-policy-lab-first-image.png");
-    await page.evaluate((source) => {
+    await page.evaluate(({ source, treatment }) => {
+      const style = document.createElement("style");
+      style.textContent = `
+        @keyframes demo-cold-open-zoom {
+          from { transform: scale(1); }
+          to { transform: scale(1.04); }
+        }
+        #demo-editorial {
+          position: fixed;
+          top: 22px;
+          right: 22px;
+          z-index: 2147483500;
+          width: min(390px, calc(100vw - 44px));
+          color: #f7fbf8;
+          background: linear-gradient(145deg, rgba(7,17,14,.94), rgba(20,49,38,.9));
+          border: 1px solid rgba(131,230,184,.42);
+          border-radius: 18px;
+          box-shadow: 0 18px 44px rgba(0,0,0,.34);
+          padding: 14px 16px 12px;
+          font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
+          pointer-events: none;
+          transition: opacity 160ms ease, transform 160ms ease;
+          backdrop-filter: blur(14px);
+        }
+        #demo-editorial.is-changing { opacity: .38; transform: translateY(-4px); }
+        #demo-editorial .demo-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+        #demo-editorial .demo-label {
+          padding: 4px 7px;
+          border-radius: 999px;
+          color: #07110e;
+          background: #83e6b8;
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: .02em;
+        }
+        #demo-editorial .demo-kicker {
+          color: #f1c84b;
+          font-size: 12px;
+          font-weight: 850;
+          letter-spacing: .08em;
+        }
+        #demo-editorial .demo-title { font-size: 21px; line-height: 1.25; font-weight: 900; }
+        #demo-editorial .demo-detail { margin-top: 5px; color: #d4e1da; font-size: 13px; line-height: 1.4; font-weight: 650; }
+        #demo-editorial .demo-progress { height: 3px; margin-top: 11px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.12); }
+        #demo-editorial .demo-progress > span { display: block; height: 100%; border-radius: inherit; background: #f1c84b; transition: width 220ms ease; }
+        #demo-editorial[data-tone="counterexample"] { border-color: rgba(240,165,106,.72); }
+        #demo-editorial[data-tone="boundary"] { border-color: rgba(138,184,255,.72); }
+        #gallery-cold-open { animation: demo-cold-open-zoom 5s ease-out both; }
+      `;
+      document.head.append(style);
       const overlay = document.createElement("img");
       overlay.id = "gallery-cold-open";
       overlay.src = source;
       overlay.alt = "한 정책을 잠근 뒤 두 미공개 검증과 다음 미팅 결정을 확인하는 장면";
       Object.assign(overlay.style, {
         position: "fixed", inset: "0", width: "100vw", height: "100vh", objectFit: "cover",
-        zIndex: "2147483647", background: "#07110d",
+        zIndex: "2147483000", background: "#07110d",
       });
       document.body.append(overlay);
-    }, `data:image/png;base64,${galleryImage.toString("base64")}`);
+      const editorial = document.createElement("aside");
+      editorial.id = "demo-editorial";
+      editorial.setAttribute("aria-hidden", "true");
+      editorial.innerHTML = `
+        <div class="demo-meta"><span class="demo-label"></span><span class="demo-kicker"></span></div>
+        <div class="demo-title"></div><div class="demo-detail"></div>
+        <div class="demo-progress"><span></span></div>
+      `;
+      document.body.append(editorial);
+      window.__setDemoEditorial = (id) => {
+        const chapter = treatment.chapters.find((item) => item.id === id);
+        if (!chapter) throw new Error("unknown editorial chapter " + id);
+        editorial.classList.add("is-changing");
+        editorial.dataset.tone = chapter.tone;
+        editorial.querySelector(".demo-label").textContent = treatment.label;
+        editorial.querySelector(".demo-kicker").textContent = chapter.kicker;
+        editorial.querySelector(".demo-title").textContent = chapter.title;
+        editorial.querySelector(".demo-detail").textContent = chapter.detail;
+        editorial.querySelector(".demo-progress > span").style.width =
+          `${Math.min(100, Math.max(2, chapter.scheduled_seconds / 59.5 * 100))}%`;
+        requestAnimationFrame(() => requestAnimationFrame(() => editorial.classList.remove("is-changing")));
+      };
+      window.__setDemoEditorial("hook");
+    }, {
+      source: `data:image/png;base64,${galleryImage.toString("base64")}`,
+      treatment: editorialTreatment,
+    });
     const start = performance.now();
     const actions = [];
+    const editorialTransitions = [{
+      id: "hook",
+      scheduled_seconds: 0,
+      actual_seconds: 0,
+    }];
     const waitUntil = async (seconds) => {
       const remaining = start + seconds * 1000 - performance.now();
       if (remaining > 0) await page.waitForTimeout(remaining);
@@ -123,9 +207,18 @@ try {
     const scrollTo = async (locator) => locator.evaluate((element) => {
       element.scrollIntoView({ block: "center", behavior: "instant" });
     });
+    const updateEditorial = async (id, scheduled) => {
+      await page.evaluate((chapterId) => window.__setDemoEditorial(chapterId), id);
+      editorialTransitions.push({
+        id,
+        scheduled_seconds: scheduled,
+        actual_seconds: Number(((performance.now() - start) / 1000).toFixed(3)),
+      });
+    };
 
     await waitUntil(5);
     await page.locator("#gallery-cold-open").evaluate((element) => element.remove());
+    await updateEditorial("reference", 5);
     await page.waitForTimeout(80);
     await page.locator('.lane-card[data-lane="short"]').click();
     mark("priority-short", 5);
@@ -139,10 +232,12 @@ try {
     mark("minimum-overlap", 10);
 
     await waitUntil(12);
+    await updateEditorial("lock", 12);
     await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
     mark("policy-lock", 12);
 
     await waitUntil(16);
+    await updateEditorial("r16", 16);
     await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
     mark("r16-reveal", 16);
 
@@ -150,7 +245,23 @@ try {
     await scrollTo(page.getByTestId("counterexample"));
     mark("r16-contradiction", 18);
 
+    await waitUntil(20.5);
+    await page.locator("details.history").evaluate((element) => {
+      element.open = true;
+      element.scrollIntoView({ block: "center", behavior: "instant" });
+    });
+    await updateEditorial("receipts", 20.5);
+
+    await waitUntil(23);
+    await scrollTo(page.getByTestId("counterexample"));
+    await updateEditorial("counterexample", 23);
+
+    await waitUntil(27);
+    await scrollTo(page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }));
+    await updateEditorial("sealed", 27);
+
     await waitUntil(30);
+    await updateEditorial("final-audit", 30);
     await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
     mark("final-reveal", 30);
 
@@ -158,9 +269,20 @@ try {
     await page.getByTestId("final-receipt").waitFor();
     mark("final-receipt", 34);
 
+    await waitUntil(36);
+    await page.locator("details.ontology-path").evaluate((element) => {
+      element.open = true;
+      element.scrollIntoView({ block: "center", behavior: "instant" });
+    });
+    await updateEditorial("boundary", 36);
+
     await waitUntil(38);
+    await page.locator("details.ontology-path").evaluate((element) => { element.open = false; });
     await scrollTo(page.locator('[data-action="save-meeting-note"]'));
     mark("meeting-note-view", 38);
+
+    await waitUntil(40);
+    await updateEditorial("next-meeting", 40);
 
     await waitUntil(42);
     await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
@@ -176,6 +298,7 @@ try {
 
     await waitUntil(53);
     await scrollTo(page.getByTestId("final-receipt"));
+    await updateEditorial("final-hold", 53);
     await waitUntil(59.9);
     const finalReceipt = await page.getByTestId("final-receipt").innerText();
     const finalFrame = {
@@ -203,6 +326,14 @@ try {
         path: "docs/assets/gallery/corner-policy-lab-first-image.png",
         sha256: createHash("sha256").update(galleryImage).digest("hex"),
         duration_seconds: 5,
+        motion: "slow-zoom-1.04x",
+      },
+      editorial_treatment: {
+        path: "docs/demo-editorial-treatment.json",
+        sha256: createHash("sha256").update(editorialTreatmentBytes).digest("hex"),
+        status: editorialTreatment.status,
+        label: editorialTreatment.label,
+        transitions: editorialTransitions,
       },
       video: {
         path: videoPath,

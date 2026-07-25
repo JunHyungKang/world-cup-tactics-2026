@@ -22,6 +22,7 @@ export function validateReleaseCoherence({
   pagesWorkflow,
   demoRecorder,
   narrationRenderer,
+  editorialTreatment,
   interactionContract,
   judgingMap,
 }) {
@@ -83,15 +84,27 @@ export function validateReleaseCoherence({
 
   requireText(errors, "frozen-public demo recorder", demoRecorder, [
     "조별리그에서 세우고", "이 정책을 잠가 두 시험에 적용",
-    "corner-policy-lab-first-image.png",
+    "corner-policy-lab-first-image.png", "docs/demo-editorial-treatment.json",
   ]);
   rejectText(errors, "frozen-public demo recorder", demoRecorder, [
     /코너 수비에 한 명 더/u, /corner-war-room/iu, /역습 역할 1명을 수비 임무로 옮기기/u,
   ]);
   requireText(errors, "narration renderer", narrationRenderer, [
     "docs/policy-lab-demo-narration.json", "docs/policy-lab-demo-captions.ko.srt",
+    "docs/demo-editorial-treatment.json",
   ]);
   rejectText(errors, "narration renderer", narrationRenderer, [/corner-war-room/iu]);
+  if (editorialTreatment?.status !== "editorial-overlay-not-product-ui-or-human-evidence") {
+    errors.push("editorial treatment must remain explicitly separate from product UI and human evidence");
+  }
+  if (editorialTreatment?.label !== "[편집 요약]" || editorialTreatment?.chapters?.length !== 11) {
+    errors.push("editorial treatment disclosure or chapter contract drifted");
+  }
+  if (editorialTreatment?.claim_boundary?.result_prediction !== false ||
+      editorialTreatment?.claim_boundary?.causal_effect !== false ||
+      editorialTreatment?.claim_boundary?.product_ui !== false) {
+    errors.push("editorial treatment claim boundary drifted");
+  }
 
   requireText(errors, "interaction contract", interactionContract, [
     "# Corner Policy Lab Interaction Acceptance Contract", "BG-01", "BG-15",

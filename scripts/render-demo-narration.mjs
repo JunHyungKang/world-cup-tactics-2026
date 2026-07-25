@@ -25,9 +25,18 @@ const narration = JSON.parse(await readFile("docs/policy-lab-demo-narration.json
 const storyBytes = await readFile("docs/submission-story.json");
 const narrationBytes = await readFile("docs/policy-lab-demo-narration.json");
 const captionsBytes = await readFile("docs/policy-lab-demo-captions.ko.srt");
+const editorialTreatmentBytes = await readFile("docs/demo-editorial-treatment.json");
+const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 const visualBytes = await readFile(visualPath);
 const outputDurationSeconds = 59.92;
-const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:fontsdir=docs/assets/fonts:force_style='FontName=D2Coding,FontSize=8,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=26,Alignment=2'";
+const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:fontsdir=docs/assets/fonts:force_style='FontName=D2Coding,FontSize=9,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=32,Alignment=2'";
+const audioMastering = {
+  target_integrated_lufs: -16,
+  target_true_peak_dbfs: -1.5,
+  target_loudness_range_lu: 7,
+  highpass_hz: 80,
+  compressor_ratio: 3,
+};
 
 function run(command, argv) {
   const result = spawnSync(command, argv, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
@@ -74,7 +83,7 @@ const delayed = cueReports.map((cue, index) => {
   return `[${index}:a]adelay=${milliseconds}|${milliseconds}[a${index}]`;
 });
 const mixInputs = cueReports.map((_, index) => `[a${index}]`).join("");
-const filter = `${delayed.join(";")};${mixInputs}amix=inputs=${cueReports.length}:duration=longest:normalize=0,apad=pad_dur=60,atrim=0:${outputDurationSeconds}[a]`;
+const filter = `${delayed.join(";")};${mixInputs}amix=inputs=${cueReports.length}:duration=longest:normalize=0,highpass=f=${audioMastering.highpass_hz},acompressor=threshold=0.125:ratio=${audioMastering.compressor_ratio}:attack=5:release=80,loudnorm=I=${audioMastering.target_integrated_lufs}:TP=${audioMastering.target_true_peak_dbfs}:LRA=${audioMastering.target_loudness_range_lu},apad=pad_dur=60,atrim=0:${outputDurationSeconds}[a]`;
 const wavPath = `${outputDirectory}/corner-policy-lab-narration.wav`;
 run("ffmpeg", ["-y", ...inputArgs, "-filter_complex", filter, "-map", "[a]", "-ar", "48000", "-ac", "1", "-c:a", "pcm_s16le", wavPath]);
 run("ffmpeg", [
@@ -94,12 +103,19 @@ const manifest = {
   submission_story_sha256: createHash("sha256").update(storyBytes).digest("hex"),
   narration_contract_sha256: createHash("sha256").update(narrationBytes).digest("hex"),
   captions_sha256: createHash("sha256").update(captionsBytes).digest("hex"),
+  editorial_treatment: {
+    path: "docs/demo-editorial-treatment.json",
+    sha256: createHash("sha256").update(editorialTreatmentBytes).digest("hex"),
+    status: editorialTreatment.status,
+    label: editorialTreatment.label,
+  },
   captions: {
     path: "docs/policy-lab-demo-captions.ko.srt",
     sha256: createHash("sha256").update(captionsBytes).digest("hex"),
     presentation: "burned-in",
     font: "D2Coding",
-    safe_margin_vertical_pixels: 26,
+    font_size: 9,
+    safe_margin_vertical_pixels: 32,
   },
   visual_source: {
     path: visualPath,
@@ -125,6 +141,7 @@ const manifest = {
     rate_words_per_minute: narration.rate_words_per_minute,
     status: finalMode ? "placeholder-tts-requires-human-listening-approval" : "placeholder-local-tts-not-final-voice",
   },
+  audio_mastering: audioMastering,
   cues: cueReports,
   mixed_audio: {
     path: wavPath,

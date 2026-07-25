@@ -6,13 +6,15 @@ import { parsePairedFlags } from "./lib/cli.mjs";
 const args = parsePairedFlags(process.argv.slice(2));
 for (const flag of args.keys()) if (flag !== "--manifest") throw new Error(`unsupported narration audit flag: ${flag}`);
 const manifestPath = args.get("--manifest") ?? "output/demo/narration-manifest.json";
-const [storyBytes, narrationBytes, captionsBytes, demoScript, manifestText] = await Promise.all([
+const [storyBytes, narrationBytes, captionsBytes, editorialTreatmentBytes, demoScript, manifestText] = await Promise.all([
   readFile("docs/submission-story.json"), readFile("docs/policy-lab-demo-narration.json"),
-  readFile("docs/policy-lab-demo-captions.ko.srt"), readFile("docs/demo-script.md", "utf8"),
+  readFile("docs/policy-lab-demo-captions.ko.srt"), readFile("docs/demo-editorial-treatment.json"),
+  readFile("docs/demo-script.md", "utf8"),
   readFile(manifestPath, "utf8"),
 ]);
 const story = JSON.parse(storyBytes.toString("utf8"));
 const narration = JSON.parse(narrationBytes.toString("utf8"));
+const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 const manifest = JSON.parse(manifestText);
 const visualManifestPath = manifest.visual_source?.manifest_path ?? "output/demo/rehearsal-manifest.json";
 const visualManifestBytes = await readFile(visualManifestPath);
@@ -47,13 +49,21 @@ check(finalMode || manifest.status === "local-narrated-rehearsal-not-youtube-or-
 check(manifest.submission_story_sha256 === digest(storyBytes), "narrated rehearsal story SHA mismatch");
 check(manifest.narration_contract_sha256 === digest(narrationBytes), "narration contract SHA mismatch");
 check(manifest.captions_sha256 === digest(captionsBytes), "caption SHA mismatch");
+check(manifest.editorial_treatment?.path === "docs/demo-editorial-treatment.json", "editorial treatment path drifted");
+check(manifest.editorial_treatment?.sha256 === digest(editorialTreatmentBytes), "editorial treatment SHA mismatch");
+check(manifest.editorial_treatment?.status === editorialTreatment.status, "editorial treatment status drifted");
+check(manifest.editorial_treatment?.label === "[편집 요약]", "editorial treatment disclosure label drifted");
 check(manifest.captions?.path === "docs/policy-lab-demo-captions.ko.srt", "burned-in caption source path drifted");
 check(manifest.captions?.sha256 === digest(captionsBytes), "burned-in caption byte binding mismatch");
 check(manifest.captions?.presentation === "burned-in" && manifest.captions?.font === "D2Coding", "narrated video must burn in the bound Korean captions");
+check(manifest.captions?.font_size === 9 && manifest.captions?.safe_margin_vertical_pixels === 32, "caption legibility treatment drifted");
 check(manifest.visual_source.sha256 === visualManifest.video.sha256, "narrated rehearsal visual source drifted");
 check(manifest.visual_source.manifest_path === visualManifestPath, "narrated visual manifest path drifted");
 check(manifest.visual_source.manifest_sha256 === digest(visualManifestBytes), "narrated visual manifest SHA mismatch");
 check(manifest.voice.status === (finalMode ? "placeholder-tts-requires-human-listening-approval" : "placeholder-local-tts-not-final-voice"), "TTS evidence boundary drifted");
+check(manifest.audio_mastering?.target_integrated_lufs === -16, "audio mastering LUFS target drifted");
+check(manifest.audio_mastering?.target_true_peak_dbfs === -1.5, "audio mastering true-peak target drifted");
+check(manifest.audio_mastering?.highpass_hz === 80 && manifest.audio_mastering?.compressor_ratio === 3, "audio mastering speech chain drifted");
 if (finalMode) {
   check(visualManifest.status === "frozen-public-visual-candidate-not-youtube-or-human-reviewed", "final narrated candidate lacks frozen-public visual evidence");
   check(manifest.source?.deployed_url === visualManifest.base_url, "final narrated source URL drifted");
@@ -89,8 +99,23 @@ if (probe.status === 0) {
 }
 check(manifest.narrated_video.standalone_label === (finalMode ? "FINAL UPLOAD CANDIDATE — HUMAN REVIEW PENDING" : "LOCAL REHEARSAL — NOT FINAL"), "narrated rehearsal manifest lacks standalone labeling");
 
+const loudness = spawnSync("ffmpeg", [
+  "-nostats", "-i", manifest.narrated_video.path,
+  "-filter_complex", "ebur128=peak=true", "-f", "null", "-",
+], { encoding: "utf8" });
+check(loudness.status === 0, "ffmpeg could not measure narrated audio loudness");
+if (loudness.status === 0) {
+  const summary = loudness.stderr.slice(loudness.stderr.lastIndexOf("Summary:"));
+  const integratedMatch = summary.match(/I:\s+(-?\d+(?:\.\d+)?) LUFS/u);
+  const truePeakMatch = summary.match(/Peak:\s+(-?\d+(?:\.\d+)?) dBFS/u);
+  const integrated = integratedMatch ? Number(integratedMatch[1]) : Number.NaN;
+  const truePeak = truePeakMatch ? Number(truePeakMatch[1]) : Number.NaN;
+  check(Number.isFinite(integrated) && integrated >= -17.5 && integrated <= -14.5, `narrated audio integrated loudness is outside the professional speech window: ${integrated}`);
+  check(Number.isFinite(truePeak) && truePeak <= -1, `narrated audio true peak is unsafe: ${truePeak}`);
+}
+
 if (errors.length) {
   errors.forEach((error) => console.error(`[FAIL] ${error}`));
   process.exit(1);
 }
-console.log(`[PASS] ${finalMode ? "final narrated upload candidate" : "narrated demo rehearsal"}: eight fitted Korean cues, burned-in bound captions, sub-60-second VP8/Opus output`);
+console.log(`[PASS] ${finalMode ? "final narrated upload candidate" : "narrated demo rehearsal"}: eight fitted Korean cues, disclosed editorial HUD, mastered audio, burned-in captions, sub-60-second VP8/Opus output`);

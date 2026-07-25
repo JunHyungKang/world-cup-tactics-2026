@@ -5,16 +5,18 @@ import {
   validateGalleryFirstImageManifest,
   validateLocalPolicyDemoEvidence,
   validateNarrationContract,
+  validateEditorialTreatment,
   validateStoryboardManifest,
   validateSubmissionStory,
 } from "./lib/submission-story.mjs";
 
-const [storyText, storyboardText, galleryText, narrationText, captions, app, productThesis, planning, judgingMap, officialState, demoScript] = await Promise.all([
+const [storyText, storyboardText, galleryText, narrationText, captions, editorialText, app, productThesis, planning, judgingMap, officialState, demoScript] = await Promise.all([
   readFile("docs/submission-story.json", "utf8"),
   readFile("docs/assets/demo-storyboard/manifest.json", "utf8"),
   readFile("docs/assets/gallery/manifest.json", "utf8"),
   readFile("docs/policy-lab-demo-narration.json", "utf8"),
   readFile("docs/policy-lab-demo-captions.ko.srt", "utf8"),
+  readFile("docs/demo-editorial-treatment.json", "utf8"),
   readFile("prototypes/policy-dojo/app.js", "utf8"),
   readFile("docs/product-thesis.md", "utf8"),
   readFile("docs/planning-outline.md", "utf8"),
@@ -26,6 +28,7 @@ const story = JSON.parse(storyText);
 const storyboard = JSON.parse(storyboardText);
 const gallery = JSON.parse(galleryText);
 const narration = JSON.parse(narrationText);
+const editorialTreatment = JSON.parse(editorialText);
 const sources = { app, productThesis, planning, judgingMap, officialState, demoScript };
 const artifactBytes = new Map(await Promise.all(storyboard.artifacts.map(async ({ path }) => [path, await readFile(path)])));
 const galleryBytes = new Map(await Promise.all([...gallery.sources, gallery.output].map(async ({ path }) => [path, await readFile(path)])));
@@ -81,6 +84,15 @@ describe("submission story", () => {
     expect(validateSubmissionStory(story, sources)).toEqual([]);
     expect(validateGalleryFirstImageManifest(Buffer.from(storyText), story, gallery, galleryBytes)).toEqual([]);
     expect(validateNarrationContract(story, narration, captions, demoScript)).toEqual([]);
+    expect(validateEditorialTreatment(editorialTreatment)).toEqual([]);
+  });
+
+  it("rejects an editorial overlay that masquerades as product UI", () => {
+    const changed = structuredClone(editorialTreatment);
+    changed.claim_boundary.product_ui = true;
+    expect(validateEditorialTreatment(changed)).toContain(
+      "demo editorial treatment must reject product-UI, human, causal, predictive, and optimality claims",
+    );
   });
 
   it("rejects a timecode gap", () => {
@@ -95,7 +107,7 @@ describe("submission story", () => {
     expect(validateSubmissionStory(campaign, sources)).toContain("submission story must preserve the fixed 48-8-8 campaign and zero policy changes");
     const interaction = structuredClone(story);
     interaction.video.interaction.policy_locks = 2;
-    expect(validateSubmissionStory(interaction, sources)).toContain("video interaction contract must preserve 12 events, 8 activations, one lock, two scrolls, the 34.011s receipt, and the 48.041s next-meeting note");
+    expect(validateSubmissionStory(interaction, sources)).toContain("video interaction contract must preserve 12 events, 8 activations, one lock, two scrolls, and the scheduled 34s receipt and 48s next-meeting note");
     const claim = structuredClone(story);
     claim.claim_boundary.causal_recommendation_status = "PASS";
     expect(validateSubmissionStory(claim, sources)).toContain("submission story must preserve unavailable human evidence, causal REJECT, empirical REVISE, and no-result-prediction boundaries");

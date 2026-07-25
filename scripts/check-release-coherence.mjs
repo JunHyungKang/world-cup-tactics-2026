@@ -13,6 +13,7 @@ const paths = {
   pagesWorkflow: ".github/workflows/deploy-pages.yml",
   demoRecorder: "scripts/record-demo-rehearsal.mjs",
   narrationRenderer: "scripts/render-demo-narration.mjs",
+  editorialTreatment: "docs/demo-editorial-treatment.json",
   interactionContract: "docs/interaction-acceptance-contract.md",
   judgingMap: "docs/judging-map.md",
 };
@@ -20,7 +21,7 @@ const paths = {
 const input = {};
 for (const [key, path] of Object.entries(paths)) {
   const text = await readFile(path, "utf8");
-  input[key] = key === "selection" || key === "packageJson" ? JSON.parse(text) : text;
+  input[key] = key === "selection" || key === "packageJson" || key === "editorialTreatment" ? JSON.parse(text) : text;
 }
 const errors = validateReleaseCoherence(input);
 if (errors.length) {

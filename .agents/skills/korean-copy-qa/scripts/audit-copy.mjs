@@ -5,6 +5,7 @@ export const copyFiles = [
   "docs/submission-story.json",
   "docs/demo-script.md",
   "docs/policy-lab-demo-captions.ko.srt",
+  "docs/demo-editorial-treatment.json",
   "docs/planning-outline.md",
   "prototypes/policy-dojo/app.js",
   "docs/policy-lab-product-contract.md",
@@ -54,7 +55,8 @@ export async function auditFiles(paths = copyFiles) {
 }
 
 async function main() {
-  const findings = await auditFiles(process.argv.slice(2).length ? process.argv.slice(2) : copyFiles);
+  const paths = process.argv.slice(2).length ? process.argv.slice(2) : copyFiles;
+  const findings = await auditFiles(paths);
   if (findings.length) {
     for (const finding of findings) {
       console.error(`[${finding.severity.toUpperCase()}] ${finding.path}:${finding.line} ${finding.id} ${JSON.stringify(finding.span)} — ${finding.message}`);
@@ -62,7 +64,7 @@ async function main() {
     process.exitCode = findings.some(({ severity }) => severity === "error") ? 1 : 0;
     return;
   }
-  console.log(`[PASS] Korean copy audit: ${copyFiles.length} canonical surfaces, 0 high-confidence findings`);
+  console.log(`[PASS] Korean copy audit: ${paths.length} canonical surfaces, 0 high-confidence findings`);
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) await main();

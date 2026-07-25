@@ -19,19 +19,19 @@
     "policy_changes": 0
   },
   "video": {
-    "title": "Corner Policy Lab | 선택부터 다음 결정까지 59.52초",
+    "title": "Corner Policy Lab | 선택부터 다음 결정까지 60초",
     "duration_limit_seconds": 60,
-    "narrated_duration_seconds": 59.52,
-    "visual_duration_seconds": 59.68,
+    "narrated_duration_seconds": 59.92,
+    "visual_duration_seconds": 59.92,
     "beat_order": ["hook", "reference", "lock", "r16", "seal", "final-audit", "next-meeting", "final"],
-    "narration": { "voice": "Yuna", "locale": "ko_KR", "rate_words_per_minute": 205 },
+    "narration": { "voice": "Yuna", "locale": "ko_KR", "rate_words_per_minute": 185 },
     "interaction": {
       "timed_events": 12,
       "activations": 8,
       "policy_locks": 1,
       "explicit_scrolls": 2,
-      "final_receipt_seconds": 34.011,
-      "meeting_note_seconds": 48.041
+      "final_receipt_seconds": 34,
+      "meeting_note_seconds": 48
     },
     "beats": [
       { "id": "hook", "start": 0, "end": 5, "action": "48 → 8 → 8 경기 단위 캠페인과 한계를 첫 화면에 보여 준다.", "proof": "조별리그에서 세우고, 토너먼트에서 검증하세요." },

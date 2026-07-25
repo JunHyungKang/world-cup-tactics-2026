@@ -28,6 +28,7 @@ const requiredFiles = [
   "docs/submission-story.json",
   "docs/demo-script.md",
   "docs/demo-rehearsal-contract.md",
+  "docs/demo-editorial-treatment.json",
   "docs/policy-lab-demo-narration.json",
   "docs/policy-lab-demo-captions.ko.srt",
   "docs/assets/demo-storyboard/manifest.json",

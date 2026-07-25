@@ -1,6 +1,12 @@
 import { createHash } from "node:crypto";
 
 const exactBeatIds = ["hook", "reference", "lock", "r16", "seal", "final-audit", "next-meeting", "final"];
+const exactEditorialChapters = [
+  ["hook", 0], ["reference", 5], ["lock", 12], ["r16", 16],
+  ["receipts", 20.5], ["counterexample", 23], ["sealed", 27],
+  ["final-audit", 30], ["boundary", 36], ["next-meeting", 40],
+  ["final-hold", 53],
+];
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 export function validateSubmissionStory(story, sources) {
@@ -22,7 +28,7 @@ export function validateSubmissionStory(story, sources) {
   }
   const video = story?.video ?? {};
   const beats = video.beats;
-  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.52 || video.visual_duration_seconds !== 59.68 ||
+  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.92 || video.visual_duration_seconds !== 59.92 ||
       !Array.isArray(beats) || beats.length !== exactBeatIds.length || JSON.stringify(video.beat_order) !== JSON.stringify(exactBeatIds)) {
     errors.push("video contract must contain the exact eight-beat sub-60 Policy Lab sequence");
   } else {
@@ -37,9 +43,9 @@ export function validateSubmissionStory(story, sources) {
   }
   const interaction = video.interaction ?? {};
   if (interaction.timed_events !== 12 || interaction.activations !== 8 || interaction.policy_locks !== 1 ||
-      interaction.explicit_scrolls !== 2 || interaction.final_receipt_seconds !== 34.011 ||
-      interaction.meeting_note_seconds !== 48.041) {
-    errors.push("video interaction contract must preserve 12 events, 8 activations, one lock, two scrolls, the 34.011s receipt, and the 48.041s next-meeting note");
+      interaction.explicit_scrolls !== 2 || interaction.final_receipt_seconds !== 34 ||
+      interaction.meeting_note_seconds !== 48) {
+    errors.push("video interaction contract must preserve 12 events, 8 activations, one lock, two scrolls, and the scheduled 34s receipt and 48s next-meeting note");
   }
   if (story?.claim_boundary?.human_evidence !== "unavailable" || story?.claim_boundary?.result_prediction !== false ||
       story?.claim_boundary?.causal_recommendation_status !== "REJECT" || story?.claim_boundary?.empirical_campaign_status !== "REVISE") {
@@ -131,6 +137,47 @@ export function validateNarrationContract(story, narration, captions, demoScript
   });
   const expectedSrt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.text}`).join("\n\n");
   if (captions.trim() !== expectedSrt) errors.push("Korean SRT captions drifted from the narration contract");
+  return errors;
+}
+
+export function validateEditorialTreatment(treatment) {
+  const errors = [];
+  if (treatment?.schema_version !== 1 ||
+      treatment?.status !== "editorial-overlay-not-product-ui-or-human-evidence" ||
+      treatment?.label !== "[편집 요약]" ||
+      treatment?.transition_ms !== 160) {
+    errors.push("demo editorial treatment lost its explicit non-product boundary or transition contract");
+  }
+  if (!Array.isArray(treatment?.chapters) || treatment.chapters.length !== exactEditorialChapters.length) {
+    return [...errors, "demo editorial treatment must contain eleven scheduled chapters"];
+  }
+  treatment.chapters.forEach((chapter, index) => {
+    const [id, scheduled] = exactEditorialChapters[index];
+    if (chapter?.id !== id || chapter?.scheduled_seconds !== scheduled) {
+      errors.push(`demo editorial chapter ${index + 1} drifted`);
+    }
+    if (![chapter?.kicker, chapter?.title, chapter?.detail].every((value) => typeof value === "string" && value.length >= 4)) {
+      errors.push(`demo editorial chapter ${id} lacks a readable Korean summary`);
+    }
+  });
+  const boundary = treatment?.claim_boundary ?? {};
+  if (Object.values({
+    product_ui: boundary.product_ui,
+    human_evidence: boundary.human_evidence,
+    causal_effect: boundary.causal_effect,
+    result_prediction: boundary.result_prediction,
+    optimal_policy: boundary.optimal_policy,
+  }).some((value) => value !== false)) {
+    errors.push("demo editorial treatment must reject product-UI, human, causal, predictive, and optimality claims");
+  }
+  const allCopy = treatment.chapters.map(({ kicker, title, detail }) => `${kicker} ${title} ${detail}`).join("\n");
+  for (const unsafe of ["AI 추천", "강화학습이 학습했다", "최적 정책입니다", "경기 결과를 바꿨다"]) {
+    if (allCopy.includes(unsafe)) errors.push(`demo editorial treatment contains unsafe claim: ${unsafe}`);
+  }
+  if (treatment.label !== "[편집 요약]" || !allCopy.includes("관찰 기록 ≠ 인과 효과") ||
+      !allCopy.includes("정책 변경 0회")) {
+    errors.push("demo editorial treatment lacks its visible edit label, interpretation boundary, or immutable-policy proof");
+  }
   return errors;
 }
 

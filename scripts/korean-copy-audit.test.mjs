@@ -4,7 +4,7 @@ import { auditFiles, auditText, copyFiles } from "../.agents/skills/korean-copy-
 describe("Korean copy audit", () => {
   it("keeps every canonical copy surface free of high-confidence findings", async () => {
     expect(await auditFiles()).toEqual([]);
-    expect(copyFiles).toHaveLength(12);
+    expect(copyFiles).toHaveLength(13);
   });
 
   it("rejects legacy, mixed-language, and translationese copy", () => {

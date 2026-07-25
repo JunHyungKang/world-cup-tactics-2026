@@ -2,11 +2,11 @@
   "schema_version": 1,
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
-    "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm",
-    "sha256": "4a145fc82614a8cec124b071dce905f4e2f94eb5aa018d03979a2956bd9f88c1"
+    "path": "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm",
+    "sha256": "39afc08a73625d349de50f2840e2b1877aa7d1201e1e95aedc180a32797c5fed"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "c38961589e023bf1e9eac983e5c70409189ba3b3aabec6ee2a5a14a0e893f788",
+  "submission_story_sha256": "b8803344544035fedf729dc183323a39f2bf47d3e72332ce1dfa0e8e589c065e",
   "artifacts": [
     {
       "order": 1,
@@ -14,8 +14,8 @@
       "timecode": "0–5s",
       "proof": "조별리그에서 세우고, 토너먼트에서 검증하세요.",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "54de85b1792449c6003d5e178a5586446b1ded9c64d014205e7b38f76d70ee56",
-      "bytes": 502364
+      "sha256": "8a3094ec1e237869811deebb4bf2f6e7c90d0bb60bdee1399eabfa91c2590457",
+      "bytes": 776852
     },
     {
       "order": 2,
@@ -23,8 +23,8 @@
       "timecode": "5–12s",
       "proof": "397/436 분류 가능 · 두 구역과 사전 기준 선택",
       "path": "docs/assets/demo-storyboard/02-reference.png",
-      "sha256": "d0047262b09665d9d2daa074db3771d4fc4df7f36165024e03c2b1cfa29ec304",
-      "bytes": 460318
+      "sha256": "dcbf20b37d209e643c359e2998a2b110f12d25a0791ebd5a6a4e3243aa893108",
+      "bytes": 459927
     },
     {
       "order": 3,
@@ -32,8 +32,8 @@
       "timecode": "12–16s",
       "proof": "정책 지문 1개 · 구역과 기준 이후 변경 불가",
       "path": "docs/assets/demo-storyboard/03-lock.png",
-      "sha256": "539c1034a92113e1f906dc405d4971f7e390315abdd4905370cc5066b8e67080",
-      "bytes": 403318
+      "sha256": "d0b2ef5d8b0b106f46a32a4c79467c592df9bd48dc519213bd7ddb2e4bc22fc5",
+      "bytes": 413018
     },
     {
       "order": 4,
@@ -41,8 +41,8 @@
       "timecode": "16–27s",
       "proof": "위치 겹침 48% · 사전 50% 기준 미달",
       "path": "docs/assets/demo-storyboard/04-r16.png",
-      "sha256": "d6a63135d387041d65be3d599d0086d50805998e989017dc3584470ca2e3632b",
-      "bytes": 441538
+      "sha256": "78d7f9460ba4203b4cd7a34a260f82b42690a063a1d605decbdde6ab95878ee5",
+      "bytes": 425827
     },
     {
       "order": 5,
@@ -50,8 +50,8 @@
       "timecode": "27–34s",
       "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가",
       "path": "docs/assets/demo-storyboard/05-seal.png",
-      "sha256": "4f9f8e6ebdb0d11780507080b35ff4051f77bea58c9f68fda52f197a192b7e5b",
-      "bytes": 369409
+      "sha256": "ba33f48b5099a1512fbce2a651ca4e3e9f8a935a933426e0e8531f3e6b0d93a6",
+      "bytes": 346165
     },
     {
       "order": 6,
@@ -59,8 +59,8 @@
       "timecode": "34–45s",
       "proof": "위치 겹침 51% · 사전 50% 기준 충족",
       "path": "docs/assets/demo-storyboard/06-final-audit.png",
-      "sha256": "ace7e680e314c1f475ec474c0002a6d3970ed767aa0980df75522351e9d79892",
-      "bytes": 298712
+      "sha256": "0f13b450f02f95f363a9c8fce9f66821d384c03ae03d09f4df562fe8d8e15474",
+      "bytes": 304838
     },
     {
       "order": 7,
@@ -68,8 +68,8 @@
       "timecode": "45–53s",
       "proof": "다음 미팅 수정 메모 · 봉인 정책과 검증 결과 불변",
       "path": "docs/assets/demo-storyboard/07-next-meeting.png",
-      "sha256": "89dd17a4a15da63c479f6f40b4ede8ebfa55b0ff0181aebacf57548a1e5b572a",
-      "bytes": 312522
+      "sha256": "dc6e59259e0a3ed3e4cae66fe540d02b4d994a13a860cd0b2686d0cdd5294c3d",
+      "bytes": 302021
     },
     {
       "order": 8,
@@ -77,8 +77,8 @@
       "timecode": "53–59.5s",
       "proof": "사전 기준 충족 · 정책 변경 0회 · 인과 추천 REJECT",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "37d11eca6c6815181019eadf6fc2b35ad61952d2bea54fb5eb8bfe7d7ada1af2",
-      "bytes": 320718
+      "sha256": "ea28f63c33b0d0bdcb87f91bd332711533e4cea20ed97ca10597bbd0dbc3be32",
+      "bytes": 335013
     }
   ]
 }

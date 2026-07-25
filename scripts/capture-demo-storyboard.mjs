@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const outputDirectory = "docs/assets/demo-storyboard";
-const videoPath = "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm";
+const videoPath = "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm";
 const frameSeconds = [2, 8, 14, 20, 32, 38, 49, 56];
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
