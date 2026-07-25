@@ -15,6 +15,7 @@ main {
   margin: 0 auto;
   padding: 36px 0 64px;
 }
+.loading { margin-top: 30vh; color: #c9c5b9; text-align: center; }
 
 .hero { max-width: 1080px; margin-bottom: 28px; }
 .eyebrow { margin: 0 0 8px; color: #f1c84b; font-size: .75rem; font-weight: 850; letter-spacing: .12em; }
@@ -78,6 +79,7 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
 .threshold-picker div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .threshold-picker button { min-height: 44px; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; background: #183f34; color: #fff; font-weight: 850; cursor: pointer; }
 .threshold-picker button[aria-pressed="true"] { border-color: #f1c84b; background: #f1c84b; color: #17241e; }
+.threshold-picker button[aria-pressed="true"]::before { content: "✓ "; }
 .threshold-picker p { margin: 8px 0 0; color: #b7c8c0; font-size: .76rem; line-height: 1.45; }
 .primary { width: 100%; margin-top: 14px; background: #f1c84b; color: #17241e; }
 .primary:disabled { opacity: .45; cursor: not-allowed; }
@@ -177,7 +179,7 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
   .training-scope { margin: 0 0 8px; font-size: .72rem; }
   .tradeoff { margin: -2px 0 7px; font-size: .68rem; }
   .policy-layout { gap: 6px; }
-  .pitch { display: block; min-height: 136px; border-radius: 12px; }
+  .pitch { display: block; min-height: 220px; border-radius: 12px; }
   .pitch::before { inset-block: 10%; }
   .corner { right: 5px; top: 2px; font-size: 1rem; }
   .zone { padding: 3px; font-size: .58rem; line-height: 1.1; }
@@ -187,7 +189,7 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5.4vw, 4.35rem); line-height: .98; let
   .lane-card small { display: none; }
   .threshold-picker { margin-top: 7px; padding: 7px 8px; }
   .threshold-picker legend { font-size: .7rem; }
-  .threshold-picker button { min-height: 40px; }
+  .threshold-picker button { min-height: 44px; }
   .threshold-picker p { margin-top: 5px; font-size: .64rem; }
   .primary { margin-top: 8px; }
   .policy-actions { gap: 6px; }

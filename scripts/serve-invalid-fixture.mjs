@@ -1,13 +1,13 @@
-import { spawn, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
+import { writeFile } from "node:fs/promises";
+import { buildPolicyLabRelease } from "./lib/policy-lab-release.mjs";
 
-const build = spawnSync(process.execPath, [
-  "node_modules/vite/bin/vite.js", "build", "--config", "vite.invalid-artifact.config.ts",
-], { stdio: "inherit" });
-if (build.status !== 0) process.exit(build.status ?? 1);
+const root = "tmp/invalid-policy-lab-dist";
+await buildPolicyLabRelease({ outputRoot: root });
+await writeFile(`${root}/data/policy-lab-spike.json`, '{"status":"PASS","policy_campaign":null}\n', "utf8");
 
 const preview = spawn(process.execPath, [
-  "node_modules/vite/bin/vite.js", "preview", "--config", "vite.invalid-artifact.config.ts",
-  "--host", "127.0.0.1", "--port", "4174", "--strictPort",
+  "scripts/serve-policy-release.mjs", "--root", root, "--port", "4174",
 ], { stdio: "inherit" });
 const stop = () => preview.kill("SIGTERM");
 process.on("SIGTERM", stop);

@@ -50,7 +50,7 @@ receipts with the same fingerprint while the final eight matches stay sealed.
 A third action applies that identical snapshot to the sealed final audit and
 opens its representative contradiction. The exact criterion-aware static-release
 rehearsal is `59.520s`, with burned Korean captions and SHA-256
-`dbddebacaf3b74dd041bf00c303e9efdb47f20fec36312e9cda8b6ad918f3c13`.
+`4a145fc82614a8cec124b071dce905f4e2f94eb5aa018d03979a2956bd9f88c1`.
 It is local rehearsal evidence, not YouTube or human evidence.
 
 ## 7. Deployable and fail-closed

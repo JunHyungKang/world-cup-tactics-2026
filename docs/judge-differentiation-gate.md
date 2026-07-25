@@ -56,7 +56,7 @@ empirical campaign is `REVISE`.
 ## Verdict
 
 `PASS` for the selected product. The criterion-aware eight-page planning PDF
-`b9e050a1…` passed exact-hash independent review with zero blocker, major, or
+`6ebcf439…` passed exact-hash independent review with zero blocker, major, or
 minor findings. The deployed public candidate still precedes this local
 revision. Final completion requires redeployment, stamped public BG-12 evidence,
 YouTube, and DAKER receipts. No local or agent-generated artifact is human

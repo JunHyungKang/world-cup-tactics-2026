@@ -22,7 +22,7 @@
     "title": "Corner Policy Lab | 선택부터 다음 결정까지 59.52초",
     "duration_limit_seconds": 60,
     "narrated_duration_seconds": 59.52,
-    "visual_duration_seconds": 59.84,
+    "visual_duration_seconds": 59.68,
     "beat_order": ["hook", "reference", "lock", "r16", "seal", "final-audit", "next-meeting", "final"],
     "narration": { "voice": "Yuna", "locale": "ko_KR", "rate_words_per_minute": 205 },
     "interaction": {
@@ -30,8 +30,8 @@
       "activations": 8,
       "policy_locks": 1,
       "explicit_scrolls": 2,
-      "final_receipt_seconds": 34.009,
-      "meeting_note_seconds": 48.037
+      "final_receipt_seconds": 34.011,
+      "meeting_note_seconds": 48.041
     },
     "beats": [
       { "id": "hook", "start": 0, "end": 5, "action": "48 → 8 → 8 경기 단위 캠페인과 한계를 첫 화면에 보여 준다.", "proof": "조별리그에서 세우고, 토너먼트에서 검증하세요." },
@@ -45,11 +45,11 @@
     ]
   },
   "evidence": {
-    "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "3de1b3b5f281ef2bcc285b44dcea63fb47c4d091254440e9f368bf624968c66b" },
+    "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "0457808bc84f7d062906361feb9f6ad44a6262385b8306fedda06ec4d12836e1" },
     "visual_manifest": { "path": "output/policy-lab-demo/visual-manifest.json" },
     "narration_manifest": { "path": "output/policy-lab-demo/narration-manifest.json" },
-    "visual_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-visual.webm", "sha256": "9b000e82016bc9ef357063eca55a7cfb729e964e1ad926ac2522e29e6f05e7be" },
-    "narrated_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm", "sha256": "dbddebacaf3b74dd041bf00c303e9efdb47f20fec36312e9cda8b6ad918f3c13" }
+    "visual_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-visual.webm", "sha256": "8800038448e79a9a07fd04446ab4ed4da61ce9b8f360cc6991e0db12e3a654f0" },
+    "narrated_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm", "sha256": "4a145fc82614a8cec124b071dce905f4e2f94eb5aa018d03979a2956bd9f88c1" }
   },
   "claim_boundary": {
     "human_evidence": "unavailable",

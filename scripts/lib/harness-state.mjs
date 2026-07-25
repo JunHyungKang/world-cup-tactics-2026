@@ -17,10 +17,29 @@ function rejectMarkers(errors, label, text, patterns) {
   for (const pattern of patterns) if (pattern.test(text)) errors.push(`${label} contains stale current-state marker: ${pattern.source}`);
 }
 
+export function validateLivePortfolioBoard({ board, ledger }) {
+  const errors = [];
+  const row = lineContaining(board, "| P0 | World Cup Tactics Web Challenge |");
+  const receipt = ledger.split("\n").find((line) => line.includes("| plan-visual-qa |")) ?? "";
+  const pdfMatch = /\bpdf=([0-9a-f]{64})\b/u.exec(receipt);
+  if (!row) return ["live portfolio board lacks the P0 World Cup row"];
+  if (!pdfMatch) return ["submission ledger lacks the canonical plan-visual-qa PDF hash"];
+  const shortHash = pdfMatch[1].slice(0, 8);
+  if (!row.includes(shortHash)) errors.push(`live portfolio board does not bind canonical PDF ${shortHash}`);
+  if (!row.includes("exact-hash independent review PASS")) {
+    errors.push("live portfolio board does not record the exact-hash independent review PASS");
+  }
+  if (!row.includes("DAKER") || !row.includes("작성중")) {
+    errors.push("live portfolio board does not retain the observed DAKER draft boundary");
+  }
+  return errors;
+}
+
 export function validateCurrentHarnessState({
   state, selection, manifest, board, officialState, judgingMap, judgeGate, readme, handoff, runbook,
   productThesis, interactionContract, researchUxReview, decisionRegistry,
   firstPlaceGoal, cornerTransformContract, syntheticPersonaReview, firstPlaceRetrospective,
+  submissionStory, submissionLedger,
 }) {
   const errors = [];
   if (state?.status !== "resolved-official-open-historical" || selection?.status !== "selected") return errors;
@@ -35,12 +54,17 @@ export function validateCurrentHarnessState({
   if (selection.product_id !== state.binding?.product_id) errors.push("selected product drifts from eligibility product binding");
 
   if (selection.product_id === "corner-policy-lab") {
-    const boardRow = lineContaining(board, "| P1 | World Cup Tactics Web Challenge |");
+    const boardRow = lineContaining(board, "| P0 | World Cup Tactics Web Challenge |");
     const judgeStatus = lineContaining(judgeGate, "Status: `");
     const handoffCheckpoint = section(handoff, "## 2026-07-19 23:59 KST — canonical Policy Lab conversion checkpoint");
     const runbookCurrent = section(runbook, "## Current verified state");
+    const currentRelease = submissionStory?.evidence?.release_manifest?.sha256?.slice(0, 8);
+    const currentVideo = submissionStory?.evidence?.narrated_video?.sha256?.slice(0, 8);
+    const currentPdf = /\bpdf=([0-9a-f]{64})\b/u.exec(
+      submissionLedger?.split("\n").find((line) => line.includes("| plan-visual-qa |")) ?? "",
+    )?.[1]?.slice(0, 8);
     requireMarkers(errors, "competition board active row", boardRow, [
-      "Corner Policy Lab is the canonical root product", "558e8f0b", "exact refreshed PDF review and plan preflight PASS",
+      "Corner Policy Lab is the canonical root product", currentRelease, currentVideo, currentPdf,
     ]);
     requireMarkers(errors, "judge gate status", judgeStatus, ["technical product proof and public candidate byte parity passed"]);
     requireMarkers(errors, "README current product", readme, [
@@ -62,6 +86,10 @@ export function validateCurrentHarnessState({
       "Product selection ID: `corner-policy-lab`", "policy data/release contracts: `7/7`",
       "built static release: `12/12`", "human comprehension or preference\nevidence remain incomplete",
     ]);
+    requireMarkers(errors, "interaction acceptance contract", interactionContract, [
+      "# Corner Policy Lab Interaction Acceptance Contract", "BG-01", "BG-15",
+      "판단 보류", "정책 변경 0회",
+    ]);
     requireMarkers(errors, "official state judging contract", officialState, [
       "First-round voting weights are submitter 60%, participant 20%, and public 20%",
       "Second-round internal judging is originality 30",
@@ -77,6 +105,9 @@ export function validateCurrentHarnessState({
     rejectMarkers(errors, "README current product", readme, [/The app is \*\*Corner War Room\*\*/iu, /42-window Brazil/iu]);
     rejectMarkers(errors, "canonical handoff checkpoint", handoffCheckpoint, [/official product remains `corner-war-room`/iu, /Policy Lab remains a research challenger/iu]);
     rejectMarkers(errors, "post-P0 execution runbook current state", runbookCurrent, [/portfolio P0 freeze boundary is\s*`PENDING`/iu, /Corner War Room is implemented/iu]);
+    rejectMarkers(errors, "interaction acceptance contract", interactionContract, [
+      /^# Corner War Room/mu, /vite\.invalid-artifact\.config\.ts/u,
+    ]);
     return errors;
   }
 

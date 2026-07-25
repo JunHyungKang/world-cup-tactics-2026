@@ -22,7 +22,7 @@ export function validateSubmissionStory(story, sources) {
   }
   const video = story?.video ?? {};
   const beats = video.beats;
-  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.52 || video.visual_duration_seconds !== 59.84 ||
+  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.52 || video.visual_duration_seconds !== 59.68 ||
       !Array.isArray(beats) || beats.length !== exactBeatIds.length || JSON.stringify(video.beat_order) !== JSON.stringify(exactBeatIds)) {
     errors.push("video contract must contain the exact eight-beat sub-60 Policy Lab sequence");
   } else {
@@ -37,9 +37,9 @@ export function validateSubmissionStory(story, sources) {
   }
   const interaction = video.interaction ?? {};
   if (interaction.timed_events !== 12 || interaction.activations !== 8 || interaction.policy_locks !== 1 ||
-      interaction.explicit_scrolls !== 2 || interaction.final_receipt_seconds !== 34.009 ||
-      interaction.meeting_note_seconds !== 48.037) {
-    errors.push("video interaction contract must preserve 12 events, 8 activations, one lock, two scrolls, the 34.009s receipt, and the 48.037s next-meeting note");
+      interaction.explicit_scrolls !== 2 || interaction.final_receipt_seconds !== 34.011 ||
+      interaction.meeting_note_seconds !== 48.041) {
+    errors.push("video interaction contract must preserve 12 events, 8 activations, one lock, two scrolls, the 34.011s receipt, and the 48.041s next-meeting note");
   }
   if (story?.claim_boundary?.human_evidence !== "unavailable" || story?.claim_boundary?.result_prediction !== false ||
       story?.claim_boundary?.causal_recommendation_status !== "REJECT" || story?.claim_boundary?.empirical_campaign_status !== "REVISE") {

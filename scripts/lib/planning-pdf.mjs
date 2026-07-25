@@ -301,11 +301,12 @@ export function validateVisualQaLedger(ledger, {
 
 export function validatePlanSubmissionReceipt(ledger, {
   artifactPath, pdfSha256, artifactCreatedAtMs, now = Date.now(), planDeadlineMs = PLAN_DEADLINE_MS,
+  required = false,
 }) {
   const rows = ledger.split(/\r?\n/u)
     .map((line) => ({ line, cells: ledgerCells(line) }))
     .filter(({ cells }) => cells[1] === "plan-submitted");
-  if (rows.length === 0) return [];
+  if (rows.length === 0) return required ? ["submission ledger lacks a required plan-submitted row"] : [];
   const errors = [];
   if (rows.length > 1) errors.push("submission ledger contains duplicate plan-submitted rows");
   const { line, cells } = rows[0];

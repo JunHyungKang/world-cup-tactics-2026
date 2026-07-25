@@ -1,34 +1,40 @@
-# Timed Demo Rehearsal Contract
+# Timed Corner Policy Lab Demo Contract
 
-Status: `LOCAL PROOF ONLY — NOT YOUTUBE OR FINAL ARTIFACT EVIDENCE`
+Status: `LOCAL PROOF ONLY — FROZEN-PUBLIC RECORDING PENDING`
 
-The rehearsal must record one continuous production-build interaction take at
-`1440×900`. It follows `docs/submission-story.json` for 60 seconds and ends on
-the unexplained-shot non-contact verdict plus a source event ID.
-The local rehearsal is intentionally silent; the final public recording uses the
-bound narration in `docs/demo-script.md`.
+The current demo records one continuous `1440×900` take of Corner Policy Lab.
+Local mode serves `dist-policy-lab`; final mode records only after the public
+deployment marker, release commit, build digest, and every deployed file match
+the clean local stamped release.
 
-## Pass conditions
+## Visual path
 
-- narrated upload-candidate duration is between `59.8` and `60.0` seconds;
-- the SHA-bound Korean SRT is burned into the narrated video so the judging
-  surface does not depend on a player-side caption toggle;
-- the exact current submission-story SHA-256 is recorded;
-- the interaction events complete no later than 1.5 seconds after their
-  scheduled timecodes: second-ball commit at 5s, replay at 12s, near/reset at
-  32s, and counterexample replay at 38s;
-- the continuous take shows the pitch during the primary replay from 13–22s and
-  the counterexample replay from 39–48s, then returns to the receipt at 22s and
-  48s; all four view transitions are recorded in the action ledger;
-- reset exposes the visible immutable-evidence status before the final choice;
-- the final state contains `이 선택으로 설명되지 않는 슈팅 기록`, `이 선택이
-  슈팅을 막았을지는 알 수 없습니다`, `선택 구역과 겹치지 않음`, and an
-  `이벤트 #` source ID;
-- WebM bytes, duration, codec, resolution, action timings, and final semantic
-snapshot and eleven interaction/view timings are SHA-bound in
-`output/demo/rehearsal-manifest.json`.
+- `0–5`: gallery cold open with the 48–8–8 campaign;
+- `5–12`: select two locations and the predeclared 50% criterion;
+- `12`: lock one policy before either held-out result;
+- `16`: reveal all eight round-of-16 evaluations;
+- `18`: hold the deterministic contradiction and source path;
+- `30`: reveal the sealed final eight with the same policy;
+- `34`: show the final receipt;
+- `38–48`: record and save the separate next-meeting decision;
+- `53–59.5`: hold the immutable receipt and next-meeting note together.
 
-This does not authorize the final `youtube-public` ledger row. The final video
-must be recorded from the frozen public URL, published to YouTube, pass oEmbed,
-receive a SHA-bound independent-agent artifact review, and carry the owner's
-exact-candidate upload confirmation. No human usability or accessibility claim follows.
+The action ledger contains twelve scheduled interaction/view events. Each must
+complete within 1.5 seconds of its target. The final frame must preserve the 50%
+criterion, `정책 변경 0회`, the policy fingerprint, and `검증 결과는 그대로입니다`.
+
+## Narration and captions
+
+`docs/policy-lab-demo-narration.json`,
+`docs/policy-lab-demo-captions.ko.srt`, and `docs/demo-script.md` must match the
+same eight story beats. Captions are burned into the VP8/Opus upload candidate
+and remain byte-bound as a sidecar. Local TTS is a timing placeholder, not a
+human voice-quality or accessibility claim.
+
+## External evidence boundary
+
+A local rehearsal does not authorize a YouTube or DAKER ledger row. The final
+candidate must be recorded from the stamped public URL, independently reviewed,
+published to YouTube, checked through oEmbed, and bound to the owner's exact
+upload attestation. Physical VoiceOver and human usability remain
+unavailable/no-claim.

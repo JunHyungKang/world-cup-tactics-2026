@@ -14,4 +14,12 @@ description: Turn product failures, repeated manual work, and judging evidence i
    is insufficient for a repeated reject condition.
 5. Check for local-optimum behavior: polishing visuals while the manager choice,
    data credibility, or feedback loop remains weak.
-6. Run `pnpm verify`, list remaining risks, and select the next concrete artifact.
+6. After any product promotion, close the product-identity chain before trusting
+   green tests. Trace the selected product through `package.json` dev/build
+   commands, candidate and stamped builders, invalid fixture, pre-release and
+   final browser suites, Pages workflow, demo capture/narration/captions, and
+   current judging/interaction documents. Archive or reject predecessor surfaces;
+   do not keep them as active harness dependencies.
+7. Put this identity check in a deterministic command called by `pnpm verify`.
+   A file-existence audit or a passing predecessor suite is not sufficient.
+8. Run `pnpm verify`, list remaining risks, and select the next concrete artifact.

@@ -152,3 +152,8 @@ The post-submit preflight must add `--require-final-submitted true`. This mode i
 separate from the pre-submit check so the owner can verify a green package before
 submitting, while the last evidence run cannot pass without the observed
 `final-submitted` receipt.
+
+The final phase always requires exactly one owner-observed `plan-submitted` row
+bound to `output/pdf/corner-policy-lab-planning.pdf` and its current SHA-256.
+The plan phase keeps that receipt optional so it can be run safely before upload;
+the final phase cannot pass while DAKER still holds an older planning draft.

@@ -27,9 +27,9 @@ preference, usability, comprehension, and memorability claims stay omitted.
 | Claim safety | no prevention, player reach, changed result, optimal policy, or 2026 tendency is inferred | ontology path exposes provenance and forbidden relations; human misconception rate remains unavailable |
 | Comparative recall — UNEVALUATED / NO CLAIM | a fresh cohort recalls the one-policy/two-holdout contradiction after delay | unavailable; no comparative-memory claim allowed |
 | Data credibility | two cleared CC BY 4.0 sources, deterministic 603-corner derivative, 557 classified endpoints, 46 visible missing endpoints | passed; causal recommendation remains `REJECT` and empirical campaign `REVISE` |
-| Interaction/reliability | pointer, keyboard, mobile, replay, contradiction, next-meeting note, refresh, and fail-closed invalid data | 93 deterministic tests and `12/12` Chromium·Firefox·WebKit·mobile pre-release checks pass; stamped public BG-12 pending |
-| Planning package | final PDF content/render lint plus exact independent visual-QA ledger before deadline | criterion-aware PDF `b9e050a1…` is source/build/screenshot-bound and passed an 8/8 zero-finding review; DAKER still holds the older reversible draft and final submission has not occurred |
-| Final package | keyless public app, repository, YouTube demo, exact release/browser hashes, owner receipt, and no post-deadline commit | public candidate commit `931b5b4` and five files match deployed release `2ea33176…`; improved local release `3de1b3b5…` and its `59.520s` criterion-aware rehearsal `dbddebac…` pass locally; redeploy, stamped BG-12, YouTube, and final DAKER receipts pending |
+| Interaction/reliability | pointer, keyboard, mobile, replay, contradiction, next-meeting note, refresh, and fail-closed invalid data | 96 deterministic tests, `12/12` static release checks, and `56/56` Chromium·Firefox·WebKit·mobile BG pre-release checks pass; stamped public BG-12 pending |
+| Planning package | final PDF content/render lint plus exact independent visual-QA ledger before deadline | criterion-aware PDF `6ebcf439…` is source/build/screenshot-bound and passed an 8/8 zero-finding review; DAKER still holds the older reversible draft and final submission has not occurred |
+| Final package | keyless public app, repository, YouTube demo, exact release/browser hashes, owner receipt, and no post-deadline commit | public candidate commit `22801c4` and five files match deployed release `3de1b3b5…`; improved local release `0457808b…` and its `59.520s` criterion-aware rehearsal `4a145fc8…` pass locally; redeploy, stamped BG-12, YouTube, and final DAKER receipts pending |
 
 ## Winning execution lane
 
@@ -80,5 +80,5 @@ Therefore:
 
 Commit and redeploy the verified local release, then stamp the exact public URL
 with the browser gate. With explicit owner confirmation, replace the old DAKER
-draft with PDF `b9e050a1…`, download it back, and compare the remote SHA-256.
+draft with PDF `6ebcf439…`, download it back, and compare the remote SHA-256.
 Keep final `제출` untouched until a separate action-time confirmation.

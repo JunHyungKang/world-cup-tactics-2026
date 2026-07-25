@@ -27,8 +27,9 @@ Official page: https://daker.ai/public/hackathons/world-cup-manager-tactics-web-
    results.
 
 The keyless path takes eight activations and fits the local captioned rehearsal
-within 60 seconds. The current candidate passes 93 deterministic tests and 12/12
-pre-release checks across Chromium, Firefox, WebKit, and mobile. Those machine
+within 60 seconds. The current candidate passes 96 deterministic tests, 12/12
+static release checks, and 56/56 pre-release BG checks across Chromium, Firefox,
+WebKit, and mobile. Those machine
 checks are not human-preference evidence.
 
 ## Local setup

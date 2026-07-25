@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "product_id": "corner-policy-lab",
-  "captured_at": "2026-07-23T18:01:48.699Z",
-  "release_manifest_sha256": "3de1b3b5f281ef2bcc285b44dcea63fb47c4d091254440e9f368bf624968c66b",
+  "captured_at": "2026-07-23T18:27:33.305Z",
+  "release_manifest_sha256": "0457808bc84f7d062906361feb9f6ad44a6262385b8306fedda06ec4d12836e1",
   "viewport_contract": {
     "desktop": "1440x900",
     "mobile": "390x844"
@@ -14,26 +14,26 @@
       "prototypes/policy-dojo/styles.css",
       "public/data/policy-lab-spike.json"
     ],
-    "sha256": "36090ac22ee12b8577fef35088305bebcf3d2707f116964d5d461a721672a097"
+    "sha256": "ceb4c64d0dc7810de7429d6f5b926b24d3de345ada48e455e4b378b3382d7b2b"
   },
   "build_binding": {
-    "sha256": "3de1b3b5f281ef2bcc285b44dcea63fb47c4d091254440e9f368bf624968c66b",
+    "sha256": "0457808bc84f7d062906361feb9f6ad44a6262385b8306fedda06ec4d12836e1",
     "file_count": 4,
     "files": [
       {
         "path": "index.html",
-        "bytes": 476,
-        "sha256": "90066b4953264abd8402d184f4ded4ea3555216615fd4049ad830bae7baf6952"
+        "bytes": 571,
+        "sha256": "2b1c0ea2a17210798a68164082fca333e03571d6850963fb29e5ba7bf56d694b"
       },
       {
         "path": "app.js",
-        "bytes": 28169,
-        "sha256": "ddec9c5f239c33c92dbcfc558b09f2400203727dcc54dd7e7427218ed9df9561"
+        "bytes": 28648,
+        "sha256": "c98881c0ad857b4be131307fa8048108092e92a04497dc33a9cef2d6aaac5b62"
       },
       {
         "path": "styles.css",
-        "bytes": 13230,
-        "sha256": "14092a0176610673f99cd65e2e12028761af0da2e33e002f5f137f546d5d8805"
+        "bytes": 13372,
+        "sha256": "8953d468fe3b94d4ea39f356df4382e2fd4bd74b43a6a91f3616c2bcdde7b7e4"
       },
       {
         "path": "data/policy-lab-spike.json",
@@ -52,8 +52,8 @@
     {
       "name": "02-policy-selected",
       "path": "docs/assets/policy-lab-planning/02-policy-selected.png",
-      "bytes": 203103,
-      "sha256": "8c779209f1f79e472ddac202cf10f8ba90885d4ba661c872842949d57b86c2be"
+      "bytes": 203362,
+      "sha256": "b6a411265a80dbee76dd14dcb881ec4c5a570f71920704e16cc65c7d40f3c560"
     },
     {
       "name": "03-heldout-result",
@@ -76,8 +76,8 @@
     {
       "name": "06-mobile-initial",
       "path": "docs/assets/policy-lab-planning/06-mobile-initial.png",
-      "bytes": 95470,
-      "sha256": "bb07fa6e56644abe1306a2d92b577e913663cc8a80c67c6a86d3728e3cee1bb0"
+      "bytes": 87062,
+      "sha256": "c262f7b00fd4909d3d1f6b7eb038ad8325ce6acdc3e0e919aee767a1bd59260d"
     }
   ]
 }

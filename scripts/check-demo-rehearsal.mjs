@@ -19,10 +19,10 @@ const finalMode = manifest.status === "frozen-public-visual-candidate-not-youtub
 check(manifest.schema_version === 1, "rehearsal schema_version must be 1");
 check(finalMode || manifest.status === "local-timed-rehearsal-not-youtube-evidence", "demo recording status is unsafe");
 check(manifest.submission_story_sha256 === digest(storyBytes), "rehearsal story binding mismatch");
-check(manifest.cold_open.path === "docs/assets/gallery/corner-war-room-first-image.png", "rehearsal cold-open path drifted");
+check(manifest.cold_open.path === "docs/assets/gallery/corner-policy-lab-first-image.png", "rehearsal cold-open path drifted");
 check(manifest.cold_open.sha256 === digest(coldOpenBytes), "rehearsal cold-open SHA mismatch");
 check(manifest.cold_open.duration_seconds === 5, "rehearsal cold-open duration must be five seconds");
-check(finalMode || manifest.video.path === "output/demo/corner-war-room-60s-rehearsal.webm", "rehearsal video path drifted");
+check(finalMode || manifest.video.path === "output/demo/corner-policy-lab-60s-rehearsal.webm", "rehearsal video path drifted");
 check(manifest.video.sha256 === digest(videoBytes), "rehearsal video SHA mismatch");
 check(manifest.video.bytes === videoBytes.length, "rehearsal video byte length mismatch");
 check(manifest.video.audio === (finalMode ? "none-frozen-public-visual-candidate" : "none-local-visual-rehearsal"), "demo visual must disclose that it has no narration track");
@@ -68,26 +68,25 @@ if (probe.status === 0) {
 }
 
 const expectedActions = [
-  ["commit", 5], ["replay", 12], ["replay-pitch", 13],
-  ["replay-receipt", 22], ["separate-hold", 25], ["reverse", 32],
-  ["reset", 34], ["counterexample", 38], ["counterexample-pitch", 39],
-  ["counterexample-receipt", 48], ["final-hold", 55],
+  ["priority-short", 5], ["priority-near", 8], ["minimum-overlap", 10],
+  ["policy-lock", 12], ["r16-reveal", 16], ["r16-contradiction", 18],
+  ["final-reveal", 30], ["final-receipt", 34], ["meeting-note-view", 38],
+  ["meeting-decision", 42], ["meeting-reason", 45], ["meeting-note-save", 48],
 ];
-check(Array.isArray(manifest.actions) && manifest.actions.length === expectedActions.length, "rehearsal action ledger must contain eleven bound interaction/view events");
+check(Array.isArray(manifest.actions) && manifest.actions.length === expectedActions.length, "rehearsal action ledger must contain twelve bound interaction/view events");
 for (const [index, [id, scheduled]] of expectedActions.entries()) {
   const action = manifest.actions?.[index];
   check(action?.id === id && action?.scheduled_seconds === scheduled, `rehearsal action ${index + 1} drifted`);
   check(action?.actual_seconds >= scheduled && action?.actual_seconds <= scheduled + 1.5, `rehearsal action ${id} missed its 1.5-second window`);
 }
-check(manifest.reset_status === "처음 상태로 돌아왔습니다. 과거 기록과 고정 집계는 그대로입니다.", "reset proof is missing or stale");
-check(manifest.final_frame?.heading === "이 선택으로 설명되지 않는 슈팅 기록", "final frame must hold the counterexample heading");
-check(manifest.final_frame?.verdict?.includes("이 선택이 슈팅을 막았을지는 알 수 없습니다"), "final frame must preserve the prevention boundary");
-check(manifest.final_frame?.transcript?.includes("선택 구역과 겹치지 않음"), "final frame must show non-contact state");
-check(manifest.final_frame?.transcript?.includes("이벤트 #"), "final frame must show a source event ID");
-check(manifest.final_frame?.semantic_snapshot?.windowKind === "counterexample", "final semantic state must be counterexample");
+check(manifest.final_frame?.receipt?.includes("사전 위치 겹침 기준 50%"), "final frame must preserve the predeclared criterion");
+check(manifest.final_frame?.receipt?.includes("정책 변경 0회"), "final frame must prove the policy stayed immutable");
+check(/^P-[0-9a-f]+$/u.test(manifest.final_frame?.policy_fingerprint ?? ""), "final frame must expose the immutable policy fingerprint");
+check(manifest.final_frame?.meeting_note?.includes("다음 미팅에서 우선 구역 수정"), "final frame must show the separate next-meeting decision");
+check(manifest.final_frame?.meeting_note?.includes("검증 결과는 그대로입니다"), "next-meeting note must preserve the immutable result boundary");
 
 if (errors.length) {
   errors.forEach((error) => console.error(`[FAIL] ${error}`));
   process.exit(1);
 }
-console.log(`[PASS] ${finalMode ? "frozen-public demo visual" : "timed demo rehearsal"}: ${manifest.video.duration_seconds.toFixed(3)}s, eleven on-time interaction/view events, counterexample final frame`);
+console.log(`[PASS] ${finalMode ? "frozen-public demo visual" : "timed demo rehearsal"}: ${manifest.video.duration_seconds.toFixed(3)}s, twelve on-time interaction/view events, immutable receipt and next-meeting frame`);

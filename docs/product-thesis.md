@@ -158,10 +158,10 @@ source, and forbidden relations remain visible.
 - built static release: `12/12` across Chromium, Firefox, WebKit, and mobile;
 - Korean copy audit: 16 canonical surfaces with zero high-confidence findings;
 - narrated local rehearsal: `59.520s`, VP8 + Opus, burned Korean captions,
-  SHA-256 `dbddebacaf3b74dd041bf00c303e9efdb47f20fec36312e9cda8b6ad918f3c13`;
-- all `12/12` timed events land within 0.08 seconds; the criterion-aware final
-  receipt appears at `34.009s` and the immutable next-meeting note is saved at
-  `48.037s`.
+  SHA-256 `4a145fc82614a8cec124b071dce905f4e2f94eb5aa018d03979a2956bd9f88c1`;
+- all `12/12` timed events land within 0.11 seconds; the criterion-aware final
+  receipt appears at `34.011s` and the immutable next-meeting note is saved at
+  `48.041s`.
 
 These are product and machine-verification results. Public hosting and public
 GitHub are live as candidate evidence. The final stamped release, YouTube, DAKER

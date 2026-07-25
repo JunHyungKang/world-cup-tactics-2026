@@ -24,11 +24,11 @@ adapted `im-not-ai` principles and the project-specific exceptions.
 
 1. Run `pnpm copy:audit` and inventory Korean in the active surfaces with `rg`.
 2. Inspect the canonical copy first:
-   - `src/App.tsx` and `src/domain/cornerEvidence.ts`
-   - `docs/submission-story.json` and `docs/demo-narration.json`
-   - `docs/demo-script.md`, `docs/demo-captions.ko.srt`, and
+   - `prototypes/policy-dojo/index.html`, `app.js`, and `styles.css`
+   - `docs/submission-story.json` and `docs/policy-lab-demo-narration.json`
+   - `docs/demo-script.md`, `docs/policy-lab-demo-captions.ko.srt`, and
      `docs/planning-outline.md`
-   - `scripts/render-planning-draft.py` and
+   - `scripts/render-policy-lab-plan.py` and
      `scripts/render-gallery-first-image.mjs`
 3. Classify each finding as translationese, mixed-language leakage, unclear
    football terminology, missing spacing, UI-action mismatch, or claim-boundary

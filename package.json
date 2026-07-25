@@ -15,7 +15,7 @@
     "typecheck": "tsc -b --pretty false",
     "test": "vitest run",
     "test:e2e": "playwright test --config playwright.policy.release.config.ts",
-    "test:e2e:pre-release": "playwright test --config playwright.policy.release.config.ts",
+    "test:e2e:pre-release": "node scripts/run-pre-release-browser.mjs",
     "test:e2e:final": "node scripts/run-final-browser.mjs",
     "policy:build": "node scripts/build-policy-lab.mjs",
     "policy:test:e2e": "playwright test --config playwright.policy.config.ts",
@@ -45,11 +45,12 @@
     "demo:narrate": "node scripts/render-demo-narration.mjs",
     "demo:narration:audit": "node scripts/check-demo-narration.mjs",
     "harness:audit": "node scripts/check-harness.mjs",
+    "release:coherence": "node scripts/check-release-coherence.mjs",
     "submission:preflight": "node scripts/preflight-submission.mjs",
     "submission:owner-console": "node scripts/prepare-external-owner-console.mjs",
     "submission:drill": "node scripts/drill-release-build.mjs",
     "submission:build": "node scripts/build-release.mjs",
-    "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm deployment:audit && pnpm harness:audit && pnpm data:audit && pnpm copy:audit && pnpm eligibility:audit && pnpm planning:audit && pnpm demo:audit && pnpm user:audit"
+    "verify": "pnpm typecheck && pnpm test && pnpm release:coherence && pnpm build && pnpm deployment:audit && pnpm harness:audit && pnpm data:audit && pnpm copy:audit && pnpm eligibility:audit && pnpm planning:audit && pnpm demo:audit && pnpm user:audit"
   },
   "dependencies": {
     "react": "19.2.7",

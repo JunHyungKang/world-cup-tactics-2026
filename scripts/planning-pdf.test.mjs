@@ -251,6 +251,8 @@ describe("rendered planning PDF preflight", () => {
       artifactCreatedAtMs: inspection.modifiedAtMs, now: inspection.modifiedAtMs + 60_000,
     };
     expect(validatePlanSubmissionReceipt("", options)).toEqual([]);
+    expect(validatePlanSubmissionReceipt("", { ...options, required: true }))
+      .toContain("submission ledger lacks a required plan-submitted row");
     expect(validatePlanSubmissionReceipt(valid, options)).toEqual([]);
     expect(validatePlanSubmissionReceipt(valid.replace("DAKER-PLAN-123", "PENDING"), options))
       .toContain("plan-submitted row contains a forbidden non-pass token");

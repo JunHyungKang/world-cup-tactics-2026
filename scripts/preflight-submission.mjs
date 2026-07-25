@@ -456,6 +456,28 @@ if (phase === "final") {
   } catch (error) {
     check(false, "final evidence ledger", error.message);
   }
+  if (ledger) {
+    const planningPdfPath = args.get("--planning-pdf") ?? "output/pdf/corner-policy-lab-planning.pdf";
+    try {
+      const planningPdf = await inspectPlanningPdf(planningPdfPath, { render: false });
+      const receiptErrors = [
+        ...planningPdf.errors,
+        ...validatePlanSubmissionReceipt(ledger, {
+          artifactPath: planningPdfPath,
+          pdfSha256: planningPdf.pdfSha256,
+          artifactCreatedAtMs: planningPdf.modifiedAtMs,
+          required: true,
+        }),
+      ];
+      check(
+        receiptErrors.length === 0,
+        "canonical planning submission receipt",
+        receiptErrors.join("; ") || `${planningPdfPath} sha256=${planningPdf.pdfSha256}`,
+      );
+    } catch (error) {
+      check(false, "canonical planning submission receipt", error.message);
+    }
+  }
 
   let status = "";
   try {

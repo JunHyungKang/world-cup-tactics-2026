@@ -27,12 +27,13 @@ The original implementation-entry checklist is retained for provenance:
    source bundle satisfies the data contract without changing
    historical evidence into a 2026 tendency or adding a decorative year label.
 
-Current result as of 2026-07-19 KST: the local P0 artifacts are frozen, the
+Current result as of 2026-07-25 KST: the prior media-statistics P0 artifacts are archived, the
 World Cup repository is activated, the official no-year-restriction route is
 canonical, and both Figshare sources are accepted. Corner Policy Lab is the
 selected root product. Its current evidence is 7/7 policy data/release, 7/7
-source interaction, and 12/12 static four-environment browser PASS. The official
-competition page was rechecked on 2026-07-19 KST;
+source interaction, 12/12 static four-environment browser PASS, and 56/56
+Policy Lab BG pre-release PASS. The official
+competition page and API were rechecked on 2026-07-25 KST;
 the Jul 27 plan deadline, Aug 3 final deadline, three final URLs, keyless browser
 access, licensing, and no-late-commit rules are unchanged.
 

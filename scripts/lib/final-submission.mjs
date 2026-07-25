@@ -33,9 +33,9 @@ export const REQUIRED_BROWSER_GATE_TITLES = Array.from({ length: 15 }, (_, index
 export const FINAL_EVIDENCE_SOURCE_PATHS = [
   "playwright.final.config.ts",
   "tests/final-e2e/final-manager-loop.spec.ts",
-  "vite.invalid-artifact.config.ts",
   "scripts/serve-invalid-fixture.mjs",
-  "tests/fixtures/invalid-corner-scenarios.json",
+  "scripts/serve-policy-release.mjs",
+  "scripts/lib/policy-lab-release.mjs",
 ];
 
 export async function computeWorktreeEvidenceDigest({ cwd = process.cwd(), execFile = execFileSync, read = readFile } = {}) {
@@ -364,7 +364,7 @@ export async function probeGitHubPublic(value, fetchImpl = fetch, releaseCommit,
       } catch {
         errors.push("GitHub release commit response did not return JSON");
       }
-      const requiredPaths = ["README.md", "package.json", "src"];
+      const requiredPaths = ["README.md", "package.json", "prototypes/policy-dojo", "public/data/policy-lab-spike.json"];
       for (const path of requiredPaths) {
         const contentsUrl = `${apiUrl}/contents/${path}?ref=${encodeURIComponent(releaseCommit)}`;
         const contentsResponse = await fetchResponse(fetchImpl, contentsUrl, {
@@ -382,10 +382,10 @@ export async function probeGitHubPublic(value, fetchImpl = fetch, releaseCommit,
             if (readmeRequirements.some((pattern) => !pattern.test(readme))) {
               errors.push("release README lacks setup commands or technology disclosure");
             }
-          } else if (path === "package.json" && (Array.isArray(content) || content.type !== "file")) {
-            errors.push("release package.json is not a public file");
-          } else if (path === "src" && (!Array.isArray(content) || content.length === 0)) {
-            errors.push("release src path is not a nonempty public directory");
+          } else if (["package.json", "public/data/policy-lab-spike.json"].includes(path) && (Array.isArray(content) || content.type !== "file")) {
+            errors.push(`release ${path} is not a public file`);
+          } else if (path === "prototypes/policy-dojo" && (!Array.isArray(content) || content.length === 0)) {
+            errors.push("release prototypes/policy-dojo path is not a nonempty public directory");
           }
         } catch {
           if (path === "README.md") {
@@ -610,7 +610,8 @@ const FINAL_BROWSER_REVIEW_CRITERIA = [
   "visual_hierarchy", "manager_loop", "claim_boundaries", "no_login_key", "major_browser_report",
 ];
 const FINAL_DEMO_REVIEW_CRITERIA = [
-  "cold_open", "direct_manipulation", "pitch_replays", "counterexample_receipt", "audio_captions", "claim_boundaries",
+  "cold_open", "direct_manipulation", "predeclared_threshold", "immutable_policy",
+  "held_out_audits", "next_meeting_note", "audio_captions", "claim_boundaries",
 ];
 const FINAL_BROWSER_SCREENSHOT_NAMES = ["artifact-initial", "artifact-selected", "artifact-counterexample"];
 const FINAL_DEMO_FRAME_TIMES = [2, 8, 18, 29, 35, 45, 58];

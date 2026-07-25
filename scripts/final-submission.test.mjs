@@ -78,6 +78,8 @@ describe("final submission readiness", () => {
     expect(builder).toContain('["ls-files", "data/raw"]');
     expect(builder).toContain('path !== "data/raw/.gitkeep"');
     expect(builder).toContain("release build refuses tracked raw data");
+    expect(builder).toContain("new Date(commitEpoch * 1000).toISOString()");
+    expect(builder).not.toContain("builtAt: new Date().toISOString()");
     const drill = await readFile("scripts/drill-release-build.mjs", "utf8");
     expect(drill).toContain('"install", "--frozen-lockfile", "--ignore-scripts"');
     expect(drill).not.toContain('symlink(resolve(root, "node_modules")');
@@ -206,7 +208,7 @@ describe("final submission readiness", () => {
       return response({ type: "application/json", json: [] });
     }, commit);
     expect(result.errors).toContain("release README lacks setup commands or technology disclosure");
-    expect(calls).toBe(5);
+    expect(calls).toBe(6);
   });
 
   it("requires the exact evidence HEAD to be public after ledger commits", async () => {
@@ -218,11 +220,12 @@ describe("final submission readiness", () => {
       if (calls === 2) return response({ type: "application/json", json: { sha: commit } });
       if (calls === 3) return response({ type: "application/json", json: { encoding: "base64", content: Buffer.from("## Local setup\npnpm install\npnpm dev\n## Tech stack\nReact").toString("base64") } });
       if (calls === 4) return response({ type: "application/json", json: { type: "file" } });
-      if (calls === 5) return response({ type: "application/json", json: [{ name: "App.tsx" }] });
+      if (calls === 5) return response({ type: "application/json", json: [{ name: "app.js" }] });
+      if (calls === 6) return response({ type: "application/json", json: { type: "file" } });
       return response({ type: "application/json", json: { sha: evidenceHead } });
     }, commit, evidenceHead);
     expect(result.errors).toEqual([]);
-    expect(calls).toBe(6);
+    expect(calls).toBe(7);
 
     const missing = await probeGitHubPublic(githubUrl, async (_, options) => {
       void options;
@@ -297,7 +300,7 @@ describe("final submission readiness", () => {
         video_sha256: demoVideoSha256,
         manifest_sha256: demoManifestSha256,
         completed_at: new Date(demoCompletedAt).toISOString(),
-        criteria: ["cold_open", "direct_manipulation", "pitch_replays", "counterexample_receipt", "audio_captions", "claim_boundaries"],
+        criteria: ["cold_open", "direct_manipulation", "predeclared_threshold", "immutable_policy", "held_out_audits", "next_meeting_note", "audio_captions", "claim_boundaries"],
         frames: demoFrames,
         captions_sha256: captionsSha256,
         narration_audit_sha256: narrationAuditSha256,
@@ -402,6 +405,8 @@ describe("final submission readiness", () => {
     expect(finalize).toContain('args.get("--inspection-manifest")');
     expect(finalize).toContain("resolve(packetRoot, file.path)");
     expect(finalize).toContain("final-artifact-review-${sha256.slice(0, 16)}.json");
+    const narrationRenderer = await readFile("scripts/render-demo-narration.mjs", "utf8");
+    expect(narrationRenderer).toContain("narration cue contains no audio");
     expect(attest).toContain('--confirmed owner-observed');
     expect(attest).toContain('args.get("--demo-manifest")');
     expect(attest).toContain("youtube-upload-attestation-${sha256.slice(0, 16)}.json");
@@ -546,7 +551,7 @@ describe("final submission readiness", () => {
       status: "frozen-public-visual-candidate-not-youtube-or-human-reviewed",
       base_url: deployedUrl,
       release: { release_commit: commit, build_sha256: buildSha256, deployed_marker_sha256: markerSha256, deployment_parity: "PASS" },
-      cold_open: { path: "docs/assets/gallery/corner-war-room-first-image.png", sha256: coldOpenSha256, duration_seconds: 5 },
+      cold_open: { path: "docs/assets/gallery/corner-policy-lab-first-image.png", sha256: coldOpenSha256, duration_seconds: 5 },
       capture_started_at: "2026-08-02T10:01:00.000Z", capture_completed_at: "2026-08-02T10:02:00.000Z",
       video: { path: "submissions/final-demo-visual.webm", sha256: createHash("sha256").update(visualVideoBytes).digest("hex"), bytes: visualVideoBytes.length },
     };

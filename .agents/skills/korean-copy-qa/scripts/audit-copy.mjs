@@ -2,21 +2,17 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 export const copyFiles = [
-  "src/App.tsx",
-  "src/domain/cornerEvidence.ts",
   "docs/submission-story.json",
-  "docs/demo-narration.json",
   "docs/demo-script.md",
-  "docs/demo-captions.ko.srt",
+  "docs/policy-lab-demo-captions.ko.srt",
   "docs/planning-outline.md",
-  "scripts/render-planning-draft.py",
-  "scripts/render-gallery-first-image.mjs",
   "prototypes/policy-dojo/app.js",
   "docs/policy-lab-product-contract.md",
   "docs/policy-lab-demo-narration.json",
   "docs/policy-lab-demo-60s.md",
   "docs/policy-lab-planning-outline.md",
   "scripts/render-policy-lab-plan.py",
+  "scripts/render-gallery-first-image.mjs",
   "scripts/prepare-external-owner-console.mjs",
 ];
 

@@ -13,7 +13,7 @@ function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
 }
 
-export async function buildPolicyLabRelease({ outputRoot = "dist-policy-lab" } = {}) {
+export async function buildPolicyLabRelease({ outputRoot = "dist-policy-lab", releaseStatus = "candidate-public" } = {}) {
   await rm(outputRoot, { recursive: true, force: true });
   await mkdir(outputRoot, { recursive: true });
   const sourceBytes = Object.fromEntries(await Promise.all(SOURCE_PATHS.map(async (path) => [path, await readFile(path)])));
@@ -32,7 +32,7 @@ export async function buildPolicyLabRelease({ outputRoot = "dist-policy-lab" } =
   const manifest = {
     schema_version: 1,
     product_id: "corner-policy-lab",
-    release_status: "candidate-public",
+    release_status: releaseStatus,
     product_selection_status: "PASS",
     causal_recommendation_status: "REJECT",
     empirical_campaign_status: "REVISE",

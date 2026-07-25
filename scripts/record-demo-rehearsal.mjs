@@ -15,7 +15,7 @@ const localBaseURL = "http://127.0.0.1:4185";
 let baseURL = localBaseURL;
 const releaseCommit = args.get("--release-commit");
 const buildSha256 = args.get("--build-sha256");
-const videoPath = finalMode ? args.get("--output") : "output/demo/corner-war-room-60s-rehearsal.webm";
+const videoPath = finalMode ? args.get("--output") : "output/demo/corner-policy-lab-60s-rehearsal.webm";
 const manifestPath = finalMode ? args.get("--manifest") : "output/demo/rehearsal-manifest.json";
 if (finalMode && (!args.get("--deployed-url") || !videoPath || !manifestPath || !/^[0-9a-f]{40}$/u.test(releaseCommit ?? "") || !/^[0-9a-f]{64}$/u.test(buildSha256 ?? ""))) {
   throw new Error("final demo recording requires --deployed-url, --release-commit, --build-sha256, --output, and --manifest");
@@ -80,9 +80,9 @@ if (finalMode) {
     deployment_parity: "PASS",
   };
 } else {
-  run(["node_modules/vite/bin/vite.js", "build"]);
+  run(["scripts/build-policy-lab.mjs", "--output", "dist-policy-lab"]);
   preview = spawn(node, [
-    "node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", "4185", "--strictPort",
+    "scripts/serve-policy-release.mjs", "--root", "dist-policy-lab", "--port", "4185",
   ], { stdio: "inherit" });
   await waitForServer();
 }
@@ -97,13 +97,13 @@ try {
     });
     const page = await context.newPage();
     await page.goto(baseURL);
-    await page.getByRole("heading", { name: /코너 수비에 한 명 더/u }).waitFor();
-    const galleryImage = await readFile("docs/assets/gallery/corner-war-room-first-image.png");
+    await page.getByRole("heading", { name: /조별리그에서 세우고/u }).waitFor();
+    const galleryImage = await readFile("docs/assets/gallery/corner-policy-lab-first-image.png");
     await page.evaluate((source) => {
       const overlay = document.createElement("img");
       overlay.id = "gallery-cold-open";
       overlay.src = source;
-      overlay.alt = "선택 전, 수비 전환, 이 선택으로 설명되지 않는 슈팅의 세 장면";
+      overlay.alt = "한 정책을 잠근 뒤 두 미공개 검증과 다음 미팅 결정을 확인하는 장면";
       Object.assign(overlay.style, {
         position: "fixed", inset: "0", width: "100vw", height: "100vh", objectFit: "cover",
         zIndex: "2147483647", background: "#07110d",
@@ -120,92 +120,68 @@ try {
       id, scheduled_seconds: scheduled,
       actual_seconds: Number(((performance.now() - start) / 1000).toFixed(3)),
     });
-    const showPitch = async () => {
-      await page.getByTestId("evidence-pitch").evaluate((element) => {
-        element.scrollIntoView({ block: "center", behavior: "instant" });
-      });
-    };
-    const showReceipt = async () => {
-      await page.getByTestId("evidence-receipt").evaluate((element) => {
-        element.scrollIntoView({ block: "start", behavior: "instant" });
-      });
-    };
-
-    const dragRoleTo = async (targetName) => {
-      const source = await page.getByRole("button", { name: "역습 역할 1명을 수비 임무로 옮기기" }).boundingBox();
-      const target = await page.getByRole("button", { name: targetName, exact: true }).boundingBox();
-      if (!source || !target) throw new Error(`demo drag geometry is unavailable: ${targetName}`);
-      const from = { x: source.x + source.width / 2, y: source.y + source.height / 2 };
-      const to = { x: target.x + target.width / 2, y: target.y + target.height / 2 };
-      await page.mouse.move(from.x, from.y);
-      await page.mouse.down();
-      for (let step = 1; step <= 10; step += 1) {
-        const progress = step / 10;
-        await page.mouse.move(
-          from.x + (to.x - from.x) * progress,
-          from.y + (to.y - from.y) * progress,
-        );
-        await page.waitForTimeout(35);
-      }
-      await page.mouse.up();
-    };
+    const scrollTo = async (locator) => locator.evaluate((element) => {
+      element.scrollIntoView({ block: "center", behavior: "instant" });
+    });
 
     await waitUntil(5);
     await page.locator("#gallery-cold-open").evaluate((element) => element.remove());
     await page.waitForTimeout(80);
-    await dragRoleTo("세컨드볼 대비");
-    await page.getByRole("heading", { name: "세컨드볼 대비 우선 · 역습 1명 수비 전환" }).waitFor();
-    mark("commit", 5);
+    await page.locator('.lane-card[data-lane="short"]').click();
+    mark("priority-short", 5);
+
+    await waitUntil(8);
+    await page.locator('.lane-card[data-lane="near"]').click();
+    mark("priority-near", 8);
+
+    await waitUntil(10);
+    await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
+    mark("minimum-overlap", 10);
 
     await waitUntil(12);
-    await page.getByRole("button", { name: "재생", exact: true }).click();
-    mark("replay", 12);
+    await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
+    mark("policy-lock", 12);
 
-    await waitUntil(13);
-    await showPitch();
-    mark("replay-pitch", 13);
+    await waitUntil(16);
+    await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+    mark("r16-reveal", 16);
 
-    await waitUntil(22);
-    await showReceipt();
-    mark("replay-receipt", 22);
+    await waitUntil(18);
+    await scrollTo(page.getByTestId("counterexample"));
+    mark("r16-contradiction", 18);
 
-    await waitUntil(25);
-    mark("separate-hold", 25);
-
-    await waitUntil(32);
-    await page.getByRole("button", { name: "니어포스트 수비", exact: true }).click();
-    await page.getByRole("heading", { name: "니어포스트 수비 우선 · 역습 1명 수비 전환" }).waitFor();
-    mark("reverse", 32);
+    await waitUntil(30);
+    await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+    mark("final-reveal", 30);
 
     await waitUntil(34);
-    await page.getByRole("button", { name: "초기화", exact: true }).click();
-    await page.locator(".reset-status").waitFor();
-    mark("reset", 34);
-    const resetStatus = await page.locator(".reset-status").innerText();
+    await page.getByTestId("final-receipt").waitFor();
+    mark("final-receipt", 34);
 
     await waitUntil(38);
-    await page.getByRole("button", { name: "세컨드볼 대비", exact: true }).click();
-    await page.getByRole("button", { name: /반례 보기/u }).click();
-    await page.getByRole("heading", { name: "이 선택으로 설명되지 않는 슈팅 기록" }).waitFor();
-    await page.getByRole("button", { name: "재생", exact: true }).click();
-    mark("counterexample", 38);
+    await scrollTo(page.locator('[data-action="save-meeting-note"]'));
+    mark("meeting-note-view", 38);
 
-    await waitUntil(39);
-    await showPitch();
-    mark("counterexample-pitch", 39);
+    await waitUntil(42);
+    await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
+    mark("meeting-decision", 42);
+
+    await waitUntil(45);
+    await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토");
+    mark("meeting-reason", 45);
 
     await waitUntil(48);
-    await showReceipt();
-    mark("counterexample-receipt", 48);
+    await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
+    mark("meeting-note-save", 48);
 
-    await waitUntil(55);
-    mark("final-hold", 55);
-    await waitUntil(60);
+    await waitUntil(53);
+    await scrollTo(page.getByTestId("final-receipt"));
+    await waitUntil(59.9);
+    const finalReceipt = await page.getByTestId("final-receipt").innerText();
     const finalFrame = {
-      heading: await page.getByRole("heading", { name: "이 선택으로 설명되지 않는 슈팅 기록" }).innerText(),
-      verdict: await page.locator(".counter-verdict").innerText(),
-      transcript: await page.getByTestId("current-event-transcript").innerText(),
-      semantic_snapshot: JSON.parse(await page.getByTestId("semantic-snapshot").innerText()),
+      receipt: finalReceipt,
+      meeting_note: await page.getByTestId("meeting-note-receipt").innerText(),
+      policy_fingerprint: finalReceipt.match(/P-[0-9a-f]+/u)?.[0] ?? null,
     };
     const video = page.video();
     await context.close();
@@ -224,7 +200,7 @@ try {
       ...(finalMode ? { release: releaseEvidence } : {}),
       submission_story_sha256: createHash("sha256").update(storyBytes).digest("hex"),
       cold_open: {
-        path: "docs/assets/gallery/corner-war-room-first-image.png",
+        path: "docs/assets/gallery/corner-policy-lab-first-image.png",
         sha256: createHash("sha256").update(galleryImage).digest("hex"),
         duration_seconds: 5,
       },
@@ -236,7 +212,6 @@ try {
         ...media,
       },
       actions,
-      reset_status: resetStatus,
       final_frame: finalFrame,
     };
     await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);

@@ -97,6 +97,10 @@ test("lets the manager abstain when support is insufficient", async ({ page }) =
   await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
   await expect(page.getByRole("heading", { name: /판단 보류 검증/ })).toBeVisible();
   await expect(page.getByText("보류", { exact: true })).toBeVisible();
+  await expect(page.getByText(/사전 기준 0%/)).toHaveCount(0);
+  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+  await expect(page.getByTestId("final-receipt")).toContainText("판단 보류 정책 변경 0회");
+  await expect(page.getByTestId("final-receipt")).not.toContainText("0%");
 });
 
 test("freezes one final policy before opening all eight quarter-final-and-later matches", async ({ page }) => {

@@ -1,13 +1,13 @@
 # Official State
 
-Verified: `2026-07-23T23:57:30+09:00` against:
+Verified: `2026-07-25T15:40:38+09:00` against:
 
 - https://daker.ai/public/hackathons/world-cup-manager-tactics-web-challenge
 - https://daker.ai/api/hackathons/world-cup-manager-tactics-web-challenge
 
-The public page and API record were refreshed at the timestamp above. The stable
-API-field digest remains unchanged from the separately admitted `2026-07-19`
-record.
+The public page and API record were refreshed at the timestamp above. The live
+record still reports `updatedAt=2026-07-13T04:47:47.898Z`; the stable API-field
+digest remains unchanged from the separately admitted `2026-07-19` record.
 
 Confirmed requirements:
 

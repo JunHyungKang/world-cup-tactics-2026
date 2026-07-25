@@ -7,8 +7,8 @@ const args = parsePairedFlags(process.argv.slice(2));
 for (const flag of args.keys()) if (flag !== "--manifest") throw new Error(`unsupported narration audit flag: ${flag}`);
 const manifestPath = args.get("--manifest") ?? "output/demo/narration-manifest.json";
 const [storyBytes, narrationBytes, captionsBytes, demoScript, manifestText] = await Promise.all([
-  readFile("docs/submission-story.json"), readFile("docs/demo-narration.json"),
-  readFile("docs/demo-captions.ko.srt"), readFile("docs/demo-script.md", "utf8"),
+  readFile("docs/submission-story.json"), readFile("docs/policy-lab-demo-narration.json"),
+  readFile("docs/policy-lab-demo-captions.ko.srt"), readFile("docs/demo-script.md", "utf8"),
   readFile(manifestPath, "utf8"),
 ]);
 const story = JSON.parse(storyBytes.toString("utf8"));
@@ -47,7 +47,7 @@ check(finalMode || manifest.status === "local-narrated-rehearsal-not-youtube-or-
 check(manifest.submission_story_sha256 === digest(storyBytes), "narrated rehearsal story SHA mismatch");
 check(manifest.narration_contract_sha256 === digest(narrationBytes), "narration contract SHA mismatch");
 check(manifest.captions_sha256 === digest(captionsBytes), "caption SHA mismatch");
-check(manifest.captions?.path === "docs/demo-captions.ko.srt", "burned-in caption source path drifted");
+check(manifest.captions?.path === "docs/policy-lab-demo-captions.ko.srt", "burned-in caption source path drifted");
 check(manifest.captions?.sha256 === digest(captionsBytes), "burned-in caption byte binding mismatch");
 check(manifest.captions?.presentation === "burned-in" && manifest.captions?.font === "D2Coding", "narrated video must burn in the bound Korean captions");
 check(manifest.visual_source.sha256 === visualManifest.video.sha256, "narrated rehearsal visual source drifted");
@@ -93,4 +93,4 @@ if (errors.length) {
   errors.forEach((error) => console.error(`[FAIL] ${error}`));
   process.exit(1);
 }
-console.log(`[PASS] ${finalMode ? "final narrated upload candidate" : "narrated demo rehearsal"}: seven fitted Korean cues, burned-in bound captions, sub-60-second VP8/Opus output`);
+console.log(`[PASS] ${finalMode ? "final narrated upload candidate" : "narrated demo rehearsal"}: eight fitted Korean cues, burned-in bound captions, sub-60-second VP8/Opus output`);

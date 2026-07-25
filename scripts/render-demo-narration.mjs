@@ -9,7 +9,7 @@ const allowedFlags = new Set(["--visual-manifest", "--output", "--manifest"]);
 for (const flag of args.keys()) if (!allowedFlags.has(flag)) throw new Error(`unsupported narration flag: ${flag}`);
 const finalMode = args.size > 0;
 const visualManifestPath = finalMode ? args.get("--visual-manifest") : "output/demo/rehearsal-manifest.json";
-const narratedPath = finalMode ? args.get("--output") : "output/demo/corner-war-room-60s-narrated-rehearsal.webm";
+const narratedPath = finalMode ? args.get("--output") : "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm";
 const outputManifestPath = finalMode ? args.get("--manifest") : "output/demo/narration-manifest.json";
 if (!visualManifestPath || !narratedPath || !outputManifestPath) {
   throw new Error("final narration requires --visual-manifest, --output, and --manifest");
@@ -21,13 +21,13 @@ if (finalMode && visualManifest.status !== "frozen-public-visual-candidate-not-y
 }
 const visualPath = visualManifest.video.path;
 const outputDirectory = finalMode ? `${dirname(narratedPath)}/narration-audio` : "output/demo/narration";
-const narration = JSON.parse(await readFile("docs/demo-narration.json", "utf8"));
+const narration = JSON.parse(await readFile("docs/policy-lab-demo-narration.json", "utf8"));
 const storyBytes = await readFile("docs/submission-story.json");
-const narrationBytes = await readFile("docs/demo-narration.json");
-const captionsBytes = await readFile("docs/demo-captions.ko.srt");
+const narrationBytes = await readFile("docs/policy-lab-demo-narration.json");
+const captionsBytes = await readFile("docs/policy-lab-demo-captions.ko.srt");
 const visualBytes = await readFile(visualPath);
 const outputDurationSeconds = 59.92;
-const captionFilter = "subtitles=filename=docs/demo-captions.ko.srt:fontsdir=docs/assets/fonts:force_style='FontName=D2Coding,FontSize=8,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=26,Alignment=2'";
+const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:fontsdir=docs/assets/fonts:force_style='FontName=D2Coding,FontSize=8,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=26,Alignment=2'";
 
 function run(command, argv) {
   const result = spawnSync(command, argv, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
@@ -55,6 +55,12 @@ for (const [index, cue] of narration.cues.entries()) {
   run("say", ["-v", narration.voice, "-r", String(narration.rate_words_per_minute), "-o", path, cue.text]);
   const bytes = await readFile(path);
   const media = probe(path);
+  if (bytes.length <= 4096 || !Number.isFinite(media.duration_seconds) || media.duration_seconds <= 0) {
+    throw new Error(`narration cue contains no audio: ${cue.id}; rerun with macOS speech access`);
+  }
+  if (media.duration_seconds > cue.end - cue.start - 0.3) {
+    throw new Error(`narration cue does not fit its beat: ${cue.id}`);
+  }
   cueReports.push({
     id: cue.id, path, start: cue.start, end: cue.end,
     duration_seconds: media.duration_seconds,
@@ -69,7 +75,7 @@ const delayed = cueReports.map((cue, index) => {
 });
 const mixInputs = cueReports.map((_, index) => `[a${index}]`).join("");
 const filter = `${delayed.join(";")};${mixInputs}amix=inputs=${cueReports.length}:duration=longest:normalize=0,apad=pad_dur=60,atrim=0:${outputDurationSeconds}[a]`;
-const wavPath = `${outputDirectory}/corner-war-room-narration.wav`;
+const wavPath = `${outputDirectory}/corner-policy-lab-narration.wav`;
 run("ffmpeg", ["-y", ...inputArgs, "-filter_complex", filter, "-map", "[a]", "-ar", "48000", "-ac", "1", "-c:a", "pcm_s16le", wavPath]);
 run("ffmpeg", [
   "-y", "-i", visualPath, "-i", wavPath,
@@ -89,7 +95,7 @@ const manifest = {
   narration_contract_sha256: createHash("sha256").update(narrationBytes).digest("hex"),
   captions_sha256: createHash("sha256").update(captionsBytes).digest("hex"),
   captions: {
-    path: "docs/demo-captions.ko.srt",
+    path: "docs/policy-lab-demo-captions.ko.srt",
     sha256: createHash("sha256").update(captionsBytes).digest("hex"),
     presentation: "burned-in",
     font: "D2Coding",

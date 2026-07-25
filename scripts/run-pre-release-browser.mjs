@@ -1,7 +1,8 @@
 import { spawn, spawnSync } from "node:child_process";
 
 const node = process.execPath;
-const baseUrl = "http://127.0.0.1:4173/corner-war-room/";
+const baseUrl = "http://127.0.0.1:4173/";
+const releaseRoot = "tmp/pre-release-policy-lab-dist";
 
 function run(argv) {
   const result = spawnSync(node, argv, { stdio: "inherit" });
@@ -19,9 +20,9 @@ async function waitForServer(url, attempts = 80) {
   throw new Error(`preview did not become ready: ${url}`);
 }
 
-run(["node_modules/vite/bin/vite.js", "build"]);
+run(["scripts/build-policy-lab.mjs", "--output", releaseRoot]);
 const preview = spawn(node, [
-  "node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", "4173", "--strictPort", "--base", "/corner-war-room/",
+  "scripts/serve-policy-release.mjs", "--root", releaseRoot, "--port", "4173",
 ], { stdio: "inherit" });
 let stopped = false;
 const stop = () => {
@@ -38,7 +39,7 @@ try {
   const result = spawnSync(node, [
     "node_modules/@playwright/test/cli.js", "test", "--config=playwright.final.config.ts",
     "--workers=1",
-    "--grep-invert", "BG-12 production has no synthetic engine or fixture switch",
+    "--grep-invert", "BG-12 production marker binds the Policy Lab release and admitted data",
   ], {
     stdio: "inherit",
     env: {

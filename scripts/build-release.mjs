@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
 import { spawnSync, execFileSync } from "node:child_process";
-import { readFile, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { computeBuildDigest, FINAL_DEADLINE, runReleaseVerification } from "./lib/final-submission.mjs";
+import { buildPolicyLabRelease } from "./lib/policy-lab-release.mjs";
 
 const flagIndex = process.argv.indexOf("--release-commit");
 const releaseCommit = flagIndex >= 0 ? process.argv[flagIndex + 1] : undefined;
@@ -24,14 +25,13 @@ const postVerifyStatus = execFileSync("git", ["status", "--porcelain"], { encodi
 if (postVerifyStatus) throw new Error("pnpm verify mutated the clean release source/evidence worktree");
 
 await rm("dist", { recursive: true, force: true });
-for (const command of [
-  ["scripts/check-eligibility.mjs", ["--promotion"]],
-  ["node_modules/typescript/bin/tsc", ["-b"]],
-  ["node_modules/vite/bin/vite.js", ["build"]],
-]) {
+for (const command of [["scripts/check-eligibility.mjs", ["--promotion"]]]) {
   const result = spawnSync(process.execPath, [command[0], ...command[1]], { stdio: "inherit" });
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
+await buildPolicyLabRelease({ outputRoot: "dist", releaseStatus: "stamped-final" });
+await mkdir("dist/data", { recursive: true });
+await copyFile("public/data/product-binding.json", "dist/data/product-binding.json");
 
 const build = await computeBuildDigest("dist");
 const sourceTree = execFileSync("git", ["rev-parse", `${releaseCommit}^{tree}`], { encoding: "utf8" }).trim();
@@ -55,7 +55,9 @@ const marker = {
   buildSha256: build.buildSha256,
   fileCount: build.fileCount,
   files: build.files,
-  builtAt: new Date().toISOString(),
+  // Bind the marker to immutable Git evidence so a local release build and the
+  // GitHub Pages build for the same commit produce byte-identical output.
+  builtAt: new Date(commitEpoch * 1000).toISOString(),
   builder: "scripts/build-release.mjs",
   eligibilityBindings,
   productDataBinding: eligibilityState.binding.derived_binding,

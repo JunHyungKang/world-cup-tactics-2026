@@ -9,12 +9,12 @@ describe("external owner console", () => {
 
     expect(model.planning).toMatchObject({
       status: "READY",
-      sha256: "b9e050a13ff31e4decf9791131607d12613b56a9c2e428b1330f4f19352cba3b",
+      sha256: "6ebcf4391c1a554c54897ae382845ece6f66cb3a2c6e1bb1b270de157c43b031",
       pages: 8,
     });
     expect(model.youtube).toMatchObject({
       status: "LOCKED",
-      local_rehearsal_sha256: "dbddebacaf3b74dd041bf00c303e9efdb47f20fec36312e9cda8b6ad918f3c13",
+      local_rehearsal_sha256: "4a145fc82614a8cec124b071dce905f4e2f94eb5aa018d03979a2956bd9f88c1",
     });
     expect(model.final_release.status).toBe("LOCKED");
     expect(model.public_release).toEqual({

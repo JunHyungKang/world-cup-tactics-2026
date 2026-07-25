@@ -16,7 +16,8 @@ describe("GitHub Pages release workflow", () => {
     const workflow = await readFile(workflowPath, "utf8");
 
     expect(workflow).toContain("pnpm install --frozen-lockfile");
-    expect(workflow).toContain("pnpm build");
+    expect(workflow).toContain('pnpm submission:build -- --release-commit "$GITHUB_SHA"');
+    expect(workflow).not.toMatch(/^\s+pnpm build\s*$/m);
     expect(workflow).toContain("pnpm deployment:audit");
     expect(workflow).toContain("actions/upload-pages-artifact@v4");
     expect(workflow).toContain("path: ./dist");

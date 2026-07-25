@@ -36,7 +36,7 @@ jobs:
 
       - name: Build and audit the exact static release
         run: |
-          pnpm build
+          pnpm submission:build -- --release-commit "$GITHUB_SHA"
           pnpm deployment:audit
 
       - name: Configure GitHub Pages

@@ -1,10 +1,11 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { validateCurrentHarnessState } from "./lib/harness-state.mjs";
+import { validateCurrentHarnessState, validateLivePortfolioBoard } from "./lib/harness-state.mjs";
 
 const [stateText, selectionText, manifestText, board, officialState, judgingMap, judgeGate, readme, handoff, runbook,
   productThesis, interactionContract, researchUxReview, decisionRegistry, firstPlaceGoal,
-  cornerTransformContract, syntheticPersonaReview, firstPlaceRetrospective] = await Promise.all([
+  cornerTransformContract, syntheticPersonaReview, firstPlaceRetrospective,
+  submissionStoryText, submissionLedger] = await Promise.all([
   readFile("docs/data-scope-resolution.json", "utf8"),
   readFile("docs/product-selection.json", "utf8"),
   readFile("data/source-manifest.json", "utf8"),
@@ -23,12 +24,15 @@ const [stateText, selectionText, manifestText, board, officialState, judgingMap,
   readFile("docs/corner-transform-contract.md", "utf8"),
   readFile("docs/synthetic-persona-review-2026-07-18.md", "utf8"),
   readFile("docs/retrospective-first-place-goal.md", "utf8"),
+  readFile("docs/submission-story.json", "utf8"),
+  readFile("docs/submission-ledger.md", "utf8"),
 ]);
 const input = {
   state: JSON.parse(stateText), selection: JSON.parse(selectionText), manifest: JSON.parse(manifestText),
   board, officialState, judgingMap, judgeGate, readme, handoff, runbook,
   productThesis, interactionContract, researchUxReview, decisionRegistry,
   firstPlaceGoal, cornerTransformContract, syntheticPersonaReview, firstPlaceRetrospective,
+  submissionStory: JSON.parse(submissionStoryText), submissionLedger,
 };
 
 describe("current harness state drift", () => {
@@ -77,5 +81,13 @@ describe("current harness state drift", () => {
     expect(validateCurrentHarnessState({ ...input, judgeGate: staleGate })).toContain(
       "judge differentiation gate contains stale current-state marker: No official scoring weights have been published",
     );
+  });
+
+  it("rejects live portfolio state that drifts from the canonical reviewed PDF", () => {
+    const ledger = "| 2026-07-24T03:29:35+09:00 | plan-visual-qa | output/pdf/corner-policy-lab-planning.pdf | pdf=6ebcf4391c1a554c54897ae382845ece6f66cb3a2c6e1bb1b270de157c43b031 source=x | visual 8/8 PASS | local | reviewer=/root/reviewer |";
+    const current = "| P0 | World Cup Tactics Web Challenge | repo | deadlines | prize | canonical PDF `6ebcf439…`; exact-hash independent review PASS; DAKER draft `작성중` | next |";
+    expect(validateLivePortfolioBoard({ board: current, ledger })).toEqual([]);
+    expect(validateLivePortfolioBoard({ board: current.replace("6ebcf439", "81e2ae3c"), ledger }))
+      .toContain("live portfolio board does not bind canonical PDF 6ebcf439");
   });
 });

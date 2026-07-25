@@ -1,28 +1,27 @@
 # Official Judging Map
 
-Verified from the first-party DAKER API on `2026-07-18 KST`.
+Verified from the first-party DAKER page and API on `2026-07-25 KST`.
 
 ## First-round top-ten funnel
 
 | Voting group | Weight | Entry proof |
 |---|---:|---|
-| 제출팀 | 60% | Gallery promise and first image explain the scarce-role choice without methodology |
-| 참가팀 | 20% | The first five seconds expose the role token and genuine decision; the 60-second path reaches the counterexample instead of a dashboard score |
-| 대중 | 20% | Korean headline communicates `one more for the corner = one fewer for the break` |
+| 제출팀 | 60% | Gallery and title communicate `한 정책, 두 번의 미공개 검증` before methodology |
+| 참가팀 | 20% | The first screen exposes two scarce attention tokens, a predeclared criterion, and a real lock |
+| 대중 | 20% | `조별리그에서 세우고, 토너먼트에서 검증하세요.` explains the 48–8–8 story in one line |
 
-The top ten advance. Official tie-breaking can favor greater vote use and earlier
-first upload. Submit the first fully valid package early; never trade away a
-preflight, license, browser, hash, or freeze gate for speed.
+The top ten advance. Official tie-breaking favors greater vote use and then an
+earlier first upload. Submit the first fully valid package early, without
+weakening license, browser, hash, or freeze gates.
 
 ## Second-round internal score
 
-| Official criterion | Points | Observable Corner War Room proof |
+| Official criterion | Points | Observable Corner Policy Lab proof |
 |---|---:|---|
-| 참신성 | 30 | The manager's scarce-role promise is challenged by a source-linked non-contact shot instead of rewarded by a synthetic score |
-| 감독 경험 설계 | 25 | The judge directly moves one outlet role, replays evidence, opens the counterexample, and can reset the decision |
-| 완성도 | 25 | Data-bound deterministic state, pointer/touch/keyboard parity, fail-closed data, and major-browser contracts |
-| 기획/구현 일관성 | 20 | The PDF, deployed UI, public repository, and 60-second video use the same claim boundary, flow, data hashes, and release commit |
+| 참신성 | 30 | One policy is declared before exposure, challenged by two match-held-out audits, and constrained by a visible forbidden-inference evidence path |
+| 감독 경험 설계 | 25 | The judge allocates two scarce attention tokens, predeclares a criterion, locks it, reveals both audits, then records a separate next-meeting decision |
+| 완성도 | 25 | Fixed 48–8–8 partitions, deterministic fingerprints and contradictions, pointer/touch/keyboard parity, fail-closed data, and four-project browser gates |
+| 기획/구현 일관성 | 20 | The PDF, deployed UI, repository, gallery, and video use the same immutable policy, `48% → 51%` result, next-meeting note, and causal-REJECT boundary |
 
 Data credibility, accessibility, visual clarity, reliability, and demo quality
-remain mandatory evidence, but they support these official criteria rather than
-forming an invented scorecard.
+support these official criteria rather than forming an invented scorecard.

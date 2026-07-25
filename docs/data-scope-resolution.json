@@ -10,12 +10,12 @@
   "scope_evidence": {
     "api_url": "https://daker.ai/api/hackathons/world-cup-manager-tactics-web-challenge",
     "hackathon_updated_at": "2026-07-13T04:47:47.898Z",
-    "checked_at": "2026-07-23T23:57:30+09:00",
+    "checked_at": "2026-07-25T15:40:38+09:00",
     "quote": "특정 연도·대회·선수 구성에 대한 제한은 없으며, 참가자가 자유롭게 설정할 수 있습니다.",
     "stable_fields_sha256": "7d56d0d02e620caa81f00a67a7933190512570cb13689ee14a8e07d136765adc",
     "capture": {
       "path": "docs/official-state.md",
-      "sha256": "641432120d3e8f4eee59937751e6bb3b4adfabdc2c2cc757e7469aaae7e57eae"
+      "sha256": "f091e1a4f88b1decb8a4adc047b8dbc2d80d2678aece2c913b84f5c6024e3a00"
     },
     "independent_review": {
       "reviewer": "eligibility_escape_audit",
@@ -29,9 +29,9 @@
   ],
   "binding": {
     "product_id": "corner-policy-lab",
-    "official_state_sha256": "641432120d3e8f4eee59937751e6bb3b4adfabdc2c2cc757e7469aaae7e57eae",
+    "official_state_sha256": "f091e1a4f88b1decb8a4adc047b8dbc2d80d2678aece2c913b84f5c6024e3a00",
     "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
-    "product_thesis_sha256": "8f312f9c18f6ec057ea2e1b3f5f73f5c5e3b034337b73a867758a7aa99a1c7f4",
+    "product_thesis_sha256": "3dcf121542bdbc2d7e99475af4f8e214b190349e59a613c7f8f902f9719c2d04",
     "planning_source_sha256": "48df4d062b5e1a5fdbeb29af964d5a2db1b279bd79bdf687171d3f284ebb7048",
     "source_manifest_sha256": "e3344c561e1cf77ed0857ff837d8daf920ecdcbba5d4282359167ce72794cedb",
     "product_selection_sha256": "46d0369db67b5b2315d786e1a529e6d700fdb95a7c0ba1bcc70d7454fa716a65",

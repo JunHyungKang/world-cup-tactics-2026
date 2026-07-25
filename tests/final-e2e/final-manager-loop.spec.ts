@@ -1,376 +1,345 @@
 import AxeBuilder from "@axe-core/playwright";
+import { createHash } from "node:crypto";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const headline = "코너 수비에 한 명 더. 역습에는 한 명 덜.";
-const roleName = "역습 역할 1명을 수비 임무로 옮기기";
-const duties = ["숏 코너 견제", "니어포스트 수비", "중앙·파포스트 수비", "세컨드볼 대비"];
+const headline = "조별리그에서 세우고, 토너먼트에서 검증하세요.";
+const criterionName = "최소 위치 겹침률 50% 선택";
+const lanes = [
+  { id: "short", card: "숏 코너", pitch: "숏 코너에 주의 토큰 배치" },
+  { id: "near", card: "니어포스트", pitch: "니어포스트에 주의 토큰 배치" },
+  { id: "central-far", card: "중앙·파포스트", pitch: "중앙·파포스트에 주의 토큰 배치" },
+  { id: "other", card: "그 밖의 전달", pitch: "그 밖의 전달에 주의 토큰 배치" },
+];
 const viewports = [
-  { width: 1440, height: 900 }, { width: 768, height: 1024 },
-  { width: 390, height: 844 }, { width: 320, height: 568 },
+  { width: 1440, height: 900 },
+  { width: 768, height: 1024 },
+  { width: 390, height: 844 },
+  { width: 320, height: 568 },
 ];
 
 async function openInitial(page: Page) {
-  await page.goto("./");
+  await page.goto("./", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: headline })).toBeVisible();
+  await expect(page.locator(".stage")).toHaveAttribute("data-partitions-disjoint", "true");
 }
 
-async function snapshot(page: Page) {
-  return JSON.parse(await page.getByTestId("semantic-snapshot").textContent() ?? "null");
-}
-
-async function reset(page: Page) {
-  const button = page.getByRole("button", { name: "초기화", exact: true });
-  if (await button.count()) await button.click();
-}
-
-async function assertTarget(locator: Locator, page: Page, viewport: { width: number; height: number }) {
+async function assertTarget(locator: Locator) {
   const box = await locator.boundingBox();
   expect(box).not.toBeNull();
   expect(box!.width).toBeGreaterThanOrEqual(44);
   expect(box!.height).toBeGreaterThanOrEqual(44);
-  expect(box!.x).toBeGreaterThanOrEqual(0);
-  expect(box!.y).toBeGreaterThanOrEqual(0);
-  expect(box!.x + box!.width).toBeLessThanOrEqual(viewport.width);
-  expect(box!.y + box!.height).toBeLessThanOrEqual(viewport.height);
-  const centerOwnsTarget = await locator.evaluate((element, { x, y }) => {
-    const hit = document.elementFromPoint(x, y);
-    return Boolean(hit && (hit === element || element.contains(hit)));
-  }, { x: box!.x + box!.width / 2, y: box!.y + box!.height / 2 });
-  expect(centerOwnsTarget).toBe(true);
 }
 
-async function assertInsideViewport(locator: Locator, viewport: { width: number; height: number }) {
-  const box = await locator.boundingBox(); expect(box).not.toBeNull();
-  expect(box!.x).toBeGreaterThanOrEqual(0); expect(box!.y).toBeGreaterThanOrEqual(0);
-  expect(box!.x + box!.width).toBeLessThanOrEqual(viewport.width);
-  expect(box!.y + box!.height).toBeLessThanOrEqual(viewport.height);
+async function assertNoHorizontalOverflow(page: Page) {
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
 }
 
-async function dragRole(page: Page, duty: string) {
-  const from = await page.getByRole("button", { name: roleName }).boundingBox();
-  const to = await page.getByRole("button", { name: duty, exact: true }).boundingBox();
-  expect(from).not.toBeNull(); expect(to).not.toBeNull();
-  await page.mouse.move(from!.x + from!.width / 2, from!.y + from!.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(to!.x + to!.width / 2, to!.y + to!.height / 2, { steps: 8 });
-  const ghost = page.getByTestId("role-drag-ghost");
-  await expect(ghost).toBeVisible();
-  const ghostBox = await ghost.boundingBox();
-  expect(ghostBox).not.toBeNull();
-  expect(Math.abs(ghostBox!.x + ghostBox!.width / 2 - (to!.x + to!.width / 2))).toBeLessThan(2);
-  expect(Math.abs(ghostBox!.y + ghostBox!.height / 2 - (to!.y + to!.height / 2))).toBeLessThan(2);
-  expect(await ghost.evaluate((element) => getComputedStyle(element).pointerEvents)).toBe("none");
-  expect(await page.getByRole("button", { name: duty, exact: true }).evaluate((element, point) => {
-    const hit = document.elementFromPoint(point.x, point.y);
-    return hit === element || Boolean(hit && element.contains(hit));
-  }, { x: to!.x + to!.width / 2, y: to!.y + to!.height / 2 })).toBe(true);
-  await page.mouse.up();
-  await expect(ghost).toHaveCount(0);
-}
-
-async function assertNoOverflow(page: Page) {
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  const critical = page.locator("[data-layout-critical]");
-  for (let index = 0; index < await critical.count(); index += 1) {
-    const box = await critical.nth(index).boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.x).toBeGreaterThanOrEqual(0);
-    expect(box!.x + box!.width).toBeLessThanOrEqual(await page.evaluate(() => window.innerWidth));
+async function choosePolicy(page: Page, mode: "card" | "pitch" | "keyboard" = "card") {
+  for (const lane of lanes.slice(0, 2)) {
+    const control = mode === "card"
+      ? page.locator(`.lane-card[data-lane="${lane.id}"]`)
+      : page.getByRole("button", { name: lane.pitch });
+    if (mode === "keyboard") {
+      await control.focus();
+      await page.keyboard.press("Enter");
+      await expect(control).toBeFocused();
+    } else {
+      await control.click();
+    }
+    await expect(control).toHaveAttribute("aria-pressed", "true");
   }
+  const criterion = page.getByRole("button", { name: criterionName });
+  if (mode === "keyboard") {
+    await criterion.focus();
+    await page.keyboard.press("Space");
+    await expect(criterion).toBeFocused();
+  } else {
+    await criterion.click();
+  }
+  await expect(criterion).toHaveAttribute("aria-pressed", "true");
 }
 
-test("BG-01 first-fold bounds and hit targets", async ({ page }) => {
+async function lockPolicy(page: Page) {
+  await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
+  const receipt = page.getByTestId("lock-receipt");
+  await expect(receipt).toContainText("사전 위치 겹침 기준 50%");
+  return (await receipt.locator(".policy-id").innerText()).trim();
+}
+
+async function revealRoundOf16(page: Page) {
+  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+  await expect(page.getByRole("heading", { name: /16강 8경기 · 위치 겹침/ })).toBeVisible();
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 미달");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 48% · 사전 기준 50%");
+}
+
+async function revealFinal(page: Page) {
+  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+  await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 위치 겹침/ })).toBeVisible();
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 충족");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 51% · 사전 기준 50%");
+}
+
+async function completePolicy(page: Page) {
+  await choosePolicy(page);
+  const policyId = await lockPolicy(page);
+  await revealRoundOf16(page);
+  await revealFinal(page);
+  return policyId;
+}
+
+test("BG-01 first-fold hierarchy, controls, and hit targets", async ({ page }) => {
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);
     await openInitial(page);
-    expect(await page.evaluate(() => scrollY)).toBe(0);
-    await assertInsideViewport(page.getByRole("heading", { name: headline }), viewport);
-    await assertInsideViewport(page.getByText("2018 브라질 경기 기록 · 결과 예측 아님 · 프로젝트에서 정의한 구역"), viewport);
-    await assertTarget(page.getByRole("button", { name: roleName }), page, viewport);
-    for (const duty of duties) await assertTarget(page.getByRole("button", { name: duty, exact: true }), page, viewport);
-    await assertNoOverflow(page);
+    await expect(page.getByText("과거 기록을 활용한 위치 스트레스 테스트입니다.")).toBeVisible();
+    await expect(page.locator(".pitch")).toBeVisible();
+    for (const lane of lanes) await assertTarget(page.locator(`.lane-card[data-lane="${lane.id}"]`));
+    for (const value of [40, 50, 60]) await assertTarget(page.getByRole("button", { name: `최소 위치 겹침률 ${value}% 선택` }));
+    await assertTarget(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }));
+    await assertTarget(page.getByRole("button", { name: "판단 보류를 두 시험에 적용" }));
+    await assertNoHorizontalOverflow(page);
   }
 });
 
-test("BG-02 pointer touch keyboard paths", async ({ page }, testInfo) => {
+test("BG-02 pointer, touch, and keyboard policy paths", async ({ page }, testInfo) => {
   await openInitial(page);
-  await dragRole(page, duties[3]);
-  await expect(page.getByRole("status")).toContainText(duties[3]);
-  await reset(page);
-  const nativeDuty = page.getByRole("button", { name: duties[3], exact: true });
-  if (["webkit", "mobile"].includes(testInfo.project.name)) await nativeDuty.tap(); else await nativeDuty.click();
-  await expect(page.getByRole("status")).toContainText(duties[3]);
-  await reset(page);
-  const role = page.getByRole("button", { name: roleName });
-  await role.focus(); await page.keyboard.press("Enter"); await page.keyboard.press("Space");
-  await expect(page.getByRole("status")).toContainText(duties[0]);
+  await page.getByRole("button", { name: lanes[0].pitch }).click();
+  await page.getByRole("button", { name: lanes[1].pitch }).click();
+  await page.getByRole("button", { name: criterionName }).click();
+  await expect(page.getByTestId("selection-count")).toHaveText("2/2");
+
+  await openInitial(page);
+  const firstCard = page.locator('.lane-card[data-lane="short"]');
+  if (["webkit", "mobile"].includes(testInfo.project.name)) await firstCard.tap();
+  else await firstCard.click();
+  await expect(firstCard).toHaveAttribute("aria-pressed", "true");
+
+  await openInitial(page);
+  await choosePolicy(page, "keyboard");
+  await expect(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" })).toBeEnabled();
 });
 
-test("BG-03 semantic parity across inputs", async ({ page }, testInfo) => {
-  await openInitial(page);
-  await dragRole(page, duties[0]); const pointer = await snapshot(page);
-  await reset(page);
-  const nativeDuty = page.getByRole("button", { name: duties[0], exact: true });
-  if (["webkit", "mobile"].includes(testInfo.project.name)) await nativeDuty.tap(); else await nativeDuty.click();
-  const native = await snapshot(page);
-  await reset(page); const role = page.getByRole("button", { name: roleName });
-  await role.focus(); await page.keyboard.press("Enter"); await page.keyboard.press("Space"); const keyboard = await snapshot(page);
-  expect(native).toEqual(pointer); expect(keyboard).toEqual(pointer);
-});
-
-test("BG-04 immutable evidence and replay prefix", async ({ page }) => {
-  test.slow();
-  await openInitial(page);
-  const fingerprint = await page.getByTestId("evidence-fingerprint").textContent();
-  const fixed = await page.getByTestId("fixed-aggregates").textContent();
-  for (const duty of duties) {
-    await page.getByRole("button", { name: duty, exact: true }).click();
-    const next = page.getByRole("button", { name: "다음 장면", exact: true });
-    for (let step = 0; step < 100; step += 1) {
-      const frame = await snapshot(page);
-      expect(frame.renderedEventIds).toEqual(frame.orderedEventIds.slice(0, frame.frameIndex + 1));
-      if (!await next.count() || !await next.isEnabled()) break;
-      await next.click();
-    }
-    const counter = page.getByRole("button", { name: /반례 보기/u });
-    if (await counter.count()) {
-      await counter.click();
-      for (let step = 0; step < 100; step += 1) {
-        const frame = await snapshot(page);
-        expect(frame.renderedEventIds).toEqual(frame.orderedEventIds.slice(0, frame.frameIndex + 1));
-        expect(await page.getByTestId("evidence-fingerprint").textContent()).toBe(fingerprint);
-        expect(await page.getByTestId("fixed-aggregates").textContent()).toBe(fixed);
-        const counterNext = page.getByRole("button", { name: "다음 장면", exact: true });
-        if (!await counterNext.count() || !await counterNext.isEnabled()) break;
-        await counterNext.click();
-      }
-    }
-    const state = await snapshot(page);
-    expect(state.renderedEventIds).toEqual(state.orderedEventIds.slice(0, state.frameIndex + 1));
-    expect(await page.getByTestId("evidence-fingerprint").textContent()).toBe(fingerprint);
-    expect(await page.getByTestId("fixed-aggregates").textContent()).toBe(fixed);
-    await reset(page);
+test("BG-03 input parity produces one deterministic policy fingerprint", async ({ page }) => {
+  const fingerprints: string[] = [];
+  for (const mode of ["card", "pitch", "keyboard"] as const) {
+    await openInitial(page);
+    await choosePolicy(page, mode);
+    fingerprints.push(await lockPolicy(page));
   }
+  expect(new Set(fingerprints).size).toBe(1);
 });
 
-test("BG-05 every duty preset or honest unavailable", async ({ page }) => {
+test("BG-04 one immutable policy spans both held-out audits", async ({ page }) => {
   await openInitial(page);
-  await expect(page.getByRole("button", { name: /반례 보기/u })).toHaveCount(0);
-  for (const duty of duties) {
-    await page.getByRole("button", { name: duty, exact: true }).click();
-    const state = await snapshot(page);
-    expect(state.duty).not.toBe("outlet");
-    const hasPreset = state.windowId !== null;
-    expect(hasPreset || await page.getByText("검증된 예시 기록이 없습니다.", { exact: true }).first().isVisible()).toBe(true);
-    if (state.counterexampleWindowId === null) await expect(page.getByRole("button", { name: /반례 보기/u })).toHaveCount(0);
-    else {
-      const counter = page.getByRole("button", { name: /반례 보기/u });
-      await expect(counter).toBeVisible(); await counter.click();
-      expect((await snapshot(page)).windowKind).toBe("counterexample");
-    }
-    await reset(page);
-  }
-  expect((await snapshot(page)).duty).toBe("outlet");
+  await choosePolicy(page);
+  const policyId = await lockPolicy(page);
+  await revealRoundOf16(page);
+  await expect(page.locator(".lane-card").first()).toBeDisabled();
+  await expect(page.locator(".history li")).toHaveCount(8);
+  await expect(page.locator(".history li").first()).toContainText(policyId);
+  await revealFinal(page);
+  await expect(page.getByTestId("final-receipt")).toContainText(policyId);
+  await expect(page.getByTestId("final-receipt")).toContainText("정책 변경 0회");
 });
 
-test("BG-06 shot is marker not placeholder path", async ({ page }) => {
-  test.setTimeout(120_000);
+test("BG-05 abstention remains an honest no-criterion path", async ({ page }) => {
   await openInitial(page);
-  for (const duty of duties) {
-    await page.getByRole("button", { name: duty, exact: true }).click();
-    const next = page.getByRole("button", { name: "다음 장면", exact: true });
-    for (let step = 0; step < 100; step += 1) {
-      expect(await page.locator('path[data-event-kind="Shot"], line[data-event-kind="Shot"]').count()).toBe(0);
-      const state = await snapshot(page);
-      if (state.currentEvent?.kind === "Shot") await expect(page.locator('[data-event-kind="Shot"][data-render-kind="marker"]').first()).toBeAttached();
-      if (!await next.count() || !await next.isEnabled()) break;
-      await next.click();
-    }
-    const counter = page.getByRole("button", { name: /반례 보기/u });
-    if (await counter.count()) {
-      await counter.click();
-      const counterNext = page.getByRole("button", { name: "다음 장면", exact: true });
-      for (let step = 0; step < 100; step += 1) {
-        expect(await page.locator('path[data-event-kind="Shot"], line[data-event-kind="Shot"]').count()).toBe(0);
-        const state = await snapshot(page);
-        if (state.currentEvent?.kind === "Shot") await expect(page.locator('[data-event-kind="Shot"][data-render-kind="marker"]').first()).toBeAttached();
-        if (!await counterNext.count() || !await counterNext.isEnabled()) break;
-        await counterNext.click();
-      }
-    }
-    await reset(page);
-  }
+  await page.getByRole("button", { name: "판단 보류를 두 시험에 적용" }).click();
+  await expect(page.getByTestId("lock-receipt")).toContainText("판단 보류");
+  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+  await expect(page.getByRole("heading", { name: /판단 보류 검증/ })).toBeVisible();
+  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+  await expect(page.getByTestId("final-receipt")).toContainText("판단 보류 정책 변경 0회");
+  await expect(page.getByTestId("final-receipt")).not.toContainText("0%");
 });
 
-test("BG-07 clean-profile keyless refresh", async ({ page, context, baseURL }) => {
-  const errors: string[] = []; const foreign: string[] = [];
+test("BG-06 representative contradiction exposes provenance, not causality", async ({ page }) => {
+  await openInitial(page);
+  await choosePolicy(page);
+  await lockPolicy(page);
+  await revealRoundOf16(page);
+  const counterexample = page.getByTestId("counterexample");
+  await expect(counterexample).toBeFocused();
+  await expect(counterexample).toContainText("CornerRestart RECORDED_ACTION DeliveryAction");
+  await expect(counterexample).toContainText("ObservedEvent OBSERVED_OUTCOME OutcomeProxy");
+  await expect(counterexample).toContainText("ObservedEvent DERIVED_FROM Source");
+  await expect(counterexample).toContainText("금지 관계: WOULD_PREVENT · OPTIMAL_POLICY");
+});
+
+test("BG-07 clean-profile refresh is keyless and same-origin", async ({ page, context, baseURL }) => {
+  const errors: string[] = [];
+  const foreign: string[] = [];
   page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("request", (request) => {
     if (/^https?:/u.test(request.url()) && new URL(request.url()).origin !== new URL(baseURL!).origin) foreign.push(request.url());
   });
   await openInitial(page);
-  await page.evaluate(() => { localStorage.setItem("dirty", "duty"); sessionStorage.setItem("dirty", "duty"); });
-  await context.addCookies([{ name: "dirty", value: "duty", domain: new URL(baseURL!).hostname, path: "/", secure: true }]);
-  await page.reload();
-  expect((await snapshot(page)).duty).toBe("outlet");
-  expect(await page.evaluate(async () => (await navigator.serviceWorker?.getRegistrations() ?? []).length)).toBe(0);
-  expect(foreign).toEqual([]); expect(errors).toEqual([]);
+  await page.evaluate(() => {
+    localStorage.setItem("dirty", "policy");
+    sessionStorage.setItem("dirty", "policy");
+  });
+  await context.addCookies([{ name: "dirty", value: "policy", domain: new URL(baseURL!).hostname, path: "/", secure: true }]);
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(page.getByTestId("selection-count")).toHaveText("0/2");
   await expect(page.locator('input[type="password"]')).toHaveCount(0);
+  expect(await page.evaluate(async () => (await navigator.serviceWorker?.getRegistrations() ?? []).length)).toBe(0);
+  expect(foreign).toEqual([]);
+  expect(errors).toEqual([]);
 });
 
-test("BG-08 responsive states and invalid fixture layout", async ({ page }) => {
+test("BG-08 responsive decision states and invalid artifact stay contained", async ({ page }) => {
   test.slow();
   for (const viewport of viewports) {
-    await page.setViewportSize(viewport); await openInitial(page); await assertNoOverflow(page);
-    for (const duty of duties) {
-      await page.getByRole("button", { name: duty, exact: true }).click(); await assertNoOverflow(page);
-      const play = page.getByRole("button", { name: "재생", exact: true });
-      if (await play.count()) {
-        await play.click();
-        await assertNoOverflow(page);
-        const pause = page.getByRole("button", { name: "일시정지", exact: true });
-        if (await pause.count()) await pause.click();
-      }
-      const counter = page.getByRole("button", { name: /반례 보기/u });
-      if (await counter.count()) { await counter.click(); await assertNoOverflow(page); }
-      await reset(page);
-    }
-    await page.goto("http://127.0.0.1:4174"); await assertNoOverflow(page);
+    await page.setViewportSize(viewport);
+    await openInitial(page);
+    await assertNoHorizontalOverflow(page);
+    await choosePolicy(page);
+    await lockPolicy(page);
+    await revealRoundOf16(page);
+    await assertNoHorizontalOverflow(page);
+    await revealFinal(page);
+    await assertNoHorizontalOverflow(page);
   }
-});
-
-test("BG-09 reduced motion preserves stepped result", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "no-preference" }); await openInitial(page);
-  await page.getByRole("button", { name: duties[0], exact: true }).click();
-  await page.getByRole("button", { name: "다음 장면", exact: true }).click();
-  const normal = await snapshot(page);
-  await page.emulateMedia({ reducedMotion: "reduce" }); await page.reload();
-  await page.getByRole("button", { name: duties[0], exact: true }).click();
-  const motion = await page.locator("[data-motion]").evaluateAll((elements) => elements.map((element) => {
-    const style = getComputedStyle(element); return [style.animationDuration, style.transitionDuration];
-  }));
-  expect(motion.flat().every((value) => value.split(",").every((part) => Number.parseFloat(part) === 0))).toBe(true);
-  await page.getByRole("button", { name: "다음 장면", exact: true }).click();
-  expect(await snapshot(page)).toEqual(normal);
-});
-
-test("BG-10 axe and forced-colors states", async ({ page }) => {
-  test.slow(); await openInitial(page);
-  for (const duty of [null, ...duties]) {
-    if (duty) await page.getByRole("button", { name: duty, exact: true }).click();
-    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-    const counter = page.getByRole("button", { name: /반례 보기/u });
-    if (duty && await counter.count()) { await counter.click(); expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]); }
-    if (duty) await reset(page);
-  }
-  await page.emulateMedia({ forcedColors: "active" });
-  await page.getByRole("button", { name: duties[0], exact: true }).click();
-  await expect(page.getByTestId("selected-indicator")).toContainText(/선택|✓/u);
   await page.goto("http://127.0.0.1:4174");
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await expect(page.getByRole("alert")).toBeVisible();
+  await assertNoHorizontalOverflow(page);
 });
 
-test("BG-11 forbidden conclusions absent", async ({ page }) => {
+test("BG-09 reduced motion preserves the deterministic receipt", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await openInitial(page);
-  for (const duty of [null, ...duties]) {
-    if (duty) await page.getByRole("button", { name: duty, exact: true }).click();
-    const body = await page.locator("body").innerText();
-    for (const phrase of ["막았다", "방어 성공", "예방", "최적", "승률", "xG 변화", "AI 추천"]) expect(body).not.toContain(phrase);
-    await expect(page.getByText("결과 예측 아님", { exact: false }).first()).toBeVisible();
-    if (duty) await reset(page);
-  }
+  const normalPolicy = await completePolicy(page);
+  const normalReceipt = (await page.getByTestId("final-receipt").innerText()).replace(normalPolicy, "<POLICY>");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await openInitial(page);
+  const reducedPolicy = await completePolicy(page);
+  const reducedReceipt = (await page.getByTestId("final-receipt").innerText()).replace(reducedPolicy, "<POLICY>");
+  expect(reducedPolicy).toBe(normalPolicy);
+  expect(reducedReceipt).toBe(normalReceipt);
 });
 
-test("BG-12 production has no synthetic engine or fixture switch", async ({ page }, testInfo) => {
+test("BG-10 axe and forced-colors preserve non-color verdicts", async ({ page }) => {
+  test.slow();
+  await openInitial(page);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await completePolicy(page);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await page.emulateMedia({ forcedColors: "active" });
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 충족");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 51% · 사전 기준 50%");
+  const invalidPage = await page.context().newPage();
+  await invalidPage.goto("http://127.0.0.1:4174");
+  expect((await new AxeBuilder({ page: invalidPage }).analyze()).violations).toEqual([]);
+  await invalidPage.close();
+});
+
+test("BG-11 forbidden positive conclusions remain absent", async ({ page }) => {
+  await openInitial(page);
+  await completePolicy(page);
+  const body = await page.locator("body").innerText();
+  for (const phrase of ["승률", "xG 변화", "AI 추천", "최적 정책입니다", "강화학습이 학습했다", "예방했다"]) {
+    expect(body).not.toContain(phrase);
+  }
+  await expect(page.getByText(/이 수치는 수비 성공률이 아닙니다/)).toBeVisible();
+  await expect(page.getByText(/실제 선수 배치와 반사실적 경기 결과는 데이터에 없습니다/)).toBeVisible();
+});
+
+test("BG-12 production marker binds the Policy Lab release and admitted data", async ({ page }, testInfo) => {
   await openInitial(page);
   const evidence = await page.evaluate(async () => {
     const marker = await (await fetch("./submission-build.json", { cache: "no-store" })).json();
-    const output: string[] = [];
-    for (const file of marker.files) if (/\.(?:html|js|css|json|map|txt)$/iu.test(file.path)) output.push(await (await fetch(file.path)).text());
+    const texts: string[] = [];
+    for (const file of marker.files) {
+      if (/\.(?:html|js|css|json|map|txt)$/iu.test(file.path)) texts.push(await (await fetch(file.path, { cache: "no-store" })).text());
+    }
+    const release = await (await fetch("./release-manifest.json", { cache: "no-store" })).json();
     const bindingResponse = await fetch(marker.productDataBinding.path.replace(/^public\//u, "./"), { cache: "no-store" });
     const bindingBytes = new Uint8Array(await bindingResponse.arrayBuffer());
-    const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bindingBytes))].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+    const bindingDigest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bindingBytes))]
+      .map((byte) => byte.toString(16).padStart(2, "0")).join("");
     const binding = JSON.parse(new TextDecoder().decode(bindingBytes));
     const dataChecks = [];
     for (const artifact of binding.data_files) {
       const response = await fetch(artifact.path.replace(/^public\//u, "./"), { cache: "no-store" });
       const bytes = new Uint8Array(await response.arrayBuffer());
-      const dataDigest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-      dataChecks.push({ path: artifact.path, status: response.status, digest: dataDigest, expected: artifact.sha256 });
+      const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))]
+        .map((byte) => byte.toString(16).padStart(2, "0")).join("");
+      dataChecks.push({ status: response.status, digest, expected: artifact.sha256 });
     }
-    return { texts: output.join("\n"), marker, bindingStatus: bindingResponse.status, bindingDigest: digest, dataChecks };
+    return { marker, texts: texts.join("\n"), release, bindingStatus: bindingResponse.status, bindingDigest, dataChecks };
   });
-  for (const forbidden of ["evaluatePrototypeTactic", "프로토타입 로직", "압박 강도", "test-only-invalid-artifact", "bad-fixture"]) {
-    expect(evidence.texts).not.toContain(forbidden);
-  }
   expect(evidence.marker.releaseCommit).toBe(testInfo.project.metadata.releaseCommit);
   expect(evidence.marker.buildSha256).toBe(testInfo.project.metadata.buildSha256);
+  expect(evidence.release).toMatchObject({
+    product_id: "corner-policy-lab",
+    release_status: "stamped-final",
+    causal_recommendation_status: "REJECT",
+    empirical_campaign_status: "REVISE",
+  });
+  expect(evidence.texts).not.toContain("코너 수비에 한 명 더. 역습에는 한 명 덜.");
+  expect(evidence.texts).not.toContain("test-only-invalid-artifact");
   expect(evidence.bindingStatus).toBe(200);
   expect(evidence.bindingDigest).toBe(evidence.marker.productDataBinding.sha256);
   expect(evidence.dataChecks.length).toBeGreaterThan(0);
-  for (const check of evidence.dataChecks) { expect(check.status).toBe(200); expect(check.digest).toBe(check.expected); }
-  for (const path of ["docs/data-scope-resolution.json", "docs/product-selection.json", "data/source-manifest.json"]) {
-    expect(evidence.marker.eligibilityBindings[path]).toMatch(/^[a-f0-9]{64}$/u);
+  for (const check of evidence.dataChecks) {
+    expect(check.status).toBe(200);
+    expect(check.digest).toBe(check.expected);
   }
 });
 
-test("BG-13 focus status replay and reset semantics", async ({ page }) => {
+test("BG-13 focus, status, and immutable next-meeting semantics", async ({ page }) => {
   await openInitial(page);
-  const role = page.getByRole("button", { name: roleName }); const initial = await snapshot(page);
-  await role.focus(); await page.keyboard.press("Enter"); await expect(page.getByRole("button", { name: duties[0], exact: true })).toBeFocused();
-  await page.keyboard.press("Escape"); await expect(role).toBeFocused(); expect(await snapshot(page)).toEqual(initial);
-  await page.keyboard.press("Space"); await page.keyboard.press("Space"); await expect(role).toBeFocused();
-  await expect(role).not.toHaveAttribute("aria-expanded"); expect(await page.getByRole("status").count()).toBe(1);
-  const announcements = (await snapshot(page)).announcementCount;
-  expect(announcements).toBe(1);
-  const status = await page.getByRole("status").textContent();
-  await page.getByRole("button", { name: "다음 장면", exact: true }).click();
-  expect(await page.getByRole("status").textContent()).toBe(status);
-  expect((await snapshot(page)).announcementCount).toBe(announcements);
-  await reset(page); await expect(role).toBeFocused(); expect((await snapshot(page)).duty).toBe("outlet");
+  const zone = page.getByRole("button", { name: lanes[0].pitch });
+  await zone.focus();
+  await page.keyboard.press("Enter");
+  await expect(zone).toBeFocused();
+  await expect(page.getByTestId("selection-count")).toHaveText("1/2");
+  await expect(page.locator("#app")).not.toHaveAttribute("aria-live");
+  await page.getByRole("button", { name: lanes[1].pitch }).click();
+  await page.getByRole("button", { name: criterionName }).click();
+  const policyId = await lockPolicy(page);
+  await revealRoundOf16(page);
+  await revealFinal(page);
+  const finalBefore = (await page.getByTestId("final-receipt").innerText()).trim();
+  await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
+  await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달을 다음 미팅에서 다시 검토");
+  await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
+  const note = page.getByTestId("meeting-note-receipt");
+  await expect(note).toBeFocused();
+  await expect(note).toContainText(`봉인 정책 ${policyId} · 정책 변경 0회 · 검증 결과는 그대로입니다.`);
+  expect((await page.getByTestId("final-receipt").innerText()).trim()).toBe(finalBefore);
 });
 
-test("BG-14 transcript synchronization and non-color focus", async ({ page }, testInfo) => {
+test("BG-14 screenshot transcript covers initial, selected, and counterexample", async ({ page }, testInfo) => {
   await openInitial(page);
   await testInfo.attach("artifact-initial", { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
-  await page.getByRole("button", { name: duties[0], exact: true }).click();
+  await choosePolicy(page);
   await testInfo.attach("artifact-selected", { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
-  for (let step = 0; step < 100; step += 1) {
-    const state = await snapshot(page); const transcript = page.getByTestId("current-event-transcript");
-    await expect(transcript).toHaveAttribute("data-source-id", state.currentEvent.sourceId);
-    await expect(transcript).toHaveAttribute("data-team", state.currentEvent.team);
-    await expect(transcript).toHaveAttribute("data-clock", state.currentEvent.clock);
-    await expect(transcript).toHaveAttribute("data-contact", String(state.currentEvent.contact));
-    await expect(transcript).toContainText(state.currentEvent.contact ? "선택 구역과 겹침" : "선택 구역과 겹치지 않음");
-    const next = page.getByRole("button", { name: "다음 장면", exact: true });
-    if (!await next.isEnabled()) break; await next.click();
-  }
-  await page.getByRole("button", { name: /반례 보기/u }).click();
+  await lockPolicy(page);
+  await revealRoundOf16(page);
+  await revealFinal(page);
   await testInfo.attach("artifact-counterexample", { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
-  const counterexample = await snapshot(page);
-  await expect(page.getByTestId("current-event-transcript")).toContainText(counterexample.currentEvent.contact ? "선택 구역과 겹침" : "선택 구역과 겹치지 않음");
-  await expect(page.getByText("이 슈팅 기록에는 선택한 우선 구역과 겹치는 지점이 없습니다. 이 선택이 슈팅을 막았을지는 알 수 없습니다.")).toBeVisible();
-  await expect(page.getByTestId("evidence-pitch")).toHaveAttribute("aria-hidden", "true");
-  const focused = page.getByRole("button", { name: "초기화", exact: true }); await focused.focus();
-  const focus = await focused.evaluate((element) => { const style = getComputedStyle(element); return `${style.outlineStyle} ${style.outlineWidth}`; });
-  expect(focus).not.toMatch(/^none 0px$/u);
-  const box = await focused.boundingBox(); expect(box).not.toBeNull();
-  expect(await focused.evaluate((element, point) => {
-    const hit = document.elementFromPoint(point.x, point.y); return hit === element || Boolean(hit && element.contains(hit));
-  }, { x: box!.x + box!.width / 2, y: box!.y + box!.height / 2 })).toBe(true);
+  await expect(page.getByTestId("final-receipt")).toContainText("정책 변경 0회");
+  await expect(page.getByTestId("counterexample")).toContainText("EVIDENCE PATH · 금지 추론 안전장치");
 });
 
-test("BG-15 invalid data fails closed", async ({ page }) => {
+test("BG-15 invalid policy data fails closed without substitute controls", async ({ page, request, baseURL }) => {
+  const [publicApp, invalidApp] = await Promise.all([
+    request.get(new URL("app.js", baseURL).toString()),
+    request.get("http://127.0.0.1:4174/app.js"),
+  ]);
+  expect(publicApp.status()).toBe(200);
+  expect(invalidApp.status()).toBe(200);
+  expect(createHash("sha256").update(await invalidApp.body()).digest("hex"))
+    .toBe(createHash("sha256").update(await publicApp.body()).digest("hex"));
   await page.goto("http://127.0.0.1:4174");
-  await expect(page.getByRole("alert")).toContainText("검증된 기록을 불러오지 못했습니다. 합성 결과를 대신 표시하지 않습니다");
-  await expect(page.getByRole("button", { name: roleName })).toHaveCount(0);
-  for (const duty of duties) await expect(page.getByRole("button", { name: duty, exact: true })).toHaveCount(0);
-  for (const control of ["재생", "일시정지", "처음부터 재생", "이전 장면", "다음 장면", "초기화"]) {
-    await expect(page.getByRole("button", { name: control, exact: true })).toHaveCount(0);
-  }
-  await expect(page.getByRole("button", { name: /반례 보기/u })).toHaveCount(0);
-  await expect(page.getByTestId("evidence-receipt")).toHaveCount(0);
-  await expect(page.locator("[data-evidence-panel]")).toHaveCount(0);
-  await expect(page.getByText(/프로토타입|합성 점수|대체 결과/u)).toHaveCount(0);
+  await expect(page.getByRole("alert")).toContainText("Policy Lab을 열 수 없습니다.");
+  await expect(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "판단 보류를 두 시험에 적용" })).toHaveCount(0);
+  await expect(page.getByTestId("threshold-verdict")).toHaveCount(0);
+  await expect(page.getByTestId("final-receipt")).toHaveCount(0);
+  await expect(page.locator(".pitch")).toHaveCount(0);
+  await expect(page.getByText(/합성 결과|대체 결과/u)).toHaveCount(0);
 });

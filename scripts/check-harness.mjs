@@ -1,5 +1,5 @@
 import { access, readFile } from "node:fs/promises";
-import { validateCurrentHarnessState } from "./lib/harness-state.mjs";
+import { validateCurrentHarnessState, validateLivePortfolioBoard } from "./lib/harness-state.mjs";
 
 const requiredFiles = [
   "AGENTS.md",
@@ -10,6 +10,8 @@ const requiredFiles = [
   "docs/judge-differentiation-gate.md",
   "docs/research-ux-review-2026-07-18.md",
   "docs/interaction-acceptance-contract.md",
+  "docs/policy-lab-product-contract.md",
+  "docs/policy-lab-demo-60s.md",
   "docs/corner-transform-contract.md",
   "docs/post-p0-execution-runbook.md",
   "docs/decision-registry.md",
@@ -26,15 +28,17 @@ const requiredFiles = [
   "docs/submission-story.json",
   "docs/demo-script.md",
   "docs/demo-rehearsal-contract.md",
-  "docs/demo-narration.json",
-  "docs/demo-captions.ko.srt",
+  "docs/policy-lab-demo-narration.json",
+  "docs/policy-lab-demo-captions.ko.srt",
   "docs/assets/demo-storyboard/manifest.json",
   "docs/assets/gallery/manifest.json",
   "docs/five-user-comprehension-protocol.md",
   "requirements-verify.txt",
   "data/source-manifest.json",
-  "src/domain/tactics.ts",
-  "tests/e2e/manager-loop.spec.ts",
+  "prototypes/policy-dojo/index.html",
+  "prototypes/policy-dojo/app.js",
+  "prototypes/policy-dojo/styles.css",
+  "public/data/policy-lab-spike.json",
   "scripts/check-planning-contract.mjs",
   "scripts/check-eligibility.mjs",
   "scripts/record-organizer-question.mjs",
@@ -53,16 +57,23 @@ const requiredFiles = [
   "scripts/release-artifact.test.mjs",
   "scripts/raw-reproduction-contract.test.mjs",
   "scripts/check-static-deployment.mjs",
+  "scripts/check-release-coherence.mjs",
+  "scripts/lib/release-coherence.mjs",
+  "scripts/release-coherence.test.mjs",
+  "scripts/build-policy-lab.mjs",
+  "scripts/lib/policy-lab-release.mjs",
+  "playwright.policy.config.ts",
+  "playwright.policy.release.config.ts",
+  "tests/policy-release/policy-release.spec.ts",
+  "tests/prototypes/policy-dojo.spec.ts",
   "playwright.final.config.ts",
   "scripts/run-final-browser.mjs",
   "scripts/run-pre-release-browser.mjs",
   "scripts/lib/harness-state.mjs",
   "scripts/harness-state.test.mjs",
   "tests/final-e2e/final-manager-loop.spec.ts",
-  "vite.invalid-artifact.config.ts",
   "vite.raw.config.ts",
   "scripts/serve-invalid-fixture.mjs",
-  "tests/fixtures/invalid-corner-scenarios.json",
   "scripts/render-planning-draft.py",
   "scripts/capture-planning-screenshots.mjs",
   "scripts/render-planning-draft.mjs",
@@ -85,6 +96,7 @@ const requiredFiles = [
   "scripts/user-study.test.mjs",
   "evidence/user-studies/primary-wave-1.json",
   "docs/retrospective-first-place-goal.md",
+  "docs/retrospective-release-coherence-2026-07-25.md",
   "docs/synthetic-persona-review-2026-07-18.md",
 ];
 const requiredSkills = [
@@ -118,7 +130,8 @@ for (const name of requiredSkills) {
 try {
   const [stateText, selectionText, manifestText, board, officialState, judgingMap, judgeGate, readme, handoff, runbook,
     productThesis, interactionContract, researchUxReview, decisionRegistry, firstPlaceGoal,
-    cornerTransformContract, syntheticPersonaReview, firstPlaceRetrospective] = await Promise.all([
+    cornerTransformContract, syntheticPersonaReview, firstPlaceRetrospective,
+    submissionStoryText, submissionLedger] = await Promise.all([
     readFile("docs/data-scope-resolution.json", "utf8"),
     readFile("docs/product-selection.json", "utf8"),
     readFile("data/source-manifest.json", "utf8"),
@@ -137,15 +150,32 @@ try {
     readFile("docs/corner-transform-contract.md", "utf8"),
     readFile("docs/synthetic-persona-review-2026-07-18.md", "utf8"),
     readFile("docs/retrospective-first-place-goal.md", "utf8"),
+    readFile("docs/submission-story.json", "utf8"),
+    readFile("docs/submission-ledger.md", "utf8"),
   ]);
   errors.push(...validateCurrentHarnessState({
     state: JSON.parse(stateText), selection: JSON.parse(selectionText), manifest: JSON.parse(manifestText),
     board, officialState, judgingMap, judgeGate, readme, handoff, runbook,
     productThesis, interactionContract, researchUxReview, decisionRegistry, firstPlaceGoal,
     cornerTransformContract, syntheticPersonaReview, firstPlaceRetrospective,
+    submissionStory: JSON.parse(submissionStoryText), submissionLedger,
   }));
 } catch (error) {
   errors.push(`current harness state could not be validated: ${error.message}`);
+}
+
+try {
+  const [liveBoard, ledger] = await Promise.all([
+    readFile("../COMPETITION_BOARD.md", "utf8"),
+    readFile("docs/submission-ledger.md", "utf8"),
+  ]);
+  errors.push(...validateLivePortfolioBoard({ board: liveBoard, ledger }));
+} catch (error) {
+  if (error?.code === "ENOENT") {
+    console.log("[INFO] live portfolio board unavailable in this clone; repository snapshot remains the portable release surface");
+  } else {
+    errors.push(`live portfolio board could not be validated: ${error.message}`);
+  }
 }
 
 if (errors.length) {
