@@ -76,6 +76,14 @@ describe("planning candidate PDF", () => {
     }
   });
 
+  it("renders from tracked evidence without an ignored build directory", async () => {
+    const renderer = await readFile("scripts/render-policy-lab-plan.py", "utf8");
+    expect(renderer).toContain('POLICY_DATA = ROOT / "public/data/policy-lab-spike.json"');
+    expect(renderer).not.toContain('ROOT / "dist/');
+    expect(renderer).toContain("capture release and build bindings disagree");
+    expect(renderer).toContain("capture source binding does not match the tracked source bytes");
+  });
+
   it("prepares an exact-artifact packet that starts unapproved", async () => {
     const result = await preparePlanReview({ pdfPath, outputRoot: join(directory, "review") });
     expect(result.manifest.status).toBe("review-packet-not-human-evidence");

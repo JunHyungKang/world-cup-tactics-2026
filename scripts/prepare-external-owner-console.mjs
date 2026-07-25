@@ -42,34 +42,37 @@ function releaseCommit() {
   return result.stdout.trim();
 }
 
-export async function buildOwnerConsoleModel() {
+export async function buildOwnerConsoleModel({
+  artifactPaths = paths,
+  releaseCommitValue = releaseCommit(),
+} = {}) {
   const [story, handoff, planSha256, rehearsalSha256, gallerySha256] = await Promise.all([
-    loadJson(paths.story),
-    loadJson(paths.planHandoff),
-    hashFile(paths.planPdf),
-    hashFile(paths.rehearsalVideo),
-    hashFile(paths.gallery),
+    loadJson(artifactPaths.story),
+    loadJson(artifactPaths.planHandoff),
+    hashFile(artifactPaths.planPdf),
+    hashFile(artifactPaths.rehearsalVideo),
+    hashFile(artifactPaths.gallery),
   ]);
 
   if (!handoff.ready_for_owner_upload) throw new Error("canonical planning handoff is not ready");
-  if (handoff.artifact.path !== paths.planPdf || handoff.artifact.sha256 !== planSha256) {
+  if (handoff.artifact.path !== artifactPaths.planPdf || handoff.artifact.sha256 !== planSha256) {
     throw new Error("planning handoff does not bind the exact PDF");
   }
-  if (story.evidence.narrated_video.path !== paths.rehearsalVideo || story.evidence.narrated_video.sha256 !== rehearsalSha256) {
+  if (story.evidence.narrated_video.path !== artifactPaths.rehearsalVideo || story.evidence.narrated_video.sha256 !== rehearsalSha256) {
     throw new Error("submission story does not bind the exact rehearsal video");
   }
-  if (story.gallery.first_image !== paths.gallery) throw new Error("submission story gallery path drifted");
+  if (story.gallery.first_image !== artifactPaths.gallery) throw new Error("submission story gallery path drifted");
 
   return {
     schema_version: 1,
     status: "owner-console-not-submission-or-confirmation",
-    release_commit: releaseCommit(),
+    release_commit: releaseCommitValue,
     planning: {
       status: "READY",
-      path: paths.planPdf,
+      path: artifactPaths.planPdf,
       sha256: planSha256,
       pages: handoff.artifact.pages,
-      handoff: paths.planHandoff,
+      handoff: artifactPaths.planHandoff,
     },
     final_release: {
       status: "LOCKED",
@@ -84,7 +87,7 @@ export async function buildOwnerConsoleModel() {
     youtube: {
       status: "LOCKED",
       title: story.video.title,
-      local_rehearsal_path: paths.rehearsalVideo,
+      local_rehearsal_path: artifactPaths.rehearsalVideo,
       local_rehearsal_sha256: rehearsalSha256,
       duration_seconds: story.video.narrated_duration_seconds,
       boundary: "local rehearsal only; do not upload as the final public demo",
@@ -92,7 +95,7 @@ export async function buildOwnerConsoleModel() {
     gallery: {
       title: story.gallery.title,
       one_line: story.gallery.one_line,
-      path: paths.gallery,
+      path: artifactPaths.gallery,
       sha256: gallerySha256,
     },
     claims: story.claim_boundary,
@@ -121,9 +124,10 @@ async function copy(text,button){await navigator.clipboard.writeText(text);const
 </script></body></html>`;
 }
 
-export async function prepareOwnerConsole() {
-  const model = await buildOwnerConsoleModel();
-  const outputDirectory = resolve(root, paths.outputDirectory);
+export async function prepareOwnerConsole(options = {}) {
+  const artifactPaths = options.artifactPaths ?? paths;
+  const model = await buildOwnerConsoleModel({ ...options, artifactPaths });
+  const outputDirectory = resolve(root, artifactPaths.outputDirectory);
   await mkdir(outputDirectory, { recursive: true });
   await Promise.all([
     writeFile(resolve(outputDirectory, "owner-console-manifest.json"), `${JSON.stringify(model, null, 2)}\n`),

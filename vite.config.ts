@@ -28,6 +28,9 @@ export default defineConfig({
     include: ["src/**/*.test.ts", "scripts/**/*.test.mjs"],
     // Raw archives are intentionally ignored. Exact raw -> derivative reproduction is
     // an explicit local evidence lane; the public-clone suite checks committed bytes.
-    exclude: ["scripts/derive-corner-scenarios.test.mjs"],
+    exclude: [
+      "scripts/derive-corner-scenarios.test.mjs",
+      "scripts/policy-lab-spike-reproduction.test.mjs",
+    ],
   },
 });

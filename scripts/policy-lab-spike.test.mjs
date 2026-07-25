@@ -1,19 +1,10 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { buildPolicyLabSpike, derivePolicyEpisodes } from "./lib/policy-lab-spike.mjs";
 
-const [events, matches] = await Promise.all([
-  readFile("data/raw/pappalardo/events_World_Cup.json", "utf8").then(JSON.parse),
-  readFile("data/raw/pappalardo/matches_World_Cup.json", "utf8").then(JSON.parse),
-]);
+const report = JSON.parse(await readFile("public/data/policy-lab-spike.json", "utf8"));
 
-const episodes = derivePolicyEpisodes(events, matches, 10);
-const report = buildPolicyLabSpike(events, matches);
-
-describe("Policy Lab data spike", () => {
-  it("derives the exact World Cup corner population and reviewed associations", () => {
-    expect(episodes).toHaveLength(603);
-    expect(episodes.filter((episode) => episode.observed_action.validity === "placeholder-endpoint")).toHaveLength(46);
+describe("Policy Lab committed derivative", () => {
+  it("binds the exact World Cup corner population and reviewed associations", () => {
     expect(report.ten_second_summary).toEqual({
       short: { corners: 101, shots: 19, goals: 4, shot_rate: 19 / 101 },
       near: { corners: 184, shots: 57, goals: 5, shot_rate: 57 / 184 },
@@ -22,12 +13,15 @@ describe("Policy Lab data spike", () => {
     });
   });
 
-  it("keeps decision state free of delivery and future outcome fields", () => {
-    const forbidden = /action|delivery|endpoint|shot|goal|outcome|tag|score|winner|event_id/iu;
-    for (const episode of episodes) {
-      expect(Object.keys(episode.state).some((key) => forbidden.test(key))).toBe(false);
-      expect(episode.provenance.observed_event_ids[0]).toBe(episode.provenance.corner_event_id);
-    }
+  it("pins the immutable raw inputs and deterministic transform", () => {
+    expect(report.transform_version).toBe("policy-lab-spike-v4-fixed-match-campaign");
+    expect(report.provenance.input_sha256).toEqual({
+      eventsZip: "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
+      events: "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
+      matchesZip: "c8f92bb7533e5c127e043cee764c991b5c25b4f5e70a65be931baae0b1765ce9",
+      matches: "1ddab20c8605c063a62341eb846466c8d040885a5f0f9a3e26d023123786abb6",
+    });
+    expect(report.provenance.bootstrap_seed).toBe("0x5eed1234");
   });
 
   it("fails closed on team-specific support instead of claiming an RL policy", () => {

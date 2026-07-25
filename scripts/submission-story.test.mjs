@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import {
@@ -8,38 +9,78 @@ import {
   validateSubmissionStory,
 } from "./lib/submission-story.mjs";
 
-const [storyText, storyboardText, galleryText, narrationText, captions, app, productThesis, planning, judgingMap, officialState, demoScript, visualText, narratedText] = await Promise.all([
+const [storyText, storyboardText, galleryText, narrationText, captions, app, productThesis, planning, judgingMap, officialState, demoScript] = await Promise.all([
   readFile("docs/submission-story.json", "utf8"),
   readFile("docs/assets/demo-storyboard/manifest.json", "utf8"),
   readFile("docs/assets/gallery/manifest.json", "utf8"),
   readFile("docs/policy-lab-demo-narration.json", "utf8"),
-  readFile("output/policy-lab-demo/corner-policy-lab.ko.srt", "utf8"),
+  readFile("docs/policy-lab-demo-captions.ko.srt", "utf8"),
   readFile("prototypes/policy-dojo/app.js", "utf8"),
   readFile("docs/product-thesis.md", "utf8"),
   readFile("docs/planning-outline.md", "utf8"),
   readFile("docs/judging-map.md", "utf8"),
   readFile("docs/official-state.md", "utf8"),
   readFile("docs/policy-lab-demo-60s.md", "utf8"),
-  readFile("output/policy-lab-demo/visual-manifest.json", "utf8"),
-  readFile("output/policy-lab-demo/narration-manifest.json", "utf8"),
 ]);
 const story = JSON.parse(storyText);
 const storyboard = JSON.parse(storyboardText);
 const gallery = JSON.parse(galleryText);
 const narration = JSON.parse(narrationText);
-const visualManifest = JSON.parse(visualText);
-const narrationManifest = JSON.parse(narratedText);
 const sources = { app, productThesis, planning, judgingMap, officialState, demoScript };
 const artifactBytes = new Map(await Promise.all(storyboard.artifacts.map(async ({ path }) => [path, await readFile(path)])));
 const galleryBytes = new Map(await Promise.all([...gallery.sources, gallery.output].map(async ({ path }) => [path, await readFile(path)])));
-const evidenceBytes = new Map(await Promise.all(Object.values(story.evidence).map(async ({ path }) => [path, await readFile(path)])));
+const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+
+function localEvidenceFixture() {
+  const changedStory = structuredClone(story);
+  const releaseBytes = Buffer.from("fixture release manifest");
+  const visualVideoBytes = Buffer.from("fixture visual video");
+  const narratedVideoBytes = Buffer.from("fixture narrated video");
+  changedStory.evidence.release_manifest.sha256 = sha256(releaseBytes);
+  changedStory.evidence.visual_video.sha256 = sha256(visualVideoBytes);
+  changedStory.evidence.narrated_video.sha256 = sha256(narratedVideoBytes);
+  const changedStoryBytes = Buffer.from(JSON.stringify(changedStory));
+  const storyHash = sha256(changedStoryBytes);
+  const visualManifest = {
+    status: "local-static-release-rehearsal-not-youtube-or-human-evidence",
+    release_manifest: { sha256: sha256(releaseBytes) },
+    actions: Array.from({ length: changedStory.video.interaction.timed_events }, (_, index) => ({ id: `fixture-${index}` })),
+    interaction_contract: { activations: 8, policy_locks: 1, explicit_scrolls: 2 },
+    final_receipt: "사전 기준 충족 · 사전 위치 겹침 기준 50% · 정책 변경 0회",
+    meeting_note: "검증 결과는 그대로",
+    video: { sha256: sha256(visualVideoBytes), duration_seconds: changedStory.video.visual_duration_seconds },
+    submission_story: { sha256: storyHash },
+  };
+  const visualManifestBytes = Buffer.from(JSON.stringify(visualManifest));
+  const narrationManifest = {
+    status: "local-narrated-static-release-rehearsal-not-youtube-or-human-evidence",
+    visual_source: {
+      sha256: sha256(visualManifestBytes),
+      video_sha256: sha256(visualVideoBytes),
+    },
+    captions: { mode: "burned-in-and-byte-bound-sidecar" },
+    narrated_video: {
+      sha256: sha256(narratedVideoBytes),
+      duration_seconds: changedStory.video.narrated_duration_seconds,
+    },
+    submission_story: { sha256: storyHash },
+  };
+  const narrationManifestBytes = Buffer.from(JSON.stringify(narrationManifest));
+  const bytes = new Map([
+    [changedStory.evidence.release_manifest.path, releaseBytes],
+    [changedStory.evidence.visual_manifest.path, visualManifestBytes],
+    [changedStory.evidence.narration_manifest.path, narrationManifestBytes],
+    [changedStory.evidence.visual_video.path, visualVideoBytes],
+    [changedStory.evidence.narrated_video.path, narratedVideoBytes],
+  ]);
+  return { changedStory, changedStoryBytes, bytes, visualManifest, narrationManifest };
+}
 
 describe("submission story", () => {
-  it("accepts the canonical Policy Lab story, gallery, narration, and local evidence chain", () => {
+  it("accepts the tracked Policy Lab story, gallery, and narration contract", () => {
     expect(validateSubmissionStory(story, sources)).toEqual([]);
     expect(validateGalleryFirstImageManifest(Buffer.from(storyText), story, gallery, galleryBytes)).toEqual([]);
     expect(validateNarrationContract(story, narration, captions, demoScript)).toEqual([]);
-    expect(validateLocalPolicyDemoEvidence(Buffer.from(storyText), story, { bytes: evidenceBytes, visualManifest, narrationManifest })).toEqual([]);
   });
 
   it("rejects a timecode gap", () => {
@@ -72,10 +113,11 @@ describe("submission story", () => {
     expect(validateStoryboardManifest(Buffer.from(storyText), story, changed, artifactBytes)).toContain("every storyboard beat must have a visually distinct captured frame");
   });
 
-  it("rejects video bytes that drift from the story", () => {
-    const bytes = new Map(evidenceBytes);
-    bytes.set(story.evidence.narrated_video.path, Buffer.from("tampered"));
-    expect(validateLocalPolicyDemoEvidence(Buffer.from(storyText), story, { bytes, visualManifest, narrationManifest }))
+  it("accepts a complete local evidence chain and rejects drifted video bytes", () => {
+    const fixture = localEvidenceFixture();
+    expect(validateLocalPolicyDemoEvidence(fixture.changedStoryBytes, fixture.changedStory, fixture)).toEqual([]);
+    fixture.bytes.set(fixture.changedStory.evidence.narrated_video.path, Buffer.from("tampered"));
+    expect(validateLocalPolicyDemoEvidence(fixture.changedStoryBytes, fixture.changedStory, fixture))
       .toContain("submission story evidence hash mismatch: narrated_video");
   });
 });

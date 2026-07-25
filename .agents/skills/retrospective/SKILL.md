@@ -22,4 +22,11 @@ description: Turn product failures, repeated manual work, and judging evidence i
    do not keep them as active harness dependencies.
 7. Put this identity check in a deterministic command called by `pnpm verify`.
    A file-existence audit or a passing predecessor suite is not sufficient.
-8. Run `pnpm verify`, list remaining risks, and select the next concrete artifact.
+8. Before public deployment, run the release builder from an isolated snapshot
+   containing only Git-tracked and explicitly nonignored evidence. The default
+   suite may read committed derivatives and tracked contracts only. Keep ignored
+   raw inputs, local media, generated PDFs, handoff packets, and external
+   receipts in explicit reproduction or submission lanes that fail closed when
+   invoked; never make a default test silently skip because one is absent.
+9. Run `pnpm verify` and `pnpm submission:drill`, list remaining risks, and select
+   the next concrete artifact.

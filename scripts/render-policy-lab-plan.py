@@ -19,7 +19,7 @@ OUT = ROOT / "output/pdf/corner-policy-lab-planning.pdf"
 MANIFEST_OUT = ROOT / "output/pdf/corner-policy-lab-planning.manifest.json"
 SOURCE = ROOT / "docs/planning-outline.md"
 CAPTURE_MANIFEST = ROOT / "docs/assets/policy-lab-planning/manifest.json"
-RELEASE_MANIFEST = ROOT / "dist/release-manifest.json"
+POLICY_DATA = ROOT / "public/data/policy-lab-spike.json"
 ASSETS = ROOT / "docs/assets/policy-lab-planning"
 FONT_DIR = ROOT / "docs/assets/fonts"
 W, H = landscape(A4)
@@ -49,6 +49,16 @@ FONTS = {
 
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def source_digest(paths: list[str]) -> str:
+    digest = hashlib.sha256()
+    for path in sorted(paths):
+        digest.update(path.encode())
+        digest.update(b"\0")
+        digest.update((ROOT / path).read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
 
 
 def artifact_path(path: Path) -> str:
@@ -365,27 +375,29 @@ def main() -> None:
     OUT = ROOT / args.output
     MANIFEST_OUT = OUT.with_suffix(".manifest.json")
     register_fonts()
-    for path in [SOURCE, CAPTURE_MANIFEST, RELEASE_MANIFEST]:
+    for path in [SOURCE, CAPTURE_MANIFEST, POLICY_DATA]:
         if not path.exists():
             raise RuntimeError(f"missing bound artifact: {path}")
     capture = json.loads(CAPTURE_MANIFEST.read_text())
-    release = json.loads(RELEASE_MANIFEST.read_text())
-    if capture["release_manifest_sha256"] != sha(RELEASE_MANIFEST):
-        raise RuntimeError("capture is not bound to the current release manifest")
+    policy = json.loads(POLICY_DATA.read_text())
+    if capture["release_manifest_sha256"] != capture["build_binding"]["sha256"]:
+        raise RuntimeError("capture release and build bindings disagree")
+    if source_digest(capture["source_binding"]["paths"]) != capture["source_binding"]["sha256"]:
+        raise RuntimeError("capture source binding does not match the tracked source bytes")
     for artifact in capture["artifacts"]:
         path = ROOT / artifact["path"]
         if sha(path) != artifact["sha256"]:
             raise RuntimeError(f"capture SHA-256 mismatch: {path}")
-    if release["causal_recommendation_status"] != "REJECT" or release["empirical_campaign_status"] != "REVISE":
-        raise RuntimeError("release claim boundary mismatch")
+    if policy["policy_campaign"]["causal_recommendation_status"] != "REJECT" or policy["policy_campaign"]["empirical_campaign_status"] != "REVISE":
+        raise RuntimeError("tracked policy claim boundary mismatch")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    source_sha, capture_sha, release_sha = sha(SOURCE), sha(CAPTURE_MANIFEST), sha(RELEASE_MANIFEST)
+    source_sha, capture_sha, policy_sha = sha(SOURCE), sha(CAPTURE_MANIFEST), sha(POLICY_DATA)
     c = canvas.Canvas(str(OUT), pagesize=landscape(A4), pageCompression=1)
     c.setTitle("Corner Policy Lab - Planning PDF")
     c.setAuthor("Corner Policy Lab")
     for page in [page_one, page_two, page_three, page_four, page_five, page_six, page_seven, page_eight]:
-        page(c, source_sha, capture_sha, release_sha)
+        page(c, source_sha, capture_sha, policy_sha)
     c.save()
     manifest = {
         "schema_version": 1,
@@ -394,7 +406,7 @@ def main() -> None:
         "bindings": {
             str(SOURCE.relative_to(ROOT)): source_sha,
             str(CAPTURE_MANIFEST.relative_to(ROOT)): capture_sha,
-            str(RELEASE_MANIFEST.relative_to(ROOT)): release_sha,
+            str(POLICY_DATA.relative_to(ROOT)): policy_sha,
         },
         "verified_claims": {"policy_contract_tests": "7/7", "prototype_browser_tests": "7/7", "static_release_browser_tests": "12/12"},
         "claim_boundary": {"causal_recommendation": "REJECT", "empirical_campaign": "REVISE", "human_evidence": "unavailable-no-claim"},

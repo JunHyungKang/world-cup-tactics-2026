@@ -12,8 +12,25 @@ describe("public raw-reproduction evidence contract", () => {
   it("keeps exact raw reproduction outside the default public test discovery", async () => {
     const config = await readFile("vite.config.ts", "utf8");
     const rawConfig = await readFile("vite.raw.config.ts", "utf8");
-    expect(config).toContain('exclude: ["scripts/derive-corner-scenarios.test.mjs"]');
-    expect(rawConfig).toContain('include: ["scripts/derive-corner-scenarios.test.mjs"]');
+    expect(config).toContain('"scripts/derive-corner-scenarios.test.mjs"');
+    expect(config).toContain('"scripts/policy-lab-spike-reproduction.test.mjs"');
+    expect(rawConfig).toContain('"scripts/derive-corner-scenarios.test.mjs"');
+    expect(rawConfig).toContain('"scripts/policy-lab-spike-reproduction.test.mjs"');
+  });
+
+  it("keeps the default Policy Lab and story audits clean-clone safe", async () => {
+    const [policyTest, policyReproduction, storyTest, storyAudit] = await Promise.all([
+      readFile("scripts/policy-lab-spike.test.mjs", "utf8"),
+      readFile("scripts/policy-lab-spike-reproduction.test.mjs", "utf8"),
+      readFile("scripts/submission-story.test.mjs", "utf8"),
+      readFile("scripts/check-submission-story.mjs", "utf8"),
+    ]);
+    expect(policyTest).not.toContain("data/raw/");
+    expect(policyReproduction).toContain("data/raw/pappalardo/");
+    expect(storyTest).not.toContain('readFile("output/');
+    expect(storyAudit).not.toContain('readFile("output/');
+    expect(storyTest).toContain("localEvidenceFixture");
+    expect(storyAudit).toContain("docs/policy-lab-demo-captions.ko.srt");
   });
 
   it("binds both sources to the same immutable raw transform test bytes", async () => {
