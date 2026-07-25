@@ -86,6 +86,7 @@ describe("final submission readiness", () => {
     expect(drill).toContain("fresh frozen-lock dependency install failed");
     const pagesWorkflow = await readFile(".github/workflows/deploy-pages.yml", "utf8");
     expect(pagesWorkflow).toContain("actions/setup-python@v6");
+    expect(pagesWorkflow).toContain("cache-dependency-path: requirements-verify.txt");
     expect(pagesWorkflow).toContain("pip install -r requirements-verify.txt");
     expect(pagesWorkflow).toContain("apt-get install --yes poppler-utils");
     const directory = await mkdtemp(join(tmpdir(), "snapshot-symlink-"));
