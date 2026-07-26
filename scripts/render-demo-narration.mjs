@@ -30,14 +30,15 @@ const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 const visualBytes = await readFile(visualPath);
 const outputDurationSeconds = 59.92;
 const videoStartNormalization = {
-  source_frame_seconds: 0.2,
+  source_frame_seconds: finalMode ? 0.8 : 0.2,
   held_duration_seconds: 0.2,
   purpose: "replace-browser-capture-startup-flash-with-first-complete-cold-open-frame",
 };
+const headFrameEndSeconds = videoStartNormalization.source_frame_seconds + 0.04;
 const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:force_style='FontName=Apple SD Gothic Neo,FontSize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=38,Alignment=2'";
 const videoFilter = [
   "[0:v]split=2[head-source][tail-source]",
-  `[head-source]trim=start=${videoStartNormalization.source_frame_seconds}:end=0.24,setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration=0.16,trim=duration=${videoStartNormalization.held_duration_seconds}[head]`,
+  `[head-source]trim=start=${videoStartNormalization.source_frame_seconds}:end=${headFrameEndSeconds},setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration=0.16,trim=duration=${videoStartNormalization.held_duration_seconds}[head]`,
   `[tail-source]trim=start=${videoStartNormalization.source_frame_seconds},setpts=PTS-STARTPTS[tail]`,
   `[head][tail]concat=n=2:v=1:a=0[stitched]`,
   `[stitched]${captionFilter}[video]`,

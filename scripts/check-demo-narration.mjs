@@ -64,7 +64,7 @@ check(manifest.visual_source.sha256 === visualManifest.video.sha256, "narrated r
 check(manifest.visual_source.manifest_path === visualManifestPath, "narrated visual manifest path drifted");
 check(manifest.visual_source.manifest_sha256 === digest(visualManifestBytes), "narrated visual manifest SHA mismatch");
 check(manifest.voice.status === (finalMode ? "placeholder-tts-requires-human-listening-approval" : "placeholder-local-tts-not-final-voice"), "TTS evidence boundary drifted");
-check(manifest.video_start_normalization?.source_frame_seconds === 0.2 &&
+check(manifest.video_start_normalization?.source_frame_seconds === (finalMode ? 0.8 : 0.2) &&
   manifest.video_start_normalization?.held_duration_seconds === 0.2 &&
   manifest.video_start_normalization?.purpose === "replace-browser-capture-startup-flash-with-first-complete-cold-open-frame",
 "narrated video must replace browser-capture startup frames with the first complete cold-open frame");
@@ -121,7 +121,7 @@ if (firstFrame.status === 0 && Buffer.isBuffer(firstFrame.stdout) && firstFrame.
   }
   const mean = sum / firstFrame.stdout.length;
   const standardDeviation = Math.sqrt(squared / firstFrame.stdout.length - mean * mean);
-  check(mean >= 5 && mean <= 245 && standardDeviation >= 8,
+  check(mean >= 5 && mean <= 180 && standardDeviation >= 8,
     `first narrated-video frame is blank or flash-prone: mean=${mean.toFixed(2)} stddev=${standardDeviation.toFixed(2)}`);
 }
 
