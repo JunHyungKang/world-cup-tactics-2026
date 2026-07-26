@@ -95,9 +95,11 @@ function detectColdOpenStart(videoPath, imagePath) {
     }
     const meanAbsoluteError = absoluteDifference / bytesPerFrame;
     if (meanAbsoluteError <= maximumMeanAbsoluteError) {
+      const sourceFrameSeconds = (frame + 1) / framesPerSecond;
       return {
         method: "gallery-frame-mean-absolute-error",
-        sourceFrameSeconds: frame / framesPerSecond,
+        sourceFrameSeconds,
+        sampledFrameSeconds: frame / framesPerSecond,
         detectedMeanAbsoluteError: Number(meanAbsoluteError.toFixed(3)),
         maximumMeanAbsoluteError,
         framesPerSecond,

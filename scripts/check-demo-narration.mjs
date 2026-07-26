@@ -132,6 +132,26 @@ if (firstFrame.status === 0 && Buffer.isBuffer(firstFrame.stdout) && firstFrame.
   check(mean >= 5 && mean <= 180 && standardDeviation >= 8,
     `first narrated-video frame is blank or flash-prone: mean=${mean.toFixed(2)} stddev=${standardDeviation.toFixed(2)}`);
 }
+const comparisonWidth = 144;
+const comparisonHeight = 90;
+const comparisonBytes = comparisonWidth * comparisonHeight * 3;
+const decodeComparisonFrame = (path) => spawnSync("ffmpeg", [
+  "-v", "error", "-i", path, "-vf", `scale=${comparisonWidth}:${comparisonHeight}`,
+  "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "pipe:1",
+], { encoding: null, maxBuffer: comparisonBytes * 2 });
+const narratedComparison = decodeComparisonFrame(manifest.narrated_video.path);
+const galleryComparison = decodeComparisonFrame(visualManifest.cold_open.path);
+if (narratedComparison.status !== 0 || galleryComparison.status !== 0 ||
+    narratedComparison.stdout?.length !== comparisonBytes || galleryComparison.stdout?.length !== comparisonBytes) {
+  errors.push("first narrated-video frame could not be compared with the complete gallery frame");
+} else {
+  let absoluteDifference = 0;
+  for (let index = 0; index < comparisonBytes; index += 1) {
+    absoluteDifference += Math.abs(narratedComparison.stdout[index] - galleryComparison.stdout[index]);
+  }
+  const meanAbsoluteError = absoluteDifference / comparisonBytes;
+  check(meanAbsoluteError <= 12, `first narrated-video frame does not match the complete gallery frame: mae=${meanAbsoluteError.toFixed(3)}`);
+}
 
 const loudness = spawnSync("ffmpeg", [
   "-nostats", "-i", manifest.narrated_video.path,
