@@ -29,7 +29,19 @@ const editorialTreatmentBytes = await readFile("docs/demo-editorial-treatment.js
 const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 const visualBytes = await readFile(visualPath);
 const outputDurationSeconds = 59.92;
+const videoStartNormalization = {
+  source_frame_seconds: 0.2,
+  held_duration_seconds: 0.2,
+  purpose: "replace-browser-capture-startup-flash-with-first-complete-cold-open-frame",
+};
 const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:force_style='FontName=Apple SD Gothic Neo,FontSize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=38,Alignment=2'";
+const videoFilter = [
+  "[0:v]split=2[head-source][tail-source]",
+  `[head-source]trim=start=${videoStartNormalization.source_frame_seconds}:end=0.24,setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration=0.16,trim=duration=${videoStartNormalization.held_duration_seconds}[head]`,
+  `[tail-source]trim=start=${videoStartNormalization.source_frame_seconds},setpts=PTS-STARTPTS[tail]`,
+  `[head][tail]concat=n=2:v=1:a=0[stitched]`,
+  `[stitched]${captionFilter}[video]`,
+].join(";");
 const audioMastering = {
   target_integrated_lufs: -16,
   target_true_peak_dbfs: -1.5,
@@ -88,7 +100,8 @@ const wavPath = `${outputDirectory}/corner-policy-lab-narration.wav`;
 run("ffmpeg", ["-y", ...inputArgs, "-filter_complex", filter, "-map", "[a]", "-ar", "48000", "-ac", "1", "-c:a", "pcm_s16le", wavPath]);
 run("ffmpeg", [
   "-y", "-i", visualPath, "-i", wavPath,
-  "-map", "0:v:0", "-map", "1:a:0", "-vf", captionFilter,
+  "-filter_complex", videoFilter,
+  "-map", "[video]", "-map", "1:a:0",
   "-c:v", "libvpx", "-crf", "18", "-b:v", "0", "-deadline", "good", "-cpu-used", "2",
   "-c:a", "libopus", "-b:a", "96k",
   "-metadata", `title=${finalMode ? "FINAL UPLOAD CANDIDATE — HUMAN REVIEW PENDING" : "LOCAL REHEARSAL — NOT FINAL"}`,
@@ -142,6 +155,7 @@ const manifest = {
     rate_words_per_minute: narration.rate_words_per_minute,
     status: finalMode ? "placeholder-tts-requires-human-listening-approval" : "placeholder-local-tts-not-final-voice",
   },
+  video_start_normalization: videoStartNormalization,
   audio_mastering: audioMastering,
   cues: cueReports,
   mixed_audio: {

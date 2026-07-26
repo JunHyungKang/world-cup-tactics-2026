@@ -64,6 +64,10 @@ check(manifest.visual_source.sha256 === visualManifest.video.sha256, "narrated r
 check(manifest.visual_source.manifest_path === visualManifestPath, "narrated visual manifest path drifted");
 check(manifest.visual_source.manifest_sha256 === digest(visualManifestBytes), "narrated visual manifest SHA mismatch");
 check(manifest.voice.status === (finalMode ? "placeholder-tts-requires-human-listening-approval" : "placeholder-local-tts-not-final-voice"), "TTS evidence boundary drifted");
+check(manifest.video_start_normalization?.source_frame_seconds === 0.2 &&
+  manifest.video_start_normalization?.held_duration_seconds === 0.2 &&
+  manifest.video_start_normalization?.purpose === "replace-browser-capture-startup-flash-with-first-complete-cold-open-frame",
+"narrated video must replace browser-capture startup frames with the first complete cold-open frame");
 check(manifest.audio_mastering?.target_integrated_lufs === -16, "audio mastering LUFS target drifted");
 check(manifest.audio_mastering?.target_true_peak_dbfs === -1.5, "audio mastering true-peak target drifted");
 check(manifest.audio_mastering?.highpass_hz === 80 && manifest.audio_mastering?.compressor_ratio === 3, "audio mastering speech chain drifted");
@@ -101,6 +105,25 @@ if (probe.status === 0) {
     media.format.tags?.COMMENT?.includes("Not YouTube or human evidence") || media.format.tags?.comment?.includes("Not YouTube or human evidence"), "narrated rehearsal lacks a standalone evidence-boundary comment tag");
 }
 check(manifest.narrated_video.standalone_label === (finalMode ? "FINAL UPLOAD CANDIDATE — HUMAN REVIEW PENDING" : "LOCAL REHEARSAL — NOT FINAL"), "narrated rehearsal manifest lacks standalone labeling");
+
+const firstFrame = spawnSync("ffmpeg", [
+  "-v", "error", "-i", manifest.narrated_video.path,
+  "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "pipe:1",
+], { encoding: null, maxBuffer: 5_000_000 });
+check(firstFrame.status === 0 && Buffer.isBuffer(firstFrame.stdout) && firstFrame.stdout.length === 1440 * 900 * 3,
+  "ffmpeg could not decode the first narrated-video frame");
+if (firstFrame.status === 0 && Buffer.isBuffer(firstFrame.stdout) && firstFrame.stdout.length === 1440 * 900 * 3) {
+  let sum = 0;
+  let squared = 0;
+  for (const value of firstFrame.stdout) {
+    sum += value;
+    squared += value * value;
+  }
+  const mean = sum / firstFrame.stdout.length;
+  const standardDeviation = Math.sqrt(squared / firstFrame.stdout.length - mean * mean);
+  check(mean >= 5 && mean <= 245 && standardDeviation >= 8,
+    `first narrated-video frame is blank or flash-prone: mean=${mean.toFixed(2)} stddev=${standardDeviation.toFixed(2)}`);
+}
 
 const loudness = spawnSync("ffmpeg", [
   "-nostats", "-i", manifest.narrated_video.path,

@@ -375,6 +375,17 @@ describe("final submission readiness", () => {
     expect(bg14).not.toContain("body: await page.screenshot");
   });
 
+  it("normalizes and audits the first final-video frame", async () => {
+    const [renderer, audit] = await Promise.all([
+      readFile("scripts/render-demo-narration.mjs", "utf8"),
+      readFile("scripts/check-demo-narration.mjs", "utf8"),
+    ]);
+    expect(renderer).toContain("replace-browser-capture-startup-flash-with-first-complete-cold-open-frame");
+    expect(renderer).toContain("[head][tail]concat=n=2:v=1:a=0[stitched]");
+    expect(audit).toContain("first narrated-video frame is blank or flash-prone");
+    expect(audit).toContain("standardDeviation >= 8");
+  });
+
   it("treats YouTube upload identity as a content-addressed owner attestation only", () => {
     const attestation = buildYouTubeUploadAttestation({
       owner: "JunhyungKang", youtubeUrl, demoVideoSha256, uploadedAt: "2026-08-02T20:10:00+09:00",
