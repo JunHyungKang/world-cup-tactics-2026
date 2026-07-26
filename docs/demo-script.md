@@ -1,6 +1,6 @@
 # Corner Policy Lab — 코너 수비 한 명 더, 역습에는 한 명 덜 — 60-second final demo script
 
-Status: `CURRENT SCRIPT — FROZEN-PUBLIC RECORDING PENDING`
+Status: `CURRENT SCRIPT — ONLY AN EXACT-PUBLIC-RELEASE RECORDING MAY BE PUBLISHED`
 
 | Time | Action | Narration |
 |---|---|---|

@@ -335,14 +335,19 @@ test("BG-13 focus, status, and immutable next-meeting semantics", async ({ page 
 });
 
 test("BG-14 screenshot transcript covers initial, selected, and counterexample", async ({ page }, testInfo) => {
+  const attachScreenshot = async (name: "artifact-initial" | "artifact-selected" | "artifact-counterexample") => {
+    const path = testInfo.outputPath(`${name}.png`);
+    await page.screenshot({ path, fullPage: true });
+    await testInfo.attach(name, { path, contentType: "image/png" });
+  };
   await openInitial(page);
-  await testInfo.attach("artifact-initial", { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
+  await attachScreenshot("artifact-initial");
   await choosePolicy(page);
-  await testInfo.attach("artifact-selected", { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
+  await attachScreenshot("artifact-selected");
   await lockPolicy(page);
   await revealRoundOf16(page);
   await revealFinal(page);
-  await testInfo.attach("artifact-counterexample", { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
+  await attachScreenshot("artifact-counterexample");
   await expect(page.getByTestId("final-receipt")).toContainText("정책 변경 0회");
   await expect(page.getByTestId("counterexample")).toContainText("EVIDENCE PATH · 금지 추론 안전장치");
 });

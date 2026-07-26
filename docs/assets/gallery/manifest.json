@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "current-build-composite-not-human-evidence",
   "viewport": "1440x900",
-  "submission_story_sha256": "4e88d2fd31fff4c32effad005d0e2be6479c306151d3dbfe9848bb7704ee8617",
+  "submission_story_sha256": "ca0fb1e6d577c71ccb979087e8b7de77fd29ddab8b6c76ffe2ae7dc02bb233d6",
   "sources": [
     {
       "path": "docs/assets/final-release/01-two-role-decision.png",

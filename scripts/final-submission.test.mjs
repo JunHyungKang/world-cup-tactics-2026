@@ -366,6 +366,15 @@ describe("final submission readiness", () => {
       .toContain("docs/reviews/review.json working bytes must exactly match the Git HEAD blob");
   });
 
+  it("persists BG-14 screenshots as path-backed Playwright evidence", async () => {
+    const source = await readFile("tests/final-e2e/final-manager-loop.spec.ts", "utf8");
+    const bg14 = source.slice(source.indexOf('test("BG-14 '), source.indexOf('test("BG-15 '));
+    expect(bg14).toContain("testInfo.outputPath");
+    expect(bg14).toContain("page.screenshot({ path, fullPage: true })");
+    expect(bg14).toContain("testInfo.attach(name, { path, contentType: \"image/png\" })");
+    expect(bg14).not.toContain("body: await page.screenshot");
+  });
+
   it("treats YouTube upload identity as a content-addressed owner attestation only", () => {
     const attestation = buildYouTubeUploadAttestation({
       owner: "JunhyungKang", youtubeUrl, demoVideoSha256, uploadedAt: "2026-08-02T20:10:00+09:00",

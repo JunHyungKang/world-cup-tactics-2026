@@ -53,6 +53,8 @@
     ]
   },
   "evidence": {
+    "scope": "local-rehearsal-only-not-final-public-video-or-youtube-evidence",
+    "final_source_of_truth": "submissions/final-demo.json generated after the final public release",
     "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "0457808bc84f7d062906361feb9f6ad44a6262385b8306fedda06ec4d12836e1" },
     "visual_manifest": { "path": "output/policy-lab-demo/visual-manifest.json" },
     "narration_manifest": { "path": "output/policy-lab-demo/narration-manifest.json" },

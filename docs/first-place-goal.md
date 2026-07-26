@@ -1,6 +1,6 @@
 # First-Place Goal
 
-Status: `ACTIVE — role-tradeoff candidate verified locally; public stamp, YouTube, and final DAKER receipt remain`
+Status: `ACTIVE — planning submitted; the final content-addressed release, YouTube, and DAKER receipt remain`
 
 ## Objective
 
@@ -27,9 +27,9 @@ preference, usability, comprehension, and memorability claims stay omitted.
 | Claim safety | no prevention, player reach, changed result, optimal policy, or 2026 tendency is inferred | ontology path exposes provenance and forbidden relations; human misconception rate remains unavailable |
 | Comparative recall — UNEVALUATED / NO CLAIM | a fresh cohort recalls the one-policy/two-holdout contradiction after delay | unavailable; no comparative-memory claim allowed |
 | Data credibility | two cleared CC BY 4.0 sources, deterministic 603-corner derivative, 557 classified endpoints, 46 visible missing endpoints | passed; causal recommendation remains `REJECT` and empirical campaign `REVISE` |
-| Interaction/reliability | pointer, keyboard, mobile, contradiction, next-meeting note, refresh, and fail-closed invalid data | 100 deterministic tests pass; clean pre-release BG-01–11 and BG-13–15 pass `60/60` across Chromium·Firefox·WebKit·mobile; new stamped BG-12 remains |
+| Interaction/reliability | pointer, keyboard, mobile, contradiction, next-meeting note, refresh, fail-closed invalid data, and file-backed visual evidence | 101 deterministic tests pass; the clean pre-release matrix passes `60/60`; the final public matrix must pass `64/64` and retain twelve path-backed BG-14 PNGs across Chromium·Firefox·WebKit·mobile |
 | Planning package | final PDF content/render lint plus exact independent visual-QA ledger before deadline | cold-eye PDF `060376c8…` passed exact 8/8 independent-agent review with blocker=0, major=0, minor=0; DAKER returned the same remote SHA-256 and accepted the irreversible planning submission at `2026-07-26T18:38:37+09:00` |
-| Final package | keyless public app, repository, YouTube demo, exact release/browser hashes, owner receipt, and no post-deadline commit | the previous public release is superseded by a locally verified role-tradeoff candidate; the redesigned gallery, two-line professional captions, and `59.920s` rehearsal pass their contracts; clean public stamp, exact-URL recording, YouTube publication, and final DAKER receipt remain |
+| Final package | keyless public app, repository, YouTube demo, exact release/browser hashes, owner receipt, and no post-deadline commit | the role-tradeoff story, redesigned gallery, and two-line Korean captions pass content review; tracked rehearsal hashes are explicitly local-only, while the admissible video is generated from the latest exact public release and bound by `submissions/final-demo.json`; YouTube publication and the final DAKER receipt remain |
 
 ## Winning execution lane
 
@@ -78,8 +78,9 @@ Therefore:
 
 ## Next concrete artifact
 
-Commit and deploy the locally verified role-tradeoff candidate, run BG-12 against
-the exact public bytes, then regenerate the `59.920s` video from that frozen URL.
-Only after owner listening approval may that exact video be published to
-YouTube. Keep the final DAKER web-link/video `제출` untouched until a separate
-action-time confirmation.
+After the latest source commit is deployed, bind one `64/64` public report with
+twelve file-backed BG-14 PNGs and regenerate the sub-60-second video from those
+exact public bytes. Build the immutable 19-PNG review packet only after both
+artifacts pass. Only after owner listening approval may that exact video be
+published to YouTube. Keep the final DAKER web-link/video `제출` untouched until
+a separate action-time confirmation.

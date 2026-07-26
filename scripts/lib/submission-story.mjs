@@ -63,6 +63,10 @@ export function validateSubmissionStory(story, sources) {
   if (!Array.isArray(story?.claim_boundary?.forbidden) || story.claim_boundary.forbidden.length < 9) {
     errors.push("submission story requires explicit forbidden-claim coverage");
   }
+  if (story?.evidence?.scope !== "local-rehearsal-only-not-final-public-video-or-youtube-evidence" ||
+      story?.evidence?.final_source_of_truth !== "submissions/final-demo.json generated after the final public release") {
+    errors.push("submission story must label tracked media hashes as local rehearsal evidence and name the post-release final manifest");
+  }
   const requiredSourceMarkers = [
     ["app", "이 정책을 잠가 두 시험에 적용"],
     ["app", "역습 역할 1명"],

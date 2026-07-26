@@ -63,13 +63,13 @@ export function validateCurrentHarnessState({
     const judgeStatus = lineContaining(judgeGate, "Status: `");
     const handoffCheckpoint = section(handoff, "## 2026-07-19 23:59 KST — canonical Policy Lab conversion checkpoint");
     const runbookCurrent = section(runbook, "## Current verified state");
-    const currentRelease = submissionStory?.evidence?.release_manifest?.sha256?.slice(0, 8);
     const currentVideo = submissionStory?.evidence?.narrated_video?.sha256?.slice(0, 8);
     const currentPdf = /\bpdf=([0-9a-f]{64})\b/u.exec(
       submissionLedger?.split("\n").find((line) => line.includes("| plan-visual-qa |")) ?? "",
     )?.[1]?.slice(0, 8);
     requireMarkers(errors, "competition board active row", boardRow, [
-      "Corner Policy Lab is the canonical root product", currentRelease, currentVideo, currentPdf,
+      "Corner Policy Lab is the canonical root product", currentVideo, currentPdf,
+      "explicitly local rehearsal evidence", "path-backed `64/64` report",
     ]);
     requireMarkers(errors, "judge gate status", judgeStatus, ["technical product proof and public candidate byte parity passed"]);
     requireMarkers(errors, "README current product", readme, [

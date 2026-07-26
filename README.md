@@ -31,8 +31,10 @@ The submitted-plan path still takes eight activations: it places both roles in
 two areas and fits a captioned demo within 60 seconds. The refined candidate
 passes the raw-derived `7/7`, source interaction `10/10`, and built static
 release `12/12` contracts. The clean pre-release matrix also passes `60/60`
-across Chromium, Firefox, WebKit, and mobile. These machine checks are not
-human-preference evidence.
+across Chromium, Firefox, WebKit, and mobile. The final exact-public-release
+matrix adds the deployed-byte and three-state visual-evidence gates for `64/64`;
+its twelve PNGs must be retained as files, not memory-only attachments. These
+machine checks are not human-preference evidence.
 
 ## Local setup
 

@@ -111,6 +111,10 @@ describe("submission story", () => {
     const claim = structuredClone(story);
     claim.claim_boundary.causal_recommendation_status = "PASS";
     expect(validateSubmissionStory(claim, sources)).toContain("submission story must preserve unavailable human evidence, causal REJECT, empirical REVISE, and no-result-prediction boundaries");
+    const evidenceScope = structuredClone(story);
+    evidenceScope.evidence.scope = "final-video";
+    expect(validateSubmissionStory(evidenceScope, sources))
+      .toContain("submission story must label tracked media hashes as local rehearsal evidence and name the post-release final manifest");
   });
 
   it("accepts eight distinct narrated-video storyboard frames", () => {
