@@ -29,10 +29,15 @@ const editorialTreatmentBytes = await readFile("docs/demo-editorial-treatment.js
 const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 const visualBytes = await readFile(visualPath);
 const outputDurationSeconds = 59.92;
+const coldOpenDetection = detectColdOpenStart(
+  visualPath,
+  visualManifest.cold_open?.path ?? "docs/assets/gallery/corner-policy-lab-first-image.png",
+);
 const videoStartNormalization = {
-  source_frame_seconds: finalMode ? 0.8 : 0.2,
+  source_frame_seconds: coldOpenDetection.sourceFrameSeconds,
   held_duration_seconds: 0.2,
   purpose: "replace-browser-capture-startup-flash-with-first-complete-cold-open-frame",
+  detection: coldOpenDetection,
 };
 const headFrameEndSeconds = videoStartNormalization.source_frame_seconds + 0.04;
 const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:force_style='FontName=Apple SD Gothic Neo,FontSize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=38,Alignment=2'";
@@ -55,6 +60,53 @@ function run(command, argv) {
   const result = spawnSync(command, argv, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
   if (result.status !== 0) throw new Error(`${command} failed: ${result.stderr}`);
   return result.stdout;
+}
+
+function rawVideo(commandArguments, maxBuffer) {
+  const result = spawnSync("ffmpeg", commandArguments, { encoding: null, maxBuffer });
+  if (result.status !== 0 || !Buffer.isBuffer(result.stdout)) {
+    throw new Error(`ffmpeg cold-open scan failed: ${result.stderr?.toString("utf8") ?? "no output"}`);
+  }
+  return result.stdout;
+}
+
+function detectColdOpenStart(videoPath, imagePath) {
+  const width = 144;
+  const height = 90;
+  const bytesPerFrame = width * height * 3;
+  const framesPerSecond = 10;
+  const scanSeconds = 2;
+  const maximumMeanAbsoluteError = 8;
+  const target = rawVideo([
+    "-v", "error", "-i", imagePath, "-vf", `scale=${width}:${height}`,
+    "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "pipe:1",
+  ], bytesPerFrame * 2);
+  const scan = rawVideo([
+    "-v", "error", "-i", videoPath, "-t", String(scanSeconds),
+    "-vf", `fps=${framesPerSecond},scale=${width}:${height}`,
+    "-f", "rawvideo", "-pix_fmt", "rgb24", "pipe:1",
+  ], bytesPerFrame * framesPerSecond * (scanSeconds + 1));
+  const frameCount = Math.floor(scan.length / bytesPerFrame);
+  for (let frame = 0; frame < frameCount; frame += 1) {
+    let absoluteDifference = 0;
+    const offset = frame * bytesPerFrame;
+    for (let index = 0; index < bytesPerFrame; index += 1) {
+      absoluteDifference += Math.abs(scan[offset + index] - target[index]);
+    }
+    const meanAbsoluteError = absoluteDifference / bytesPerFrame;
+    if (meanAbsoluteError <= maximumMeanAbsoluteError) {
+      return {
+        method: "gallery-frame-mean-absolute-error",
+        sourceFrameSeconds: frame / framesPerSecond,
+        detectedMeanAbsoluteError: Number(meanAbsoluteError.toFixed(3)),
+        maximumMeanAbsoluteError,
+        framesPerSecond,
+        scanSeconds,
+        sampleSize: `${width}x${height}`,
+      };
+    }
+  }
+  throw new Error("no complete cold-open frame found in the first two seconds");
 }
 
 function probe(path) {

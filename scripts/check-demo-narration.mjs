@@ -64,10 +64,18 @@ check(manifest.visual_source.sha256 === visualManifest.video.sha256, "narrated r
 check(manifest.visual_source.manifest_path === visualManifestPath, "narrated visual manifest path drifted");
 check(manifest.visual_source.manifest_sha256 === digest(visualManifestBytes), "narrated visual manifest SHA mismatch");
 check(manifest.voice.status === (finalMode ? "placeholder-tts-requires-human-listening-approval" : "placeholder-local-tts-not-final-voice"), "TTS evidence boundary drifted");
-check(manifest.video_start_normalization?.source_frame_seconds === (finalMode ? 0.8 : 0.2) &&
+check(Number.isFinite(manifest.video_start_normalization?.source_frame_seconds) &&
+  manifest.video_start_normalization.source_frame_seconds >= 0 &&
+  manifest.video_start_normalization.source_frame_seconds <= 2 &&
   manifest.video_start_normalization?.held_duration_seconds === 0.2 &&
   manifest.video_start_normalization?.purpose === "replace-browser-capture-startup-flash-with-first-complete-cold-open-frame",
 "narrated video must replace browser-capture startup frames with the first complete cold-open frame");
+check(manifest.video_start_normalization?.detection?.method === "gallery-frame-mean-absolute-error" &&
+  manifest.video_start_normalization.detection.sourceFrameSeconds === manifest.video_start_normalization.source_frame_seconds &&
+  manifest.video_start_normalization.detection.detectedMeanAbsoluteError <= manifest.video_start_normalization.detection.maximumMeanAbsoluteError &&
+  manifest.video_start_normalization.detection.maximumMeanAbsoluteError === 8 &&
+  manifest.video_start_normalization.detection.framesPerSecond === 10,
+"narrated video must bind its startup trim to the detected complete gallery frame");
 check(manifest.audio_mastering?.target_integrated_lufs === -16, "audio mastering LUFS target drifted");
 check(manifest.audio_mastering?.target_true_peak_dbfs === -1.5, "audio mastering true-peak target drifted");
 check(manifest.audio_mastering?.highpass_hz === 80 && manifest.audio_mastering?.compressor_ratio === 3, "audio mastering speech chain drifted");
