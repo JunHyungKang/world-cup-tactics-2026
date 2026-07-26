@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "submitted-immutable",
+  "submitted_at": "2026-07-26T18:38:37+09:00",
+  "submission_id": "a072f2fb-6284-4697-bfa3-2c156d2bc1f6",
+  "source_commit": "4e69b1644301e039b633559bd75a759b730b24d8",
+  "source_snapshot": {
+    "path": "docs/assets/policy-lab-planning/source-snapshot-4e69b164.tar.gz",
+    "sha256": "c49ffb3ffecb3622ffc815b8626d1caf31b88c77e66c20f860a04a86647effe6"
+  },
+  "artifact": {
+    "path": "output/pdf/corner-policy-lab-planning.pdf",
+    "sha256": "060376c8beb97afb16e20236497c7f2fe77313a5812736affef955ecdecbea2e",
+    "pages": 8
+  },
+  "planning_source": {
+    "path": "docs/planning-outline.md",
+    "sha256": "b9e21771f43b042cdf96a12c9159c01c18ec1c03936489c222584e6da115e17c"
+  },
+  "screenshot_manifest": {
+    "path": "docs/assets/policy-lab-planning/manifest.json",
+    "sha256": "a80680ad4571ad4a2a27b1d1e3dc7e2594d99d0f1d33724e50dbadfc574358d8",
+    "source_binding_sha256": "ceb4c64d0dc7810de7429d6f5b926b24d3de345ada48e455e4b378b3382d7b2b"
+  },
+  "independent_review": {
+    "path": "docs/reviews/plan-visual-agent-review-060376c8beb97afb.json",
+    "sha256": "64ee23d73c668ca8445714140c9b258f4601b7493782c19e29564aff7d19b0bb",
+    "status": "PASS"
+  }
+}

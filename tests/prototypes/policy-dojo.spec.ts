@@ -12,7 +12,7 @@ async function chooseLockReveal(page: Page) {
 
 test("uses a fixed group-stage reference before revealing a sealed round-of-16 match", async ({ page }) => {
   await page.goto("/prototypes/policy-dojo/");
-  await expect(page.getByRole("heading", { name: /조별리그에서 세우고/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /코너 수비 한 명 더/ })).toBeVisible();
   await expect(page.locator(".stage")).toHaveAttribute("data-partitions-disjoint", "true");
   await expect(page.getByText(/고정 참고 집합: 조별리그 48경기/)).toBeVisible();
   await expect(page.getByRole("heading", { name: /Uruguay - Portugal/ })).toHaveCount(0);

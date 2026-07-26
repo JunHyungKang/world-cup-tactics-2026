@@ -71,11 +71,11 @@ export function validateReleaseCoherence({
     "FINAL_EVIDENCE_SOURCE_PATHS", "playwright.final.config.ts",
   ]);
   requireText(errors, "final browser spec", finalSpec, [
-    "조별리그에서 세우고, 토너먼트에서 검증하세요.", 'product_id: "corner-policy-lab"',
+    "코너 수비 한 명 더. 역습에는 한 명 덜.", 'product_id: "corner-policy-lab"',
     "정책 변경 0회", "BG-15",
   ]);
   rejectText(errors, "final browser spec", finalSpec, [
-    /역습 역할 1명을 수비 임무로 옮기기/u, /Corner War Room/iu,
+    /Corner War Room/iu,
   ]);
   requireText(errors, "Pages workflow", pagesWorkflow, [
     'pnpm submission:build -- --release-commit "$GITHUB_SHA"', "path: ./dist",
@@ -83,11 +83,11 @@ export function validateReleaseCoherence({
   rejectText(errors, "Pages workflow", pagesWorkflow, [/^\s+pnpm build\s*$/mu]);
 
   requireText(errors, "frozen-public demo recorder", demoRecorder, [
-    "조별리그에서 세우고", "이 정책을 잠가 두 시험에 적용",
+    "코너 수비 한 명 더", "이 정책을 잠가 두 시험에 적용",
     "corner-policy-lab-first-image.png", "docs/demo-editorial-treatment.json",
   ]);
   rejectText(errors, "frozen-public demo recorder", demoRecorder, [
-    /코너 수비에 한 명 더/u, /corner-war-room/iu, /역습 역할 1명을 수비 임무로 옮기기/u,
+    /corner-war-room/iu,
   ]);
   requireText(errors, "narration renderer", narrationRenderer, [
     "docs/policy-lab-demo-narration.json", "docs/policy-lab-demo-captions.ko.srt",
@@ -114,7 +114,7 @@ export function validateReleaseCoherence({
     /^# Corner War Room/mu, /vite\.invalid-artifact\.config\.ts/u,
   ]);
   requireText(errors, "judging map", judgingMap, [
-    "Observable Corner Policy Lab proof", "한 정책", "두 번의 미공개 검증",
+    "Observable Corner Policy Lab proof", "defensive leader", "outlet role",
   ]);
   rejectText(errors, "judging map", judgingMap, [/Observable Corner War Room proof/u]);
   return errors;

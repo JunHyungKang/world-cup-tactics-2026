@@ -3,28 +3,28 @@
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
     "path": "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm",
-    "sha256": "39afc08a73625d349de50f2840e2b1877aa7d1201e1e95aedc180a32797c5fed"
+    "sha256": "9a8fd1b55c0fd6146feb331c44b3760ac8892b474bc6a363b908b6c65f67be1d"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "b8803344544035fedf729dc183323a39f2bf47d3e72332ce1dfa0e8e589c065e",
+  "submission_story_sha256": "4e88d2fd31fff4c32effad005d0e2be6479c306151d3dbfe9848bb7704ee8617",
   "artifacts": [
     {
       "order": 1,
       "id": "hook",
       "timecode": "0–5s",
-      "proof": "조별리그에서 세우고, 토너먼트에서 검증하세요.",
+      "proof": "코너 수비 한 명 더 · 역습에는 한 명 덜",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "8a3094ec1e237869811deebb4bf2f6e7c90d0bb60bdee1399eabfa91c2590457",
-      "bytes": 776852
+      "sha256": "f6cc2e966cb726bed324a26aa62142eb8496bb73ede0c659db96050bd5dd278d",
+      "bytes": 611470
     },
     {
       "order": 2,
       "id": "reference",
       "timecode": "5–12s",
-      "proof": "397/436 분류 가능 · 두 구역과 사전 기준 선택",
+      "proof": "두 역할을 수비에 배치 · 당시 전방 대기 구역 기록 64/397 고정",
       "path": "docs/assets/demo-storyboard/02-reference.png",
-      "sha256": "dcbf20b37d209e643c359e2998a2b110f12d25a0791ebd5a6a4e3243aa893108",
-      "bytes": 459927
+      "sha256": "9f3e4c9975cef0945193cd50002d61a23c1bbd5b0be5e7e4d32ff2760a12bacf",
+      "bytes": 503570
     },
     {
       "order": 3,
@@ -32,17 +32,17 @@
       "timecode": "12–16s",
       "proof": "정책 지문 1개 · 구역과 기준 이후 변경 불가",
       "path": "docs/assets/demo-storyboard/03-lock.png",
-      "sha256": "d0b2ef5d8b0b106f46a32a4c79467c592df9bd48dc519213bd7ddb2e4bc22fc5",
-      "bytes": 413018
+      "sha256": "c1e496de51d245839f41d40a48b3d11a99b563d37eb396b98545d14c88aea8a5",
+      "bytes": 465611
     },
     {
       "order": 4,
       "id": "r16",
       "timecode": "16–27s",
-      "proof": "위치 겹침 48% · 사전 50% 기준 미달",
+      "proof": "위치 겹침 48% · 전방 대기 구역 기록 14/84 · 두 값 합산 안 함",
       "path": "docs/assets/demo-storyboard/04-r16.png",
-      "sha256": "78d7f9460ba4203b4cd7a34a260f82b42690a063a1d605decbdde6ab95878ee5",
-      "bytes": 425827
+      "sha256": "44098bcde8605f78e822e23195f568f61a72e14b5cc1146225d8e4c387c0203d",
+      "bytes": 526206
     },
     {
       "order": 5,
@@ -50,17 +50,17 @@
       "timecode": "27–34s",
       "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가",
       "path": "docs/assets/demo-storyboard/05-seal.png",
-      "sha256": "ba33f48b5099a1512fbce2a651ca4e3e9f8a935a933426e0e8531f3e6b0d93a6",
-      "bytes": 346165
+      "sha256": "c5cabe9d560ba3ebde3122cada24bf1d3ba6bd868f8ba772fc9b3d8f8b6a9d4b",
+      "bytes": 335977
     },
     {
       "order": 6,
       "id": "final-audit",
       "timecode": "34–45s",
-      "proof": "위치 겹침 51% · 사전 50% 기준 충족",
+      "proof": "위치 겹침 51% · 전방 대기 구역 기록 12/76 · 정책 변경 0회",
       "path": "docs/assets/demo-storyboard/06-final-audit.png",
-      "sha256": "0f13b450f02f95f363a9c8fce9f66821d384c03ae03d09f4df562fe8d8e15474",
-      "bytes": 304838
+      "sha256": "465a14aa24434e5b7da091825cb70c094da24a8df8c962378b5e2c6a4883aae1",
+      "bytes": 402950
     },
     {
       "order": 7,
@@ -68,8 +68,8 @@
       "timecode": "45–53s",
       "proof": "다음 미팅 수정 메모 · 봉인 정책과 검증 결과 불변",
       "path": "docs/assets/demo-storyboard/07-next-meeting.png",
-      "sha256": "dc6e59259e0a3ed3e4cae66fe540d02b4d994a13a860cd0b2686d0cdd5294c3d",
-      "bytes": 302021
+      "sha256": "512f2bcd187b4e197c13375b61791dea763e2a4912545b40a273a294009831b4",
+      "bytes": 375659
     },
     {
       "order": 8,
@@ -77,8 +77,8 @@
       "timecode": "53–59.5s",
       "proof": "사전 기준 충족 · 정책 변경 0회 · 인과 추천 REJECT",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "ea28f63c33b0d0bdcb87f91bd332711533e4cea20ed97ca10597bbd0dbc3be32",
-      "bytes": 335013
+      "sha256": "35b94915bd0196aff462e2c5781b2ce1a4e4bfbb796215d7f5cbb3663741b3ef",
+      "bytes": 434514
     }
   ]
 }

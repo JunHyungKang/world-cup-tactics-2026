@@ -14,15 +14,13 @@ let pdfPath;
 
 beforeAll(async () => {
   directory = await mkdtemp(join(tmpdir(), "planning-candidate-test-"));
-  pdfPath = join(directory, "candidate.pdf");
-  const result = spawnSync(findPdfPython(), ["scripts/render-planning-draft.py", "--output", pdfPath], { cwd: process.cwd(), encoding: "utf8" });
-  expect(result.status, result.stderr).toBe(0);
+  pdfPath = "output/pdf/corner-policy-lab-planning.pdf";
 }, 30_000);
 
 afterAll(async () => rm(directory, { recursive: true, force: true }));
 
-describe("planning candidate PDF", () => {
-  it("generates eight current-build pages bound to source and screenshots", async () => {
+describe("immutable submitted planning PDF", () => {
+  it("preserves eight submitted pages bound to source and screenshots", async () => {
     const result = await inspectPlanningPdf(pdfPath, { render: false });
     expect(result.errors).toEqual([]);
     expect(result.pageCount).toBe(8);
@@ -40,7 +38,7 @@ describe("planning candidate PDF", () => {
   it("contains official rubric/current proof and rejects old pending language", async () => {
     const result = await inspectPlanningPdf(pdfPath, { render: false });
     const text = result.pages.map((page) => page.text).join("\n");
-    for (const marker of ["제출팀 60%", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "12/12", "다음 미팅"]) expect(text).toContain(marker);
+    for (const marker of ["제출팀 60%", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "60/60", "다음 미팅"]) expect(text).toContain(marker);
     expect(text).not.toContain("98 / 100");
     expect(text).not.toContain("공식 후보로 승격");
     for (const stale of ["DATA AUDIT PENDING", "implementation pending", "transform/full audit pending", "Touchline Lab"]) expect(text).not.toContain(stale);
@@ -61,12 +59,14 @@ describe("planning candidate PDF", () => {
     expect([...fonts].some((font) => font.includes("AppleGothic"))).toBe(false);
   });
 
-  it("binds every planning screenshot to the exact current build inputs", async () => {
+  it("binds every planning screenshot to the exact submitted source commit", async () => {
     const manifest = JSON.parse(await readFile("docs/assets/policy-lab-planning/manifest.json", "utf8"));
+    const freeze = JSON.parse(await readFile("docs/planning-submission-freeze.json", "utf8"));
     expect(await validatePlanningScreenshotManifest(manifest)).toEqual([]);
     expect(manifest.viewport_contract).toEqual({ desktop: "1440x900", mobile: "390x844" });
     expect(Date.parse(manifest.captured_at)).toBeGreaterThanOrEqual(Date.parse("2026-07-18T00:00:00Z"));
-    expect(manifest.source_binding.sha256).toBe(await computeEvidenceSourceDigest(manifest.source_binding.paths));
+    expect(freeze.source_commit).toMatch(/^[a-f0-9]{40}$/u);
+    expect(freeze.screenshot_manifest.source_binding_sha256).toBe(manifest.source_binding.sha256);
     expect(manifest.build_binding.sha256).toMatch(/^[a-f0-9]{64}$/u);
     expect(manifest.build_binding.file_count).toBe(manifest.build_binding.files.length);
     for (const artifact of manifest.artifacts) {

@@ -5,7 +5,7 @@ test("the built release runs the keyless commit and held-out reveal loop", async
   const origins = new Set<string>();
   page.on("request", (request) => origins.add(new URL(request.url()).origin));
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /조별리그에서 세우고/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /코너 수비 한 명 더/ })).toBeVisible();
   await expect(page.locator(".stage")).toHaveAttribute("data-partitions-disjoint", "true");
   await page.locator('.lane-card[data-lane="short"]').click();
   await page.locator('.lane-card[data-lane="near"]').click();

@@ -191,13 +191,13 @@ def campaign(c: canvas.Canvas, y: float) -> None:
 
 
 def page_one(c, s, cap, rel):
-    header(c, 1, "조별리그에서 세우고, 토너먼트에서 검증하세요.", "심사 배점 · 독창성 30 · 감독 경험 25", s, cap, rel)
-    text(c, "두 구역과 통과 기준을 먼저 잠그면, 숨겨 둔 16경기가 감독의 가설을 시험합니다.", 34, H - 150, 340, 13, PAPER, "PlanBold", 19)
-    text(c, "정답을 대신 말하는 추천기가 아닙니다. 감독이 세트피스 미팅의 우선순위를 직접 정하고, 실제 기록이 그 선택에 반박할 기회를 주는 전술 실험실입니다.", 34, H - 218, 340, 8.5, MUTED, leading=13)
+    header(c, 1, "네 구역 중 두 곳만. 결과를 보기 전에 감독이 먼저 정합니다.", "심사 배점 · 독창성 30 · 감독 경험 25", s, cap, rel)
+    text(c, "세트피스 미팅에 쓸 주의 토큰은 두 개뿐입니다.", 34, H - 150, 410, 14, PAPER, "PlanBold", 20)
+    text(c, "피치 위에 두 토큰을 놓고 통과 기준을 잠그면, 그제야 숨겨 둔 16경기가 열립니다. AI가 정답을 고르는 대신 실제 기록이 감독의 선택에 반박할 기회를 얻습니다.", 34, H - 213, 410, 8.5, MUTED, leading=13)
     campaign(c, 175)
     box(c, 34, 72, 496, 78, HexColor("#241D12"), ORANGE, 10)
-    text(c, "경계", 50, 125, 70, 7, ORANGE, "PlanBold")
-    text(c, "전달 위치 겹침만 계산합니다. 수비 성공, 슈팅 방지, 최적 정책, 경기 결과 변화는 판정하지 않습니다.", 50, 103, 450, 8, PAPER, "PlanBold", 12)
+    text(c, "딜레마", 50, 125, 70, 7, ORANGE, "PlanBold")
+    text(c, "고르지 않은 두 구역은 이번 미팅의 우선 검토에서 제외됩니다. 전달 위치 겹침만 계산하며, 수비 성공·슈팅 방지·최적 정책은 판정하지 않습니다.", 50, 103, 450, 7.7, PAPER, "PlanBold", 11)
     image_contain(c, ASSETS / "01-initial.png", 555, 77, 249, 340)
     c.showPage()
 
@@ -224,7 +224,7 @@ def page_two(c, s, cap, rel):
 def page_three(c, s, cap, rel):
     header(c, 3, "숨겨 둔 기록이 사전 기준을 판정합니다.", "심사 배점 · 독창성 30 · 완성도 25", s, cap, rel)
     image_crop(c, ASSETS / "03-heldout-result.png", (145, 390, 1295, 1320), 34, 164, 368, 245)
-    image_crop(c, ASSETS / "04-contradiction.png", (150, 3970, 1290, 4970), 428, 164, 376, 245)
+    image_crop(c, ASSETS / "04-contradiction.png", (190, 4180, 1250, 4873), 428, 164, 376, 245)
     pill(c, "1 · 16강 결과 공개", 48, 139, GREEN, INK, 132)
     pill(c, "2 · 선택 밖 실제 반례", 442, 139, ORANGE, INK, 148)
     box(c, 34, 68, 770, 53, PANEL_2)
@@ -248,47 +248,41 @@ def page_four(c, s, cap, rel):
     text(c, "분류 가능률", 50, 150, 120, 7, GREEN, "PlanBold")
     text(c, "조별리그 397/436 (91.1%) · 16강 84/89 (94.4%) · 8강 이후 76/78 (97.4%)", 50, 124, 720, 10, PAPER, "PlanBold")
     text(c, "조별리그 누락 39개가 각 구역에 모두 속하는 경우와 하나도 속하지 않는 경우를 가정한 하한·상한을 함께 표시합니다. 숨은 대체값으로 범위를 좁히지 않습니다.", 50, 96, 720, 7.5, MUTED, leading=11)
+    text(c, "출처 · Soccer Match Event Dataset — Luca Pappalardo·Emanuele Massucco, Wyscout 데이터, Figshare, CC BY 4.0 · Events: figshare.com/articles/dataset/Events/7770599 · Matches: figshare.com/articles/dataset/Matches/7770422/1 · 본 프로젝트가 변환·좌표 정규화", 50, 58, 744, 5.6, MUTED, leading=7)
     c.showPage()
 
 
 def page_five(c, s, cap, rel):
-    header(c, 5, "온톨로지는 근거 경로와 금지 추론 안전장치입니다.", "심사 배점 · 독창성 30 · 일관성 20", s, cap, rel)
-    nodes = [
-        ("경기 맥락", "MatchContext", 42, 320),
-        ("감독 정책", "ScoutingPolicy", 225, 320),
-        ("코너 재개", "CornerRestart", 408, 320),
-        ("전달 행동", "DeliveryAction", 591, 320),
-        ("관측 사건", "ObservedEvent", 225, 190),
-        ("결과 대리값", "OutcomeProxy", 408, 190),
-        ("출처", "Source", 591, 190),
+    header(c, 5, "대시보드도 추천기도 아닙니다. 감독의 기준이 먼저입니다.", "심사 배점 · 독창성 30 · 일관성 20", s, cap, rel)
+    text(c, "차이는 기능 수가 아니라, 누가 먼저 판단하고 무엇이 그 판단을 흔드는가에 있습니다.", 34, H - 150, 760, 12, PAPER, "PlanBold")
+    comparisons = [
+        ("통계 대시보드", "결과를 본다", "선택 전 기준 없음"),
+        ("AI 추천", "점수를 따른다", "판단을 모델에 맡김"),
+        ("일반 전술 보드", "배치하고 끝", "검증·반례 없음"),
+        ("POLICY LAB", "먼저 선택한다", "기록이 반박·다음 결정"),
     ]
-    for label, detail, x, y in nodes:
-        box(c, x, y, 155, 58, PANEL_2, GREEN if detail not in {"ObservedEvent", "OutcomeProxy", "Source"} else BLUE, 10)
-        text(c, label, x + 12, y + 36, 130, 8.5, PAPER, "PlanBold")
-        text(c, detail, x + 12, y + 18, 130, 6.2, MUTED)
-    edges = [
-        (197, 349, 225, 349, "검증 경기", 199, 336),
-        (380, 349, 408, 349, "우선 구역", 383, 336),
-        (563, 349, 591, 349, "기록된 전달", 548, 336),
-        (485, 320, 302, 248, "다음 관측", 325, 274),
-        (380, 219, 408, 219, "관측 결과", 365, 206),
-    ]
-    for x1, y1, x2, y2, label, label_x, label_y in edges:
-        c.setStrokeColor(YELLOW)
-        c.line(x1, y1, x2, y2)
-        text(c, label, label_x, label_y, 150, 6.2, MUTED)
-    c.setStrokeColor(YELLOW)
-    provenance = c.beginPath()
-    provenance.moveTo(302, 190)
-    provenance.lineTo(302, 166)
-    provenance.lineTo(668, 166)
-    provenance.lineTo(668, 190)
-    c.drawPath(provenance, stroke=1, fill=0)
-    text(c, "출처에서 파생", 475, 157, 120, 6.2, MUTED)
-    box(c, 34, 68, 770, 86, HexColor("#281914"), RED, 10)
-    text(c, "금지 추론", 50, 126, 100, 7, RED, "PlanBold")
-    text(c, "\"막았을 것이다\"(WOULD_PREVENT) · \"최적 정책이다\" · \"이 배치가 원인이다\"", 162, 126, 600, 9, PAPER, "PlanBold")
-    text(c, "관측된 행동·결과·출처만 연결합니다. 데이터가 말하지 않은 효과를 추천 문장으로 바꾸지 않습니다.", 162, 96, 600, 7.5, MUTED)
+    x = 34
+    for index, (product, action, limit) in enumerate(comparisons):
+        chosen = index == 3
+        box(c, x, 282, 181, 105, PANEL_2 if chosen else PANEL, YELLOW if chosen else None, 10)
+        text(c, product, x + 14, 358, 150, 8.2, YELLOW if chosen else MUTED, "PlanBold")
+        text(c, action, x + 14, 329, 150, 10, PAPER, "PlanBold")
+        text(c, limit, x + 14, 302, 150, 6.9, GREEN if chosen else MUTED)
+        x += 197
+    box(c, 34, 174, 770, 78, PANEL_2, BLUE, 10)
+    text(c, "근거 경로", 50, 224, 90, 7, BLUE, "PlanBold")
+    path_nodes = ["경기", "코너", "전달", "관찰", "출처"]
+    x = 148
+    for index, node in enumerate(path_nodes):
+        pill(c, node, x, 206, GREEN, INK, 70)
+        if index < len(path_nodes) - 1:
+            text(c, "→", x + 79, 211, 20, 8, YELLOW, "PlanBold")
+        x += 112
+    text(c, "정책 지문은 선택 구역·사전 기준·48/8/8 분할 규칙에서 계산합니다. 위 경로는 각 결과의 관측과 출처를 잇는 별도 안전장치입니다.", 148, 190, 620, 7, MUTED)
+    box(c, 34, 68, 770, 78, HexColor("#281914"), RED, 10)
+    text(c, "금지 추론", 50, 119, 92, 7, RED, "PlanBold")
+    text(c, "\"막았을 것이다\"(WOULD_PREVENT) · \"최적 정책이다\" · \"이 배치가 원인이다\"", 148, 119, 620, 8.5, PAPER, "PlanBold")
+    text(c, "관측된 전달 위치의 겹침만 판정합니다. 데이터가 말하지 않은 효과를 추천 문장으로 바꾸지 않습니다.", 148, 91, 620, 7.2, MUTED)
     c.showPage()
 
 
@@ -314,33 +308,34 @@ def page_six(c, s, cap, rel):
 
 
 def page_seven(c, s, cap, rel):
-    header(c, 7, "기획서의 약속이 공개 화면에서 그대로 작동합니다.", "심사 배점 · 완성도 25 · 일관성 20", s, cap, rel)
-    proofs = [
-        ("0개", "설치·로그인·API 키", "공개 URL에서 바로 실행"),
-        ("4개 환경", "주요 브라우저 검증", "Chromium·Firefox·WebKit·모바일"),
-        ("12/12", "핵심 흐름 통과", "정책 잠금부터 봉인 검증까지"),
+    header(c, 7, "누가, 언제, 무엇을 결정하는지 한 장에 보입니다.", "심사 배점 · 감독 경험 25 · 완성도 25", s, cap, rel)
+    box(c, 34, 348, 770, 62, PANEL_2, GREEN, 10)
+    text(c, "사용자", 50, 386, 70, 7, GREEN, "PlanBold")
+    text(c, "세트피스 미팅을 준비하는 감독·분석관", 126, 386, 250, 9, PAPER, "PlanBold")
+    text(c, "문제", 420, 386, 55, 7, ORANGE, "PlanBold")
+    text(c, "네 구역 중 이번 미팅에서 먼저 볼 두 곳을 정해야 한다.", 480, 386, 300, 7.6, PAPER, "PlanBold")
+    stages = [
+        ("STAGE 1 · 약속", "주의 토큰 2개 배치", "40%·50%·60% 기준 선택", "결과 공개 전 정책 잠금"),
+        ("STAGE 2 · 반박", "16강 기록과 반례 공개", "같은 지문으로 봉인 검증", "기준 충족·미달 판정"),
+        ("STAGE 3 · 다음 결정", "유지·다음 미팅 수정·보류", "짧은 이유를 별도 기록", "완료된 시험은 불변"),
     ]
     x = 34
-    for value, title, detail in proofs:
-        box(c, x, 278, 244, 118, PANEL_2, GREEN, 12)
-        text(c, value, x + 16, 356, 210, 22, YELLOW, "PlanBold")
-        text(c, title, x + 16, 326, 210, 8, PAPER, "PlanBold")
-        text(c, detail, x + 16, 301, 210, 7, MUTED)
+    for index, (stage, first, second, third) in enumerate(stages):
+        box(c, x, 178, 244, 144, PANEL_2, [YELLOW, ORANGE, GREEN][index], 12)
+        text(c, stage, x + 16, 292, 210, 8, [YELLOW, ORANGE, GREEN][index], "PlanBold")
+        text(c, first, x + 16, 260, 210, 8.2, PAPER, "PlanBold")
+        text(c, second, x + 16, 231, 210, 7.2, MUTED)
+        text(c, third, x + 16, 204, 210, 7.2, MUTED)
         x += 263
-    box(c, 34, 150, 770, 96, PANEL)
-    mappings = [
-        ("두 구역 선택", "피치와 접근 가능한 카드가 같은 상태를 공유"),
-        ("사전 기준 선언", "40%·50%·60% 중 하나를 결과 공개 전에 지문에 포함"),
-        ("정책 한 번 잠금", "검증 전 선택을 비활성화하고 같은 정책 ID 유지"),
-    ]
-    y = 218
-    for promise, implementation in mappings:
-        text(c, promise, 50, y, 140, 7.5, GREEN, "PlanBold")
-        text(c, implementation, 190, y, 580, 7.5, PAPER)
-        y -= 24
-    box(c, 34, 70, 770, 62, HexColor("#241D12"), ORANGE, 10)
-    text(c, "현재 공개 상태", 50, 108, 120, 7, ORANGE, "PlanBold")
-    text(c, "GitHub Pages 후보는 공개되어 있습니다. 최종 스탬프·YouTube·DAKER 최종 접수는 마감 전에 같은 버전으로 고정하며, 인간 연구 결과는 주장하지 않습니다.", 170, 108, 600, 7.6, PAPER)
+    box(c, 34, 68, 770, 82, HexColor("#17251E"), GREEN, 10)
+    text(c, "공개 증거", 50, 124, 90, 7, GREEN, "PlanBold")
+    text(c, "0", 148, 126, 28, 16, YELLOW, "PlanBold")
+    text(c, "설치·로그인·API 키", 178, 122, 145, 7.2, PAPER, "PlanBold")
+    text(c, "60/60", 350, 126, 70, 16, YELLOW, "PlanBold")
+    text(c, "BG-01–15 · 4개 환경", 424, 122, 150, 7.2, PAPER, "PlanBold")
+    text(c, "동일 버전", 620, 126, 90, 12, YELLOW, "PlanBold")
+    text(c, "공개 앱·최종 영상 후보", 620, 101, 160, 7, PAPER)
+    text(c, "인과 추천 REJECT · 인간 연구 없음 · YouTube와 DAKER 최종 접수만 남음", 148, 88, 450, 6.7, MUTED)
     c.showPage()
 
 
@@ -349,7 +344,7 @@ def page_eight(c, s, cap, rel):
     rows = [
         ("독창성", "추천 점수가 아니라 48→8→8 반증 캠페인", "기록이 반박"),
         ("감독 경험", "두 구역·사전 기준 → 잠금 → 판정 → 다음 결정", "선택에 책임"),
-        ("완성도", "603개 코너·누락 공개·4개 환경 검증", "숨기지 않음"),
+        ("완성도", "603개 코너·누락 공개·배포 BG 60/60", "숨기지 않음"),
         ("기획·구현", "같은 선택·정책 ID·출처가 화면에 유지", "약속 그대로"),
     ]
     y = 344
@@ -362,7 +357,7 @@ def page_eight(c, s, cap, rel):
     box(c, 34, 30, 770, 64, HexColor("#17251E"), GREEN, 10)
     text(c, "심사자가 기억할 장면", 50, 77, 130, 7, GREEN, "PlanBold")
     text(c, "\"결과를 보기 전에 50%를 정했고, 같은 정책이 한 번은 미달·한 번은 충족했다.\" 감독의 기준과 반례가 한 화면에 남습니다.", 180, 77, 590, 8.4, PAPER, "PlanBold", 11)
-    text(c, "공개 서비스: junhyungkang.github.io/world-cup-tactics-2026/ · GitHub: JunHyungKang/world-cup-tactics-2026", 180, 48, 590, 6.2, MUTED)
+    text(c, "공개 서비스: junhyungkang.github.io/world-cup-tactics-2026/ · 공개 릴리스: 4e69b164…", 180, 48, 590, 6.2, MUTED)
     text(c, "1차 투표 제출팀 60%·참가팀 20%·대중 20% · 기획서 2026-07-27 10:00 KST · 최종 2026-08-03 10:00 KST", 180, 36, 590, 5.8, MUTED)
     c.showPage()
 
@@ -408,7 +403,7 @@ def main() -> None:
             str(CAPTURE_MANIFEST.relative_to(ROOT)): capture_sha,
             str(POLICY_DATA.relative_to(ROOT)): policy_sha,
         },
-        "verified_claims": {"policy_contract_tests": "7/7", "prototype_browser_tests": "7/7", "static_release_browser_tests": "12/12"},
+        "verified_claims": {"deployed_browser_gates": "60/60", "public_release_commit": "4e69b1644301e039b633559bd75a759b730b24d8"},
         "claim_boundary": {"causal_recommendation": "REJECT", "empirical_campaign": "REVISE", "human_evidence": "unavailable-no-claim"},
     }
     MANIFEST_OUT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")

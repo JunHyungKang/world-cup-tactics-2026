@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "scope": "independent-agent-document-qa-not-human-participant-usability-preference-evidence",
+  "reviewed_at": "2026-07-26T12:12:49+09:00",
+  "reviewer": {
+    "task": "/root/pdf_criterion_judge",
+    "role": "independent-agent",
+    "artifact_creator": false
+  },
+  "artifact": {
+    "path": "output/pdf/corner-policy-lab-planning.pdf",
+    "sha256": "060376c8beb97afb16e20236497c7f2fe77313a5812736affef955ecdecbea2e",
+    "pages": 8
+  },
+  "planning_source": {
+    "path": "docs/planning-outline.md",
+    "sha256": "b9e21771f43b042cdf96a12c9159c01c18ec1c03936489c222584e6da115e17c"
+  },
+  "review_packet": {
+    "path": "output/plan-review/060376c8beb97afb/review-manifest.json",
+    "sha256": "3706b52350bf05940a17554dfa583236ed8f4f978bc9cfdf7dcc53997eb0675f",
+    "renderer": "pdftoppm/26.05.0"
+  },
+  "criteria": [
+    "clipping",
+    "overlap",
+    "glyphs",
+    "table_legibility",
+    "page_numbers",
+    "headers_footers",
+    "citations",
+    "claim_boundaries"
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "path": "pages/page-1.png",
+      "sha256": "7bb47fafbc2862034503aa336e53c43cd5fd55dd8401e930f0054d0e3edeab1c",
+      "bytes": 143894,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 2,
+      "path": "pages/page-2.png",
+      "sha256": "14bcd6333e5d17f1b0eeee399d85c096c07f44072b5728f6b4f525214f0c99fc",
+      "bytes": 130396,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 3,
+      "path": "pages/page-3.png",
+      "sha256": "bb3d5beb17074a975496f866a7198f37ef8df344d576afd2d62b3f857c8527e9",
+      "bytes": 181101,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 4,
+      "path": "pages/page-4.png",
+      "sha256": "d35ad5d704e6a62cdf9fd04293eac52d2a46e8510735386c69e166afcc5e1b05",
+      "bytes": 99284,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 5,
+      "path": "pages/page-5.png",
+      "sha256": "443c65aae1e9840736dc8535ff78e215baf914f423ecb7dec554ee891194cb1c",
+      "bytes": 98967,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 6,
+      "path": "pages/page-6.png",
+      "sha256": "9e568f2d790eb8ed1ffea0cfd0d20339564c554563f3b47706d7409150f7c038",
+      "bytes": 143171,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 7,
+      "path": "pages/page-7.png",
+      "sha256": "029d817422c77a2125792e3649cbb82cf41cabb9010f36932241246d396e260b",
+      "bytes": 91472,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    },
+    {
+      "page": 8,
+      "path": "pages/page-8.png",
+      "sha256": "62b313981260f37e91df1ccb55b28246544c6bba438f9f2830f34f2e7d68c6fe",
+      "bytes": 89514,
+      "width": 1404,
+      "height": 993,
+      "checks": { "clipping": true, "overlap": true, "glyphs": true, "table_legibility": true, "page_numbers": true, "headers_footers": true, "citations": true, "claim_boundaries": true },
+      "findings": []
+    }
+  ],
+  "blocking_findings": [],
+  "non_blocking_findings": [],
+  "verdict": "PASS: exact canonical PDF 8/8 pages are submission-ready. Page 3 exposes evidence relations 1-7, the source edge, and the forbidden inference edge. Page 4 carries standalone author, Wyscout, Figshare, CC BY 4.0, Events and Matches URL, and project-transformation attribution. Page 5 now separates the implementation-matching policy-fingerprint inputs from the evidence path. No clipping, overlap, broken Korean glyphs, unsupported causal claims, or human-evidence overclaim remains.",
+  "summary": {
+    "pages_passed": 8,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "finding_count": 0
+  }
+}

@@ -14,9 +14,10 @@ export function validateSubmissionStory(story, sources) {
   if (story?.schema_version !== 2) errors.push("submission story schema_version must be 2");
   if (story?.product_id !== "corner-policy-lab") errors.push("submission story must bind corner-policy-lab");
   const gallery = story?.gallery ?? {};
-  if (gallery.hook !== "조별리그에서 세우고, 토너먼트에서 검증하세요.") errors.push("gallery hook drifted from the product promise");
-  if (!gallery.title?.includes("한 정책") || !gallery.one_line?.includes("2018 월드컵") || !gallery.one_line?.includes("봉인")) {
-    errors.push("gallery surface must state the immutable policy, historical scope, and sealed audit");
+  if (gallery.hook !== "코너 수비 한 명 더. 역습에는 한 명 덜.") errors.push("gallery hook drifted from the manager decision");
+  if (!gallery.title?.includes("코너 수비 한 명") || !gallery.title?.includes("역습") ||
+      !gallery.one_line?.includes("2018 월드컵") || !gallery.one_line?.includes("봉인")) {
+    errors.push("gallery surface must state the role tradeoff, historical scope, and sealed audit");
   }
   if (gallery.first_image !== "docs/assets/gallery/corner-policy-lab-first-image.png" ||
       !Array.isArray(gallery.source_images) || gallery.source_images.length !== 3) {
@@ -25,6 +26,14 @@ export function validateSubmissionStory(story, sources) {
   const campaign = story?.campaign ?? {};
   if (campaign.reference_matches !== 48 || campaign.rehearsal_matches !== 8 || campaign.final_audit_matches !== 8 || campaign.policy_changes !== 0) {
     errors.push("submission story must preserve the fixed 48-8-8 campaign and zero policy changes");
+  }
+  if (campaign.primary_path !== "two-areas-outlet-role-to-defense" ||
+      campaign.optional_path !== "one-area-outlet-role-kept" ||
+      campaign.outlet_context?.reference !== "64/397" ||
+      campaign.outlet_context?.rehearsal !== "14/84" ||
+      campaign.outlet_context?.final_audit !== "12/76" ||
+      campaign.outlet_context?.combined_with_overlap !== false) {
+    errors.push("submission story must bind both role paths and the separate fixed outlet context");
   }
   const video = story?.video ?? {};
   const beats = video.beats;
@@ -56,6 +65,8 @@ export function validateSubmissionStory(story, sources) {
   }
   const requiredSourceMarkers = [
     ["app", "이 정책을 잠가 두 시험에 적용"],
+    ["app", "역습 역할 1명"],
+    ["app", "위치 겹침과 전방 대기 구역 기록은 합산하지 않습니다"],
     ["app", "정책 변경 0회"],
     ["productThesis", "Product selection ID: `corner-policy-lab`"],
     ["productThesis", "48경기 조별리그 참고"],
@@ -132,10 +143,14 @@ export function validateNarrationContract(story, narration, captions, demoScript
     if (cue.id !== beat.id || cue.start !== beat.start || cue.end !== beat.end) errors.push(`narration cue ${index + 1} drifted from story timecodes`);
     if (!(cue.caption_end > cue.start && cue.caption_end <= cue.end)) errors.push(`narration cue ${cue.id} has an invalid caption end`);
     if (typeof cue.text !== "string" || cue.text.length < 6) errors.push(`narration cue ${cue.id} is empty`);
+    const captionLines = (cue.caption ?? cue.text).split("\n");
+    if (captionLines.length > 2 || captionLines.some((line) => line.length > 34)) {
+      errors.push(`narration cue ${cue.id} caption exceeds the two-line readability contract`);
+    }
     if (!demoScript.includes(`\`${cue.text}\``)) errors.push(`demo script narration drifted for cue ${cue.id}`);
     for (const forbidden of story.claim_boundary.forbidden) if (cue.text.includes(forbidden)) errors.push(`narration cue ${cue.id} contains forbidden claim: ${forbidden}`);
   });
-  const expectedSrt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.text}`).join("\n\n");
+  const expectedSrt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.caption ?? cue.text}`).join("\n\n");
   if (captions.trim() !== expectedSrt) errors.push("Korean SRT captions drifted from the narration contract");
   return errors;
 }
@@ -174,7 +189,7 @@ export function validateEditorialTreatment(treatment) {
   for (const unsafe of ["AI 추천", "강화학습이 학습했다", "최적 정책입니다", "경기 결과를 바꿨다"]) {
     if (allCopy.includes(unsafe)) errors.push(`demo editorial treatment contains unsafe claim: ${unsafe}`);
   }
-  if (treatment.label !== "[편집 요약]" || !allCopy.includes("관찰 기록 ≠ 인과 효과") ||
+  if (treatment.label !== "[편집 요약]" || !allCopy.includes("두 관찰값은 합산하지 않음") ||
       !allCopy.includes("정책 변경 0회")) {
     errors.push("demo editorial treatment lacks its visible edit label, interpretation boundary, or immutable-policy proof");
   }

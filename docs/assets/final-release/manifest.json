@@ -1,28 +1,28 @@
 {
   "schema_version": 1,
-  "status": "current-build-composite-not-human-evidence",
-  "viewport": "1440x900",
-  "submission_story_sha256": "4e88d2fd31fff4c32effad005d0e2be6479c306151d3dbfe9848bb7704ee8617",
-  "sources": [
+  "status": "current-candidate-gallery-source-not-public-or-human-evidence",
+  "release_manifest_sha256": "999054729d548b8728bd66872ba776f194ff1e37cd1346f719531d557b8a651f",
+  "artifacts": [
     {
+      "id": "01-two-role-decision",
       "path": "docs/assets/final-release/01-two-role-decision.png",
+      "bytes": 130316,
       "sha256": "0460ce05b60bd08162cef0c8724e122d7566d971cc1b191c3f0f97518ef1ee12",
-      "bytes": 130316
+      "viewport": "1440x900"
     },
     {
+      "id": "02-round-of-16-audit",
       "path": "docs/assets/final-release/02-round-of-16-audit.png",
+      "bytes": 156193,
       "sha256": "987b7bc7f54958900c8576e8e8f3762c9b9dfa50d8b7e64a5c49262b6b66436d",
-      "bytes": 156193
+      "viewport": "1440x900"
     },
     {
+      "id": "03-final-audit",
       "path": "docs/assets/final-release/03-final-audit.png",
+      "bytes": 133231,
       "sha256": "f6b88bab4d0e3630df4fdc50635f0ba52d83fb9269490b6d69b6af0b807e4cfb",
-      "bytes": 133231
+      "viewport": "1440x900"
     }
-  ],
-  "output": {
-    "path": "docs/assets/gallery/corner-policy-lab-first-image.png",
-    "sha256": "70c0c6fd98f64357bc4c57b25c739a81bc56bfacaba03c4821cc90925efd4049",
-    "bytes": 426724
-  }
+  ]
 }

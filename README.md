@@ -17,7 +17,8 @@ Official page: https://daker.ai/public/hackathons/world-cup-manager-tactics-web-
 
 ## Judge experience
 
-1. Choose two corner-delivery areas from the 48 group-stage matches.
+1. Place the defensive leader, then keep one outlet role high or move it into a
+   second corner-delivery area.
 2. Lock one policy before either knockout-stage record is revealed.
 3. Test the same fingerprint against the round of 16 and the sealed final eight
    matches.
@@ -26,11 +27,12 @@ Official page: https://daker.ai/public/hackathons/world-cup-manager-tactics-web-
 5. Record the next meeting decision without changing the sealed policy or its
    results.
 
-The keyless path takes eight activations and fits the local captioned rehearsal
-within 60 seconds. The current candidate passes 96 deterministic tests, 12/12
-static release checks, and 56/56 pre-release BG checks across Chromium, Firefox,
-WebKit, and mobile. Those machine
-checks are not human-preference evidence.
+The submitted-plan path still takes eight activations: it places both roles in
+two areas and fits a captioned demo within 60 seconds. The refined candidate
+passes the raw-derived `7/7`, source interaction `10/10`, and built static
+release `12/12` contracts. The clean pre-release matrix also passes `60/60`
+across Chromium, Firefox, WebKit, and mobile. These machine checks are not
+human-preference evidence.
 
 ## Local setup
 
@@ -47,14 +49,18 @@ pnpm verify
 On macOS, install Poppler with `brew install poppler` before `pnpm verify`.
 `pnpm dev` and `pnpm build` do not require the Python/Poppler verification tools.
 
-The app is **Corner Policy Lab**: choose two corner-delivery areas from the
-48-match group-stage reference, declare a minimum location-overlap criterion,
-lock one immutable policy, then expose it
-unchanged to the eight round-of-16 matches and eight still-sealed
+The app is **Corner Policy Lab**: place the set-piece defensive leader, decide
+whether one outlet role stays high or moves into a second area, declare a
+minimum location-overlap criterion, lock one immutable policy, then expose it
+unchanged after a 48-match group-stage reference to the eight round-of-16
+matches and eight still-sealed
 quarter-final-and-later matches. The full record table and deterministic
 representative contradiction let the historical evidence argue back. The app
-measures delivery-location overlap only; causal recommendation is `REJECT` and
-the empirical campaign remains `REVISE`. The final next-meeting note is a
+evaluates delivery-location overlap only. Beside it, the same historical window
+shows a fixed count of defending Pass/Clearance records touching the attacking
+outlet band; the two observations are never combined. Causal recommendation is
+`REJECT`; the canonical claim is that causal recommendation is `REJECT`, and the
+empirical campaign remains `REVISE`. The final next-meeting note is a
 separate decision record: it cannot mutate the locked fingerprint, the two
 holdout results, or the evidence receipts.
 
@@ -84,7 +90,7 @@ license](https://creativecommons.org/licenses/by/4.0/). This project transforms
 their 2018 World Cup subset into 603 corner restarts across all 64 matches. Of
 those, 557 endpoints are classifiable and 46 remain visibly unclassified. The
 public derivative preserves the fixed 48–8–8 match split, observed delivery
-areas, subsequent observed events, and source IDs. It contains no continuous
+areas, subsequent observed events, fixed outlet-band context, and source IDs. It contains no continuous
 tracking, player reach, reconstructed ball path, causal effect, or
 author/Wyscout/FIFA/team endorsement.
 

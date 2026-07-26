@@ -101,7 +101,7 @@ try {
     });
     const page = await context.newPage();
     await page.goto(baseURL);
-    await page.getByRole("heading", { name: /조별리그에서 세우고/u }).waitFor();
+    await page.getByRole("heading", { name: /코너 수비 한 명 더/u }).waitFor();
     const galleryImage = await readFile("docs/assets/gallery/corner-policy-lab-first-image.png");
     await page.evaluate(({ source, treatment }) => {
       const style = document.createElement("style");

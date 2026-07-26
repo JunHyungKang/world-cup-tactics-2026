@@ -1,22 +1,22 @@
 const pageContracts = [
-  { title: "One policy, three tournament phases", markers: ["48 group-stage reference", "eight round-of-16", "eight sealed"] },
+  { title: "The manager's dilemma comes first", markers: ["two attention tokens", "48 group-stage reference", "eight sealed"] },
   { title: "A real manager commitment", markers: ["One immutable fingerprint", "minimum location-overlap criterion", "never defensive effectiveness"] },
   { title: "Evidence argues back", markers: ["record table", "representative contradiction", "not statistically strongest"] },
   { title: "All 603 corners, missingness visible", markers: ["603 corners", "397/436", "must not imply that a 2018"] },
-  { title: "Ontology as a safety mechanism", markers: ["MatchContext", "DEFENSIVE_DUTY_CAUSED", "does not generate missing actions"] },
+  { title: "Why this is not another tactics dashboard", markers: ["statistics dashboard", "generic tactics board", "WOULD_PREVENT"] },
   { title: "Actual 60-second proof", markers: ["one predeclared criterion", "one next-meeting response", "60 seconds", "burned Korean captions"] },
-  { title: "Deployable and fail-closed", markers: ["8/8", "12/12", "causal recommendation is `REJECT`"] },
+  { title: "One meeting, three decisions, one public proof", markers: ["set-piece meeting", "Stage 1", "60/60", "causal recommendation is `REJECT`"] },
   { title: "Submission plan and risks", markers: ["submitter `60%`", "2026-07-27 10:00 KST", "2026-08-03 10:00 KST"] },
 ];
 
 export const requiredPlanningPages = [
-  "조별리그에서 세우고, 토너먼트에서 검증하세요.",
+  "네 구역 중 두 곳만. 결과를 보기 전에 감독이 먼저 정합니다.",
   "감독이 정책을 먼저 확정합니다.",
   "숨겨 둔 기록이 사전 기준을 판정합니다.",
   "603개 코너, 누락도 숨기지 않습니다.",
-  "온톨로지는 근거 경로와 금지 추론 안전장치입니다.",
+  "대시보드도 추천기도 아닙니다. 감독의 기준이 먼저입니다.",
   "60초 안에 선택·검증·다음 결정까지 끝냅니다.",
-  "기획서의 약속이 공개 화면에서 그대로 작동합니다.",
+  "누가, 언제, 무엇을 결정하는지 한 장에 보입니다.",
   "AI가 답을 대신하지 않습니다. 기록이 감독의 선택을 시험합니다.",
 ];
 export const requiredPdfPageMarkers = [
@@ -26,7 +26,7 @@ export const requiredPdfPageMarkers = [
   "397/436",
   "WOULD_PREVENT",
   "정책 변경 0회",
-  "12/12",
+  "60/60",
   "제출팀 60%",
 ];
 
@@ -78,7 +78,7 @@ export function validatePlanningContract({ source, officialState, manifest, now 
     "Human study is unavailable",
     "Synthetic novice, coach, and accessibility personas",
     "No human preference, usability, comprehension, or memorability result is claimed.",
-    "PENDING — requires stamped public deployment",
+    "The deployed release fingerprint and selected-product check are complete.",
   ]) if (!source.includes(marker)) errors.push(`missing current planning evidence boundary: ${marker}`);
 
   for (const pattern of stalePatterns) if (pattern.test(source)) errors.push(`planning source contains stale state: ${pattern.source}`);

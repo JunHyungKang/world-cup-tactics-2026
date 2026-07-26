@@ -10,12 +10,12 @@
   "scope_evidence": {
     "api_url": "https://daker.ai/api/hackathons/world-cup-manager-tactics-web-challenge",
     "hackathon_updated_at": "2026-07-13T04:47:47.898Z",
-    "checked_at": "2026-07-25T15:40:38+09:00",
+    "checked_at": "2026-07-26T23:22:23+09:00",
     "quote": "특정 연도·대회·선수 구성에 대한 제한은 없으며, 참가자가 자유롭게 설정할 수 있습니다.",
     "stable_fields_sha256": "7d56d0d02e620caa81f00a67a7933190512570cb13689ee14a8e07d136765adc",
     "capture": {
       "path": "docs/official-state.md",
-      "sha256": "f091e1a4f88b1decb8a4adc047b8dbc2d80d2678aece2c913b84f5c6024e3a00"
+      "sha256": "cc43dab72c5611e876649211044dad165eef3d3a3ec412f7227eee6486295802"
     },
     "independent_review": {
       "reviewer": "eligibility_escape_audit",
@@ -29,15 +29,15 @@
   ],
   "binding": {
     "product_id": "corner-policy-lab",
-    "official_state_sha256": "f091e1a4f88b1decb8a4adc047b8dbc2d80d2678aece2c913b84f5c6024e3a00",
+    "official_state_sha256": "cc43dab72c5611e876649211044dad165eef3d3a3ec412f7227eee6486295802",
     "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
-    "product_thesis_sha256": "3dcf121542bdbc2d7e99475af4f8e214b190349e59a613c7f8f902f9719c2d04",
-    "planning_source_sha256": "48df4d062b5e1a5fdbeb29af964d5a2db1b279bd79bdf687171d3f284ebb7048",
+    "product_thesis_sha256": "503e5bcfea292594281a8b9d8ddcdd03854d22d793f2c18a10fee3ac9d1073c4",
+    "planning_source_sha256": "b9e21771f43b042cdf96a12c9159c01c18ec1c03936489c222584e6da115e17c",
     "source_manifest_sha256": "e3344c561e1cf77ed0857ff837d8daf920ecdcbba5d4282359167ce72794cedb",
-    "product_selection_sha256": "46d0369db67b5b2315d786e1a529e6d700fdb95a7c0ba1bcc70d7454fa716a65",
+    "product_selection_sha256": "05b2d2a8849315cda6f30ab4903508280cb942b8d1100ea1542c18ae80691aba",
     "derived_binding": {
       "path": "public/data/product-binding.json",
-      "sha256": "26562b6b5dd875155380d0a3b0622eec0c19f8d6f46b1b0797faf24d815c8c2e"
+      "sha256": "e8b83a892a4958c382f42ace61ab8d8f2ea1c93fd7291fc31b537638569de926"
     }
   },
   "note": "The official DAKER Data-tab rule resolves year eligibility without a board post. Two CC BY 4.0 Figshare sources and the fixed, independently tested 48-8-8 public derivative are now bound to Corner Policy Lab for promotion. Product selection PASS does not change the causal recommendation REJECT or empirical campaign REVISE boundaries."

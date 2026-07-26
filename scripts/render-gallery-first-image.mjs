@@ -18,17 +18,16 @@ const [fontBytes, ...sourceBytes] = await Promise.all([
 ]);
 const images = sourceBytes.map((bytes) => `data:image/png;base64,${bytes.toString("base64")}`);
 const font = `data:font/ttf;base64,${fontBytes.toString("base64")}`;
-const cards = [
-  ["1 · 참고", "48경기에서 두 구역 선택", images[0], "#79D5A5"],
-  ["2 · 중간 평가", "16강 8경기 · 대표 반례", images[1], "#F1C84B"],
-  ["3 · 봉인 검증", "같은 정책 · 변경 0회", images[2], "#F0A56A"],
+const proofCards = [
+  ["1 · 역할 배치", "수비 리더 + 역습 역할", "두 번째 구역에 투입할지 직접 결정", images[0], "#79D5A5"],
+  ["2 · 첫 반박", "48% < 사전 50%", "16강 8경기 · 전방 기록 14/84", images[1], "#F1C84B"],
+  ["3 · 봉인 검증", "51% ≥ 사전 50%", "8강 이후 8경기 · 변경 0회", images[2], "#F0A56A"],
 ];
-const cardHtml = cards.map(([step, caption, image, color], index) => `
-  <article class="card" style="--accent:${color}">
-    <div class="step">${escapeHtml(step)}</div>
-    <img src="${image}" alt="" />
-    <div class="caption">${escapeHtml(caption)}</div>
-  </article>${index < cards.length - 1 ? '<div class="arrow">→</div>' : ""}
+const proofHtml = proofCards.map(([step, title, detail, image, color]) => `
+  <article class="proof" style="--accent:${color}">
+    <div class="proof-copy"><span>${escapeHtml(step)}</span><strong>${escapeHtml(title)}</strong><small>${escapeHtml(detail)}</small></div>
+    <div class="shot"><img src="${image}" alt="" /></div>
+  </article>
 `).join("");
 
 await mkdir(outputDirectory, { recursive: true });
@@ -38,17 +37,28 @@ try {
   await page.setContent(`<!doctype html><html lang="ko"><style>
     @font-face{font-family:Plan;src:url('${font}') format('truetype');font-weight:700}
     *{box-sizing:border-box} body{margin:0;width:1440px;height:900px;overflow:hidden;background:#07110d;color:#f4f4ed;font-family:Plan,monospace}
-    main{height:100%;padding:42px 64px;position:relative;background:radial-gradient(circle at 50% 40%,#173126 0,#07110d 63%)}
-    .eyebrow{color:#e7ea72;font-size:15px;letter-spacing:.14em}.title{margin:10px 0 4px;font-size:45px;line-height:1.15}.sub{color:#aebbb4;font-size:19px}
-    .flow{height:610px;margin-top:24px;display:flex;align-items:center;justify-content:center;gap:22px}.card{width:390px;height:570px;padding:12px;border:2px solid var(--accent);border-radius:22px;background:#102019;box-shadow:0 18px 46px #0008;display:flex;flex-direction:column}
-    .step{height:36px;color:var(--accent);font-size:16px;display:flex;align-items:center}.card img{width:362px;height:472px;object-fit:cover;object-position:top;border-radius:13px;border:1px solid #53655a}.caption{height:38px;display:flex;align-items:end;justify-content:center;color:#f4f4ed;font-size:15px;text-align:center}
-    .arrow{font-size:42px;color:#e7ea72}.boundary{position:absolute;bottom:24px;left:64px;right:64px;display:flex;justify-content:space-between;color:#aebbb4;font-size:14px}.boundary b{color:#f0a76f}
+    main{height:100%;padding:54px 62px 46px;position:relative;background:radial-gradient(circle at 34% 40%,#173126 0,#07110d 61%)}
+    .layout{display:grid;grid-template-columns:1.18fr .82fr;gap:46px;height:100%}
+    .story{display:flex;flex-direction:column;min-width:0}.eyebrow{color:#e7ea72;font-size:15px;letter-spacing:.13em}.title{margin:18px 0 12px;font-size:66px;line-height:1.01;letter-spacing:-.045em}.title span{color:#f1c84b}.sub{max-width:700px;color:#c5d0ca;font-size:18px;line-height:1.55}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}.choice{min-height:164px;padding:20px;border:1px solid #395348;border-radius:20px;background:#10251d}.choice b{display:block;color:#aebbb4;font-size:14px}.choice strong{display:block;margin-top:10px;color:#f5f2e8;font-size:28px}.choice em{display:block;margin-top:6px;color:#83e6b8;font-size:18px;font-style:normal}.choice.primary{border:2px solid #f1c84b}.choice.primary em{color:#f1c84b}
+    .campaign{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center;margin-top:18px}.campaign div{padding:13px 14px;border:1px solid #304b40;border-radius:13px;background:#0c1d17}.campaign strong{display:block;color:#f1c84b;font-size:25px}.campaign span{color:#aebbb4;font-size:13px}.campaign b{color:#f1c84b;font-size:24px}
+    .receipt{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding:16px 18px;border:1px solid #527062;border-radius:14px;background:#0b1b15}.receipt strong{font-size:20px}.receipt span{color:#aebbb4;font-size:14px}.receipt em{color:#f0a76f;font-style:normal}
+    .proofs{display:grid;grid-template-rows:repeat(3,1fr);gap:14px;min-width:0}.proof{display:grid;grid-template-columns:220px 1fr;min-height:0;overflow:hidden;border:1px solid var(--accent);border-radius:20px;background:#102019;box-shadow:0 18px 46px #0007}.proof-copy{display:flex;flex-direction:column;justify-content:center;padding:18px}.proof-copy span{color:var(--accent);font-size:13px}.proof-copy strong{margin-top:10px;font-size:22px;line-height:1.2}.proof-copy small{margin-top:8px;color:#aebbb4;font-size:13px;line-height:1.45}.shot{overflow:hidden;border-left:1px solid #385046;background:#06100c}.shot img{width:100%;height:100%;object-fit:cover;object-position:55% 48%;transform:scale(1.35)}
   </style><main>
-    <div class="eyebrow">CORNER POLICY LAB · 한 정책을 두 번 반박하는 감독 실험</div>
-    <h1 class="title">${escapeHtml(story.gallery.title)}</h1>
-    <div class="sub">${escapeHtml(story.gallery.one_line)}</div>
-    <section class="flow">${cardHtml}</section>
-    <div class="boundary"><span>2018 월드컵 603개 코너 · 경기 단위 48–8–8 분할 · 고정 정책 지문</span><b>위치 겹침만 계산 · 인과 추천 REJECT</b></div>
+    <section class="layout">
+      <div class="story">
+        <div class="eyebrow">CORNER POLICY LAB · 조별리그에서 세우고, 토너먼트에서 검증하세요</div>
+        <h1 class="title">코너 수비 한 명 더.<br><span>역습에는 한 명 덜.</span></h1>
+        <div class="sub">${escapeHtml(story.gallery.one_line)}</div>
+        <div class="choices">
+          <div class="choice primary"><b>두 번째 역할을 수비로</b><strong>두 구역 검토</strong><em>역습 역할 전환</em></div>
+          <div class="choice"><b>두 번째 역할을 전방에</b><strong>한 구역 검토</strong><em>역습 역할 유지</em></div>
+        </div>
+        <div class="campaign"><div><strong>48경기</strong><span>조별리그 참고</span></div><b>→</b><div><strong>8경기</strong><span>16강 첫 반박</span></div><b>→</b><div><strong>8경기</strong><span>봉인 최종 검증</span></div></div>
+        <div class="receipt"><strong>정책 변경 0회</strong><span>위치 겹침과 전방 대기 구역 기록은 <em>합산하지 않음</em></span></div>
+      </div>
+      <section class="proofs">${proofHtml}</section>
+    </section>
   </main></html>`);
   await page.screenshot({ path: outputPath, animations: "disabled" });
 } finally {

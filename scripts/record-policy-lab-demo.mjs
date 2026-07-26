@@ -74,7 +74,7 @@ try {
     });
     const page = await context.newPage();
     await page.goto(baseURL);
-    await page.getByRole("heading", { name: /조별리그에서 세우고/u }).waitFor();
+    await page.getByRole("heading", { name: /코너 수비 한 명 더/u }).waitFor();
     const start = performance.now();
     const actions = [];
     const waitUntil = async (seconds) => {
@@ -166,7 +166,7 @@ for (const [index, cue] of narration.cues.entries()) {
   if (duration > cue.end - cue.start - 0.25) throw new Error(`narration cue does not fit: ${cue.id}`);
   cueReports.push({ id: cue.id, path, start: cue.start, end: cue.end, duration_seconds: duration, sha256: digest(bytes), bytes: bytes.length });
 }
-const srt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.text}`).join("\n\n") + "\n";
+const srt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.caption ?? cue.text}`).join("\n\n") + "\n";
 const srtPath = `${outputDirectory}/corner-policy-lab.ko.srt`;
 await writeFile(srtPath, srt);
 const inputArgs = cueReports.flatMap((cue) => ["-i", cue.path]);
@@ -179,7 +179,7 @@ const audioPath = `${outputDirectory}/narration/corner-policy-lab-narration.wav`
 run("ffmpeg", ["-y", ...inputArgs, "-filter_complex", `${delayed.join(";")};${mixInputs}amix=inputs=${cueReports.length}:duration=longest:normalize=0,apad=pad_dur=60,atrim=0:59.5[a]`, "-map", "[a]", "-ar", "48000", "-ac", "1", "-c:a", "pcm_s16le", audioPath]);
 run("ffmpeg", [
   "-y", "-i", rawVideoPath, "-i", audioPath, "-map", "0:v:0", "-map", "1:a:0",
-  "-vf", `subtitles=${srtPath}:force_style='FontName=D2Coding,FontSize=8,PrimaryColour=&H00FFFFFF,BackColour=&H80000000,OutlineColour=&H00000000,BorderStyle=3,Outline=1,Shadow=0,Alignment=2,MarginV=15'`,
+  "-vf", `subtitles=${srtPath}:force_style='FontName=Apple SD Gothic Neo,FontSize=18,PrimaryColour=&H00FFFFFF,BackColour=&H90000000,OutlineColour=&H00000000,BorderStyle=3,Outline=1,Shadow=0,Alignment=2,MarginV=38'`,
   "-c:v", "libvpx", "-b:v", "3M", "-deadline", "good", "-cpu-used", "4", "-c:a", "libopus", "-b:a", "96k", "-t", "59.5",
   "-metadata", "title=CORNER POLICY LAB - LOCAL REHEARSAL - NOT FINAL", "-metadata", "comment=Static local candidate; not YouTube or human evidence", narratedVideoPath,
 ]);

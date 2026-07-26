@@ -38,6 +38,7 @@
     "planning:review": "node scripts/prepare-plan-review.mjs",
     "planning:handoff": "node scripts/prepare-plan-owner-handoff.mjs",
     "demo:audit": "node scripts/check-submission-story.mjs",
+    "gallery:capture": "node scripts/capture-final-gallery-states.mjs",
     "gallery:render": "node scripts/render-gallery-first-image.mjs",
     "demo:capture": "node scripts/capture-demo-storyboard.mjs",
     "demo:rehearse": "node scripts/record-demo-rehearsal.mjs",

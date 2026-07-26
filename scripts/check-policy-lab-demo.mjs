@@ -68,7 +68,7 @@ check(rawVideo?.codec_name === "vp8" && rawVideo.width === 1440 && rawVideo.heig
 
 check(narration.schema_version === 1 && narration.status === "local-tts-rehearsal-not-final-voice", "narration contract status drifted");
 check(narration.cues.length === 8 && narrated.cues.length === 8, "narration cue count drifted");
-const expectedSrt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.text}`).join("\n\n") + "\n";
+const expectedSrt = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.caption ?? cue.text}`).join("\n\n") + "\n";
 const captionBytes = await readFile(narrated.captions.path);
 check(captionBytes.toString("utf8") === expectedSrt, "Korean captions drifted from narration cues");
 check(narrated.captions.sha256 === digest(captionBytes) && narrated.captions.bytes === captionBytes.length, "caption byte binding drifted");

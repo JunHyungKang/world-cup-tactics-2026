@@ -90,4 +90,15 @@ describe("current harness state drift", () => {
     expect(validateLivePortfolioBoard({ board: current.replace("6ebcf439", "81e2ae3c"), ledger }))
       .toContain("live portfolio board does not bind canonical PDF 6ebcf439");
   });
+
+  it("requires the live portfolio board to advance from draft to submitted with the receipt", () => {
+    const ledger = [
+      "| 2026-07-24T03:29:35+09:00 | plan-visual-qa | output/pdf/corner-policy-lab-planning.pdf | pdf=6ebcf4391c1a554c54897ae382845ece6f66cb3a2c6e1bb1b270de157c43b031 source=x | visual 8/8 PASS | local | reviewer=/root/reviewer |",
+      "| 2026-07-26T18:38:37+09:00 | plan-submitted | output/pdf/corner-policy-lab-planning.pdf | pdf=6ebcf4391c1a554c54897ae382845ece6f66cb3a2c6e1bb1b270de157c43b031 | owner-confirmation PASS | submitted | owner=JHKang confirmation=receipt-1 |",
+    ].join("\n");
+    const submitted = "| P0 | World Cup Tactics Web Challenge | repo | deadlines | prize | canonical PDF `6ebcf439…`; exact-hash independent review PASS; DAKER `제출 완료` | next |";
+    expect(validateLivePortfolioBoard({ board: submitted, ledger })).toEqual([]);
+    expect(validateLivePortfolioBoard({ board: submitted.replace("제출 완료", "작성중"), ledger }))
+      .toContain("live portfolio board does not record the observed DAKER submitted state");
+  });
 });

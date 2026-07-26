@@ -39,10 +39,12 @@ for (const [index, cue] of narration.cues.entries()) {
   check(cue.id === beat.id && cue.start === beat.start && cue.end === beat.end, `narration cue ${index + 1} drifted from story timecodes`);
   check(cue.caption_end > cue.start && cue.caption_end <= cue.end, `narration cue ${cue.id} caption end is invalid`);
   check(typeof cue.text === "string" && cue.text.length > 5, `narration cue ${cue.id} is empty`);
+  const captionLines = (cue.caption ?? cue.text).split("\n");
+  check(captionLines.length <= 2 && captionLines.every((line) => line.length <= 34), `narration cue ${cue.id} caption exceeds the two-line readability contract`);
   check(demoScript.includes(`\`${cue.text}\``), `demo script narration drifted for cue ${cue.id}`);
   for (const forbidden of story.claim_boundary.forbidden) check(!cue.text.includes(forbidden), `narration cue ${cue.id} contains forbidden claim: ${forbidden}`);
 }
-const expectedCaptions = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.text}`).join("\n\n");
+const expectedCaptions = narration.cues.map((cue, index) => `${index + 1}\n${srtTime(cue.start)} --> ${srtTime(cue.caption_end)}\n${cue.caption ?? cue.text}`).join("\n\n");
 check(captionsBytes.toString("utf8").trim() === expectedCaptions, "Korean SRT captions drifted from the narration contract");
 
 check(finalMode || manifest.status === "local-narrated-rehearsal-not-youtube-or-human-evidence", "narrated rehearsal status is unsafe");
@@ -55,8 +57,9 @@ check(manifest.editorial_treatment?.status === editorialTreatment.status, "edito
 check(manifest.editorial_treatment?.label === "[편집 요약]", "editorial treatment disclosure label drifted");
 check(manifest.captions?.path === "docs/policy-lab-demo-captions.ko.srt", "burned-in caption source path drifted");
 check(manifest.captions?.sha256 === digest(captionsBytes), "burned-in caption byte binding mismatch");
-check(manifest.captions?.presentation === "burned-in" && manifest.captions?.font === "D2Coding", "narrated video must burn in the bound Korean captions");
-check(manifest.captions?.font_size === 9 && manifest.captions?.safe_margin_vertical_pixels === 32, "caption legibility treatment drifted");
+check(manifest.captions?.presentation === "burned-in" && manifest.captions?.font === "Apple SD Gothic Neo", "narrated video must burn in the bound Korean captions");
+check(manifest.captions?.font_source === "macOS system /System/Library/Fonts/AppleSDGothicNeo.ttc", "caption font source drifted");
+check(manifest.captions?.font_size === 18 && manifest.captions?.safe_margin_vertical_pixels === 38, "caption legibility treatment drifted");
 check(manifest.visual_source.sha256 === visualManifest.video.sha256, "narrated rehearsal visual source drifted");
 check(manifest.visual_source.manifest_path === visualManifestPath, "narrated visual manifest path drifted");
 check(manifest.visual_source.manifest_sha256 === digest(visualManifestBytes), "narrated visual manifest SHA mismatch");

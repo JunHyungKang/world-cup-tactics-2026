@@ -6,6 +6,8 @@ Product data scope: `official-open-historical-tactics`
 
 Product selection status: `PASS`
 
+Implementation refinement status: `PASS — role tradeoff`
+
 Causal recommendation status: `REJECT`
 
 Empirical campaign status: `REVISE`
@@ -48,16 +50,22 @@ The first screen exposes three fixed phases:
 2. `8경기 16강 중간 평가`;
 3. `8경기 8강 이후 봉인 검증`.
 
-The manager selects two of four delivery areas—`숏 코너`, `니어포스트`,
-`중앙·파포스트`, and `그 밖의 전달`—then declares `40%`, `50%`, or `60%`
-as the minimum location-overlap criterion, or explicitly chooses `판단 보류`.
-Choosing two areas also means excluding the other two from the meeting's priority
-review. This is a real tradeoff, not a decorative filter.
+The submitted planning path remains intact: the manager places two scarce
+attention roles across `숏 코너`, `니어포스트`, `중앙·파포스트`, and
+`그 밖의 전달`, then declares `40%`, `50%`, or `60%` as the minimum
+location-overlap criterion, or explicitly chooses `판단 보류`.
+
+The final implementation names the two tokens so the football cost is visible.
+The first token is the set-piece defensive leader. The second is one outlet role
+that the manager may either keep high or move into a second priority area. The
+primary PDF and 60-second judging path still moves that second role into the
+second area. The optional `역습 역할 1명 전방 유지` branch is an implementation
+refinement of the same two-token scarcity, not a replacement product loop.
 
 The primary judge path is eight activations:
 
-1. select the first area;
-2. select the second area;
+1. place the defensive leader in the first area;
+2. move the outlet role into the second area;
 3. declare the minimum location-overlap criterion;
 4. lock one policy for both tests;
 5. reveal the round-of-16 evaluation;
@@ -71,6 +79,19 @@ for both held-out partitions. The next-meeting note is a separate decision recor
 and cannot mutate that receipt, the overlap results, or the sealed policy. The
 one-match-at-a-time revision path remains available under progressive disclosure
 but is not the primary judging path.
+
+The optional outlet-retained path closes honestly as a different role
+commitment: one priority area plus one role kept high. It never earns a combined
+score. Every partition shows two fixed observations side by side:
+
+- selected-area delivery overlap;
+- defending-team pass or clearance records touching the attacking outlet band
+  in the same ten-second historical window.
+
+The outlet-band context is `64/397` in the group-stage reference, `14/84` in the
+round of 16, and `12/76` in the final audit. These counts do not prove an outlet
+player was available, reached the ball, or completed a counterattack. They make
+the sacrificed role legible without fabricating its effect.
 
 ## Real data and fixed split
 
@@ -97,7 +118,7 @@ evidence lens and **must not imply that a 2018 pattern describes a 2026 team**.
 
 ## What the calculation means
 
-The score is delivery-location overlap only. The manager predeclares a minimum
+The evaluated criterion is delivery-location overlap only. The manager predeclares a minimum
 criterion before either holdout is exposed, so the result closes as `사전 기준
 충족` or `사전 기준 미달` without post-hoc reinterpretation. It answers:
 
@@ -114,6 +135,32 @@ observed-action coverage is below 95 percent, team-specific support is sparse,
 horizon and reward rankings are unstable, and the match-cluster interval does
 not separate the leading areas. The empirical campaign remains a product-safe
 historical stress test, not an offline-RL value estimator.
+
+The fixed outlet-band count is displayed as adjacent historical context and is
+never added to the location-overlap criterion. It is derived from defending-team
+Pass/Clearance segments in the same recorded ten-second window and remains
+unchanged when the manager moves a role.
+
+## Final product gate — role tradeoff refinement
+
+Status: `PASS`
+
+- Target: a set-piece coach deciding whether a second defensive priority is
+  worth giving up one outlet role.
+- Direct manipulation: place the leader, then keep or move the outlet role; the
+  pitch, policy label, fingerprint, receipt, and inspected-area count all change.
+- Real data: 603 licensed 2018 World Cup corners provide location overlap and
+  fixed outlet-band context under one reproducible ten-second transform.
+- Differentiation: the product records a scarce staffing promise, freezes it
+  before two held-out audits, and returns a counterexample rather than drawing
+  an unconstrained formation or issuing a recommendation.
+- Primary 60-second path: the exact submitted two-area path remains; the new
+  branch is optional and cannot mutate the 48–8–8 split or claim boundary.
+- Verified prototype: raw-derived contract `7/7`, policy interaction `10/10`,
+  built browser loop `12/12`; full pre-release matrix must be rerun after all
+  story and release surfaces are re-bound.
+- Stop signal: reject the refinement if outlet context is combined with overlap,
+  described as a caused counterattack, or allowed to change with the role move.
 
 ## Ontology as a safety mechanism
 

@@ -1,6 +1,6 @@
 # First-Place Goal
 
-Status: `ACTIVE — public candidate and planning package verified; stamped final evidence and human outcomes unavailable`
+Status: `ACTIVE — role-tradeoff candidate verified locally; public stamp, YouTube, and final DAKER receipt remain`
 
 ## Objective
 
@@ -27,9 +27,9 @@ preference, usability, comprehension, and memorability claims stay omitted.
 | Claim safety | no prevention, player reach, changed result, optimal policy, or 2026 tendency is inferred | ontology path exposes provenance and forbidden relations; human misconception rate remains unavailable |
 | Comparative recall — UNEVALUATED / NO CLAIM | a fresh cohort recalls the one-policy/two-holdout contradiction after delay | unavailable; no comparative-memory claim allowed |
 | Data credibility | two cleared CC BY 4.0 sources, deterministic 603-corner derivative, 557 classified endpoints, 46 visible missing endpoints | passed; causal recommendation remains `REJECT` and empirical campaign `REVISE` |
-| Interaction/reliability | pointer, keyboard, mobile, replay, contradiction, next-meeting note, refresh, and fail-closed invalid data | 96 deterministic tests, `12/12` static release checks, and `56/56` Chromium·Firefox·WebKit·mobile BG pre-release checks pass; stamped public BG-12 pending |
-| Planning package | final PDF content/render lint plus exact independent visual-QA ledger before deadline | criterion-aware PDF `6ebcf439…` is source/build/screenshot-bound and passed an 8/8 zero-finding review; DAKER still holds the older reversible draft and final submission has not occurred |
-| Final package | keyless public app, repository, YouTube demo, exact release/browser hashes, owner receipt, and no post-deadline commit | public candidate commit `22801c4` and five files match deployed release `3de1b3b5…`; improved local release `0457808b…` and its `59.520s` criterion-aware rehearsal `4a145fc8…` pass locally; redeploy, stamped BG-12, YouTube, and final DAKER receipts pending |
+| Interaction/reliability | pointer, keyboard, mobile, contradiction, next-meeting note, refresh, and fail-closed invalid data | 100 deterministic tests pass; clean pre-release BG-01–11 and BG-13–15 pass `60/60` across Chromium·Firefox·WebKit·mobile; new stamped BG-12 remains |
+| Planning package | final PDF content/render lint plus exact independent visual-QA ledger before deadline | cold-eye PDF `060376c8…` passed exact 8/8 independent-agent review with blocker=0, major=0, minor=0; DAKER returned the same remote SHA-256 and accepted the irreversible planning submission at `2026-07-26T18:38:37+09:00` |
+| Final package | keyless public app, repository, YouTube demo, exact release/browser hashes, owner receipt, and no post-deadline commit | the previous public release is superseded by a locally verified role-tradeoff candidate; the redesigned gallery, two-line professional captions, and `59.920s` rehearsal pass their contracts; clean public stamp, exact-URL recording, YouTube publication, and final DAKER receipt remain |
 
 ## Winning execution lane
 
@@ -40,9 +40,9 @@ preference, usability, comprehension, and memorability claims stay omitted.
 3. Keep one judge story everywhere: `48 → 8 → 8`, two priority areas plus one
    predeclared overlap criterion in an immutable fingerprint, one contradiction,
    then one next-meeting decision that cannot change results.
-4. Replace the reversible DAKER draft only after explicit owner confirmation and
-   verify the downloaded remote PDF hash. Treat final `제출` as a separate
-   irreversible owner gate.
+4. Preserve the submitted DAKER planning receipt: remote PDF `060376c8…`,
+   submission ID `a072f2fb-6284-4697-bfa3-2c156d2bc1f6`, and platform status
+   `제출 완료`. The planning artifact is now immutable.
 5. For the final deadline, stamp one public release, run BG-01–15, record from
    that exact URL, publish YouTube, verify every receipt, then freeze the commit.
 
@@ -78,7 +78,8 @@ Therefore:
 
 ## Next concrete artifact
 
-Commit and redeploy the verified local release, then stamp the exact public URL
-with the browser gate. With explicit owner confirmation, replace the old DAKER
-draft with PDF `6ebcf439…`, download it back, and compare the remote SHA-256.
-Keep final `제출` untouched until a separate action-time confirmation.
+Commit and deploy the locally verified role-tradeoff candidate, run BG-12 against
+the exact public bytes, then regenerate the `59.920s` video from that frozen URL.
+Only after owner listening approval may that exact video be published to
+YouTube. Keep the final DAKER web-link/video `제출` untouched until a separate
+action-time confirmation.

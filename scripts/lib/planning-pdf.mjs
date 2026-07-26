@@ -117,7 +117,7 @@ export function validatePlanningCandidateBindings(pages, { sourceSha256, screens
     }
   }
   const allText = pages.map(({ text }) => normalizeText(text ?? "")).join("\n");
-  for (const marker of ["48경기", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "12/12", "다음 미팅", "제출팀 60%", "2026-07-27 10:00 KST", "인간 연구 없음"]) {
+  for (const marker of ["48경기", "603", "397/436", "WOULD_PREVENT", "정책 변경 0회", "60/60", "다음 미팅", "제출팀 60%", "2026-07-27 10:00 KST", "인간 연구 없음"]) {
     if (!allText.includes(marker)) errors.push(`planning candidate lacks official/current marker: ${marker}`);
   }
   if (allText.includes("98 / 100") || allText.includes("공식 후보로 승격")) {
@@ -178,6 +178,47 @@ export function validateAgentVisualReview(review, {
   return errors;
 }
 
+async function frozenPlanningSourceDigest(manifest) {
+  try {
+    const freezeBytes = await readFile("docs/planning-submission-freeze.json");
+    const freeze = JSON.parse(freezeBytes.toString("utf8"));
+    if (freeze.schema_version !== 1 || freeze.status !== "submitted-immutable" ||
+        !/^[a-f0-9]{40}$/u.test(freeze.source_commit ?? "")) return null;
+
+    const [manifestBytes, snapshotBytes, pdfBytes, sourceBytes, reviewBytes] = await Promise.all([
+      readFile(freeze.screenshot_manifest.path),
+      readFile(freeze.source_snapshot.path),
+      readFile(freeze.artifact.path),
+      readFile(freeze.planning_source.path),
+      readFile(freeze.independent_review.path),
+    ]);
+    const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
+    if (digest(manifestBytes) !== freeze.screenshot_manifest.sha256 ||
+        digest(snapshotBytes) !== freeze.source_snapshot.sha256 ||
+        digest(pdfBytes) !== freeze.artifact.sha256 ||
+        digest(sourceBytes) !== freeze.planning_source.sha256 ||
+        digest(reviewBytes) !== freeze.independent_review.sha256 ||
+        JSON.stringify(JSON.parse(manifestBytes.toString("utf8"))) !== JSON.stringify(manifest) ||
+        freeze.screenshot_manifest.source_binding_sha256 !== manifest.source_binding.sha256) return null;
+
+    const hash = createHash("sha256");
+    for (const path of [...manifest.source_binding.paths].sort()) {
+      const extracted = spawnSync("tar", ["-xOf", freeze.source_snapshot.path, path], {
+        encoding: null,
+        maxBuffer: 5_000_000,
+      });
+      if (extracted.status !== 0 || !Buffer.isBuffer(extracted.stdout)) return null;
+      hash.update(path);
+      hash.update("\0");
+      hash.update(extracted.stdout);
+      hash.update("\0");
+    }
+    return hash.digest("hex");
+  } catch {
+    return null;
+  }
+}
+
 export async function validatePlanningScreenshotManifest(manifest, { now = Date.now() } = {}) {
   const errors = [];
   const shaPattern = /^[a-f0-9]{64}$/u;
@@ -198,7 +239,11 @@ export async function validatePlanningScreenshotManifest(manifest, { now = Date.
       for (const path of [...sourcePaths].sort()) {
         hash.update(path); hash.update("\0"); hash.update(await readFile(path)); hash.update("\0");
       }
-      if (hash.digest("hex") !== manifest.source_binding.sha256) errors.push("planning screenshot source binding SHA-256 mismatch");
+      const currentDigest = hash.digest("hex");
+      if (currentDigest !== manifest.source_binding.sha256 &&
+          await frozenPlanningSourceDigest(manifest) !== manifest.source_binding.sha256) {
+        errors.push("planning screenshot source binding SHA-256 mismatch");
+      }
     } catch (error) {
       errors.push(`planning screenshot source binding unreadable: ${error.message}`);
     }

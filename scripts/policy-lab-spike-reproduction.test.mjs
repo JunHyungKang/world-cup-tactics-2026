@@ -23,6 +23,7 @@ describe("Policy Lab raw reproduction", () => {
     for (const episode of episodes) {
       expect(Object.keys(episode.state).some((key) => forbidden.test(key))).toBe(false);
       expect(episode.provenance.observed_event_ids[0]).toBe(episode.provenance.corner_event_id);
+      expect(typeof episode.observed_outcome.defending_outlet_contact).toBe("boolean");
     }
   });
 });

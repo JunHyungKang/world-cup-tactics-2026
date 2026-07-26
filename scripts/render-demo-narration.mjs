@@ -29,7 +29,7 @@ const editorialTreatmentBytes = await readFile("docs/demo-editorial-treatment.js
 const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 const visualBytes = await readFile(visualPath);
 const outputDurationSeconds = 59.92;
-const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:fontsdir=docs/assets/fonts:force_style='FontName=D2Coding,FontSize=9,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=32,Alignment=2'";
+const captionFilter = "subtitles=filename=docs/policy-lab-demo-captions.ko.srt:force_style='FontName=Apple SD Gothic Neo,FontSize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,BackColour=&H90000000,Outline=1,Shadow=0,MarginV=38,Alignment=2'";
 const audioMastering = {
   target_integrated_lufs: -16,
   target_true_peak_dbfs: -1.5,
@@ -113,9 +113,10 @@ const manifest = {
     path: "docs/policy-lab-demo-captions.ko.srt",
     sha256: createHash("sha256").update(captionsBytes).digest("hex"),
     presentation: "burned-in",
-    font: "D2Coding",
-    font_size: 9,
-    safe_margin_vertical_pixels: 32,
+    font: "Apple SD Gothic Neo",
+    font_source: "macOS system /System/Library/Fonts/AppleSDGothicNeo.ttc",
+    font_size: 18,
+    safe_margin_vertical_pixels: 38,
   },
   visual_source: {
     path: visualPath,

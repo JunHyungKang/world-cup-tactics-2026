@@ -9,19 +9,23 @@ is preserved only under `docs/archive/corner-war-room-2026-07-19/`.
 
 The first screen must expose, without a login or API key:
 
-1. `조별리그에서 세우고, 토너먼트에서 검증하세요.`;
+1. `코너 수비 한 명 더. 역습에는 한 명 덜.`;
 2. the fixed `48경기 참고 → 8경기 중간 평가 → 8경기 봉인 검증` split;
-3. four delivery-location lanes and exactly two scarce attention tokens;
-4. a predeclared `40%`, `50%`, or `60%` minimum location-overlap criterion;
+3. one defensive leader and one outlet role that can stay high or become the
+   second defensive area;
+4. four delivery-location lanes and a predeclared `40%`, `50%`, or `60%`
+   minimum location-overlap criterion;
 5. `판단 보류`;
-6. the limitation `전달 위치 겹침만 계산`.
+6. the limitation that location overlap and outlet context stay separate.
 
 This is a policy stress test, not a formation dashboard, reward model, win
 prediction, defensive-success simulator, or optimal-tactics recommender.
 
 ## Immutable quick trial
 
-1. The manager selects two lanes and one overlap criterion, or abstains.
+1. The manager places the defensive leader, decides whether the outlet role stays
+   high or becomes the second defensive area, and selects one overlap criterion,
+   or abstains.
 2. `이 정책을 잠가 두 시험에 적용` freezes one policy fingerprint before
    either held-out result appears.
 3. `16강 8경기 평가 요약 공개` evaluates all eight round-of-16 matches.
@@ -30,9 +34,12 @@ prediction, defensive-success simulator, or optimal-tactics recommender.
 5. The manager records one separate next-meeting decision and reason. This note
    cannot mutate the sealed policy, criterion, overlap result, or receipts.
 
-The demonstration policy selects `숏 코너`, `니어포스트`, and `50%`. Its first
-held-out result is `48%` and misses the predeclared criterion; its final result is
-`51%` and meets it. These are delivery-location overlaps only.
+The demonstration policy puts the defensive leader at `숏 코너`, moves the
+outlet role to `니어포스트`, and selects `50%`. Its first held-out result is
+`48%` and misses the predeclared criterion; its final result is `51%` and meets
+it. These are delivery-location overlaps only. Outlet-contact context remains
+separate at `64/397`, `14/84`, and `12/76`; the product never adds it to overlap
+or labels it a completed counterattack.
 
 ## Deterministic evidence
 
@@ -40,7 +47,8 @@ held-out result is `48%` and misses the predeclared criterion; its final result 
 - All eligible held-out corners are evaluated; the UI does not choose favorable
   examples.
 - Every receipt carries the same policy fingerprint, source match/event IDs,
-  selected lanes, predeclared criterion, and observed overlap.
+  role allocation, selected lanes, predeclared criterion, observed overlap, and
+  separately labeled outlet context.
 - The representative contradiction is selected by deterministic source order.
 - The evidence path exposes `MatchContext`, `ScoutingPolicy`, `CornerRestart`,
   `DeliveryAction`, `ObservedEvent`, `OutcomeProxy`, and `Source`.
@@ -51,7 +59,8 @@ held-out result is `48%` and misses the predeclared criterion; its final result 
 
 ## Input and accessibility behavior
 
-- Lane cards and pitch zones must produce the same semantic state.
+- Lane cards, pitch zones, and the outlet-role choice must produce the same
+  semantic state.
 - Pointer, touch, Enter, and Space must create the same policy fingerprint.
 - Every actionable target is at least `44×44` CSS pixels.
 - At `320×568`, the pitch, four lanes, criterion, lock, and abstention remain

@@ -12,7 +12,7 @@ let report;
 let state = freshState();
 
 function freshState() {
-  return { stage: "rehearsal", matchIndex: 0, selected: [], minimumOverlap: null, locked: false, abstained: false, revealed: false, counterexampleOpen: false, history: [], quickFixed: false, policySnapshot: null, meetingNote: null };
+  return { stage: "rehearsal", matchIndex: 0, selected: [], outletKept: false, minimumOverlap: null, locked: false, abstained: false, revealed: false, counterexampleOpen: false, history: [], quickFixed: false, policySnapshot: null, meetingNote: null };
 }
 
 function validate(value) {
@@ -21,7 +21,11 @@ function validate(value) {
   const validCampaign = campaign?.partitions_disjoint === true && campaign.product_status === "PASS" &&
     campaign.empirical_campaign_status === "REVISE" && campaign.causal_recommendation_status === "REJECT" && campaign.reference_match_ids?.length === 48 &&
     campaign.rehearsal_matches?.length === 8 && campaign.final_audit_matches?.length === 8 &&
-    allCampaignTrials.every((trial) => !campaign.reference_match_ids.includes(trial.state.match_id));
+    campaign.reference_outlet_context?.label === "recorded-defending-pass-or-clearance-touching-attacking-outlet-band" &&
+    campaign.reference_outlet_context.corners === campaign.reference_corners &&
+    allCampaignTrials.every((trial) =>
+      !campaign.reference_match_ids.includes(trial.state.match_id) &&
+      typeof trial.observed_outcome.defending_outlet_contact === "boolean");
   if (value?.status !== "REJECT" || value?.population?.source_corners !== 603 ||
       value?.gates?.exact_source_population !== true || !value.clustered_bootstrap || !validCampaign) {
     throw new Error("고정 경기 분할 검증 보고서와 일치하지 않습니다.");
@@ -52,29 +56,43 @@ function evaluatePolicy(experiment, selected = state.selected, abstained = state
   const uncovered = experiment.trials.filter((trial) => !selected.includes(trial.observed_action.value));
   const coveredShots = covered.filter((trial) => trial.observed_outcome.attacking_shot);
   const uncoveredShots = uncovered.filter((trial) => trial.observed_outcome.attacking_shot);
+  const outletContacts = experiment.trials.filter((trial) => trial.observed_outcome.defending_outlet_contact);
   const counterexample = uncoveredShots[0] ?? uncovered[0] ?? coveredShots[0] ?? experiment.trials[0];
   const reason = abstained ? "판단을 보류한 뒤 확인한 대표 기록" : uncoveredShots[0] ? "선택 밖 구역에서 슈팅 기록" :
     uncovered[0] ? "선택 밖 구역으로 전달된 기록" :
       coveredShots[0] ? "선택 구역과 겹쳐도 슈팅이 이어진 기록" : "위치 겹침만으로 효과를 판정할 수 없는 기록";
-  return { ...experiment, covered, uncovered, coveredShots, uncoveredShots, counterexample, reason };
+  return { ...experiment, covered, uncovered, coveredShots, uncoveredShots, outletContacts, counterexample, reason };
 }
 
 function policyLabel() {
-  return policyLabelFor(state.selected, state.abstained);
+  return policyLabelFor(state.selected, state.abstained, state.outletKept);
 }
 
-function policyLabelFor(selected, abstained = false) {
-  return abstained ? "판단 보류" : selected.map((lane) => LABEL[lane]).join(" + ");
+function policyLabelFor(selected, abstained = false, outletKept = false) {
+  if (abstained) return "판단 보류";
+  const zones = selected.map((lane) => LABEL[lane]).join(" + ");
+  return outletKept ? `${zones} · 역습 1명 유지` : selected.length === 2 ? `${zones} · 역습 1명 수비 전환` : zones;
 }
 
-function policyFingerprint(selected, abstained = false, minimumOverlap = state.minimumOverlap) {
-  const source = `${abstained ? "abstain" : [...selected].sort().join("+")}|minimum-overlap:${minimumOverlap ?? "none"}|reference:48|rehearsal:8|final:8`;
+function policyFingerprint(selected, abstained = false, minimumOverlap = state.minimumOverlap, outletKept = state.outletKept) {
+  const staffing = abstained ? "abstain" : outletKept ? "outlet-kept" : "outlet-to-defense";
+  const source = `${abstained ? "abstain" : [...selected].sort().join("+")}|staffing:${staffing}|minimum-overlap:${minimumOverlap ?? "none"}|reference:48|rehearsal:8|final:8`;
   let hash = 2166136261;
   for (const character of source) {
     hash ^= character.charCodeAt(0);
     hash = Math.imul(hash, 16777619);
   }
   return `P-${(hash >>> 0).toString(16).padStart(8, "0")}`;
+}
+
+function staffingReady() {
+  return state.selected.length === 2 || state.selected.length === 1 && state.outletKept;
+}
+
+function staffingLabel() {
+  if (state.outletKept) return "역습 역할 1명 전방 유지";
+  if (state.selected.length === 2) return "역습 역할 1명 두 번째 수비 구역 전환";
+  return "역습 역할 결정 필요";
 }
 
 function sealedPolicyId() {
@@ -148,8 +166,10 @@ function trainingCard(lane) {
   const summary = report.policy_campaign.reference_summary;
   const cell = summary[lane];
   const total = Object.values(summary).reduce((sum, item) => sum + item.corners, 0);
+  const roleIndex = state.selected.indexOf(lane);
+  const role = roleIndex === 0 ? "수비 리더" : roleIndex === 1 ? "역습 전환" : "";
   return `<button class="lane-card" type="button" data-lane="${lane}" aria-pressed="${state.selected.includes(lane)}" ${state.locked ? "disabled" : ""}>
-    <span>${LABEL[lane]}</span><strong>${cell.corners}회</strong><small>분류된 ${total}개 중 ${percentage(cell.corners, total)}%</small>
+    <span>${LABEL[lane]}${role ? `<em>${role}</em>` : ""}</span><strong>${cell.corners}회</strong><small>분류된 ${total}개 중 ${percentage(cell.corners, total)}% · 10초 이내 슈팅 ${cell.shots}회</small>
   </button>`;
 }
 
@@ -170,6 +190,19 @@ function historyEntry(experiment, evaluation, policy = policyLabel(), policyId =
   return { matchName: experiment.resultName, policy, policyId, verdict: verdict?.label ?? "판단 보류", covered: evaluation.covered.length, corners: evaluation.trials.length, counterexampleId: evaluation.counterexample.provenance.corner_event_id };
 }
 
+function roleTradeoffMarkup(evaluation = null) {
+  const outlet = evaluation
+    ? { contacts: evaluation.outletContacts.length, corners: evaluation.trials.length }
+    : report.policy_campaign.reference_outlet_context;
+  const zoneCount = state.selected.length;
+  if (zoneCount === 0 && !evaluation) return "";
+  return `<div class="role-tradeoff" data-testid="role-tradeoff">
+    <div><span>위치 검토 범위</span><strong>${zoneCount}개 구역</strong><small>${state.outletKept ? "수비 리더 1명 배치" : zoneCount === 2 ? "두 역할을 수비에 배치" : "수비 리더를 먼저 배치"}</small></div>
+    <div><span>역습 역할</span><strong>${state.outletKept ? "전방 유지" : zoneCount === 2 ? "수비 전환" : "결정 필요"}</strong><small>효과는 데이터로 계산하지 않음</small></div>
+    <div><span>당시 전방 대기 구역 기록</span><strong>${outlet.contacts}/${outlet.corners}</strong><small>상대 수비 걷어내기·패스 겹침 · 고정</small></div>
+  </div>`;
+}
+
 function render() {
   const experiment = currentExperiment();
   const evaluation = state.revealed ? evaluatePolicy(experiment) : null;
@@ -178,33 +211,40 @@ function render() {
   const verdict = evaluation ? thresholdVerdict(evaluation) : null;
   app.innerHTML = `
     <header class="hero">
-      <p class="eyebrow">CORNER POLICY LAB · 인과 추천 차단</p>
-      <h1>조별리그에서 세우고, 토너먼트에서 검증하세요.</h1>
-      <p class="hero-copy">조별리그 48경기의 전달 위치만 참고해 관찰 정책을 정합니다. 16강에서 중간 평가하고, 공개하지 않고 남겨 둔 8강 이후 8경기에 같은 정책을 다시 적용합니다.</p>
-      <div class="boundary"><strong>과거 기록을 활용한 위치 스트레스 테스트입니다.</strong> 전달 위치 겹침만 계산하며 슈팅 방지 효과나 최적 전술을 판정하지 않습니다.</div>
+      <p class="eyebrow">CORNER POLICY LAB · 2018 WORLD CUP</p>
+      <h1>코너 수비 한 명 더.<br><span>역습에는 한 명 덜.</span></h1>
+      <p class="hero-copy"><strong>수비 리더의 우선 구역을 정한 뒤, 역습 역할 1명을 남길지 두 번째 구역에 투입하세요.</strong> 조별리그 기록으로 약속하고 같은 선택을 두 번의 미공개 토너먼트 기록에서 검증합니다.</p>
+      <div class="boundary"><strong>위치 겹침만 검증합니다.</strong> 선수 도달, 수비 효과, 역습 성공, 경기 결과를 계산하지 않습니다.</div>
       <div class="campaign-map" aria-label="고정 캠페인 분할"><div><strong>48경기</strong><span>조별리그 참고</span></div><b>→</b><div><strong>8경기</strong><span>16강 중간 평가</span></div><b>→</b><div class="sealed"><strong>8경기</strong><span>8강 이후 봉인 검증</span></div></div>
     </header>
     <section class="stage" aria-labelledby="policy-title" data-partitions-disjoint="${campaign.partitions_disjoint}" data-stage="${state.stage}">
       <div class="round"><span>${experiment.label}</span><span>16강 평가 영수증 ${state.history.length}개</span></div>
       <div class="phase"><span class="active">1 정책 설정</span><span class="${state.locked ? "active" : ""}">2 잠금</span><span class="${state.revealed ? "active" : ""}">3 반례 검토</span><span class="${finalStage && state.counterexampleOpen ? "active" : ""}">4 다음 미팅 메모</span></div>
-      <h2 id="policy-title">세트피스 미팅에서 우선 검토할 구역 두 곳을 고르세요 <small role="status" aria-live="polite" aria-atomic="true" data-testid="selection-count">${state.selected.length}/2</small></h2>
-      <p class="tradeoff">고르지 않은 두 구역은 이번 미팅의 우선 검토에서 제외됩니다.</p>
+      <h2 id="policy-title">수비 리더를 배치하고, 역습 역할의 잔류 여부를 정하세요 <small role="status" aria-live="polite" aria-atomic="true" data-testid="selection-count">${state.selected.length}/2</small></h2>
+      <p class="tradeoff">첫 구역에는 수비 리더가 갑니다. 역습 1명은 전방에 남기거나 두 번째 구역으로 전환합니다.</p>
       <p class="training-scope">고정 참고 집합: 조별리그 48경기 · ${campaign.segment_coverage.reference.source_corners}개 중 ${campaign.reference_corners}개 분류 가능 (${(campaign.segment_coverage.reference.classified_rate * 100).toFixed(1)}%)</p>
       <div class="policy-layout">
-        <div class="pitch" role="group" aria-label="코너 전달 구역 지도"><span class="corner" aria-hidden="true">●</span>${LANES.map((lane) => `<button type="button" data-zone-lane="${lane}" aria-label="${LABEL[lane]}에 주의 토큰 배치" aria-pressed="${state.selected.includes(lane)}" class="zone zone-${lane} ${state.selected.includes(lane) ? "selected" : ""} ${evaluation?.trials.some((trial) => trial.observed_action.value === lane) ? "observed" : ""}" ${state.locked ? "disabled" : ""}>${state.selected.includes(lane) ? "✓ " : ""}${SHORT[lane]}</button>`).join("")}</div>
-        <div class="lane-cards" aria-label="스카우팅 우선 구역 선택">${LANES.map(trainingCard).join("")}</div>
+        <div class="pitch" role="group" aria-label="코너 수비 역할 배치 지도"><span class="corner" aria-hidden="true">●</span><span class="outlet-position ${state.outletKept ? "kept" : ""}" aria-hidden="true">역습 대기</span>${LANES.map((lane) => {
+          const roleIndex = state.selected.indexOf(lane);
+          const token = roleIndex === 0 ? '<i class="role-marker">1</i>' : roleIndex === 1 ? '<i class="role-marker outlet-role">2</i>' : "";
+          return `<button type="button" data-zone-lane="${lane}" aria-label="${LABEL[lane]}에 주의 토큰 배치" aria-pressed="${state.selected.includes(lane)}" class="zone zone-${lane} ${state.selected.includes(lane) ? "selected" : ""} ${evaluation?.trials.some((trial) => trial.observed_action.value === lane) ? "observed" : ""}" ${state.locked ? "disabled" : ""}>${token}${SHORT[lane]}</button>`;
+        }).join("")}</div>
+        <div><div class="lane-cards" aria-label="수비 역할 우선 구역 선택">${LANES.map(trainingCard).join("")}</div>
+          <button class="outlet-choice" type="button" data-action="keep-outlet" aria-pressed="${state.outletKept}" ${state.locked || state.selected.length === 0 ? "disabled" : ""}><span>역습 역할 1명</span><strong>${state.outletKept ? "전방 유지 선택됨" : state.selected.length === 2 ? "수비 전환 선택됨" : "전방에 남기기"}</strong><small>당시 전방 대기 구역 기록도 결과와 나란히 확인</small></button>
+        </div>
       </div>
+      ${roleTradeoffMarkup(evaluation)}
       ${!state.locked ? `<fieldset class="threshold-picker"><legend>통과로 볼 최소 위치 겹침률을 먼저 정하세요</legend><div>${[40, 50, 60].map((value) => `<button type="button" data-threshold="${value / 100}" aria-label="최소 위치 겹침률 ${value}% 선택" aria-pressed="${state.minimumOverlap === value / 100}">${value}%</button>`).join("")}</div><p>감독이 미리 정하는 검토 기준이며 수비 성공률이나 승리 확률이 아닙니다.</p></fieldset>` : ""}
-      ${!state.locked && finalStage ? `<div class="policy-actions"><button class="primary" type="button" data-action="final-verify" ${state.selected.length === 2 && state.minimumOverlap !== null ? "" : "disabled"}>최종 정책 잠금 · 봉인 8경기 검증</button><button class="secondary" type="button" data-action="final-abstain">최종 판단 보류 · 봉인 검증</button></div>` : !state.locked ? `<div class="policy-actions"><button class="primary" type="button" data-action="quick-lock" ${state.selected.length === 2 && state.minimumOverlap !== null ? "" : "disabled"}>이 정책을 잠가 두 시험에 적용</button><button class="secondary" type="button" data-action="quick-abstain">판단 보류를 두 시험에 적용</button></div><details class="manual-mode"><summary>한 경기씩 검토하며 정책 바꾸기</summary><button class="tertiary" type="button" data-action="lock" ${state.selected.length === 2 && state.minimumOverlap !== null ? "" : "disabled"}>첫 16강 경기만 잠금</button></details>` : !state.revealed ? `
-        <div class="receipt" data-testid="lock-receipt"><p><strong>${policyLabel()}</strong>${state.abstained ? "를 결과 공개 전에 선언했습니다." : " 관찰 정책을 결과 공개 전에 잠갔습니다."}${state.policySnapshot ? ` <span class="policy-id">${state.policySnapshot.fingerprint}</span>` : ""}</p><p>${state.abstained ? "" : `사전 위치 겹침 기준 ${Math.round(state.minimumOverlap * 100)}%도 함께 잠갔습니다. `}${state.quickFixed ? "16강 8경기와 봉인된 8강 이후 8경기에 동일하게 적용합니다. 아직 어느 결과도 공개하지 않았습니다." : `${finalStage ? "8강 이후 8경기" : "이번 16강 경기"}의 이름과 코너 기록은 아직 숨겨져 있습니다.`}</p><button class="primary" type="button" data-action="reveal">${state.quickFixed ? "16강 8경기 평가 요약 공개" : finalStage ? "최종 검증 8경기 공개" : "미공개 16강 경기 공개"}</button></div>` : `
+      ${!state.locked && finalStage ? `<div class="policy-actions"><button class="primary" type="button" data-action="final-verify" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>최종 정책 잠금 · 봉인 8경기 검증</button><button class="secondary" type="button" data-action="final-abstain">최종 판단 보류 · 봉인 검증</button></div>` : !state.locked ? `<div class="policy-actions"><button class="primary" type="button" data-action="quick-lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>이 정책을 잠가 두 시험에 적용</button><button class="secondary" type="button" data-action="quick-abstain">판단 보류를 두 시험에 적용</button></div><details class="manual-mode"><summary>한 경기씩 검토하며 정책 바꾸기</summary><button class="tertiary" type="button" data-action="lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>첫 16강 경기만 잠금</button></details>` : !state.revealed ? `
+        <div class="receipt" data-testid="lock-receipt"><p><strong>${policyLabel()}</strong>${state.abstained ? "를 결과 공개 전에 선언했습니다." : " 관찰 정책을 결과 공개 전에 잠갔습니다."}${state.policySnapshot ? ` <span class="policy-id">${state.policySnapshot.fingerprint}</span>` : ""}</p><p>${state.abstained ? "" : `${staffingLabel()} · 사전 위치 겹침 기준 ${Math.round(state.minimumOverlap * 100)}%도 함께 잠갔습니다. `}${state.quickFixed ? "16강 8경기와 봉인된 8강 이후 8경기에 동일하게 적용합니다. 아직 어느 결과도 공개하지 않았습니다." : `${finalStage ? "8강 이후 8경기" : "이번 16강 경기"}의 이름과 코너 기록은 아직 숨겨져 있습니다.`}</p><button class="primary" type="button" data-action="reveal">${state.quickFixed ? "16강 8경기 평가 요약 공개" : finalStage ? "최종 검증 8경기 공개" : "미공개 16강 경기 공개"}</button></div>` : `
         <section class="scorecard" aria-labelledby="result-title">
           <p class="receipt-label">고정 참고 48경기 → ${finalStage ? "최종 검증 8경기" : state.quickFixed ? "16강 중간 평가 8경기" : `정책 리허설 ${state.matchIndex + 1}/8`}</p><h2 id="result-title">${experiment.resultName} · ${state.abstained ? "판단 보류 검증" : `위치 겹침 ${evaluation.covered.length}/${evaluation.trials.length}`}</h2>
           ${verdict ? `<p class="threshold-verdict ${verdict.passed ? "passed" : "missed"}" data-testid="threshold-verdict"><strong>${verdict.label}</strong><span>실제 ${percentage(evaluation.covered.length, evaluation.trials.length)}% · 사전 기준 ${Math.round(state.minimumOverlap * 100)}%</span></p>` : ""}
           ${state.abstained ? `<div class="metrics"><div><strong>보류</strong><span>사전 정책</span></div><div><strong>${new Set(evaluation.trials.map((trial) => trial.observed_action.value)).size}</strong><span>실제 전달 구역</span></div><div><strong>${evaluation.trials.filter((trial) => trial.observed_outcome.attacking_shot).length}</strong><span>10초 이내 슈팅 기록</span></div></div>` : `<div class="metrics"><div><strong>${percentage(evaluation.covered.length, evaluation.trials.length)}%</strong><span>전달 위치 겹침</span></div><div><strong>${evaluation.uncovered.length}</strong><span>선택 밖 전달</span></div><div><strong>${evaluation.uncoveredShots.length}</strong><span>선택 밖 슈팅 기록</span></div></div>`}
-          <p class="causal-warning">이 수치는 수비 성공률이 아닙니다. ${state.quickFixed ? `전달 위치를 분류할 수 없는 ${finalStage ? "2" : "5"}개 기록은 어느 구역에도 넣지 않았습니다. ` : ""}실제 선수 배치와 반사실적 경기 결과는 데이터에 없습니다.</p>
+          <p class="causal-warning">이 수치는 수비 성공률이 아닙니다. 위치 겹침과 전방 대기 구역 기록은 합산하지 않습니다. ${state.quickFixed ? `전달 위치를 분류할 수 없는 ${finalStage ? "2" : "5"}개 기록은 어느 구역에도 넣지 않았습니다. ` : ""}노란 역할 표시는 임무 약속이며 실제 선수 도달, 수비 성공, 역습 성공을 뜻하지 않습니다.</p>
           <details class="event-ledger"><summary>${finalStage ? "최종 검증" : state.quickFixed ? "16강 중간 평가" : "이번 경기"} 코너 ${evaluation.trials.length}개 기록표</summary><ol>${resultRows(evaluation)}</ol></details>
           <button class="skeptic" type="button" data-action="counterexample">대표 반례 보기</button>
-          ${state.counterexampleOpen ? `<article class="counterexample" tabindex="-1" data-testid="counterexample"><p class="eyebrow">EVIDENCE PATH · 금지 추론 안전장치</p><h3>${evaluation.reason}</h3><p>${evaluation.counterexample.provenance.match_name} · 코너 #${evaluation.counterexample.provenance.corner_event_id} · 실제 전달 ${LABEL[evaluation.counterexample.observed_action.value]}${evaluation.counterexample.observed_outcome.attacking_shot ? " · 10초 이내 슈팅 기록" : ""}</p>${finalStage ? `<div class="final-receipt" data-testid="final-receipt"><strong>최종 정책 검증 완료 · ${verdict?.label ?? "판단 보류"}</strong><span>${state.quickFixed ? state.abstained ? `판단 보류 정책 변경 0회 · 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `사전 위치 겹침 기준 ${Math.round(state.minimumOverlap * 100)}% · 정책 변경 0회 · 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `16강 평가 영수증 ${state.history.length}개를 남긴 뒤, 최종 정책을 남겨 둔 8경기에 한 번만 적용했습니다.`}</span></div>${meetingNoteMarkup()}<details class="ontology-path"><summary>반례 근거 관계 7개 보기</summary>${contradictionPathMarkup(evaluation)}</details>` : `${contradictionPathMarkup(evaluation)}${state.quickFixed ? `<div class="fixed-policy-actions"><p>8강 이후 8경기는 아직 봉인돼 있습니다. 정책 ${state.policySnapshot.fingerprint}${state.abstained ? "" : `과 사전 기준 ${Math.round(state.minimumOverlap * 100)}%`}는 바꿀 수 없습니다.</p><button class="primary" type="button" data-action="quick-final">같은 정책으로 봉인 검증 8경기 공개</button></div>` : `<div class="revision-actions"><button class="primary" type="button" data-action="revise">평가 영수증 남기고 다음 미공개 경기</button><button class="secondary" type="button" data-action="batch-rehearsal">현재 정책으로 남은 16강 일괄 검증</button></div>`}`}</article>` : ""}
+          ${state.counterexampleOpen ? `<article class="counterexample" tabindex="-1" data-testid="counterexample"><p class="eyebrow">EVIDENCE PATH · 금지 추론 안전장치</p><h3>${evaluation.reason}</h3><p>${evaluation.counterexample.provenance.match_name} · 코너 #${evaluation.counterexample.provenance.corner_event_id} · 실제 전달 ${LABEL[evaluation.counterexample.observed_action.value]}${evaluation.counterexample.observed_outcome.attacking_shot ? " · 10초 이내 슈팅 기록" : ""}</p>${finalStage ? `<div class="final-receipt" data-testid="final-receipt"><strong>최종 정책 검증 완료 · ${verdict?.label ?? "판단 보류"}</strong><span>${state.quickFixed ? state.abstained ? `판단 보류 정책 변경 0회 · 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `${staffingLabel()} · 사전 위치 겹침 기준 ${Math.round(state.minimumOverlap * 100)}% · 정책 변경 0회 · 당시 전방 대기 구역 기록 ${evaluation.outletContacts.length}/${evaluation.trials.length}. 위치 겹침과 합산하지 않았습니다. 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `16강 평가 영수증 ${state.history.length}개를 남긴 뒤, 최종 정책을 남겨 둔 8경기에 한 번만 적용했습니다.`}</span></div>${meetingNoteMarkup()}<details class="ontology-path"><summary>반례 근거 관계 7개 보기</summary>${contradictionPathMarkup(evaluation)}</details>` : `${contradictionPathMarkup(evaluation)}${state.quickFixed ? `<div class="fixed-policy-actions"><p>8강 이후 8경기는 아직 봉인돼 있습니다. 정책 ${state.policySnapshot.fingerprint}${state.abstained ? "" : `과 사전 기준 ${Math.round(state.minimumOverlap * 100)}%`}는 바꿀 수 없습니다.</p><button class="primary" type="button" data-action="quick-final">같은 정책으로 봉인 검증 8경기 공개</button></div>` : `<div class="revision-actions"><button class="primary" type="button" data-action="revise">평가 영수증 남기고 다음 미공개 경기</button><button class="secondary" type="button" data-action="batch-rehearsal">현재 정책으로 남은 16강 일괄 검증</button></div>`}`}</article>` : ""}
         </section>`}
       ${historyMarkup()}
     </section>
@@ -222,8 +262,13 @@ app.addEventListener("click", (event) => {
   const selectedLane = lane ?? zoneLane;
   if (selectedLane && !state.locked) {
     const focusSelector = lane ? `[data-lane="${selectedLane}"]` : `[data-zone-lane="${selectedLane}"]`;
-    const selected = state.selected.includes(selectedLane) ? state.selected.filter((item) => item !== selectedLane) : state.selected.length < 2 ? [...state.selected, selectedLane] : state.selected;
-    state = { ...state, selected };
+    const alreadySelected = state.selected.includes(selectedLane);
+    const selected = alreadySelected
+      ? state.selected.filter((item) => item !== selectedLane)
+      : state.selected.length < 2 ? [...state.selected, selectedLane] : state.selected;
+    const outletKept = alreadySelected && selected.length === 0 ? false :
+      !alreadySelected && selected.length === 2 ? false : state.outletKept;
+    state = { ...state, selected, outletKept };
     render();
     document.querySelector(focusSelector)?.focus();
     return;
@@ -234,10 +279,25 @@ app.addEventListener("click", (event) => {
     document.querySelector(`[data-threshold="${threshold}"]`)?.focus();
     return;
   }
-  if (action === "lock" && state.selected.length === 2 && state.minimumOverlap !== null) state = { ...state, locked: true };
-  else if (action === "quick-lock" && state.selected.length === 2 && state.minimumOverlap !== null && state.stage === "rehearsal") state = { ...state, locked: true, quickFixed: true, policySnapshot: { label: policyLabel(), minimumOverlap: state.minimumOverlap, fingerprint: policyFingerprint(state.selected) } };
+  if (action === "keep-outlet" && state.selected.length >= 1 && !state.locked) {
+    state = state.outletKept
+      ? { ...state, outletKept: false }
+      : { ...state, selected: state.selected.slice(0, 1), outletKept: true };
+  }
+  else if (action === "lock" && staffingReady() && state.minimumOverlap !== null) state = { ...state, locked: true };
+  else if (action === "quick-lock" && staffingReady() && state.minimumOverlap !== null && state.stage === "rehearsal") state = {
+    ...state,
+    locked: true,
+    quickFixed: true,
+    policySnapshot: {
+      label: policyLabel(),
+      minimumOverlap: state.minimumOverlap,
+      outletKept: state.outletKept,
+      fingerprint: policyFingerprint(state.selected),
+    },
+  };
   else if (action === "quick-abstain" && state.stage === "rehearsal") state = { ...state, selected: [], locked: true, abstained: true, quickFixed: true, policySnapshot: { label: "판단 보류", fingerprint: policyFingerprint([], true) } };
-  else if (action === "final-verify" && state.selected.length === 2 && state.minimumOverlap !== null && state.stage === "final" && state.history.length === 8) state = { ...state, locked: true, revealed: true, counterexampleOpen: true };
+  else if (action === "final-verify" && staffingReady() && state.minimumOverlap !== null && state.stage === "final" && state.history.length === 8) state = { ...state, locked: true, revealed: true, counterexampleOpen: true };
   else if (action === "final-abstain" && state.stage === "final" && state.history.length === 8) state = { ...state, selected: [], locked: true, abstained: true, revealed: true, counterexampleOpen: true };
   else if (action === "abstain" && !state.locked) state = { ...state, selected: [], locked: true, abstained: true };
   else if (action === "reveal" && state.locked && !state.revealed) {
@@ -255,7 +315,9 @@ app.addEventListener("click", (event) => {
   else if (action === "revise" && state.counterexampleOpen && state.stage === "rehearsal") {
     const evaluation = evaluatePolicy(currentExperiment());
     const history = [...state.history, historyEntry(currentExperiment(), evaluation)];
-    state = state.matchIndex === 7 ? { ...freshState(), stage: "final", selected: [...state.selected], history } : { ...freshState(), matchIndex: state.matchIndex + 1, history };
+    state = state.matchIndex === 7
+      ? { ...freshState(), stage: "final", selected: [...state.selected], outletKept: state.outletKept, history }
+      : { ...freshState(), matchIndex: state.matchIndex + 1, outletKept: state.outletKept, history };
   } else if (action === "batch-rehearsal" && state.counterexampleOpen && state.stage === "rehearsal") {
     const history = [...state.history];
     for (let index = state.matchIndex; index < report.policy_campaign.rehearsal_matches.length; index += 1) {
@@ -263,7 +325,7 @@ app.addEventListener("click", (event) => {
       const experiment = { kind: "rehearsal", label: `정책 리허설 ${index + 1}/8 · 16강`, resultName: match.match_name, trials: match.trials, matches: [match] };
       history.push(historyEntry(experiment, evaluatePolicy(experiment)));
     }
-    state = { ...freshState(), stage: "final", selected: [...state.selected], history };
+    state = { ...freshState(), stage: "final", selected: [...state.selected], outletKept: state.outletKept, history };
   } else if (action === "restart") state = freshState();
   else return;
   render();

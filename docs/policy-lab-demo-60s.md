@@ -2,25 +2,26 @@
 
 Status: `LOCAL STATIC RELEASE REHEARSAL PASS — NOT YOUTUBE EVIDENCE`
 
-Gallery title: `Corner Policy Lab — 한 정책, 두 번의 미공개 검증`
+Gallery title: `Corner Policy Lab — 코너 수비 한 명 더, 역습에는 한 명 덜`
 
-The demo locks one policy snapshot before exposure and reuses it unchanged across
-two sequential held-out audits. The round-of-16 summary creates eight receipts
-with the same fingerprint while the quarter-final-and-later data remain sealed.
-The final reveal uses that identical fingerprint and records zero policy changes.
-The manager then records a separate next-meeting decision and reason. That note
-cannot mutate the sealed policy, overlap result, or evaluation receipts.
+The manager first assigns a defensive leader and decides whether the outlet role
+stays high or becomes the second defensive area. The primary demo path moves the
+outlet role into the second area, locks that staffing choice and the overlap
+criterion before exposure, then reuses the same fingerprint across two
+sequential held-out audits. Outlet-contact context is displayed separately and
+is never added to location overlap. The manager finally records a separate
+next-meeting decision that cannot mutate the sealed receipt.
 
 | Time | Screen action | Korean narration | Observable proof |
 |---|---|---|---|
-| 0–5s | Slow-zoom the `48 → 8 → 8` campaign map | `결과를 보기 전에 잠그고, 반례가 나와도 바꾸지 않습니다.` | Reference, rehearsal, and sealed final-audit partitions are visible |
-| 5–12s | Select `숏 코너`, `니어포스트`, and a `50%` minimum location-overlap criterion | `조별리그 48경기만 보고 두 구역을 고릅니다. 위치 겹침 50%도 먼저 정합니다.` | Two-token scarcity, predeclared criterion, `397/436` |
-| 12–16s | Activate `이 정책을 잠가 두 시험에 적용` | `한 정책으로 잠가, 두 미공개 검증에 그대로 씁니다.` | One fingerprint binds areas and criterion; both holdouts still hidden |
-| 16–27s | Cut through verdict → same-policy receipts → counterexample → seal | `첫 시험, 16강 8경기는 48%. 사전 기준 50%에 못 미칩니다. 선택 밖 전달이 반례로 남습니다.` | `48% < 50%`, eight receipts, representative counterexample, unchanged policy |
+| 0–5s | Slow-zoom the role tradeoff and `48 → 8 → 8` campaign | `코너 수비에 한 명을 더 쓰면, 역습에 남는 선수는 한 명 줄어듭니다.` | The staffing tradeoff is legible before methodology |
+| 5–12s | Put the defensive leader at `숏 코너`, move the outlet role to `니어포스트`, and select `50%` | `수비 리더는 숏 코너, 역습 한 명은 니어포스트로 옮기고 50%를 먼저 정합니다.` | Two named roles, two defensive areas, predeclared criterion, separate `64/397` reference context |
+| 12–16s | Activate `이 정책을 잠가 두 시험에 적용` | `한 정책으로 잠가, 두 미공개 기록에 그대로 씁니다.` | One fingerprint binds roles, areas, and criterion; both holdouts still hidden |
+| 16–27s | Cut through verdict → separate outlet context → same-policy receipts → counterexample | `첫 시험인 16강은 48%로 기준에 못 미칩니다. 당시 전방 대기 구역 기록 14/84는 따로 보여줍니다.` | `48% < 50%`, `14/84` displayed separately, eight receipts, unchanged policy |
 | 27–34s | Return to the still-sealed final-audit action | `실패를 본 뒤에도 정책은 고치지 않습니다. 8강 이후 기록은 아직 봉인돼 있습니다.` | Disabled selections and unchanged policy fingerprint |
-| 34–45s | Reveal the final eight, briefly open the ontology path, and state the boundary | `같은 정책으로 마지막 봉인을 풉니다. 51%로 기준은 충족했지만, 인과 효과나 경기 결과를 뜻하지는 않습니다.` | `51% ≥ 50%`, deterministic evidence path, observational-only interpretation |
-| 45–53s | Choose `다음 미팅에서 우선 구역 수정`, enter one reason, and save | `검증을 고치는 대신, 다음 미팅에서 바꿀 항목과 이유만 남깁니다.` | A separate next-meeting note appears without changing the sealed receipt |
-| 53–59.5s | Hold the receipt and next-meeting note together | `결과를 맞히는 대신, 결정의 기준과 반례를 남깁니다.` | `정책 변경 0회`, same fingerprint, immutable result |
+| 34–45s | Reveal the final eight and keep the two observed measures separate | `같은 정책으로 봉인을 풉니다. 위치 겹침은 51%, 전방 대기 구역 기록은 12/76입니다. 두 값은 합산하지 않습니다.` | `51% ≥ 50%`, separate `12/76` context, deterministic evidence path |
+| 45–53s | Choose `다음 미팅에서 우선 구역 수정`, enter one reason, and save | `검증 결과는 그대로 두고, 다음 미팅에서 바꿀 항목과 이유만 남깁니다.` | A separate next-meeting note appears without changing the sealed receipt |
+| 53–59.5s | Hold the receipt and next-meeting note together | `이 도구는 답을 대신 내리지 않습니다. 감독의 선택과 반례를 한 장에 남깁니다.` | `정책 변경 0회`, same fingerprint, immutable result |
 
 All eleven post-production summaries carry the visible label `[편집 요약]`.
 They are a judging aid over the real product recording, not an unlabeled product
@@ -31,15 +32,16 @@ feature. No generated match footage or simulated football scene is used.
 The desktop and video first frame must contain, without scrolling:
 
 - the product name;
-- `조별리그에서 세우고, 토너먼트에서 검증하세요.`;
+- `코너 수비 한 명 더. 역습에는 한 명 덜.`;
 - the `48경기 참고 → 8경기 중간 평가 → 8경기 봉인 검증` map;
-- the visible limitation `전달 위치 겹침만 계산`.
+- the defensive-leader and outlet-role choice;
+- the visible limitation that overlap and outlet context are not combined;
 - the visible `40% / 50% / 60%` predeclared criterion control.
 
 At `320×568`, the campaign map may collapse. The mini pitch, four 44-pixel
-priority cards, criterion controls, lock button, abstention button, and
-limitation remain operable without horizontal overflow. The stage labels
-continue to expose the fixed split after interaction.
+priority cards, outlet-role choice, criterion controls, lock button, abstention
+button, and limitation remain operable without horizontal overflow. The stage
+labels continue to expose the fixed split after interaction.
 
 ## Claim boundary
 

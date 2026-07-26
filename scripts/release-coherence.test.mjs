@@ -33,7 +33,7 @@ describe("selected-product release coherence", () => {
     const cases = [
       { key: "stampedBuilder", value: input.stampedBuilder.replace("await buildPolicyLabRelease", "await legacyViteBuild") },
       { key: "preReleaseRunner", value: input.preReleaseRunner.replace("build-policy-lab.mjs", "node_modules/vite/bin/vite.js") },
-      { key: "finalSpec", value: input.finalSpec.replace("조별리그에서 세우고, 토너먼트에서 검증하세요.", "코너 수비에 한 명 더") },
+      { key: "finalSpec", value: input.finalSpec.replace("코너 수비 한 명 더. 역습에는 한 명 덜.", "조별리그에서 세우고, 토너먼트에서 검증하세요.") },
       { key: "demoRecorder", value: input.demoRecorder.replace("corner-policy-lab-first-image.png", "corner-war-room-first-image.png") },
       { key: "editorialTreatment", value: { ...input.editorialTreatment, label: "[제품 화면]" } },
       { key: "interactionContract", value: input.interactionContract.replace("# Corner Policy Lab", "# Corner War Room") },

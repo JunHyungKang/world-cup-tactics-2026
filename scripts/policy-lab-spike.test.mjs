@@ -14,7 +14,7 @@ describe("Policy Lab committed derivative", () => {
   });
 
   it("pins the immutable raw inputs and deterministic transform", () => {
-    expect(report.transform_version).toBe("policy-lab-spike-v4-fixed-match-campaign");
+    expect(report.transform_version).toBe("policy-lab-spike-v5-role-tradeoff-context");
     expect(report.provenance.input_sha256).toEqual({
       eventsZip: "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
       events: "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
@@ -63,6 +63,12 @@ describe("Policy Lab committed derivative", () => {
     expect(campaign.causal_recommendation_status).toBe("REJECT");
     expect(campaign.product_status).toBe("PASS");
     expect(campaign.empirical_campaign_status).toBe("REVISE");
+    expect(campaign.reference_outlet_context).toMatchObject({
+      label: "recorded-defending-pass-or-clearance-touching-attacking-outlet-band",
+      corners: 397,
+      interpretation: "Fixed historical context only; not a caused or completed counterattack.",
+    });
+    expect(campaign.reference_outlet_context.contacts).toBeGreaterThan(0);
     const reference = new Set(campaign.reference_match_ids);
     const rehearsal = new Set(campaign.rehearsal_match_ids);
     const finalAudit = new Set(campaign.final_audit_match_ids);
@@ -83,5 +89,9 @@ describe("Policy Lab committed derivative", () => {
         expect(bounds.lower).toBeLessThanOrEqual(bounds.upper);
       }
     }
+    const heldOutTrials = [...campaign.rehearsal_matches, ...campaign.final_audit_matches]
+      .flatMap((match) => match.trials);
+    expect(heldOutTrials.every((trial) =>
+      typeof trial.observed_outcome.defending_outlet_contact === "boolean")).toBe(true);
   });
 });

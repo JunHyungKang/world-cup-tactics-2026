@@ -1,8 +1,17 @@
-import { INPUT_HASHES, NOMINAL_REGIONS, eventMicroseconds, isFinitePoint, isPlaceholder, pointInRegion, stableEventOrder } from "./corner-transform.mjs";
+import {
+  INPUT_HASHES,
+  NOMINAL_REGIONS,
+  eventMicroseconds,
+  isFinitePoint,
+  isPlaceholder,
+  pointInRegion,
+  segmentTouchesRegion,
+  stableEventOrder,
+} from "./corner-transform.mjs";
 
 export const DELIVERY_ACTIONS = Object.freeze(["short", "near", "central-far", "other"]);
 export const HORIZONS = Object.freeze([8, 10, 12, 15]);
-export const POLICY_SPIKE_VERSION = "policy-lab-spike-v4-fixed-match-campaign";
+export const POLICY_SPIKE_VERSION = "policy-lab-spike-v5-role-tradeoff-context";
 
 function attackingPoint(point, eventTeamId, attackingTeamId, mirrorLaterally) {
   const teamFrame = Number(eventTeamId) === Number(attackingTeamId)
@@ -36,6 +45,19 @@ function recordedSuffix(periodEvents, corner, horizonSeconds) {
 function opponentId(match, attackingTeamId) {
   const candidates = Object.keys(match.teamsData ?? {}).map(Number).filter((id) => id !== Number(attackingTeamId));
   return candidates.length === 1 ? candidates[0] : null;
+}
+
+function recordedDefendingOutletContact(events, attackingTeamId, defendingTeamId, mirrorLaterally) {
+  return events.some((event) => {
+    const isDefendingPassOrClearance = Number(event.teamId) === defendingTeamId &&
+      (event.eventName === "Pass" || event.subEventName === "Clearance");
+    const source = Array.isArray(event.positions) ? event.positions.filter(isFinitePoint) : [];
+    if (!isDefendingPassOrClearance || source.length === 0) return false;
+    const normalized = source.map((point) => attackingPoint(point, event.teamId, attackingTeamId, mirrorLaterally));
+    if (normalized.some((point) => pointInRegion(point, NOMINAL_REGIONS["outlet-band"]))) return true;
+    return normalized.length === 2 && !isPlaceholder(source[1]) &&
+      segmentTouchesRegion(normalized[0], normalized[1], NOMINAL_REGIONS["outlet-band"]);
+  });
 }
 
 function buildEpisode(corner, periodEvents, match, horizonSeconds) {
@@ -77,6 +99,12 @@ function buildEpisode(corner, periodEvents, match, horizonSeconds) {
     observed_outcome: {
       attacking_shot: attackingShots.length > 0,
       goal_tagged_shot: attackingShots.some((event) => (event.tags ?? []).some((tag) => Number(tag.id) === 101)),
+      defending_outlet_contact: recordedDefendingOutletContact(
+        followUps,
+        attackingTeamId,
+        defendingTeamId,
+        mirrorLaterally,
+      ),
     },
     provenance: {
       corner_event_id: Number(corner.id),
@@ -103,6 +131,17 @@ export function derivePolicyEpisodes(events, matches, horizonSeconds = 10) {
     if (!match) throw new Error(`missing match ${corner.matchId}`);
     return buildEpisode(corner, byPeriod.get(`${corner.matchId}:${corner.matchPeriod}`), match, horizonSeconds);
   });
+}
+
+function outletContext(episodes) {
+  const contacts = episodes.filter((episode) => episode.observed_outcome.defending_outlet_contact).length;
+  return {
+    label: "recorded-defending-pass-or-clearance-touching-attacking-outlet-band",
+    contacts,
+    corners: episodes.length,
+    rate: episodes.length === 0 ? null : contacts / episodes.length,
+    interpretation: "Fixed historical context only; not a caused or completed counterattack.",
+  };
 }
 
 function actionSummary(episodes) {
@@ -229,6 +268,7 @@ function buildPolicyCampaign(allEpisodes) {
     causal_recommendation_status: "REJECT",
     reference_corners: reference.length,
     reference_summary: actionSummary(reference),
+    reference_outlet_context: outletContext(reference),
     reference_bootstrap: clusteredBootstrap(reference),
     segment_coverage: {
       reference: segmentCoverage(allEpisodes, episodes, referenceMatchIds),

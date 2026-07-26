@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { createHash } from "node:crypto";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const headline = "조별리그에서 세우고, 토너먼트에서 검증하세요.";
+const headline = "코너 수비 한 명 더. 역습에는 한 명 덜.";
 const criterionName = "최소 위치 겹침률 50% 선택";
 const lanes = [
   { id: "short", card: "숏 코너", pitch: "숏 코너에 주의 토큰 배치" },
@@ -92,7 +92,7 @@ test("BG-01 first-fold hierarchy, controls, and hit targets", async ({ page }) =
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);
     await openInitial(page);
-    await expect(page.getByText("과거 기록을 활용한 위치 스트레스 테스트입니다.")).toBeVisible();
+    await expect(page.getByText("위치 겹침만 검증합니다.")).toBeVisible();
     await expect(page.locator(".pitch")).toBeVisible();
     for (const lane of lanes) await assertTarget(page.locator(`.lane-card[data-lane="${lane.id}"]`));
     for (const value of [40, 50, 60]) await assertTarget(page.getByRole("button", { name: `최소 위치 겹침률 ${value}% 선택` }));
@@ -128,6 +128,27 @@ test("BG-03 input parity produces one deterministic policy fingerprint", async (
     fingerprints.push(await lockPolicy(page));
   }
   expect(new Set(fingerprints).size).toBe(1);
+});
+
+test("BG-03B outlet role stays high as a complete, non-dominated manager policy", async ({ page }) => {
+  await openInitial(page);
+  await page.locator('.lane-card[data-lane="central-far"]').click();
+  const outlet = page.getByRole("button", { name: /역습 역할 1명/u });
+  await outlet.click();
+  await expect(outlet).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: criterionName }).click();
+  await expect(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" })).toBeEnabled();
+  const policyId = await lockPolicy(page);
+  await expect(page.getByTestId("lock-receipt")).toContainText("역습 역할 1명 전방 유지");
+  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+  await expect(page.getByRole("heading", { name: /16강 8경기 · 위치 겹침/ })).toBeVisible();
+  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+  await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 위치 겹침/ })).toBeVisible();
+  await expect(page.getByTestId("role-tradeoff")).toContainText("1개 구역");
+  await expect(page.getByTestId("role-tradeoff")).toContainText("전방 유지");
+  await expect(page.getByTestId("final-receipt")).toContainText("당시 전방 대기 구역 기록 12/76");
+  await expect(page.getByTestId("final-receipt")).toContainText("위치 겹침과 합산하지 않았습니다");
+  await expect(page.getByTestId("final-receipt")).toContainText(policyId);
 });
 
 test("BG-04 one immutable policy spans both held-out audits", async ({ page }) => {
@@ -243,7 +264,7 @@ test("BG-11 forbidden positive conclusions remain absent", async ({ page }) => {
     expect(body).not.toContain(phrase);
   }
   await expect(page.getByText(/이 수치는 수비 성공률이 아닙니다/)).toBeVisible();
-  await expect(page.getByText(/실제 선수 배치와 반사실적 경기 결과는 데이터에 없습니다/)).toBeVisible();
+  await expect(page.getByText(/노란 역할 표시는 임무 약속이며 실제 선수 도달/)).toBeVisible();
 });
 
 test("BG-12 production marker binds the Policy Lab release and admitted data", async ({ page }, testInfo) => {
@@ -278,7 +299,8 @@ test("BG-12 production marker binds the Policy Lab release and admitted data", a
     causal_recommendation_status: "REJECT",
     empirical_campaign_status: "REVISE",
   });
-  expect(evidence.texts).not.toContain("코너 수비에 한 명 더. 역습에는 한 명 덜.");
+  expect(evidence.texts).toContain("코너 수비 한 명 더.");
+  expect(evidence.texts).toContain("역습에는 한 명 덜.");
   expect(evidence.texts).not.toContain("test-only-invalid-artifact");
   expect(evidence.bindingStatus).toBe(200);
   expect(evidence.bindingDigest).toBe(evidence.marker.productDataBinding.sha256);

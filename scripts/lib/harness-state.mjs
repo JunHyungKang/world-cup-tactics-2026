@@ -21,6 +21,7 @@ export function validateLivePortfolioBoard({ board, ledger }) {
   const errors = [];
   const row = lineContaining(board, "| P0 | World Cup Tactics Web Challenge |");
   const receipt = ledger.split("\n").find((line) => line.includes("| plan-visual-qa |")) ?? "";
+  const submittedReceipt = ledger.split("\n").find((line) => line.includes("| plan-submitted |")) ?? "";
   const pdfMatch = /\bpdf=([0-9a-f]{64})\b/u.exec(receipt);
   if (!row) return ["live portfolio board lacks the P0 World Cup row"];
   if (!pdfMatch) return ["submission ledger lacks the canonical plan-visual-qa PDF hash"];
@@ -29,7 +30,11 @@ export function validateLivePortfolioBoard({ board, ledger }) {
   if (!row.includes("exact-hash independent review PASS")) {
     errors.push("live portfolio board does not record the exact-hash independent review PASS");
   }
-  if (!row.includes("DAKER") || !row.includes("작성중")) {
+  if (!row.includes("DAKER")) {
+    errors.push("live portfolio board does not record the DAKER planning state");
+  } else if (submittedReceipt) {
+    if (!row.includes("제출 완료")) errors.push("live portfolio board does not record the observed DAKER submitted state");
+  } else if (!row.includes("작성중")) {
     errors.push("live portfolio board does not retain the observed DAKER draft boundary");
   }
   return errors;
