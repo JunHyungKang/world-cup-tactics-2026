@@ -74,7 +74,7 @@ try {
     });
     const page = await context.newPage();
     await page.goto(baseURL);
-    await page.getByRole("heading", { name: /코너 수비 한 명 더/u }).waitFor();
+    await page.getByRole("heading", { name: /코너킥 수비/u }).waitFor();
     const start = performance.now();
     const actions = [];
     const waitUntil = async (seconds) => {
@@ -97,16 +97,16 @@ try {
     await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
     mark("minimum-overlap", 10);
     await waitUntil(12);
-    await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
+    await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
     mark("policy-lock", 12);
     await waitUntil(16);
-    await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+    await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
     mark("r16-reveal", 16);
     await waitUntil(18);
     await scrollTo(page.getByTestId("counterexample"));
     mark("r16-summary", 18);
     await waitUntil(30);
-    await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+    await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
     mark("final-reveal", 30);
     await waitUntil(34);
     await page.getByTestId("final-receipt").waitFor();
@@ -115,13 +115,13 @@ try {
     await scrollTo(page.locator('[data-action="save-meeting-note"]'));
     mark("meeting-note-view", 38);
     await waitUntil(42);
-    await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
+    await page.getByLabel("다음 회의에서 우선 구역 수정").check();
     mark("meeting-decision", 42);
     await waitUntil(45);
-    await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토");
+    await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 회의에서 구역 조합을 다시 검토");
     mark("meeting-reason", 45);
     await waitUntil(48);
-    await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
+    await page.getByRole("button", { name: "다음 회의 메모 저장" }).click();
     mark("meeting-note-save", 48);
     await waitUntil(59.8);
     const finalReceipt = await page.getByTestId("final-receipt").innerText();

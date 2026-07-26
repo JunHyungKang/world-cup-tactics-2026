@@ -2,7 +2,7 @@
 
 Status: `LOCAL STATIC RELEASE REHEARSAL PASS — NOT YOUTUBE EVIDENCE`
 
-Gallery title: `Corner Policy Lab — 코너 수비 한 명 더, 역습에는 한 명 덜`
+Gallery title: `Corner Policy Lab — 코너킥 수비, 한 명을 어디에 둘까요?`
 
 The manager first assigns a defensive leader and decides whether the outlet role
 stays high or becomes the second defensive area. The primary demo path moves the
@@ -14,14 +14,14 @@ next-meeting decision that cannot mutate the sealed receipt.
 
 | Time | Screen action | Korean narration | Observable proof |
 |---|---|---|---|
-| 0–5s | Slow-zoom the role tradeoff and `48 → 8 → 8` campaign | `코너 수비에 한 명을 더 쓰면, 역습에 남는 선수는 한 명 줄어듭니다.` | The staffing tradeoff is legible before methodology |
-| 5–12s | Put the defensive leader at `숏 코너`, move the outlet role to `니어포스트`, and select `50%` | `수비 리더는 숏 코너, 역습 한 명은 니어포스트로 옮기고 50%를 먼저 정합니다.` | Two named roles, two defensive areas, predeclared criterion, separate `64/397` reference context |
-| 12–16s | Activate `이 정책을 잠가 두 시험에 적용` | `한 정책으로 잠가, 두 미공개 기록에 그대로 씁니다.` | One fingerprint binds roles, areas, and criterion; both holdouts still hidden |
-| 16–27s | Cut through verdict → separate outlet context → same-policy receipts → counterexample | `첫 시험인 16강은 48%로 기준에 못 미칩니다. 당시 전방 대기 구역 기록 14/84는 따로 보여줍니다.` | `48% < 50%`, `14/84` displayed separately, eight receipts, unchanged policy |
-| 27–34s | Return to the still-sealed final-audit action | `실패를 본 뒤에도 정책은 고치지 않습니다. 8강 이후 기록은 아직 봉인돼 있습니다.` | Disabled selections and unchanged policy fingerprint |
-| 34–45s | Reveal the final eight and keep the two observed measures separate | `같은 정책으로 봉인을 풉니다. 위치 겹침은 51%, 전방 대기 구역 기록은 12/76입니다. 두 값은 합산하지 않습니다.` | `51% ≥ 50%`, separate `12/76` context, deterministic evidence path |
-| 45–53s | Choose `다음 미팅에서 우선 구역 수정`, enter one reason, and save | `검증 결과는 그대로 두고, 다음 미팅에서 바꿀 항목과 이유만 남깁니다.` | A separate next-meeting note appears without changing the sealed receipt |
-| 53–59.5s | Hold the receipt and next-meeting note together | `이 도구는 답을 대신 내리지 않습니다. 감독의 선택과 반례를 한 장에 남깁니다.` | `정책 변경 0회`, same fingerprint, immutable result |
+| 0–5s | Slow-zoom the manager choice and ask the choice directly | `코너킥 때 한 명을 수비에 더 둘까요, 역습에 남길까요?` | A first-time viewer can name the decision before methodology |
+| 5–12s | Put the two roles at `숏 코너` and `니어포스트`, then select `50%` | `두 명의 역할과 수비 구역을 고른 뒤, 실제 코너의 절반이 그 구역으로 오면 통과라고 미리 정합니다.` | Two roles, two defensive areas, and the predeclared criterion |
+| 12–16s | Activate `이 선택을 확정하고 16경기 확인` | `결과를 보기 전에 이 선택을 확정합니다.` | One fingerprint binds roles, areas, and criterion before results |
+| 16–27s | Show the result, same-choice receipts, and an outside-selection record | `16강 8경기에서는 실제 코너의 48퍼센트가 선택한 구역으로 왔습니다. 미리 정한 절반에는 못 미쳤습니다. 선택 밖 기록도 함께 봅니다.` | `48% < 50%`, eight receipts, unchanged choice, traceable outside-selection record |
+| 27–34s | Return to the still-hidden final eight without changing the choice | `첫 결과가 기대와 달라도 선택은 바꾸지 않습니다. 보지 않은 다음 8경기에 그대로 적용합니다.` | Disabled selections and unchanged fingerprint |
+| 34–45s | Reveal the final eight and state the interpretation limit | `같은 선택을 8강 이후 8경기에도 적용합니다. 실제 코너의 51퍼센트가 선택한 구역으로 왔습니다. 수비 성공률이나 승리 확률은 아닙니다.` | `51% ≥ 50%`, same choice, no success or win claim |
+| 45–53s | Choose `다음 회의에서 우선 구역 수정`, enter one reason, and save | `선택 밖으로 간 코너를 보고, 다음 전술 회의에서 바꿀 점과 이유를 메모합니다.` | A separate next-meeting note appears without changing the result |
+| 53–59.5s | Hold the receipt and next-meeting note together | `결정은 감독이 합니다. 이 도구는 실제 코너가 선택 구역에 얼마나 왔는지만 보여 줍니다.` | Choice changes remain zero; the manager keeps authority |
 
 All eleven post-production summaries carry the visible label `[편집 요약]`.
 They are a judging aid over the real product recording, not an unlabeled product
@@ -32,8 +32,8 @@ feature. No generated match footage or simulated football scene is used.
 The desktop and video first frame must contain, without scrolling:
 
 - the product name;
-- `코너 수비 한 명 더. 역습에는 한 명 덜.`;
-- the `48경기 참고 → 8경기 중간 평가 → 8경기 봉인 검증` map;
+- `코너킥 수비, 한 명을 어디에 둘까요?`;
+- the `48경기 기준 정하기 → 8경기 첫 확인 → 같은 선택으로 다음 8경기 확인` map;
 - the defensive-leader and outlet-role choice;
 - the visible limitation that overlap and outlet context are not combined;
 - the visible `40% / 50% / 60%` predeclared criterion control.
@@ -45,8 +45,8 @@ labels continue to expose the fixed split after interaction.
 
 ## Claim boundary
 
-The narration may say `관찰 정책`, `위치 겹침`, `반례`, `분류 가능`, and
-`봉인 검증`. It may not say `수비 성공`, `막았다`, `위험도`, `보상`,
+The narration may say `선택`, `전달 위치`, `겹침`, `선택 밖 기록`, and
+`아직 보지 않은 경기`. It may not claim `수비 성공`, `막았다`, `위험도`, `보상`,
 `강화학습이 학습했다`, `최적`, or `경기 결과를 바꿨다`.
 
 ## Comparison gate

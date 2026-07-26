@@ -45,11 +45,11 @@ try {
   await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
   artifacts.push(await capture(page, "01-two-role-decision"));
 
-  await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
-  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+  await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
+  await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
   artifacts.push(await capture(page, "02-round-of-16-audit"));
 
-  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+  await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
   artifacts.push(await capture(page, "03-final-audit"));
   await browser.close();
 } finally {

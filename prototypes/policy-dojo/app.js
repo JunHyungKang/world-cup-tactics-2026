@@ -2,9 +2,9 @@ const LANES = ["short", "near", "central-far", "other"];
 const LABEL = { short: "숏 코너", near: "니어포스트", "central-far": "중앙·파포스트", other: "그 밖의 전달" };
 const SHORT = { short: "숏", near: "니어", "central-far": "중앙·파", other: "그 밖" };
 const MEETING_DECISIONS = {
-  keep: "다음 미팅도 이 구역 유지",
-  revise: "다음 미팅에서 우선 구역 수정",
-  defer: "다음 미팅 결정 보류",
+  keep: "다음 회의에서도 이 구역 유지",
+  revise: "다음 회의에서 우선 구역 수정",
+  defer: "다음 회의에서 결정 보류",
 };
 
 const app = document.querySelector("#app");
@@ -28,7 +28,7 @@ function validate(value) {
       typeof trial.observed_outcome.defending_outlet_contact === "boolean");
   if (value?.status !== "REJECT" || value?.population?.source_corners !== 603 ||
       value?.gates?.exact_source_population !== true || !value.clustered_bootstrap || !validCampaign) {
-    throw new Error("고정 경기 분할 검증 보고서와 일치하지 않습니다.");
+    throw new Error("불러온 자료가 이 서비스의 경기 기록과 일치하지 않습니다.");
   }
   return value;
 }
@@ -41,14 +41,14 @@ function currentExperiment() {
   const campaign = report.policy_campaign;
   if (state.stage === "final") {
     const trials = campaign.final_audit_matches.flatMap((match) => match.trials);
-    return { kind: "final", label: "최종 검증 · 8강 이후 8경기", resultName: "8강 이후 8경기", trials, matches: campaign.final_audit_matches };
+    return { kind: "final", label: "마지막 확인 · 8강 이후 8경기", resultName: "8강 이후 8경기", trials, matches: campaign.final_audit_matches };
   }
   if (state.quickFixed) {
     const trials = campaign.rehearsal_matches.flatMap((match) => match.trials);
-    return { kind: "rehearsal", label: "중간 평가 · 16강 8경기", resultName: "16강 8경기", trials, matches: campaign.rehearsal_matches };
+    return { kind: "rehearsal", label: "첫 확인 · 16강 8경기", resultName: "16강 8경기", trials, matches: campaign.rehearsal_matches };
   }
   const match = campaign.rehearsal_matches[state.matchIndex];
-  return { kind: "rehearsal", label: `정책 리허설 ${state.matchIndex + 1}/8 · 16강`, resultName: match.match_name, trials: match.trials, matches: [match] };
+  return { kind: "rehearsal", label: `16강 경기 ${state.matchIndex + 1}/8 확인`, resultName: match.match_name, trials: match.trials, matches: [match] };
 }
 
 function evaluatePolicy(experiment, selected = state.selected, abstained = state.abstained) {
@@ -116,30 +116,30 @@ function escapeHtml(value) {
 function meetingNoteMarkup() {
   if (state.meetingNote) {
     return `<section class="meeting-note-receipt" data-testid="meeting-note-receipt" role="status" tabindex="-1">
-      <p class="eyebrow">NEXT MEETING NOTE</p>
-      <h4>다음 미팅 메모 저장됨</h4>
+      <p class="eyebrow">다음 회의</p>
+      <h4>다음 전술 회의 메모를 저장했습니다</h4>
       <p><strong>${MEETING_DECISIONS[state.meetingNote.decision]}</strong></p>
       <p>${escapeHtml(state.meetingNote.reason)}</p>
-      <p class="sealed-anchor">봉인 정책 ${state.meetingNote.policyId} · 정책 변경 0회 · 검증 결과는 그대로입니다.</p>
-      <button class="primary" type="button" data-action="restart">처음부터 다시 실험</button>
+      <p class="sealed-anchor">처음 확정한 선택 ${state.meetingNote.policyId} · 선택 변경 0회 · 확인 결과는 그대로입니다.</p>
+      <button class="primary" type="button" data-action="restart">처음부터 다시 해보기</button>
     </section>`;
   }
   return `<form class="meeting-note" data-action="save-meeting-note">
     <fieldset>
-      <legend>이 검증을 보고 다음 미팅 메모를 남기세요.</legend>
-      <p id="meeting-note-help">아래 선택은 다음 세트피스 미팅을 위한 메모입니다. 봉인 정책, 위치 겹침 결과, 평가 영수증은 바뀌지 않습니다.</p>
+      <legend>이 결과를 보고 다음 전술 회의에서 검토할 내용을 남기세요.</legend>
+      <p id="meeting-note-help">아래 메모는 다음 회의를 위한 기록입니다. 이미 확정한 선택과 확인 결과는 바뀌지 않습니다.</p>
       <div class="meeting-options" role="radiogroup" aria-describedby="meeting-note-help">
         ${Object.entries(MEETING_DECISIONS).map(([value, label]) => `<label><input required type="radio" name="meeting-decision" value="${value}"><span>${label}</span></label>`).join("")}
       </div>
-      <label class="meeting-reason" for="meeting-reason">이유 <span>(120자 이내)</span></label>
-      <textarea id="meeting-reason" maxlength="120" name="meeting-reason" required rows="3" placeholder="예: 선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토"></textarea>
-      <button class="primary" type="submit">다음 미팅 메모 저장</button>
+      <label class="meeting-reason" for="meeting-reason">바꿀 점 또는 유지할 이유 <span>(120자 이내)</span></label>
+      <textarea id="meeting-reason" maxlength="120" name="meeting-reason" required rows="3" placeholder="예: 선택 밖 전달이 반복돼 다음 회의에서 구역 조합을 다시 검토"></textarea>
+      <button class="primary" type="submit">다음 회의 메모 저장</button>
     </fieldset>
   </form>`;
 }
 
 function contradictionPathMarkup(evaluation) {
-  return `<ol class="path"><li>MatchContext TESTED_IN ScoutingPolicy</li><li>ScoutingPolicy: ${policyLabel()}${state.minimumOverlap === null ? "" : ` · 최소 위치 겹침률 ${Math.round(state.minimumOverlap * 100)}%`}${state.policySnapshot ? ` · ${state.policySnapshot.fingerprint}` : ""}</li><li>CornerRestart RECORDED_ACTION DeliveryAction: ${LABEL[evaluation.counterexample.observed_action.value]}</li><li>CornerRestart OBSERVED_NEXT ObservedEvent</li><li>ObservedEvent OBSERVED_OUTCOME OutcomeProxy: ${evaluation.counterexample.observed_outcome.attacking_shot ? "공격팀 슈팅 기록" : "슈팅 기록 없음"}</li><li>ObservedEvent DERIVED_FROM Source: Pappalardo Wyscout World Cup 2018 · CC BY 4.0</li><li>금지 관계: WOULD_PREVENT · OPTIMAL_POLICY</li></ol>`;
+  return `<ol class="path"><li>경기 묶음 → 확인한 선택</li><li>확인한 선택 → ${policyLabel()}${state.minimumOverlap === null ? "" : ` · 통과 기준 ${Math.round(state.minimumOverlap * 100)}%`}${state.policySnapshot ? ` · 선택 번호 ${state.policySnapshot.fingerprint}` : ""}</li><li>코너킥 → 실제 전달 위치: ${LABEL[evaluation.counterexample.observed_action.value]}</li><li>코너킥 → 이어서 나온 실제 경기 기록</li><li>이어서 나온 기록 → ${evaluation.counterexample.observed_outcome.attacking_shot ? "10초 이내 공격팀 슈팅 있음" : "10초 이내 공격팀 슈팅 없음"}</li><li>자료 출처 → Pappalardo Wyscout World Cup 2018 · CC BY 4.0</li><li>이 기록으로 말할 수 없음 → 이 선택이 실점을 막았을지 · 최적 전술인지</li></ol>`;
 }
 
 function supportPath() {
@@ -157,8 +157,8 @@ function supportPath() {
     state.abstained ? "사전 기준: 판단 보류" : `사전 기준: 분류 가능한 전달의 위치 겹침 ${Math.round(state.minimumOverlap * 100)}% 이상`,
     state.abstained ? "누락 민감도: 구역 선택을 하지 않아 계산하지 않음" : `누락 39개가 한 구역에 모두 속한다고 가정한 비중 범위: ${selectedBounds.join(" · ")}`,
     `불확실성 점검: 슈팅 연관률 1·2위 구역의 차이 ${(interval.lower_95 * 100).toFixed(1)}~${(interval.upper_95 * 100).toFixed(1)}%p`,
-    "허용 관계: ScoutingPolicy COVERS_RECORDED_ACTION DeliveryAction",
-    "금지 관계: WOULD_PREVENT · OPTIMAL_POLICY",
+    "확인할 수 있는 관계: 선택 구역과 실제 전달 위치의 겹침",
+    "확인할 수 없는 관계: 이 선택이 실점을 막았을지 · 최적 전술인지",
   ];
 }
 
@@ -182,7 +182,7 @@ function resultRows(evaluation) {
 
 function historyMarkup() {
   if (state.history.length === 0) return "";
-  return `<details class="history"><summary>16강 평가 영수증 ${state.history.length}개</summary><ol>${state.history.map((entry) => `<li><span>${entry.matchName}</span><strong>${entry.policy}${entry.policyId ? ` · ${entry.policyId}` : ""}</strong><span>${entry.verdict} · 위치 겹침 ${entry.covered}/${entry.corners}</span><span>대표 반례 #${entry.counterexampleId}</span></li>`).join("")}</ol></details>`;
+  return `<details class="history"><summary>16강 확인 기록 ${state.history.length}개</summary><ol>${state.history.map((entry) => `<li><span>${entry.matchName}</span><strong>${entry.policy}${entry.policyId ? ` · ${entry.policyId}` : ""}</strong><span>${entry.verdict} · 선택 구역과 겹침 ${entry.covered}/${entry.corners}</span><span>선택 밖 코너 #${entry.counterexampleId}</span></li>`).join("")}</ol></details>`;
 }
 
 function historyEntry(experiment, evaluation, policy = policyLabel(), policyId = null) {
@@ -199,7 +199,7 @@ function roleTradeoffMarkup(evaluation = null) {
   return `<div class="role-tradeoff" data-testid="role-tradeoff">
     <div><span>위치 검토 범위</span><strong>${zoneCount}개 구역</strong><small>${state.outletKept ? "수비 리더 1명 배치" : zoneCount === 2 ? "두 역할을 수비에 배치" : "수비 리더를 먼저 배치"}</small></div>
     <div><span>역습 역할</span><strong>${state.outletKept ? "전방 유지" : zoneCount === 2 ? "수비 전환" : "결정 필요"}</strong><small>효과는 데이터로 계산하지 않음</small></div>
-    <div><span>당시 전방 대기 구역 기록</span><strong>${outlet.contacts}/${outlet.corners}</strong><small>상대 수비 걷어내기·패스 겹침 · 고정</small></div>
+    <div><span>참고 · 역습 대기 구역</span><strong>${outlet.contacts}/${outlet.corners}</strong><small>수비팀 패스·걷어내기 기록 · 결과와 합산 안 함</small></div>
   </div>`;
 }
 
@@ -211,18 +211,18 @@ function render() {
   const verdict = evaluation ? thresholdVerdict(evaluation) : null;
   app.innerHTML = `
     <header class="hero">
-      <p class="eyebrow">CORNER POLICY LAB · 2018 WORLD CUP</p>
-      <h1>코너 수비 한 명 더.<br><span>역습에는 한 명 덜.</span></h1>
-      <p class="hero-copy"><strong>수비 리더의 우선 구역을 정한 뒤, 역습 역할 1명을 남길지 두 번째 구역에 투입하세요.</strong> 조별리그 기록으로 약속하고 같은 선택을 두 번의 미공개 토너먼트 기록에서 검증합니다.</p>
-      <div class="boundary"><strong>위치 겹침만 검증합니다.</strong> 선수 도달, 수비 효과, 역습 성공, 경기 결과를 계산하지 않습니다.</div>
-      <div class="campaign-map" aria-label="고정 캠페인 분할"><div><strong>48경기</strong><span>조별리그 참고</span></div><b>→</b><div><strong>8경기</strong><span>16강 중간 평가</span></div><b>→</b><div class="sealed"><strong>8경기</strong><span>8강 이후 봉인 검증</span></div></div>
+      <p class="eyebrow">CORNER POLICY LAB · 2018 월드컵 코너킥 기록</p>
+      <h1>코너킥 수비,<br><span>한 명을 어디에 둘까요?</span></h1>
+      <p class="hero-copy"><strong>수비에 한 명을 더 둘지, 역습을 위해 앞에 남길지 선택하세요.</strong> 결과를 보기 전에 수비 구역과 기준을 확정하면, 2018 월드컵 토너먼트 16경기에 같은 선택을 적용해 선택하지 않은 구역으로 간 코너 기록까지 보여줍니다.</p>
+      <div class="boundary"><strong>실제 코너 전달이 선택한 구역으로 왔는지만 확인합니다.</strong> 수비 성공이나 승리 확률을 예측하지 않습니다.</div>
+      <div class="campaign-map" aria-label="고정 경기 분할"><div><strong>48경기</strong><span>조별리그에서 기준 정하기</span></div><b>→</b><div><strong>8경기</strong><span>16강에서 첫 확인</span></div><b>→</b><div class="sealed"><strong>8경기</strong><span>8강 이후 마지막 확인</span></div></div>
     </header>
     <section class="stage" aria-labelledby="policy-title" data-partitions-disjoint="${campaign.partitions_disjoint}" data-stage="${state.stage}">
-      <div class="round"><span>${experiment.label}</span><span>16강 평가 영수증 ${state.history.length}개</span></div>
-      <div class="phase"><span class="active">1 정책 설정</span><span class="${state.locked ? "active" : ""}">2 잠금</span><span class="${state.revealed ? "active" : ""}">3 반례 검토</span><span class="${finalStage && state.counterexampleOpen ? "active" : ""}">4 다음 미팅 메모</span></div>
-      <h2 id="policy-title">수비 리더를 배치하고, 역습 역할의 잔류 여부를 정하세요 <small role="status" aria-live="polite" aria-atomic="true" data-testid="selection-count">${state.selected.length}/2</small></h2>
-      <p class="tradeoff">첫 구역에는 수비 리더가 갑니다. 역습 1명은 전방에 남기거나 두 번째 구역으로 전환합니다.</p>
-      <p class="training-scope">고정 참고 집합: 조별리그 48경기 · ${campaign.segment_coverage.reference.source_corners}개 중 ${campaign.reference_corners}개 분류 가능 (${(campaign.segment_coverage.reference.classified_rate * 100).toFixed(1)}%)</p>
+      <div class="round"><span>${experiment.label}</span><span>16강 확인 기록 ${state.history.length}개</span></div>
+      <div class="phase"><span class="active">1 먼저 정하기</span><span class="${state.locked ? "active" : ""}">2 결과 전에 확정</span><span class="${state.revealed ? "active" : ""}">3 실제 기록 확인</span><span class="${finalStage && state.counterexampleOpen ? "active" : ""}">4 다음 회의 메모</span></div>
+      <h2 id="policy-title">수비 역할 2명을 어떻게 쓸지 정하세요 <small role="status" aria-live="polite" aria-atomic="true" data-testid="selection-count">${state.selected.length}/2</small></h2>
+      <p class="tradeoff">한 명은 수비 구역에 둡니다. 다른 한 명은 두 번째 구역을 맡기거나, 역습을 위해 앞에 남길 수 있습니다.</p>
+      <p class="training-scope">먼저 살펴볼 기록: 조별리그 48경기 · 코너킥 ${campaign.segment_coverage.reference.source_corners}개 중 전달 위치를 확인할 수 있는 ${campaign.reference_corners}개 (${(campaign.segment_coverage.reference.classified_rate * 100).toFixed(1)}%)</p>
       <div class="policy-layout">
         <div class="pitch" role="group" aria-label="코너 수비 역할 배치 지도"><span class="corner" aria-hidden="true">●</span><span class="outlet-position ${state.outletKept ? "kept" : ""}" aria-hidden="true">역습 대기</span>${LANES.map((lane) => {
           const roleIndex = state.selected.indexOf(lane);
@@ -230,26 +230,26 @@ function render() {
           return `<button type="button" data-zone-lane="${lane}" aria-label="${LABEL[lane]}에 주의 토큰 배치" aria-pressed="${state.selected.includes(lane)}" class="zone zone-${lane} ${state.selected.includes(lane) ? "selected" : ""} ${evaluation?.trials.some((trial) => trial.observed_action.value === lane) ? "observed" : ""}" ${state.locked ? "disabled" : ""}>${token}${SHORT[lane]}</button>`;
         }).join("")}</div>
         <div><div class="lane-cards" aria-label="수비 역할 우선 구역 선택">${LANES.map(trainingCard).join("")}</div>
-          <button class="outlet-choice" type="button" data-action="keep-outlet" aria-pressed="${state.outletKept}" ${state.locked || state.selected.length === 0 ? "disabled" : ""}><span>역습 역할 1명</span><strong>${state.outletKept ? "전방 유지 선택됨" : state.selected.length === 2 ? "수비 전환 선택됨" : "전방에 남기기"}</strong><small>당시 전방 대기 구역 기록도 결과와 나란히 확인</small></button>
+          <button class="outlet-choice" type="button" data-action="keep-outlet" aria-pressed="${state.outletKept}" ${state.locked || state.selected.length === 0 ? "disabled" : ""}><span>역습 역할 1명</span><strong>${state.outletKept ? "전방 유지 선택됨" : state.selected.length === 2 ? "수비 전환 선택됨" : "전방에 남기기"}</strong><small>역습 대기 구역의 당시 기록은 결과와 따로 확인</small></button>
         </div>
       </div>
       ${roleTradeoffMarkup(evaluation)}
-      ${!state.locked ? `<fieldset class="threshold-picker"><legend>통과로 볼 최소 위치 겹침률을 먼저 정하세요</legend><div>${[40, 50, 60].map((value) => `<button type="button" data-threshold="${value / 100}" aria-label="최소 위치 겹침률 ${value}% 선택" aria-pressed="${state.minimumOverlap === value / 100}">${value}%</button>`).join("")}</div><p>감독이 미리 정하는 검토 기준이며 수비 성공률이나 승리 확률이 아닙니다.</p></fieldset>` : ""}
-      ${!state.locked && finalStage ? `<div class="policy-actions"><button class="primary" type="button" data-action="final-verify" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>최종 정책 잠금 · 봉인 8경기 검증</button><button class="secondary" type="button" data-action="final-abstain">최종 판단 보류 · 봉인 검증</button></div>` : !state.locked ? `<div class="policy-actions"><button class="primary" type="button" data-action="quick-lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>이 정책을 잠가 두 시험에 적용</button><button class="secondary" type="button" data-action="quick-abstain">판단 보류를 두 시험에 적용</button></div><details class="manual-mode"><summary>한 경기씩 검토하며 정책 바꾸기</summary><button class="tertiary" type="button" data-action="lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>첫 16강 경기만 잠금</button></details>` : !state.revealed ? `
-        <div class="receipt" data-testid="lock-receipt"><p><strong>${policyLabel()}</strong>${state.abstained ? "를 결과 공개 전에 선언했습니다." : " 관찰 정책을 결과 공개 전에 잠갔습니다."}${state.policySnapshot ? ` <span class="policy-id">${state.policySnapshot.fingerprint}</span>` : ""}</p><p>${state.abstained ? "" : `${staffingLabel()} · 사전 위치 겹침 기준 ${Math.round(state.minimumOverlap * 100)}%도 함께 잠갔습니다. `}${state.quickFixed ? "16강 8경기와 봉인된 8강 이후 8경기에 동일하게 적용합니다. 아직 어느 결과도 공개하지 않았습니다." : `${finalStage ? "8강 이후 8경기" : "이번 16강 경기"}의 이름과 코너 기록은 아직 숨겨져 있습니다.`}</p><button class="primary" type="button" data-action="reveal">${state.quickFixed ? "16강 8경기 평가 요약 공개" : finalStage ? "최종 검증 8경기 공개" : "미공개 16강 경기 공개"}</button></div>` : `
+      ${!state.locked ? `<fieldset class="threshold-picker"><legend>실제 코너 전달 중 몇 %가 선택 구역으로 오면 통과로 볼까요?</legend><div>${[40, 50, 60].map((value) => `<button type="button" data-threshold="${value / 100}" aria-label="최소 위치 겹침률 ${value}% 선택" aria-pressed="${state.minimumOverlap === value / 100}">${value}%</button>`).join("")}</div><p>결과를 보기 전에 정하는 확인 기준입니다. 수비 성공률이나 승리 확률이 아닙니다.</p></fieldset>` : ""}
+      ${!state.locked && finalStage ? `<div class="policy-actions"><button class="primary" type="button" data-action="final-verify" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>이 선택을 확정하고 마지막 8경기 확인</button><button class="secondary" type="button" data-action="final-abstain">선택을 보류하고 마지막 8경기 확인</button></div>` : !state.locked ? `<div class="policy-actions"><button class="primary" type="button" data-action="quick-lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>이 선택을 확정하고 16경기 확인</button><button class="secondary" type="button" data-action="quick-abstain">선택을 보류하고 16경기 확인</button></div><details class="manual-mode"><summary>16강 경기를 한 경기씩 확인하기</summary><button class="tertiary" type="button" data-action="lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>첫 경기 선택만 확정</button></details>` : !state.revealed ? `
+        <div class="receipt" data-testid="lock-receipt"><p><strong>${policyLabel()}</strong>${state.abstained ? "를 결과 공개 전에 선언했습니다." : " 선택을 결과 공개 전에 확정했습니다."}${state.policySnapshot ? ` <span>선택 번호 <span class="policy-id">${state.policySnapshot.fingerprint}</span></span>` : ""}</p><p>${state.abstained ? "" : `${staffingLabel()} · 통과 기준 ${Math.round(state.minimumOverlap * 100)}%도 함께 확정했습니다. `}${state.quickFixed ? "16강 8경기와 아직 보지 않은 8강 이후 8경기에 똑같이 적용합니다. 아직 어느 결과도 공개하지 않았습니다." : `${finalStage ? "8강 이후 8경기" : "이번 16강 경기"}의 이름과 코너 기록은 아직 숨겨져 있습니다.`}</p><button class="primary" type="button" data-action="reveal">${state.quickFixed ? "16강 8경기 결과 보기" : finalStage ? "마지막 8경기 결과 보기" : "이번 16강 경기 결과 보기"}</button></div>` : `
         <section class="scorecard" aria-labelledby="result-title">
-          <p class="receipt-label">고정 참고 48경기 → ${finalStage ? "최종 검증 8경기" : state.quickFixed ? "16강 중간 평가 8경기" : `정책 리허설 ${state.matchIndex + 1}/8`}</p><h2 id="result-title">${experiment.resultName} · ${state.abstained ? "판단 보류 검증" : `위치 겹침 ${evaluation.covered.length}/${evaluation.trials.length}`}</h2>
+          <p class="receipt-label">기준을 정한 48경기 → ${finalStage ? "마지막 확인 8경기" : state.quickFixed ? "16강 첫 확인 8경기" : `16강 경기 ${state.matchIndex + 1}/8`}</p><h2 id="result-title">${experiment.resultName} · ${state.abstained ? "판단 보류 결과" : `선택 구역과 겹침 ${evaluation.covered.length}/${evaluation.trials.length}`}</h2>
           ${verdict ? `<p class="threshold-verdict ${verdict.passed ? "passed" : "missed"}" data-testid="threshold-verdict"><strong>${verdict.label}</strong><span>실제 ${percentage(evaluation.covered.length, evaluation.trials.length)}% · 사전 기준 ${Math.round(state.minimumOverlap * 100)}%</span></p>` : ""}
-          ${state.abstained ? `<div class="metrics"><div><strong>보류</strong><span>사전 정책</span></div><div><strong>${new Set(evaluation.trials.map((trial) => trial.observed_action.value)).size}</strong><span>실제 전달 구역</span></div><div><strong>${evaluation.trials.filter((trial) => trial.observed_outcome.attacking_shot).length}</strong><span>10초 이내 슈팅 기록</span></div></div>` : `<div class="metrics"><div><strong>${percentage(evaluation.covered.length, evaluation.trials.length)}%</strong><span>전달 위치 겹침</span></div><div><strong>${evaluation.uncovered.length}</strong><span>선택 밖 전달</span></div><div><strong>${evaluation.uncoveredShots.length}</strong><span>선택 밖 슈팅 기록</span></div></div>`}
-          <p class="causal-warning">이 수치는 수비 성공률이 아닙니다. 위치 겹침과 전방 대기 구역 기록은 합산하지 않습니다. ${state.quickFixed ? `전달 위치를 분류할 수 없는 ${finalStage ? "2" : "5"}개 기록은 어느 구역에도 넣지 않았습니다. ` : ""}노란 역할 표시는 임무 약속이며 실제 선수 도달, 수비 성공, 역습 성공을 뜻하지 않습니다.</p>
-          <details class="event-ledger"><summary>${finalStage ? "최종 검증" : state.quickFixed ? "16강 중간 평가" : "이번 경기"} 코너 ${evaluation.trials.length}개 기록표</summary><ol>${resultRows(evaluation)}</ol></details>
-          <button class="skeptic" type="button" data-action="counterexample">대표 반례 보기</button>
-          ${state.counterexampleOpen ? `<article class="counterexample" tabindex="-1" data-testid="counterexample"><p class="eyebrow">EVIDENCE PATH · 금지 추론 안전장치</p><h3>${evaluation.reason}</h3><p>${evaluation.counterexample.provenance.match_name} · 코너 #${evaluation.counterexample.provenance.corner_event_id} · 실제 전달 ${LABEL[evaluation.counterexample.observed_action.value]}${evaluation.counterexample.observed_outcome.attacking_shot ? " · 10초 이내 슈팅 기록" : ""}</p>${finalStage ? `<div class="final-receipt" data-testid="final-receipt"><strong>최종 정책 검증 완료 · ${verdict?.label ?? "판단 보류"}</strong><span>${state.quickFixed ? state.abstained ? `판단 보류 정책 변경 0회 · 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `${staffingLabel()} · 사전 위치 겹침 기준 ${Math.round(state.minimumOverlap * 100)}% · 정책 변경 0회 · 당시 전방 대기 구역 기록 ${evaluation.outletContacts.length}/${evaluation.trials.length}. 위치 겹침과 합산하지 않았습니다. 최초 잠금 정책 ${state.policySnapshot.fingerprint}을 16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용했습니다.` : `16강 평가 영수증 ${state.history.length}개를 남긴 뒤, 최종 정책을 남겨 둔 8경기에 한 번만 적용했습니다.`}</span></div>${meetingNoteMarkup()}<details class="ontology-path"><summary>반례 근거 관계 7개 보기</summary>${contradictionPathMarkup(evaluation)}</details>` : `${contradictionPathMarkup(evaluation)}${state.quickFixed ? `<div class="fixed-policy-actions"><p>8강 이후 8경기는 아직 봉인돼 있습니다. 정책 ${state.policySnapshot.fingerprint}${state.abstained ? "" : `과 사전 기준 ${Math.round(state.minimumOverlap * 100)}%`}는 바꿀 수 없습니다.</p><button class="primary" type="button" data-action="quick-final">같은 정책으로 봉인 검증 8경기 공개</button></div>` : `<div class="revision-actions"><button class="primary" type="button" data-action="revise">평가 영수증 남기고 다음 미공개 경기</button><button class="secondary" type="button" data-action="batch-rehearsal">현재 정책으로 남은 16강 일괄 검증</button></div>`}`}</article>` : ""}
+          ${state.abstained ? `<div class="metrics"><div><strong>보류</strong><span>미리 정한 선택</span></div><div><strong>${new Set(evaluation.trials.map((trial) => trial.observed_action.value)).size}</strong><span>실제 전달 구역</span></div><div><strong>${evaluation.trials.filter((trial) => trial.observed_outcome.attacking_shot).length}</strong><span>10초 이내 슈팅 기록</span></div></div>` : `<div class="metrics"><div><strong>${percentage(evaluation.covered.length, evaluation.trials.length)}%</strong><span>선택 구역과 겹침</span></div><div><strong>${evaluation.uncovered.length}</strong><span>선택 밖 전달</span></div><div><strong>${evaluation.uncoveredShots.length}</strong><span>선택 밖 슈팅 기록</span></div></div>`}
+          <p class="causal-warning">이 수치는 수비 성공률이 아닙니다. 선택 구역과의 겹침과 역습 대기 구역 참고 기록은 서로 더하지 않습니다. ${state.quickFixed ? `전달 위치를 확인할 수 없는 ${finalStage ? "2" : "5"}개 기록은 어느 구역에도 넣지 않았습니다. ` : ""}노란 역할 표시는 감독의 선택이며 실제 선수 도달, 수비 성공, 역습 성공을 뜻하지 않습니다.</p>
+          <details class="event-ledger"><summary>${finalStage ? "마지막 확인" : state.quickFixed ? "16강 첫 확인" : "이번 경기"} 코너 ${evaluation.trials.length}개 기록표</summary><ol>${resultRows(evaluation)}</ol></details>
+          <button class="skeptic" type="button" data-action="counterexample">선택 밖 코너 기록 보기</button>
+          ${state.counterexampleOpen ? `<article class="counterexample" tabindex="-1" data-testid="counterexample"><p class="eyebrow">선택 밖 코너 기록</p><h3>${evaluation.reason}</h3><p>${evaluation.counterexample.provenance.match_name} · 코너 #${evaluation.counterexample.provenance.corner_event_id} · 실제 전달 ${LABEL[evaluation.counterexample.observed_action.value]}${evaluation.counterexample.observed_outcome.attacking_shot ? " · 10초 이내 슈팅 기록" : ""}</p><p>이 기록은 선택한 구역과 실제 전달 위치가 어디서 달랐는지 보여줍니다. 이 선택이 수비에 성공했는지, 경기 결과를 바꿨는지는 판단하지 않습니다.</p>${finalStage ? `<div class="final-receipt" data-testid="final-receipt"><strong>같은 선택으로 마지막 8경기 확인 완료 · ${verdict?.label ?? "판단 보류"}</strong><span>${state.quickFixed ? state.abstained ? `판단 보류 · 선택 변경 0회 · 처음 확정한 선택 ${state.policySnapshot.fingerprint}을 16강과 8강 이후 8경기에 그대로 적용했습니다.` : `${staffingLabel()} · 통과 기준 ${Math.round(state.minimumOverlap * 100)}% · 선택 변경 0회. 처음 확정한 선택 ${state.policySnapshot.fingerprint}을 16강과 8강 이후 8경기에 그대로 적용했습니다. 역습 대기 구역 참고 기록 ${evaluation.outletContacts.length}/${evaluation.trials.length}은 별도 기록이라 위치 겹침과 더하지 않습니다.` : `16강 확인 기록 ${state.history.length}개를 남긴 뒤, 같은 선택을 남겨 둔 8경기에 한 번만 적용했습니다.`}</span></div>${meetingNoteMarkup()}<details class="ontology-path"><summary>이 기록의 출처와 판단 범위 보기</summary>${contradictionPathMarkup(evaluation)}</details>` : `${state.quickFixed ? `<div class="fixed-policy-actions"><p>8강 이후 8경기는 아직 보지 않았습니다. 처음 확정한 선택${state.abstained ? "" : `과 통과 기준 ${Math.round(state.minimumOverlap * 100)}%`}을 다음 8경기에도 그대로 적용합니다.</p><button class="primary" type="button" data-action="quick-final">같은 선택으로 다음 8경기 확인</button></div>` : `<div class="revision-actions"><button class="primary" type="button" data-action="revise">확인 기록을 남기고 다음 경기 보기</button><button class="secondary" type="button" data-action="batch-rehearsal">같은 선택으로 남은 16강 확인</button></div>`}<details class="ontology-path"><summary>이 기록의 출처와 판단 범위 보기</summary>${contradictionPathMarkup(evaluation)}</details>`}</article>` : ""}
         </section>`}
       ${historyMarkup()}
     </section>
     <aside class="agent" aria-labelledby="agent-title">
-      <div><p class="eyebrow">근거 제한 에이전트</p><h2 id="agent-title">지금 기록만으로 어느 구역을 우선해야 한다고 말하기 어렵습니다.</h2><p>분류 가능률은 조별리그 ${campaign.segment_coverage.reference.classified_corners}/${campaign.segment_coverage.reference.source_corners}, 16강 ${campaign.segment_coverage.rehearsal.classified_corners}/${campaign.segment_coverage.rehearsal.source_corners}, 8강 이후 ${campaign.segment_coverage.final_audit.classified_corners}/${campaign.segment_coverage.final_audit.source_corners}입니다. 경기별 차이를 감안하면 구역별 슈팅 연관 차이도 확정되지 않아 특정 구역을 추천하지 않습니다.</p></div>
+      <div><p class="eyebrow">이 서비스가 말하지 않는 것</p><h2 id="agent-title">이 기록만으로 어느 구역이 더 좋은지는 판단할 수 없습니다.</h2><p>선택한 구역과 실제 코너 전달 위치가 겹쳤는지만 확인합니다. 선수의 도달, 수비 성공, 역습 성공, 경기 결과는 알 수 없어 특정 구역을 추천하지 않습니다.</p></div>
       ${state.locked ? `<details><summary>근거·출처 경로</summary><ol class="path">${supportPath().map((item) => `<li>${item}</li>`).join("")}</ol></details>` : ""}
     </aside>`;
 }
@@ -304,7 +304,7 @@ app.addEventListener("click", (event) => {
     if (state.quickFixed && state.stage === "rehearsal") {
       const policy = state.policySnapshot.label;
       const history = report.policy_campaign.rehearsal_matches.map((match, index) => {
-        const experiment = { kind: "rehearsal", label: `정책 리허설 ${index + 1}/8 · 16강`, resultName: match.match_name, trials: match.trials, matches: [match] };
+        const experiment = { kind: "rehearsal", label: `16강 경기 ${index + 1}/8 확인`, resultName: match.match_name, trials: match.trials, matches: [match] };
         return historyEntry(experiment, evaluatePolicy(experiment), policy, state.policySnapshot.fingerprint);
       });
       state = { ...state, revealed: true, counterexampleOpen: true, history };
@@ -322,7 +322,7 @@ app.addEventListener("click", (event) => {
     const history = [...state.history];
     for (let index = state.matchIndex; index < report.policy_campaign.rehearsal_matches.length; index += 1) {
       const match = report.policy_campaign.rehearsal_matches[index];
-      const experiment = { kind: "rehearsal", label: `정책 리허설 ${index + 1}/8 · 16강`, resultName: match.match_name, trials: match.trials, matches: [match] };
+      const experiment = { kind: "rehearsal", label: `16강 경기 ${index + 1}/8 확인`, resultName: match.match_name, trials: match.trials, matches: [match] };
       history.push(historyEntry(experiment, evaluatePolicy(experiment)));
     }
     state = { ...freshState(), stage: "final", selected: [...state.selected], outletKept: state.outletKept, history };

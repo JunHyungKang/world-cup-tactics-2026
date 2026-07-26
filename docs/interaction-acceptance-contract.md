@@ -9,8 +9,8 @@ is preserved only under `docs/archive/corner-war-room-2026-07-19/`.
 
 The first screen must expose, without a login or API key:
 
-1. `코너 수비 한 명 더. 역습에는 한 명 덜.`;
-2. the fixed `48경기 참고 → 8경기 중간 평가 → 8경기 봉인 검증` split;
+1. `코너킥 수비, 한 명을 어디에 둘까요?`;
+2. the fixed `48경기 기준 정하기 → 8경기 첫 확인 → 같은 선택으로 다음 8경기 확인` split;
 3. one defensive leader and one outlet role that can stay high or become the
    second defensive area;
 4. four delivery-location lanes and a predeclared `40%`, `50%`, or `60%`
@@ -26,11 +26,11 @@ prediction, defensive-success simulator, or optimal-tactics recommender.
 1. The manager places the defensive leader, decides whether the outlet role stays
    high or becomes the second defensive area, and selects one overlap criterion,
    or abstains.
-2. `이 정책을 잠가 두 시험에 적용` freezes one policy fingerprint before
+2. `이 선택을 확정하고 16경기 확인` freezes one policy fingerprint before
    either held-out result appears.
-3. `16강 8경기 평가 요약 공개` evaluates all eight round-of-16 matches.
-4. `같은 정책으로 봉인 검증 8경기 공개` evaluates the untouched final eight
-   matches with the identical fingerprint and records `정책 변경 0회`.
+3. `16강 8경기 결과 보기` evaluates all eight round-of-16 matches.
+4. `같은 선택으로 다음 8경기 확인` evaluates the untouched final eight
+   matches with the identical fingerprint and records `선택 변경 0회`.
 5. The manager records one separate next-meeting decision and reason. This note
    cannot mutate the sealed policy, criterion, overlap result, or receipts.
 

@@ -101,7 +101,7 @@ try {
     });
     const page = await context.newPage();
     await page.goto(baseURL);
-    await page.getByRole("heading", { name: /코너 수비 한 명 더/u }).waitFor();
+    await page.getByRole("heading", { name: /코너킥 수비/u }).waitFor();
     const galleryImage = await readFile("docs/assets/gallery/corner-policy-lab-first-image.png");
     await page.evaluate(({ source, treatment }) => {
       const style = document.createElement("style");
@@ -156,7 +156,7 @@ try {
       const overlay = document.createElement("img");
       overlay.id = "gallery-cold-open";
       overlay.src = source;
-      overlay.alt = "한 정책을 잠근 뒤 두 미공개 검증과 다음 미팅 결정을 확인하는 장면";
+      overlay.alt = "코너킥 수비에 한 명을 더 둘지 역습에 남길지 고르고 같은 선택으로 두 경기 묶음을 확인하는 장면";
       Object.assign(overlay.style, {
         position: "fixed", inset: "0", width: "100vw", height: "100vh", objectFit: "cover",
         zIndex: "2147483000", background: "#07110d",
@@ -233,12 +233,12 @@ try {
 
     await waitUntil(12);
     await updateEditorial("lock", 12);
-    await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
+    await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
     mark("policy-lock", 12);
 
     await waitUntil(16);
     await updateEditorial("r16", 16);
-    await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
+    await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
     mark("r16-reveal", 16);
 
     await waitUntil(18);
@@ -246,10 +246,7 @@ try {
     mark("r16-contradiction", 18);
 
     await waitUntil(20.5);
-    await page.locator("details.history").evaluate((element) => {
-      element.open = true;
-      element.scrollIntoView({ block: "center", behavior: "instant" });
-    });
+    await scrollTo(page.getByTestId("counterexample"));
     await updateEditorial("receipts", 20.5);
 
     await waitUntil(23);
@@ -257,12 +254,12 @@ try {
     await updateEditorial("counterexample", 23);
 
     await waitUntil(27);
-    await scrollTo(page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }));
+    await scrollTo(page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }));
     await updateEditorial("sealed", 27);
 
     await waitUntil(30);
     await updateEditorial("final-audit", 30);
-    await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
+    await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
     mark("final-reveal", 30);
 
     await waitUntil(34);
@@ -270,14 +267,10 @@ try {
     mark("final-receipt", 34);
 
     await waitUntil(36);
-    await page.locator("details.ontology-path").evaluate((element) => {
-      element.open = true;
-      element.scrollIntoView({ block: "center", behavior: "instant" });
-    });
+    await scrollTo(page.getByTestId("final-receipt"));
     await updateEditorial("boundary", 36);
 
     await waitUntil(38);
-    await page.locator("details.ontology-path").evaluate((element) => { element.open = false; });
     await scrollTo(page.locator('[data-action="save-meeting-note"]'));
     mark("meeting-note-view", 38);
 
@@ -285,15 +278,15 @@ try {
     await updateEditorial("next-meeting", 40);
 
     await waitUntil(42);
-    await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
+    await page.getByLabel("다음 회의에서 우선 구역 수정").check();
     mark("meeting-decision", 42);
 
     await waitUntil(45);
-    await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 미팅에서 구역 조합을 다시 검토");
+    await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달이 반복돼 다음 회의에서 구역 조합을 다시 검토");
     mark("meeting-reason", 45);
 
     await waitUntil(48);
-    await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
+    await page.getByRole("button", { name: "다음 회의 메모 저장" }).click();
     mark("meeting-note-save", 48);
 
     await waitUntil(53);

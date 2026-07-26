@@ -19,9 +19,9 @@ const [fontBytes, ...sourceBytes] = await Promise.all([
 const images = sourceBytes.map((bytes) => `data:image/png;base64,${bytes.toString("base64")}`);
 const font = `data:font/ttf;base64,${fontBytes.toString("base64")}`;
 const proofCards = [
-  ["1 · 역할 배치", "수비 리더 + 역습 역할", "두 번째 구역에 투입할지 직접 결정", images[0], "#79D5A5"],
-  ["2 · 첫 반박", "48% < 사전 50%", "16강 8경기 · 전방 기록 14/84", images[1], "#F1C84B"],
-  ["3 · 봉인 검증", "51% ≥ 사전 50%", "8강 이후 8경기 · 변경 0회", images[2], "#F0A56A"],
+  ["1 · 감독이 먼저 선택", "수비에 둘까, 역습에 남길까", "두 명의 역할 · 수비 구역 · 통과 기준", images[0], "#79D5A5"],
+  ["2 · 16강 8경기", "48% < 기준 50%", "선택하지 않은 구역의 코너 기록도 확인", images[1], "#F1C84B"],
+  ["3 · 다음 8경기", "51% ≥ 기준 50%", "같은 선택 적용 · 변경 0회", images[2], "#F0A56A"],
 ];
 const proofHtml = proofCards.map(([step, title, detail, image, color]) => `
   <article class="proof" style="--accent:${color}">
@@ -47,15 +47,15 @@ try {
   </style><main>
     <section class="layout">
       <div class="story">
-        <div class="eyebrow">CORNER POLICY LAB · 조별리그에서 세우고, 토너먼트에서 검증하세요</div>
-        <h1 class="title">코너 수비 한 명 더.<br><span>역습에는 한 명 덜.</span></h1>
+        <div class="eyebrow">CORNER POLICY LAB · 결과를 보기 전에 감독의 선택을 확정하세요</div>
+        <h1 class="title">코너킥 수비,<br><span>한 명을 어디에 둘까요?</span></h1>
         <div class="sub">${escapeHtml(story.gallery.one_line)}</div>
         <div class="choices">
-          <div class="choice primary"><b>두 번째 역할을 수비로</b><strong>두 구역 검토</strong><em>역습 역할 전환</em></div>
-          <div class="choice"><b>두 번째 역할을 전방에</b><strong>한 구역 검토</strong><em>역습 역할 유지</em></div>
+          <div class="choice primary"><b>수비에 한 명 더</b><strong>두 구역 맡기기</strong><em>역습 역할도 수비로</em></div>
+          <div class="choice"><b>역습을 위해 한 명 남기기</b><strong>한 구역 맡기기</strong><em>역습 역할은 전방에</em></div>
         </div>
-        <div class="campaign"><div><strong>48경기</strong><span>조별리그 참고</span></div><b>→</b><div><strong>8경기</strong><span>16강 첫 반박</span></div><b>→</b><div><strong>8경기</strong><span>봉인 최종 검증</span></div></div>
-        <div class="receipt"><strong>정책 변경 0회</strong><span>위치 겹침과 전방 대기 구역 기록은 <em>합산하지 않음</em></span></div>
+        <div class="campaign"><div><strong>48경기</strong><span>조별리그에서 기준 정하기</span></div><b>→</b><div><strong>8경기</strong><span>16강에서 첫 확인</span></div><b>→</b><div><strong>8경기</strong><span>같은 선택으로 다시 확인</span></div></div>
+        <div class="receipt"><strong>결과 공개 뒤에도 선택 변경 0회</strong><span>겹친 기록과 <em>선택 밖 기록</em>을 함께 확인</span></div>
       </div>
       <section class="proofs">${proofHtml}</section>
     </section>

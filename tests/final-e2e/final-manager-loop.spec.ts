@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { createHash } from "node:crypto";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const headline = "코너 수비 한 명 더. 역습에는 한 명 덜.";
+const headline = "코너킥 수비, 한 명을 어디에 둘까요?";
 const criterionName = "최소 위치 겹침률 50% 선택";
 const lanes = [
   { id: "short", card: "숏 코너", pitch: "숏 코너에 주의 토큰 배치" },
@@ -60,22 +60,22 @@ async function choosePolicy(page: Page, mode: "card" | "pitch" | "keyboard" = "c
 }
 
 async function lockPolicy(page: Page) {
-  await page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }).click();
+  await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
   const receipt = page.getByTestId("lock-receipt");
-  await expect(receipt).toContainText("사전 위치 겹침 기준 50%");
+  await expect(receipt).toContainText("통과 기준 50%");
   return (await receipt.locator(".policy-id").innerText()).trim();
 }
 
 async function revealRoundOf16(page: Page) {
-  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
-  await expect(page.getByRole("heading", { name: /16강 8경기 · 위치 겹침/ })).toBeVisible();
+  await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
+  await expect(page.getByRole("heading", { name: /16강 8경기 · 선택 구역과 겹침/ })).toBeVisible();
   await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 미달");
   await expect(page.getByTestId("threshold-verdict")).toContainText("실제 48% · 사전 기준 50%");
 }
 
 async function revealFinal(page: Page) {
-  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
-  await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 위치 겹침/ })).toBeVisible();
+  await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
+  await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 선택 구역과 겹침/ })).toBeVisible();
   await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 충족");
   await expect(page.getByTestId("threshold-verdict")).toContainText("실제 51% · 사전 기준 50%");
 }
@@ -92,12 +92,12 @@ test("BG-01 first-fold hierarchy, controls, and hit targets", async ({ page }) =
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);
     await openInitial(page);
-    await expect(page.getByText("위치 겹침만 검증합니다.")).toBeVisible();
+    await expect(page.getByText(/선택한 구역과 실제 코너 전달 위치가 겹쳤는지만 확인합니다/)).toBeVisible();
     await expect(page.locator(".pitch")).toBeVisible();
     for (const lane of lanes) await assertTarget(page.locator(`.lane-card[data-lane="${lane.id}"]`));
     for (const value of [40, 50, 60]) await assertTarget(page.getByRole("button", { name: `최소 위치 겹침률 ${value}% 선택` }));
-    await assertTarget(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" }));
-    await assertTarget(page.getByRole("button", { name: "판단 보류를 두 시험에 적용" }));
+    await assertTarget(page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }));
+    await assertTarget(page.getByRole("button", { name: "선택을 보류하고 16경기 확인" }));
     await assertNoHorizontalOverflow(page);
   }
 });
@@ -117,7 +117,7 @@ test("BG-02 pointer, touch, and keyboard policy paths", async ({ page }, testInf
 
   await openInitial(page);
   await choosePolicy(page, "keyboard");
-  await expect(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" })).toBeEnabled();
 });
 
 test("BG-03 input parity produces one deterministic policy fingerprint", async ({ page }) => {
@@ -137,17 +137,17 @@ test("BG-03B outlet role stays high as a complete, non-dominated manager policy"
   await outlet.click();
   await expect(outlet).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: criterionName }).click();
-  await expect(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" })).toBeEnabled();
   const policyId = await lockPolicy(page);
   await expect(page.getByTestId("lock-receipt")).toContainText("역습 역할 1명 전방 유지");
-  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
-  await expect(page.getByRole("heading", { name: /16강 8경기 · 위치 겹침/ })).toBeVisible();
-  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
-  await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 위치 겹침/ })).toBeVisible();
+  await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
+  await expect(page.getByRole("heading", { name: /16강 8경기 · 선택 구역과 겹침/ })).toBeVisible();
+  await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
+  await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 선택 구역과 겹침/ })).toBeVisible();
   await expect(page.getByTestId("role-tradeoff")).toContainText("1개 구역");
   await expect(page.getByTestId("role-tradeoff")).toContainText("전방 유지");
-  await expect(page.getByTestId("final-receipt")).toContainText("당시 전방 대기 구역 기록 12/76");
-  await expect(page.getByTestId("final-receipt")).toContainText("위치 겹침과 합산하지 않았습니다");
+  await expect(page.getByTestId("final-receipt")).toContainText("역습 대기 구역 참고 기록 12/76");
+  await expect(page.getByTestId("final-receipt")).toContainText("별도 기록이라 위치 겹침과 더하지 않습니다");
   await expect(page.getByTestId("final-receipt")).toContainText(policyId);
 });
 
@@ -161,17 +161,17 @@ test("BG-04 one immutable policy spans both held-out audits", async ({ page }) =
   await expect(page.locator(".history li").first()).toContainText(policyId);
   await revealFinal(page);
   await expect(page.getByTestId("final-receipt")).toContainText(policyId);
-  await expect(page.getByTestId("final-receipt")).toContainText("정책 변경 0회");
+  await expect(page.getByTestId("final-receipt")).toContainText("선택 변경 0회");
 });
 
 test("BG-05 abstention remains an honest no-criterion path", async ({ page }) => {
   await openInitial(page);
-  await page.getByRole("button", { name: "판단 보류를 두 시험에 적용" }).click();
+  await page.getByRole("button", { name: "선택을 보류하고 16경기 확인" }).click();
   await expect(page.getByTestId("lock-receipt")).toContainText("판단 보류");
-  await page.getByRole("button", { name: "16강 8경기 평가 요약 공개" }).click();
-  await expect(page.getByRole("heading", { name: /판단 보류 검증/ })).toBeVisible();
-  await page.getByRole("button", { name: "같은 정책으로 봉인 검증 8경기 공개" }).click();
-  await expect(page.getByTestId("final-receipt")).toContainText("판단 보류 정책 변경 0회");
+  await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
+  await expect(page.getByRole("heading", { name: /판단 보류 결과/ })).toBeVisible();
+  await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
+  await expect(page.getByTestId("final-receipt")).toContainText("판단 보류 · 선택 변경 0회");
   await expect(page.getByTestId("final-receipt")).not.toContainText("0%");
 });
 
@@ -182,10 +182,14 @@ test("BG-06 representative contradiction exposes provenance, not causality", asy
   await revealRoundOf16(page);
   const counterexample = page.getByTestId("counterexample");
   await expect(counterexample).toBeFocused();
-  await expect(counterexample).toContainText("CornerRestart RECORDED_ACTION DeliveryAction");
-  await expect(counterexample).toContainText("ObservedEvent OBSERVED_OUTCOME OutcomeProxy");
-  await expect(counterexample).toContainText("ObservedEvent DERIVED_FROM Source");
-  await expect(counterexample).toContainText("금지 관계: WOULD_PREVENT · OPTIMAL_POLICY");
+  await expect(counterexample).toContainText("선택 밖 코너 기록");
+  await expect(counterexample).toContainText("이 선택이 수비에 성공했는지, 경기 결과를 바꿨는지는 판단하지 않습니다.");
+  const provenance = counterexample.getByText("이 기록의 출처와 판단 범위 보기");
+  await expect(counterexample.getByText(/코너킥 → 실제 전달 위치/)).not.toBeVisible();
+  await provenance.click();
+  await expect(counterexample.getByText(/코너킥 → 실제 전달 위치/)).toBeVisible();
+  await expect(counterexample.getByText(/자료 출처 → Pappalardo Wyscout World Cup 2018/)).toBeVisible();
+  await expect(counterexample.getByText(/이 기록으로 말할 수 없음/)).toBeVisible();
 });
 
 test("BG-07 clean-profile refresh is keyless and same-origin", async ({ page, context, baseURL }) => {
@@ -264,7 +268,7 @@ test("BG-11 forbidden positive conclusions remain absent", async ({ page }) => {
     expect(body).not.toContain(phrase);
   }
   await expect(page.getByText(/이 수치는 수비 성공률이 아닙니다/)).toBeVisible();
-  await expect(page.getByText(/노란 역할 표시는 임무 약속이며 실제 선수 도달/)).toBeVisible();
+  await expect(page.getByText(/노란 역할 표시는 감독의 선택이며 실제 선수 도달/)).toBeVisible();
 });
 
 test("BG-12 production marker binds the Policy Lab release and admitted data", async ({ page }, testInfo) => {
@@ -299,8 +303,8 @@ test("BG-12 production marker binds the Policy Lab release and admitted data", a
     causal_recommendation_status: "REJECT",
     empirical_campaign_status: "REVISE",
   });
-  expect(evidence.texts).toContain("코너 수비 한 명 더.");
-  expect(evidence.texts).toContain("역습에는 한 명 덜.");
+  expect(evidence.texts).toContain("코너킥 수비,");
+  expect(evidence.texts).toContain("한 명을 어디에 둘까요?");
   expect(evidence.texts).not.toContain("test-only-invalid-artifact");
   expect(evidence.bindingStatus).toBe(200);
   expect(evidence.bindingDigest).toBe(evidence.marker.productDataBinding.sha256);
@@ -325,12 +329,12 @@ test("BG-13 focus, status, and immutable next-meeting semantics", async ({ page 
   await revealRoundOf16(page);
   await revealFinal(page);
   const finalBefore = (await page.getByTestId("final-receipt").innerText()).trim();
-  await page.getByLabel("다음 미팅에서 우선 구역 수정").check();
-  await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달을 다음 미팅에서 다시 검토");
-  await page.getByRole("button", { name: "다음 미팅 메모 저장" }).click();
+  await page.getByLabel("다음 회의에서 우선 구역 수정").check();
+  await page.getByLabel("바꿀 점 또는 유지할 이유 (120자 이내)").fill("선택 밖 전달을 다음 회의에서 다시 검토");
+  await page.getByRole("button", { name: "다음 회의 메모 저장" }).click();
   const note = page.getByTestId("meeting-note-receipt");
   await expect(note).toBeFocused();
-  await expect(note).toContainText(`봉인 정책 ${policyId} · 정책 변경 0회 · 검증 결과는 그대로입니다.`);
+  await expect(note).toContainText(`처음 확정한 선택 ${policyId} · 선택 변경 0회 · 확인 결과는 그대로입니다.`);
   expect((await page.getByTestId("final-receipt").innerText()).trim()).toBe(finalBefore);
 });
 
@@ -348,8 +352,8 @@ test("BG-14 screenshot transcript covers initial, selected, and counterexample",
   await revealRoundOf16(page);
   await revealFinal(page);
   await attachScreenshot("artifact-counterexample");
-  await expect(page.getByTestId("final-receipt")).toContainText("정책 변경 0회");
-  await expect(page.getByTestId("counterexample")).toContainText("EVIDENCE PATH · 금지 추론 안전장치");
+  await expect(page.getByTestId("final-receipt")).toContainText("선택 변경 0회");
+  await expect(page.getByTestId("counterexample")).toContainText("선택 밖 코너 기록");
 });
 
 test("BG-15 invalid policy data fails closed without substitute controls", async ({ page, request, baseURL }) => {
@@ -363,8 +367,8 @@ test("BG-15 invalid policy data fails closed without substitute controls", async
     .toBe(createHash("sha256").update(await publicApp.body()).digest("hex"));
   await page.goto("http://127.0.0.1:4174");
   await expect(page.getByRole("alert")).toContainText("Policy Lab을 열 수 없습니다.");
-  await expect(page.getByRole("button", { name: "이 정책을 잠가 두 시험에 적용" })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "판단 보류를 두 시험에 적용" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "선택을 보류하고 16경기 확인" })).toHaveCount(0);
   await expect(page.getByTestId("threshold-verdict")).toHaveCount(0);
   await expect(page.getByTestId("final-receipt")).toHaveCount(0);
   await expect(page.locator(".pitch")).toHaveCount(0);

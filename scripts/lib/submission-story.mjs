@@ -14,10 +14,10 @@ export function validateSubmissionStory(story, sources) {
   if (story?.schema_version !== 2) errors.push("submission story schema_version must be 2");
   if (story?.product_id !== "corner-policy-lab") errors.push("submission story must bind corner-policy-lab");
   const gallery = story?.gallery ?? {};
-  if (gallery.hook !== "코너 수비 한 명 더. 역습에는 한 명 덜.") errors.push("gallery hook drifted from the manager decision");
-  if (!gallery.title?.includes("코너 수비 한 명") || !gallery.title?.includes("역습") ||
-      !gallery.one_line?.includes("2018 월드컵") || !gallery.one_line?.includes("봉인")) {
-    errors.push("gallery surface must state the role tradeoff, historical scope, and sealed audit");
+  if (gallery.hook !== "코너킥 수비, 한 명을 어디에 둘까요?") errors.push("gallery hook drifted from the manager decision");
+  if (!gallery.title?.includes("코너킥 수비") || !gallery.title?.includes("어디에") ||
+      !gallery.one_line?.includes("2018 월드컵") || !gallery.one_line?.includes("선택 밖 코너 기록")) {
+    errors.push("gallery surface must state the manager choice, historical scope, and outside-selection records");
   }
   if (gallery.first_image !== "docs/assets/gallery/corner-policy-lab-first-image.png" ||
       !Array.isArray(gallery.source_images) || gallery.source_images.length !== 3) {
@@ -68,10 +68,10 @@ export function validateSubmissionStory(story, sources) {
     errors.push("submission story must label tracked media hashes as local rehearsal evidence and name the post-release final manifest");
   }
   const requiredSourceMarkers = [
-    ["app", "이 정책을 잠가 두 시험에 적용"],
+    ["app", "이 선택을 확정하고 16경기 확인"],
     ["app", "역습 역할 1명"],
-    ["app", "위치 겹침과 전방 대기 구역 기록은 합산하지 않습니다"],
-    ["app", "정책 변경 0회"],
+    ["app", "선택 구역과의 겹침과 역습 대기 구역 참고 기록은 서로 더하지 않습니다"],
+    ["app", "선택 변경 0회"],
     ["productThesis", "Product selection ID: `corner-policy-lab`"],
     ["productThesis", "48경기 조별리그 참고"],
     ["planning", "Product selection ID: `corner-policy-lab`"],
@@ -193,8 +193,8 @@ export function validateEditorialTreatment(treatment) {
   for (const unsafe of ["AI 추천", "강화학습이 학습했다", "최적 정책입니다", "경기 결과를 바꿨다"]) {
     if (allCopy.includes(unsafe)) errors.push(`demo editorial treatment contains unsafe claim: ${unsafe}`);
   }
-  if (treatment.label !== "[편집 요약]" || !allCopy.includes("두 관찰값은 합산하지 않음") ||
-      !allCopy.includes("정책 변경 0회")) {
+  if (treatment.label !== "[편집 요약]" || !allCopy.includes("수비 성공률") ||
+      !allCopy.includes("선택 변경 0회")) {
     errors.push("demo editorial treatment lacks its visible edit label, interpretation boundary, or immutable-policy proof");
   }
   return errors;
@@ -210,7 +210,7 @@ export function validateLocalPolicyDemoEvidence(storyBytes, story, evidence) {
   const visual = evidence.visualManifest;
   const narrated = evidence.narrationManifest;
   if (visual?.status !== "local-static-release-rehearsal-not-youtube-or-human-evidence" || visual?.release_manifest?.sha256 !== story.evidence.release_manifest.sha256) errors.push("visual demo lost its local boundary or release binding");
-  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 8 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 2 || !visual?.final_receipt?.includes("사전 기준 충족") || !visual?.final_receipt?.includes("사전 위치 겹침 기준 50%") || !visual?.final_receipt?.includes("정책 변경 0회") || !visual?.meeting_note?.includes("검증 결과는 그대로") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/note/video binding drifted");
+  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 8 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 2 || !visual?.final_receipt?.includes("사전 기준 충족") || !visual?.final_receipt?.includes("통과 기준 50%") || !visual?.final_receipt?.includes("선택 변경 0회") || !visual?.meeting_note?.includes("확인 결과는 그대로") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/note/video binding drifted");
   if (Math.abs(visual?.video?.duration_seconds - story.video.visual_duration_seconds) > 0.001) errors.push("visual demo duration drifted");
   const visualManifestBytes = evidence.bytes.get(story.evidence.visual_manifest.path);
   const narrationManifestBytes = evidence.bytes.get(story.evidence.narration_manifest.path);

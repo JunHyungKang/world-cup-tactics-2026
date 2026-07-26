@@ -34,14 +34,14 @@ deterministic representative contradiction, and revises or abstains.
 The primary judging path creates one immutable policy snapshot and applies it to
 two sequential held-out audits. After two priorities are selected, `이 정책을
 잠가 두 시험에 적용` commits that snapshot before any held-out identity or
-outcome appears. `16강 8경기 평가 요약 공개` then evaluates all eight round-of-16
+outcome appears. `16강 8경기 결과 보기` then evaluates all eight round-of-16
 matches and creates eight match-specific receipts with the same policy
 fingerprint and predeclared criterion. The final eight matches remain sealed and the selection controls
-stay disabled. `같은 정책으로 봉인 검증 8경기 공개` applies the identical
-snapshot once more; the final receipt states `정책 변경 0회`. The detailed
+stay disabled. `같은 선택으로 다음 8경기 확인` applies the identical
+snapshot once more; the final receipt states `선택 변경 0회`. The detailed
 one-match-at-a-time revision loop remains available under progressive disclosure.
-After the sealed receipt, the manager chooses `다음 미팅도 이 구역 유지`, `다음 미팅에서 우선 구역
-수정`, or `다음 미팅 결정 보류` and saves one reason. This separate next-meeting note
+After the sealed receipt, the manager chooses `다음 회의에서도 이 구역 유지`, `다음 회의에서 우선 구역
+수정`, or `다음 회의에서 결정 보류` and saves one reason. This separate next-meeting note
 cannot mutate the sealed policy, criterion verdict, overlap result, or receipts. The eight-activation
 judge path never moves a match or changes the policy.
 

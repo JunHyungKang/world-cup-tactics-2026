@@ -99,11 +99,11 @@ for (const [index, [id, scheduled]] of expectedActions.entries()) {
   check(action?.id === id && action?.scheduled_seconds === scheduled, `rehearsal action ${index + 1} drifted`);
   check(action?.actual_seconds >= scheduled && action?.actual_seconds <= scheduled + 1.5, `rehearsal action ${id} missed its 1.5-second window`);
 }
-check(manifest.final_frame?.receipt?.includes("사전 위치 겹침 기준 50%"), "final frame must preserve the predeclared criterion");
-check(manifest.final_frame?.receipt?.includes("정책 변경 0회"), "final frame must prove the policy stayed immutable");
+check(manifest.final_frame?.receipt?.includes("통과 기준 50%"), "final frame must preserve the predeclared criterion");
+check(manifest.final_frame?.receipt?.includes("선택 변경 0회"), "final frame must prove the choice stayed immutable");
 check(/^P-[0-9a-f]+$/u.test(manifest.final_frame?.policy_fingerprint ?? ""), "final frame must expose the immutable policy fingerprint");
-check(manifest.final_frame?.meeting_note?.includes("다음 미팅에서 우선 구역 수정"), "final frame must show the separate next-meeting decision");
-check(manifest.final_frame?.meeting_note?.includes("검증 결과는 그대로입니다"), "next-meeting note must preserve the immutable result boundary");
+check(manifest.final_frame?.meeting_note?.includes("다음 회의에서 우선 구역 수정"), "final frame must show the separate next-meeting decision");
+check(manifest.final_frame?.meeting_note?.includes("확인 결과는 그대로입니다"), "next-meeting note must preserve the immutable result boundary");
 
 if (errors.length) {
   errors.forEach((error) => console.error(`[FAIL] ${error}`));

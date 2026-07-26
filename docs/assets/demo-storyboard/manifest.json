@@ -3,82 +3,82 @@
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
     "path": "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm",
-    "sha256": "9a8fd1b55c0fd6146feb331c44b3760ac8892b474bc6a363b908b6c65f67be1d"
+    "sha256": "1c90475ca883ed27b4dde4fe2e1f9ed2b82041f6b8a627243eff7654be2ae549"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "ca0fb1e6d577c71ccb979087e8b7de77fd29ddab8b6c76ffe2ae7dc02bb233d6",
+  "submission_story_sha256": "7a768437dcd74a819f8b78814456d1969a8cd8e5512729be342c35c1535fbc4a",
   "artifacts": [
     {
       "order": 1,
       "id": "hook",
       "timecode": "0–5s",
-      "proof": "코너 수비 한 명 더 · 역습에는 한 명 덜",
+      "proof": "감독이 직접 정하는 한 명의 역할",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "f6cc2e966cb726bed324a26aa62142eb8496bb73ede0c659db96050bd5dd278d",
-      "bytes": 611470
+      "sha256": "8b3b761910ac4449d091af0a98b76bbc0c981fc1088c6fb84a4d0d8940c7b5dc",
+      "bytes": 817032
     },
     {
       "order": 2,
       "id": "reference",
       "timecode": "5–12s",
-      "proof": "두 역할을 수비에 배치 · 당시 전방 대기 구역 기록 64/397 고정",
+      "proof": "수비 구역 · 역습 인원 · 통과 기준을 먼저 선택",
       "path": "docs/assets/demo-storyboard/02-reference.png",
-      "sha256": "9f3e4c9975cef0945193cd50002d61a23c1bbd5b0be5e7e4d32ff2760a12bacf",
-      "bytes": 503570
+      "sha256": "0209162b97b3f790617b58fc309e9bbd80e2576e040a960294790d71baafcb1e",
+      "bytes": 545904
     },
     {
       "order": 3,
       "id": "lock",
       "timecode": "12–16s",
-      "proof": "정책 지문 1개 · 구역과 기준 이후 변경 불가",
+      "proof": "결과 공개 전 확정 · 선택 변경 불가",
       "path": "docs/assets/demo-storyboard/03-lock.png",
-      "sha256": "c1e496de51d245839f41d40a48b3d11a99b563d37eb396b98545d14c88aea8a5",
-      "bytes": 465611
+      "sha256": "20f2b3b0a9b95a43e0c2a60e44055b0f90f40f3cd0ba8b5bbd75e6b9be13a542",
+      "bytes": 435133
     },
     {
       "order": 4,
       "id": "r16",
       "timecode": "16–27s",
-      "proof": "위치 겹침 48% · 전방 대기 구역 기록 14/84 · 두 값 합산 안 함",
+      "proof": "선택 구역 48% · 사전 기준 50%에 미달",
       "path": "docs/assets/demo-storyboard/04-r16.png",
-      "sha256": "44098bcde8605f78e822e23195f568f61a72e14b5cc1146225d8e4c387c0203d",
-      "bytes": 526206
+      "sha256": "59dedc66de2f6f1c152dcbff293e6541a16c17544e49fa9aff91ea6105366d0c",
+      "bytes": 470796
     },
     {
       "order": 5,
       "id": "seal",
       "timecode": "27–34s",
-      "proof": "두 번째 홀드아웃 미공개 · 정책 변경 불가",
+      "proof": "결과 확인 뒤에도 선택 변경 0회",
       "path": "docs/assets/demo-storyboard/05-seal.png",
-      "sha256": "c5cabe9d560ba3ebde3122cada24bf1d3ba6bd868f8ba772fc9b3d8f8b6a9d4b",
-      "bytes": 335977
+      "sha256": "aa2116431d2542830906c61865a033d213b038db53b25fb3a1c79ea7722ea4ed",
+      "bytes": 426215
     },
     {
       "order": 6,
       "id": "final-audit",
       "timecode": "34–45s",
-      "proof": "위치 겹침 51% · 전방 대기 구역 기록 12/76 · 정책 변경 0회",
+      "proof": "선택 구역 51% · 수비 성공률 아님",
       "path": "docs/assets/demo-storyboard/06-final-audit.png",
-      "sha256": "465a14aa24434e5b7da091825cb70c094da24a8df8c962378b5e2c6a4883aae1",
-      "bytes": 402950
+      "sha256": "eb9b3142708ab5bd6e27df20ed2e262f989e285105765afb37a4b30cc1f5cf3a",
+      "bytes": 384458
     },
     {
       "order": 7,
       "id": "next-meeting",
       "timecode": "45–53s",
-      "proof": "다음 미팅 수정 메모 · 봉인 정책과 검증 결과 불변",
+      "proof": "확인 결과는 그대로 · 다음 회의 메모만 추가",
       "path": "docs/assets/demo-storyboard/07-next-meeting.png",
-      "sha256": "512f2bcd187b4e197c13375b61791dea763e2a4912545b40a273a294009831b4",
-      "bytes": 375659
+      "sha256": "7c6cf154298e871069b93625934c292b37efab1deb2a623422eb693178fa9bda",
+      "bytes": 393586
     },
     {
       "order": 8,
       "id": "final",
       "timecode": "53–59.5s",
-      "proof": "사전 기준 충족 · 정책 변경 0회 · 인과 추천 REJECT",
+      "proof": "마지막 결정은 감독 · 겹침과 벗어남을 함께 확인",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "35b94915bd0196aff462e2c5781b2ce1a4e4bfbb796215d7f5cbb3663741b3ef",
-      "bytes": 434514
+      "sha256": "b6bcbab55c4b181dff2c4ba38567ec0883779a3ccfea9381dcd9efb3374921db",
+      "bytes": 412937
     }
   ]
 }

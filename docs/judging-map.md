@@ -6,7 +6,7 @@ Verified from the first-party DAKER page and API on `2026-07-25 KST`.
 
 | Voting group | Weight | Entry proof |
 |---|---:|---|
-| 제출팀 | 60% | Gallery and title communicate `코너 수비 한 명 더, 역습에는 한 명 덜` before methodology |
+| 제출팀 | 60% | Gallery and title immediately state that the manager chooses whether one role defends the corner or stays for the counterattack |
 | 참가팀 | 20% | The first screen exposes a defensive leader, an outlet-role tradeoff, a predeclared criterion, and a real lock |
 | 대중 | 20% | The role tradeoff is immediately understandable; `48 → 8 → 8` then proves the no-hindsight method |
 

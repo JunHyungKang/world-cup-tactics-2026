@@ -71,8 +71,8 @@ export function validateReleaseCoherence({
     "FINAL_EVIDENCE_SOURCE_PATHS", "playwright.final.config.ts",
   ]);
   requireText(errors, "final browser spec", finalSpec, [
-    "코너 수비 한 명 더. 역습에는 한 명 덜.", 'product_id: "corner-policy-lab"',
-    "정책 변경 0회", "BG-15",
+    "코너킥 수비, 한 명을 어디에 둘까요?", 'product_id: "corner-policy-lab"',
+    "선택 변경 0회", "BG-15",
   ]);
   rejectText(errors, "final browser spec", finalSpec, [
     /Corner War Room/iu,
@@ -83,7 +83,7 @@ export function validateReleaseCoherence({
   rejectText(errors, "Pages workflow", pagesWorkflow, [/^\s+pnpm build\s*$/mu]);
 
   requireText(errors, "frozen-public demo recorder", demoRecorder, [
-    "코너 수비 한 명 더", "이 정책을 잠가 두 시험에 적용",
+    "코너킥 수비", "이 선택을 확정하고 16경기 확인",
     "corner-policy-lab-first-image.png", "docs/demo-editorial-treatment.json",
   ]);
   rejectText(errors, "frozen-public demo recorder", demoRecorder, [
@@ -108,7 +108,7 @@ export function validateReleaseCoherence({
 
   requireText(errors, "interaction contract", interactionContract, [
     "# Corner Policy Lab Interaction Acceptance Contract", "BG-01", "BG-15",
-    "판단 보류", "정책 변경 0회",
+    "판단 보류", "선택 변경 0회",
   ]);
   rejectText(errors, "interaction contract", interactionContract, [
     /^# Corner War Room/mu, /vite\.invalid-artifact\.config\.ts/u,

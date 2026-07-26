@@ -53,8 +53,8 @@ for (const [index, [id, scheduled]] of expectedActions.entries()) {
   check(action?.id === id && action?.scheduled_seconds === scheduled, `visual action ${index + 1} contract drifted`);
   check(Math.abs((action?.actual_seconds ?? 99) - scheduled) <= 0.25, `visual action ${id} missed its timing window`);
 }
-check(visual.final_receipt.includes("사전 기준 충족") && visual.final_receipt.includes("사전 위치 겹침 기준 50%") && visual.final_receipt.includes("정책 변경 0회") && visual.final_receipt.includes("16강과 공개하지 않고 남겨 둔 8강 이후 8경기에 그대로 적용"), "final receipt boundary drifted");
-check(visual.meeting_note.includes("다음 미팅에서 우선 구역 수정") && visual.meeting_note.includes("정책 변경 0회") && visual.meeting_note.includes("검증 결과는 그대로"), "next-meeting note boundary drifted");
+check(visual.final_receipt.includes("사전 기준 충족") && visual.final_receipt.includes("통과 기준 50%") && visual.final_receipt.includes("선택 변경 0회") && visual.final_receipt.includes("16강과 8강 이후 8경기에 그대로 적용"), "final receipt boundary drifted");
+check(visual.meeting_note.includes("다음 회의에서 우선 구역 수정") && visual.meeting_note.includes("선택 변경 0회") && visual.meeting_note.includes("확인 결과는 그대로"), "next-meeting note boundary drifted");
 check(visual.interaction_contract?.activations === 8 && visual.interaction_contract?.policy_locks === 1 && visual.interaction_contract?.explicit_scrolls === 2, "one-lock interaction contract drifted");
 check(visual.actions.find((action) => action.id === "final-receipt")?.actual_seconds <= 45.25, "final receipt missed the 45-second judge target");
 check(visual.actions.find((action) => action.id === "meeting-note-save")?.actual_seconds <= 52.25, "next-meeting note missed the 52-second judge target");

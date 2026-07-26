@@ -93,7 +93,7 @@ export function validateCurrentHarnessState({
     ]);
     requireMarkers(errors, "interaction acceptance contract", interactionContract, [
       "# Corner Policy Lab Interaction Acceptance Contract", "BG-01", "BG-15",
-      "판단 보류", "정책 변경 0회",
+      "판단 보류", "선택 변경 0회",
     ]);
     requireMarkers(errors, "official state judging contract", officialState, [
       "First-round voting weights are submitter 60%, participant 20%, and public 20%",

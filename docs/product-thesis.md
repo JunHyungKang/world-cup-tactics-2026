@@ -70,11 +70,11 @@ The primary judge path is eight activations:
 4. lock one policy for both tests;
 5. reveal the round-of-16 evaluation;
 6. reveal the final sealed evaluation with the same policy;
-7. choose `다음 미팅도 이 구역 유지`, `다음 미팅에서 우선 구역 수정`, or
-   `다음 미팅 결정 보류`;
+7. choose `다음 회의에서도 이 구역 유지`, `다음 회의에서 우선 구역 수정`, or
+   `다음 회의에서 결정 보류`;
 8. save one short reason as the next-meeting note.
 
-The final receipt must show `정책 변경 0회` and the same policy fingerprint used
+The final receipt must show `선택 변경 0회` and the same policy fingerprint used
 for both held-out partitions. The next-meeting note is a separate decision record
 and cannot mutate that receipt, the overlap results, or the sealed policy. The
 one-match-at-a-time revision path remains available under progressive disclosure

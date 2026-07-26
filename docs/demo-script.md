@@ -1,20 +1,20 @@
-# Corner Policy Lab — 코너 수비 한 명 더, 역습에는 한 명 덜 — 60-second final demo script
+# Corner Policy Lab — 코너킥 수비, 한 명을 어디에 둘까요? — 60-second final demo script
 
 Status: `CURRENT SCRIPT — ONLY AN EXACT-PUBLIC-RELEASE RECORDING MAY BE PUBLISHED`
 
 | Time | Action | Narration |
 |---|---|---|
-| 0–5s | Hold the role tradeoff and 48–8–8 campaign | `코너 수비에 한 명을 더 쓰면, 역습에 남는 선수는 한 명 줄어듭니다.` |
-| 5–12s | Put the defensive leader at 숏 코너, move the outlet role to 니어포스트, and select 50% | `수비 리더는 숏 코너, 역습 한 명은 니어포스트로 옮기고 50%를 먼저 정합니다.` |
-| 12–16s | Lock one policy before exposure | `한 정책으로 잠가, 두 미공개 기록에 그대로 씁니다.` |
-| 16–27s | Cut between the 48% verdict, the separate 14/84 outlet context, receipts, and counterexample | `첫 시험인 16강은 48%로 기준에 못 미칩니다. 당시 전방 대기 구역 기록 14/84는 따로 보여줍니다.` |
-| 27–34s | Return to the sealed final-audit action without changing the policy | `실패를 본 뒤에도 정책은 고치지 않습니다. 8강 이후 기록은 아직 봉인돼 있습니다.` |
-| 34–45s | Reveal the final eight and keep overlap separate from the 12/76 outlet context | `같은 정책으로 봉인을 풉니다. 위치 겹침은 51%, 전방 대기 구역 기록은 12/76입니다. 두 값은 합산하지 않습니다.` |
-| 45–53s | Record the next-meeting choice and reason | `검증 결과는 그대로 두고, 다음 미팅에서 바꿀 항목과 이유만 남깁니다.` |
-| 53–59.5s | Hold receipt and next-meeting note together | `이 도구는 답을 대신 내리지 않습니다. 감독의 선택과 반례를 한 장에 남깁니다.` |
+| 0–5s | State the manager choice as a direct question | `코너킥 때 한 명을 수비에 더 둘까요, 역습에 남길까요?` |
+| 5–12s | Put the two roles at 숏 코너 and 니어포스트, then select 50% | `두 명의 역할과 수비 구역을 고른 뒤, 실제 코너의 절반이 그 구역으로 오면 통과라고 미리 정합니다.` |
+| 12–16s | Confirm the choice before showing any result | `결과를 보기 전에 이 선택을 확정합니다.` |
+| 16–27s | Show the 48% result, the 50% criterion, and an outside-selection record | `16강 8경기에서는 실제 코너의 48퍼센트가 선택한 구역으로 왔습니다. 미리 정한 절반에는 못 미쳤습니다. 선택 밖 기록도 함께 봅니다.` |
+| 27–34s | Keep the same choice after the first result | `첫 결과가 기대와 달라도 선택은 바꾸지 않습니다. 보지 않은 다음 8경기에 그대로 적용합니다.` |
+| 34–45s | Apply the same choice to the final eight and state the limit | `같은 선택을 8강 이후 8경기에도 적용합니다. 실제 코너의 51퍼센트가 선택한 구역으로 왔습니다. 수비 성공률이나 승리 확률은 아닙니다.` |
+| 45–53s | Record the next-meeting choice and reason | `선택 밖으로 간 코너를 보고, 다음 전술 회의에서 바꿀 점과 이유를 메모합니다.` |
+| 53–59.5s | Hold the receipt and next-meeting note together | `결정은 감독이 합니다. 이 도구는 실제 코너가 선택 구역에 얼마나 왔는지만 보여 줍니다.` |
 
 The final frame must show the two-role staffing choice, `50%` predeclared
 criterion, `51%` observed location overlap, separate `12/76` outlet context,
-`정책 변경 0회`, unchanged fingerprint, and separate next-meeting note. It must
+`선택 변경 0회`, unchanged fingerprint, and separate next-meeting note. It must
 not add overlap and outlet context or claim defensive success, prevention,
 optimality, win probability, xG change, or learned reinforcement-learning policy.

@@ -22,7 +22,7 @@ the clean local stamped release.
 
 The action ledger contains twelve scheduled interaction/view events. Each must
 complete within 1.5 seconds of its target. The final frame must preserve the 50%
-criterion, `정책 변경 0회`, the policy fingerprint, and `검증 결과는 그대로입니다`.
+criterion, `선택 변경 0회`, the policy fingerprint, and `확인 결과는 그대로입니다`.
 
 `docs/demo-editorial-treatment.json` controls eleven top-right editorial
 summaries. Every summary is visibly labeled `[편집 요약]`: it is post-production
