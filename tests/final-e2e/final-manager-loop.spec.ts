@@ -2,8 +2,8 @@ import AxeBuilder from "@axe-core/playwright";
 import { createHash } from "node:crypto";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const headline = "코너킥 수비, 한 명을 어디에 둘까요?";
-const criterionName = "최소 위치 겹침률 50% 선택";
+const headline = /포르투갈전 코너킥 수비,\s*두 역할을 어디에 둘까요\?/u;
+const criterionName = "최소 위치 겹침률 60% 선택";
 const lanes = [
   { id: "short", card: "숏 코너", pitch: "숏 코너에 주의 토큰 배치" },
   { id: "near", card: "니어포스트", pitch: "니어포스트에 주의 토큰 배치" },
@@ -21,6 +21,9 @@ async function openInitial(page: Page) {
   await page.goto("./", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: headline })).toBeVisible();
   await expect(page.locator(".stage")).toHaveAttribute("data-partitions-disjoint", "true");
+  await expect(page.getByTestId("team-context")).toContainText("포르투갈 조별리그 14개");
+  await expect(page.getByTestId("team-context")).toContainText("우루과이 수비까지 결합 · 채택 안 함");
+  await expect(page.getByTestId("team-context")).toContainText("개선 확률 92.3% < 기준 97.5%");
 }
 
 async function assertTarget(locator: Locator) {
@@ -35,7 +38,7 @@ async function assertNoHorizontalOverflow(page: Page) {
 }
 
 async function choosePolicy(page: Page, mode: "card" | "pitch" | "keyboard" = "card") {
-  for (const lane of lanes.slice(0, 2)) {
+  for (const lane of [lanes[0], lanes[2]]) {
     const control = mode === "card"
       ? page.locator(`.lane-card[data-lane="${lane.id}"]`)
       : page.getByRole("button", { name: lane.pitch });
@@ -62,22 +65,27 @@ async function choosePolicy(page: Page, mode: "card" | "pitch" | "keyboard" = "c
 async function lockPolicy(page: Page) {
   await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
   const receipt = page.getByTestId("lock-receipt");
-  await expect(receipt).toContainText("통과 기준 50%");
+  await expect(receipt).toContainText("통과 기준 60%");
   return (await receipt.locator(".policy-id").innerText()).trim();
 }
 
 async function revealRoundOf16(page: Page) {
   await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
   await expect(page.getByRole("heading", { name: /16강 8경기 · 선택 구역과 겹침/ })).toBeVisible();
-  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 미달");
-  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 48% · 사전 기준 50%");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 충족");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 63% · 사전 기준 60%");
+  const opponent = page.getByTestId("opponent-result");
+  await expect(opponent).toContainText("포르투갈의 실제 코너 전달 10개");
+  await expect(opponent).toContainText("감독이 고른 구역으로 9/10개가 왔습니다");
+  await expect(opponent).toContainText("한 경기 기록만으로 선택이 옳았다고 판정하지 않습니다");
 }
 
 async function revealFinal(page: Page) {
   await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
   await expect(page.getByRole("heading", { name: /8강 이후 8경기 · 선택 구역과 겹침/ })).toBeVisible();
-  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 충족");
-  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 51% · 사전 기준 50%");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 미달");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 55% · 사전 기준 60%");
+  await expect(page.getByTestId("opponent-result")).toHaveCount(0);
 }
 
 async function completePolicy(page: Page) {
@@ -92,7 +100,7 @@ test("BG-01 first-fold hierarchy, controls, and hit targets", async ({ page }) =
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);
     await openInitial(page);
-    await expect(page.getByText(/선택한 구역과 실제 코너 전달 위치가 겹쳤는지만 확인합니다/)).toBeVisible();
+    await expect(page.getByText(/실제 코너 전달이 선택한 구역으로 왔는지만 확인합니다/)).toBeVisible();
     await expect(page.locator(".pitch")).toBeVisible();
     for (const lane of lanes) await assertTarget(page.locator(`.lane-card[data-lane="${lane.id}"]`));
     for (const value of [40, 50, 60]) await assertTarget(page.getByRole("button", { name: `최소 위치 겹침률 ${value}% 선택` }));
@@ -252,8 +260,8 @@ test("BG-10 axe and forced-colors preserve non-color verdicts", async ({ page })
   await completePolicy(page);
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.emulateMedia({ forcedColors: "active" });
-  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 충족");
-  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 51% · 사전 기준 50%");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("사전 기준 미달");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 55% · 사전 기준 60%");
   const invalidPage = await page.context().newPage();
   await invalidPage.goto("http://127.0.0.1:4174");
   expect((await new AxeBuilder({ page: invalidPage }).analyze()).violations).toEqual([]);
@@ -269,6 +277,8 @@ test("BG-11 forbidden positive conclusions remain absent", async ({ page }) => {
   }
   await expect(page.getByText(/이 수치는 수비 성공률이 아닙니다/)).toBeVisible();
   await expect(page.getByText(/노란 역할 표시는 감독의 선택이며 실제 선수 도달/)).toBeVisible();
+  await expect(page.getByText(/두 팀 결합안도 시험했지만, 근거가 약해 추천에는 쓰지 않았습니다/)).toBeVisible();
+  await expect(page.getByTestId("team-context")).toContainText("95% 불확실성 구간이 0을 지나므로");
 });
 
 test("BG-12 production marker binds the Policy Lab release and admitted data", async ({ page }, testInfo) => {
@@ -304,7 +314,8 @@ test("BG-12 production marker binds the Policy Lab release and admitted data", a
     empirical_campaign_status: "REVISE",
   });
   expect(evidence.texts).toContain("코너킥 수비,");
-  expect(evidence.texts).toContain("한 명을 어디에 둘까요?");
+  expect(evidence.texts).toContain("두 역할을 어디에 둘까요?");
+  expect(evidence.texts).toContain("수비까지 결합 · 채택 안 함");
   expect(evidence.texts).not.toContain("test-only-invalid-artifact");
   expect(evidence.bindingStatus).toBe(200);
   expect(evidence.bindingDigest).toBe(evidence.marker.productDataBinding.sha256);
@@ -323,14 +334,14 @@ test("BG-13 focus, status, and immutable next-meeting semantics", async ({ page 
   await expect(zone).toBeFocused();
   await expect(page.getByTestId("selection-count")).toHaveText("1/2");
   await expect(page.locator("#app")).not.toHaveAttribute("aria-live");
-  await page.getByRole("button", { name: lanes[1].pitch }).click();
+  await page.getByRole("button", { name: lanes[2].pitch }).click();
   await page.getByRole("button", { name: criterionName }).click();
   const policyId = await lockPolicy(page);
   await revealRoundOf16(page);
   await revealFinal(page);
   const finalBefore = (await page.getByTestId("final-receipt").innerText()).trim();
   await page.getByLabel("다음 회의에서 우선 구역 수정").check();
-  await page.getByLabel("바꿀 점 또는 유지할 이유 (120자 이내)").fill("선택 밖 전달을 다음 회의에서 다시 검토");
+  await page.getByLabel("이유 (120자 이내)").fill("선택 밖 전달을 다음 회의에서 다시 검토");
   await page.getByRole("button", { name: "다음 회의 메모 저장" }).click();
   const note = page.getByTestId("meeting-note-receipt");
   await expect(note).toBeFocused();
