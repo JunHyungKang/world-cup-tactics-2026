@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const REQUIRED_YOUTUBE_APPROVAL_PHRASE = "이 영상으로 YouTube 공개 승인";
+const REQUIRED_DAKER_NON_AUTHORIZATION = "final DAKER submission";
 
 export const paths = {
   planHandoff: "output/plan-owner-handoff/060376c8beb97afb/handoff-manifest.json",
@@ -49,10 +51,11 @@ export async function buildOwnerConsoleModel({
   releaseCommitValue = releaseCommit(),
 } = {}) {
   const [
-    uploadPackage, handoff, planSha256, finalVideoSha256, finalManifestSha256,
+    uploadPackage, finalManifest, handoff, planSha256, finalVideoSha256, finalManifestSha256,
     youtubeDescriptionSha256, youtubeThumbnailSha256, youtubeDescription,
   ] = await Promise.all([
     loadJson(artifactPaths.uploadPackage),
+    loadJson(artifactPaths.finalManifest),
     loadJson(artifactPaths.planHandoff),
     hashFile(artifactPaths.planPdf),
     hashFile(artifactPaths.finalVideo),
@@ -72,10 +75,19 @@ export async function buildOwnerConsoleModel({
   if (uploadPackage.release.commit !== releaseCommitValue) {
     throw new Error("YouTube package release commit does not match the exact local HEAD");
   }
+  if (finalManifest.source?.release_commit !== uploadPackage.release.commit ||
+      finalManifest.source?.build_sha256 !== uploadPackage.release.build_sha256 ||
+      finalManifest.source?.deployed_marker_sha256 !== uploadPackage.release.submission_marker_sha256 ||
+      finalManifest.source?.deployed_url !== uploadPackage.release.deployed_url) {
+    throw new Error("YouTube package release evidence does not match the exact final video manifest");
+  }
   if (uploadPackage.video.path !== artifactPaths.finalVideo ||
       uploadPackage.video.sha256 !== finalVideoSha256 ||
       uploadPackage.video.bytes !== (await readFile(resolve(root, artifactPaths.finalVideo))).length ||
-      uploadPackage.video.human_listening_status !== "PENDING") {
+      uploadPackage.video.human_listening_status !== "PENDING" ||
+      finalManifest.narrated_video?.path !== artifactPaths.finalVideo ||
+      finalManifest.narrated_video?.sha256 !== finalVideoSha256 ||
+      finalManifest.narrated_video?.bytes !== uploadPackage.video.bytes) {
     throw new Error("YouTube package does not bind the exact pending-listening video");
   }
   if (uploadPackage.manifest.path !== artifactPaths.finalManifest ||
@@ -92,6 +104,10 @@ export async function buildOwnerConsoleModel({
       uploadPackage.thumbnail.sha256 !== youtubeThumbnailSha256 ||
       uploadPackage.thumbnail.bytes !== (await readFile(resolve(root, artifactPaths.youtubeThumbnail))).length) {
     throw new Error("YouTube package does not bind the exact prepared thumbnail");
+  }
+  if (uploadPackage.approval_boundary?.required_phrase !== REQUIRED_YOUTUBE_APPROVAL_PHRASE ||
+      !uploadPackage.approval_boundary?.does_not_authorize?.includes(REQUIRED_DAKER_NON_AUTHORIZATION)) {
+    throw new Error("YouTube package weakens the exact approval phrase or separate DAKER gate");
   }
 
   return {

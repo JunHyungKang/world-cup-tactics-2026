@@ -7,6 +7,9 @@ import { buildOwnerConsoleModel, prepareOwnerConsole, renderOwnerConsole } from 
 
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const fixtureCommit = "a".repeat(40);
+const fixtureBuildSha256 = "d".repeat(64);
+const fixtureMarkerSha256 = "e".repeat(64);
+const fixtureDeployedUrl = "https://junhyungkang.github.io/world-cup-tactics-2026/";
 let directory;
 let fixturePaths;
 let expectedPlanSha;
@@ -26,11 +29,24 @@ beforeAll(async () => {
   };
   const planBytes = Buffer.from("eight-page-reviewed-plan-fixture");
   const finalVideoBytes = Buffer.from("frozen-public-final-video-fixture");
-  const finalManifestBytes = Buffer.from('{"status":"final-upload-candidate-not-youtube-or-human-reviewed"}\n');
   const descriptionBytes = Buffer.from("포르투갈 상대 분석 설명 fixture\n");
   const thumbnailBytes = Buffer.from("current-thumbnail-fixture");
   expectedPlanSha = sha256(planBytes);
   expectedFinalVideoSha = sha256(finalVideoBytes);
+  const finalManifestBytes = Buffer.from(`${JSON.stringify({
+    status: "final-upload-candidate-not-youtube-or-human-reviewed",
+    source: {
+      release_commit: fixtureCommit,
+      build_sha256: fixtureBuildSha256,
+      deployed_marker_sha256: fixtureMarkerSha256,
+      deployed_url: fixtureDeployedUrl,
+    },
+    narrated_video: {
+      path: fixturePaths.finalVideo,
+      sha256: expectedFinalVideoSha,
+      bytes: finalVideoBytes.length,
+    },
+  }, null, 2)}\n`);
   await Promise.all([
     writeFile(fixturePaths.planPdf, planBytes),
     writeFile(fixturePaths.finalVideo, finalVideoBytes),
@@ -41,7 +57,9 @@ beforeAll(async () => {
       status: "PREPARED-AWAITING-OWNER-LISTENING-AND-YOUTUBE-PUBLICATION-APPROVAL",
       release: {
         commit: fixtureCommit,
-        deployed_url: "https://junhyungkang.github.io/world-cup-tactics-2026/",
+        build_sha256: fixtureBuildSha256,
+        submission_marker_sha256: fixtureMarkerSha256,
+        deployed_url: fixtureDeployedUrl,
         github_url: "https://github.com/JunHyungKang/world-cup-tactics-2026",
       },
       video: {
@@ -74,6 +92,10 @@ beforeAll(async () => {
       },
       approval_boundary: {
         required_phrase: "이 영상으로 YouTube 공개 승인",
+        does_not_authorize: [
+          "final DAKER submission",
+          "claiming human usability or preference evidence",
+        ],
       },
     }, null, 2)}\n`),
     writeFile(fixturePaths.planHandoff, `${JSON.stringify({
@@ -149,6 +171,41 @@ describe("external owner console", () => {
       await expect(buildFixtureModel()).rejects.toThrow("pending-listening video");
     } finally {
       await writeFile(fixturePaths.finalVideo, videoBytes);
+    }
+  });
+
+  it("fails closed on release evidence, approval, manifest, description, or thumbnail drift", async () => {
+    const packageBytes = await readFile(fixturePaths.uploadPackage);
+    const packageJson = JSON.parse(packageBytes);
+    try {
+      packageJson.release.build_sha256 = "f".repeat(64);
+      await writeFile(fixturePaths.uploadPackage, `${JSON.stringify(packageJson, null, 2)}\n`);
+      await expect(buildFixtureModel()).rejects.toThrow("release evidence");
+    } finally {
+      await writeFile(fixturePaths.uploadPackage, packageBytes);
+    }
+
+    try {
+      const weakened = JSON.parse(packageBytes);
+      weakened.approval_boundary.required_phrase = "업로드 승인";
+      await writeFile(fixturePaths.uploadPackage, `${JSON.stringify(weakened, null, 2)}\n`);
+      await expect(buildFixtureModel()).rejects.toThrow("approval phrase");
+    } finally {
+      await writeFile(fixturePaths.uploadPackage, packageBytes);
+    }
+
+    for (const [path, expectedError] of [
+      [fixturePaths.finalManifest, "video manifest"],
+      [fixturePaths.youtubeDescription, "prepared description"],
+      [fixturePaths.youtubeThumbnail, "prepared thumbnail"],
+    ]) {
+      const bytes = await readFile(path);
+      try {
+        await writeFile(path, Buffer.concat([bytes, Buffer.from("\n")]));
+        await expect(buildFixtureModel()).rejects.toThrow(expectedError);
+      } finally {
+        await writeFile(path, bytes);
+      }
     }
   });
 
