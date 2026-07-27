@@ -142,7 +142,7 @@ check(
 );
 check(
   manifest.final_frame?.meeting_note?.includes("다음 회의에서 영상 검토 안건 다시 선택") &&
-    manifest.final_frame?.meeting_note?.includes("잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다"),
+    manifest.final_frame?.meeting_note?.includes("이미 잠근 두 안건과 공개된 경기 기록을 바꾸지 않습니다"),
   "final frame must preserve the separate immutable next-meeting memo",
 );
 
