@@ -530,7 +530,7 @@ export function validateEditorialTreatment(treatment) {
     }
   }
   for (const required of [
-    "토너먼트 160개 검증",
+    "토너먼트 단계 코너 160개 검증",
     "포르투갈 3/3경기",
     "포르투갈 보정 상위 구역 9/10",
     "3장면",
