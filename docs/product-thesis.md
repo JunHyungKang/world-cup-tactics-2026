@@ -4,9 +4,9 @@ Product selection ID: `corner-policy-lab`
 
 Product data scope: `official-open-historical-tactics`
 
-Product selection status: `PASS — bounded opponent-scouting context`
+Product selection status: `PASS — player-linked team-situation rehearsal`
 
-Implementation refinement status: `PASS — opponent evidence before role placement`
+Implementation refinement status: `PASS — unsupported a570 role placement replaced`
 
 Causal recommendation status: `REJECT`
 
@@ -15,6 +15,88 @@ Empirical campaign status: `REVISE`
 Team-conditioned forecast status: `PASS — recorded delivery locations only`
 
 Two-team matchup forecast status: `REJECT — match-cluster uncertainty gate failed`
+
+## 2026-07-28 second product correction
+
+The owner correctly rejected the corrected release as a tactical product. The
+release names Portugal and Uruguay, but its displayed forecast uses only
+Portugal's partially pooled delivery endpoints. Uruguay's defensive exposure is
+not admitted into that forecast, and the manager still moves two defensive roles
+even though the data contains no observed role placement. More decisively, the
+four-way team forecast's proper-score gain disappears when compressed into the
+two selected areas used by the primary interaction. The current public release
+and narrated video are therefore `REJECT` for final upload even though their
+technical and claim-boundary checks pass.
+
+The bounded replacement question is:
+
+> 포르투갈의 키커와 첫 후속 기록, 우루과이가 실제로 겪은 수비 상황을
+> 따로 보고 경기 전 훈련 10회를 어떻게 나눌 것인가?
+
+This is a **two-record match-preparation rehearsal**, not a matchup success
+predictor. The product keeps Portugal's 14 classifiable group-stage attacking
+corners and Uruguay's five classifiable defensive exposures separate. It derives
+three mutually exclusive recorded corner-situation categories:
+
+1. `숏 구역 전달`: a classifiable endpoint in the project-defined short lane;
+2. `비숏·공중 후속 기록`: a non-short corner whose first recorded follow-up is
+   an air duel or head pass;
+3. `비숏·기타 후속 기록`: another classifiable non-short corner whose first
+   recorded follow-up is another event type, disclosed in each receipt.
+
+The current fixed pre-match ledgers are Portugal `7 / 5 / 2` and Uruguay
+defensive exposure `2 / 2 / 1`, with one additional Uruguay source corner whose
+endpoint remains unclassified. The manager allocates exactly ten rehearsals,
+locks them, then reveals the untouched Uruguay–Portugal ledger `5 / 2 / 3` and
+source-event receipts. No score says the training was correct or prevented a
+shot.
+
+The same Figshare collection's Players v3 item can factually attach a
+Unicode-normalized `shortName` to the player associated with a recorded event.
+The fixed example joins Portugal's 14 corner takers and 14 first recorded
+follow-up actors, plus Uruguay's six first recorded defending actors. These are
+not physical first-contact, receiver, duel-winner, marking, or reach labels.
+Only `player_id` and `display_name` may enter the public derivative; all other
+profile fields and every likeness asset remain excluded.
+
+### Product Gate candidate card
+
+- **Target user / fantasy:** a set-piece coach preparing one historical
+  knockout matchup with scarce training time.
+- **Decision / manipulation / consequence:** allocate ten rehearsal tokens
+  across three observed corner-situation categories; lock before reveal; compare the saved
+  allocation with the held-out team-event ledger and record the next meeting's
+  change.
+- **Real data and decision relevance:** Portugal's corner takers, first
+  recorded follow-up events, situation counts, and Uruguay's separately observed
+  first defending events determine which known patterns and evidence gaps the
+  manager can rehearse.
+- **Differentiation:** not formation drag-and-drop, a dashboard, or a generated
+  recommendation; the decision consumes a limited training budget and opens
+  source-linked counterevidence.
+- **60-second path:** understand two separate team ledgers; inspect three
+  player-linked situation categories; allocate `5 / 4 / 1` from the visible
+  group-stage ratio; lock; reveal the fixed matchup `5 / 2 / 3`;
+  open three source receipts; state what the data cannot prove.
+- **Prototype owner / tests / time box:** `prototypes/opponent-scouting`,
+  `scripts/lib/policy-lab-spike.mjs`, and the opponent-scouting Playwright
+  contract; promotion must finish data rights, Korean comprehension, public
+  browser, and new-video gates before 2026-08-03.
+- **Stop signals:** any player join ambiguity, identity-rights failure,
+  receiver/contact wording, hidden combination of the two teams, recommendation
+  claim, or inability to explain the value in five seconds.
+- **Risks:** sparse Uruguay support, event rather than tracking data, immutable
+  planning-PDF consistency, and full evidence reset after promotion.
+- **Expected judging value:** stronger originality, team specificity, direct
+  manipulation, provenance, and visual clarity; no claim of predictive tactical
+  effectiveness.
+
+Product Gate result: `PASS`. Players is independently accepted for the narrow
+recorded-actor identity use; the situation-allocation loop passes deterministic
+data, Korean copy, desktop, mobile, accessibility, and four-browser static-release
+gates. Independent football review finds no remaining tactical-effect claim.
+Public deployment, gallery, video, and exact submission evidence remain separate
+release gates.
 
 ## 2026-07-27 product correction
 

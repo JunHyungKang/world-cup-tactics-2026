@@ -23,9 +23,19 @@ describe("Policy Lab static candidate release", () => {
       product_id: "corner-policy-lab",
       release_status: "candidate-public",
       product_selection_status: "PASS",
+      implementation_refinement_status: "PASS",
+      manager_loop: "team-situation-rehearsal",
       causal_recommendation_status: "REJECT",
       empirical_campaign_status: "REVISE",
       entrypoint: "index.html",
+    });
+    expect(result.manifest.admitted_source_manifest).toMatchObject({
+      path: "data/source-manifest.json",
+      source_ids: [
+        "pappalardo-wyscout-events-wc-2018",
+        "pappalardo-wyscout-matches-wc-2018",
+        "pappalardo-wyscout-players",
+      ],
     });
     expect(result.manifest.files).toHaveLength(4);
     const html = await readFile(join(result.outputRoot, "index.html"), "utf8");
@@ -34,6 +44,27 @@ describe("Policy Lab static candidate release", () => {
     const report = JSON.parse(await readFile(join(result.outputRoot, "data/policy-lab-spike.json"), "utf8"));
     expect(report.status).toBe("REJECT");
     expect(report.policy_campaign).toMatchObject({ product_status: "PASS", empirical_campaign_status: "REVISE", causal_recommendation_status: "REJECT" });
+    expect(report.team_scouting.corner_situation_rehearsal).toMatchObject({
+      status: "PASS",
+      opponent_attack_reference: {
+        team_name: "Portugal",
+        source_corners: 14,
+        situation_counts: {
+          "short-recorded-endpoint": 7,
+          "aerial-recorded-follow-up": 5,
+          "other-recorded-follow-up": 2,
+        },
+      },
+      manager_defensive_reference: { team_name: "Uruguay", source_corners: 6, classifiable_corners: 5 },
+      held_out_match: {
+        match_name: "Uruguay - Portugal",
+        situation_counts: {
+          "short-recorded-endpoint": 5,
+          "aerial-recorded-follow-up": 2,
+          "other-recorded-follow-up": 3,
+        },
+      },
+    });
   });
 
   it("records the exact bytes and hashes of every deployable file", async () => {

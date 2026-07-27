@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-players",
+  "reviewer": "final_submission_auditor",
+  "checked_at": "2026-07-28T04:37:30+09:00",
+  "public_json_sha256": "f32a78e48894402ff52b45f1e6f2d5c6666b4904e5b36a119929de5725a6ee35",
+  "semantic_review": {
+    "path": "data/audit/player-identity-semantic-review.json",
+    "sha256": "57c25023f5d1a1671fb6ae57b482610a4443aa7b663b26c1e89559422ac84b71"
+  },
+  "window_review": {
+    "path": "data/audit/player-join-review.csv",
+    "sha256": "c85deac223d3dc2fb6447f9dd7c8f28830e1df36c593627c816b77ddf40cf5e9"
+  },
+  "final_result": {
+    "join_ledger_pass": 12,
+    "identity_scope_pass": 139,
+    "exact_receipt_pass": 1,
+    "uncertain": 0,
+    "fail": 0
+  },
+  "exact_corroboration": {
+    "corner_event_id": 261096233,
+    "first_recorded_follow_up_event_id": 261096236,
+    "player_id": 70134,
+    "display_name": "Rui Patrício",
+    "claim": "actor associated with the first recorded follow-up event only"
+  },
+  "assertions": [
+    "the user's team-analysis objection is addressed only as inspectable team-event identity context and not as proof that an allocation is correct",
+    "3603 source rows have non-null unique wyId values and the fixed public example fails closed on a missing required player",
+    "all 12 public fixed-example actor ledgers have zero missing joins",
+    "139 emitted identity records across 41 player IDs contain only player_id, display_name, and aggregate count where applicable",
+    "Rui Patrício is bound to source event 261096236 after corner event 261096233 with the exact first-recorded-follow-up semantic boundary",
+    "forbidden profile fields, likeness assets, contact claims, marking claims, tactical-effect claims, and endorsement claims remain excluded"
+  ],
+  "review_receipt": "data/audit/player-identity-semantic-review.json",
+  "review_csv": "data/audit/player-join-review.csv"
+}

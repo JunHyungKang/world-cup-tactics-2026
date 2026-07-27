@@ -58,7 +58,7 @@ export function validateReleaseCoherence({
     /node_modules\/vite\/bin\/vite\.js/u,
   ]);
   requireText(errors, "invalid fixture", invalidFixture, [
-    'from "./lib/policy-lab-release.mjs"', "policy-lab-spike.json",
+    'from "./lib/policy-lab-release.mjs"', "corner_situation_rehearsal", 'status = "REVISE"',
   ]);
   requireText(errors, "pre-release runner", preReleaseRunner, [
     "build-policy-lab.mjs", "serve-policy-release.mjs", 'const baseUrl = "http://127.0.0.1:4173/"',
@@ -71,12 +71,15 @@ export function validateReleaseCoherence({
     "FINAL_EVIDENCE_SOURCE_PATHS", "playwright.final.config.ts",
   ]);
   requireText(errors, "final browser spec", finalSpec, [
-    "포르투갈전 코너킥 수비,", "두 역할을 어디에 둘까요",
-    "우루과이 수비까지 결합 · 채택 안 함", 'product_id: "corner-policy-lab"',
-    "선택 변경 0회", "BG-15",
+    "포르투갈 코너 상황 3유형", "훈련 10회를 어떻게 나눌까요",
+    "훈련 10회를 결과 전에 잠그기", "가려 둔 맞대결 첫 전개 보기",
+    'manager_loop: "team-situation-rehearsal"', 'product_id: "corner-policy-lab"',
+    'toHaveText(["5", "4", "1"])', 'toHaveText(["5", "2", "3"])',
+    "meeting-note-receipt", "BG-15",
   ]);
   rejectText(errors, "final browser spec", finalSpec, [
-    /Corner War Room/iu,
+    /Corner War Room/iu, /const headline\s*=\s*.*두 역할/iu,
+    /이 선택을 확정하고 16경기 확인/iu, /선택 변경 0회/iu,
   ]);
   requireText(errors, "Pages workflow", pagesWorkflow, [
     'pnpm submission:build -- --release-commit "$GITHUB_SHA"', "path: ./dist",
@@ -84,11 +87,13 @@ export function validateReleaseCoherence({
   rejectText(errors, "Pages workflow", pagesWorkflow, [/^\s+pnpm build\s*$/mu]);
 
   requireText(errors, "frozen-public demo recorder", demoRecorder, [
-    "코너킥 수비", "이 선택을 확정하고 16경기 확인",
-    "corner-policy-lab-first-image.png", "docs/demo-editorial-treatment.json",
+    "포르투갈 코너 상황 3유형", "훈련 10회를 결과 전에 잠그기",
+    "가려 둔 맞대결 첫 전개 보기", "다음 회의 메모 저장",
+    '[data-routine-card="short-recorded-endpoint"]', "short-add-5",
+    "meeting-note-receipt", "docs/demo-editorial-treatment.json",
   ]);
   rejectText(errors, "frozen-public demo recorder", demoRecorder, [
-    /corner-war-room/iu,
+    /corner-war-room/iu, /두 역할/iu, /이 선택을 확정하고 16경기 확인/iu,
   ]);
   requireText(errors, "narration renderer", narrationRenderer, [
     "docs/policy-lab-demo-narration.json", "docs/policy-lab-demo-captions.ko.srt",
@@ -98,7 +103,22 @@ export function validateReleaseCoherence({
   if (editorialTreatment?.status !== "editorial-overlay-not-product-ui-or-human-evidence") {
     errors.push("editorial treatment must remain explicitly separate from product UI and human evidence");
   }
-  if (editorialTreatment?.label !== "[편집 요약]" || editorialTreatment?.chapters?.length !== 11) {
+  const expectedEditorialChapters = [
+    ["hook", 0],
+    ["evidence", 6],
+    ["allocate", 15],
+    ["lock", 25],
+    ["reveal", 31],
+    ["receipts", 42],
+    ["memo", 50],
+    ["final", 57],
+  ];
+  const actualEditorialChapters = editorialTreatment?.chapters?.map(
+    ({ id, scheduled_seconds }) => [id, scheduled_seconds],
+  );
+  if (editorialTreatment?.schema_version !== 2 ||
+      editorialTreatment?.label !== "[편집 요약]" ||
+      JSON.stringify(actualEditorialChapters) !== JSON.stringify(expectedEditorialChapters)) {
     errors.push("editorial treatment disclosure or chapter contract drifted");
   }
   if (editorialTreatment?.claim_boundary?.result_prediction !== false ||
@@ -108,15 +128,22 @@ export function validateReleaseCoherence({
   }
 
   requireText(errors, "interaction contract", interactionContract, [
-    "# Corner Policy Lab Interaction Acceptance Contract", "BG-01", "BG-15",
-    "판단 보류", "선택 변경 0회",
+    "# Corner Prep Lab Interaction Acceptance Contract", "BG-01", "BG-15",
+    "14/14", "5/6", "7/5/2", "5/4/1", "5/2/3", "0/-2/+2",
+    "다음 회의 메모 저장", "team_scouting.corner_situation_rehearsal",
   ]);
   rejectText(errors, "interaction contract", interactionContract, [
-    /^# Corner War Room/mu, /vite\.invalid-artifact\.config\.ts/u,
+    /^# Corner War Room/mu, /^# Corner Policy Lab/mu,
+    /두 역할을 어디에 둘까요/iu, /48–8–8/u, /선택 변경 0회/iu,
+    /vite\.invalid-artifact\.config\.ts/u,
   ]);
   requireText(errors, "judging map", judgingMap, [
-    "Observable Corner Policy Lab proof", "defensive leader", "outlet role",
+    "Observable Corner Prep Lab proof", "7/5/2 → 5/4/1 → 5/2/3",
+    "precommit", "next-meeting memo",
   ]);
-  rejectText(errors, "judging map", judgingMap, [/Observable Corner War Room proof/u]);
+  rejectText(errors, "judging map", judgingMap, [
+    /Observable Corner War Room proof/u, /Observable Corner Policy Lab proof/u,
+    /defensive leader/iu, /outlet role/iu,
+  ]);
   return errors;
 }

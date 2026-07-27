@@ -138,6 +138,18 @@ function acceptanceEvidenceErrors(source, nowMs) {
       evidence.test_argv[2] !== evidence.artifacts.release_test?.path) {
     errors.push("test_argv must run the bound raw-free release test artifact through Vitest without a shell");
   }
+  if (typeof evidence.raw_transform_result !== "string" ||
+      !/^[1-9]\d*\/[1-9]\d* passed$/u.test(evidence.raw_transform_result)) {
+    errors.push("raw_transform_result must declare the source-specific passed-test count");
+  }
+  const rawArgv = evidence.raw_transform_argv;
+  const configuredRawArgv = Array.isArray(rawArgv) && rawArgv.length === 5 &&
+    rawArgv[2] === "--config" && safeRelativePath(rawArgv[3]);
+  if (!Array.isArray(rawArgv) || (rawArgv.length !== 3 && !configuredRawArgv) ||
+      rawArgv[0] !== "node_modules/vitest/vitest.mjs" || rawArgv[1] !== "run" ||
+      rawArgv.at(-1) !== evidence.artifacts.raw_transform_test?.path) {
+    errors.push("raw_transform_argv must run the bound raw transform test through Vitest without a shell");
+  }
   return errors;
 }
 
@@ -274,9 +286,13 @@ export function validateEligibilityState({
         !isFreshPastTimestamp(review.reviewed_at, nowMs)) {
       errors.push("resolved official-open route requires an independently named PASS scope review");
     }
-    const expectedIds = ["pappalardo-wyscout-events-wc-2018", "pappalardo-wyscout-matches-wc-2018"];
+    const expectedIds = [
+      "pappalardo-wyscout-events-wc-2018",
+      "pappalardo-wyscout-matches-wc-2018",
+      "pappalardo-wyscout-players",
+    ];
     if (JSON.stringify(state.evidence_source_ids) !== JSON.stringify(expectedIds)) {
-      errors.push("resolved official-open route must bind exactly the admitted Figshare Events and Matches sources");
+      errors.push("resolved official-open route must bind exactly the admitted Figshare Events, Matches, and Players sources");
     }
     const scopeMarker = `Product data scope: \`${officialOpenScopeRoute}\``;
     if (!productThesis.includes(scopeMarker) || !(planningSource ?? "").includes(scopeMarker) ||
@@ -518,11 +534,12 @@ export async function validateEligibilityArtifacts({ state, manifest, productSel
       }
     }
     const rawReceipt = parseBoundJson(bound.raw_transform_receipt, `${id} raw transform receipt`, errors);
-    const rawArgv = ["node_modules/vitest/vitest.mjs", "run", source.acceptance_evidence.artifacts.raw_transform_test.path];
+    const rawArgv = source.acceptance_evidence.raw_transform_argv;
     if (rawReceipt && (rawReceipt.schema_version !== 1 || rawReceipt.status !== "PASS" || rawReceipt.source_id !== id ||
-        JSON.stringify(rawReceipt.test_argv) !== JSON.stringify(rawArgv) || rawReceipt.result !== "7/7 passed" ||
+        JSON.stringify(rawReceipt.test_argv) !== JSON.stringify(rawArgv) ||
+        rawReceipt.result !== source.acceptance_evidence.raw_transform_result ||
         !isFreshPastTimestamp(rawReceipt.completed_at, nowMs))) {
-      errors.push(`${id} raw transform receipt does not preserve the admitted 7/7 reproduction command`);
+      errors.push(`${id} raw transform receipt does not preserve the admitted source-specific reproduction command and result`);
     }
     const releaseReceipt = parseBoundJson(bound.release_test_receipt, `${id} release test receipt`, errors);
     if (releaseReceipt && (releaseReceipt.schema_version !== 1 || releaseReceipt.status !== "PASS" || releaseReceipt.source_id !== id ||

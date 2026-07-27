@@ -99,7 +99,7 @@ export function validatePlanningContract({ source, officialState, manifest, now 
 
   const accepted = (manifest.sources ?? []).filter((record) => record.status === "accepted");
   const expectedIds = ["pappalardo-wyscout-events-wc-2018", "pappalardo-wyscout-matches-wc-2018"];
-  if (accepted.length !== 2 || expectedIds.some((id) => !accepted.some((record) => record.id === id))) {
+  if (expectedIds.some((id) => !accepted.some((record) => record.id === id))) {
     errors.push("planning candidate requires the two selected accepted Figshare sources");
   }
   if (!source.includes("may be submitted only after `pnpm verify`")) errors.push("missing final-PDF submission guardrail");

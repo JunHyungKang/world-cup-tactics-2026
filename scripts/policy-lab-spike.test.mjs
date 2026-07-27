@@ -14,12 +14,13 @@ describe("Policy Lab committed derivative", () => {
   });
 
   it("pins the immutable raw inputs and deterministic transform", () => {
-    expect(report.transform_version).toBe("policy-lab-spike-v7-matchup-challenger");
+    expect(report.transform_version).toBe("policy-lab-spike-v9-team-situation-record");
     expect(report.provenance.input_sha256).toEqual({
       eventsZip: "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
       events: "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
       matchesZip: "c8f92bb7533e5c127e043cee764c991b5c25b4f5e70a65be931baae0b1765ce9",
       matches: "1ddab20c8605c063a62341eb846466c8d040885a5f0f9a3e26d023123786abb6",
+      players: "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e",
     });
     expect(report.provenance.bootstrap_seed).toBe("0x5eed1234");
   });
@@ -218,5 +219,80 @@ describe("Policy Lab committed derivative", () => {
       tournament_top_two_covered: 5,
       team_conditioned_top_two_covered: 9,
     });
+  });
+
+  it("builds separate player-linked Portugal attack and Uruguay defense situation records", () => {
+    const routine = report.team_scouting.corner_situation_rehearsal;
+    expect(routine).toMatchObject({
+      status: "PASS",
+      opponent_attack_reference: {
+        team_name: "Portugal",
+        source_corners: 14,
+        classifiable_corners: 14,
+        situation_counts: {
+          "short-recorded-endpoint": 7,
+          "aerial-recorded-follow-up": 5,
+          "other-recorded-follow-up": 2,
+        },
+      },
+      manager_defensive_reference: {
+        team_name: "Uruguay",
+        source_corners: 6,
+        classifiable_corners: 5,
+        situation_counts: {
+          "short-recorded-endpoint": 2,
+          "aerial-recorded-follow-up": 2,
+          "other-recorded-follow-up": 1,
+        },
+        opponent_shots_within_10_seconds: 1,
+      },
+      held_out_match: {
+        match_name: "Uruguay - Portugal",
+        source_corners: 10,
+        classifiable_corners: 10,
+        situation_counts: {
+          "short-recorded-endpoint": 5,
+          "aerial-recorded-follow-up": 2,
+          "other-recorded-follow-up": 3,
+        },
+        attacking_shots_within_10_seconds: 4,
+      },
+    });
+    expect(Object.values(routine.player_join_coverage)).not.toHaveLength(0);
+    for (const coverage of Object.values(routine.player_join_coverage)) {
+      expect(coverage).toMatchObject({ missing: 0 });
+      expect(coverage.joined).toBe(coverage.source_events_with_actor);
+    }
+    expect(routine.opponent_attack_reference.leading_corner_takers[0])
+      .toMatchObject({ display_name: "Ricardo Quaresma", count: 8 });
+    expect(routine.opponent_attack_reference.leading_first_attacking_events[0])
+      .toMatchObject({ display_name: "Raphaël Guerreiro", count: 6 });
+    expect(routine.manager_defensive_reference.leading_first_defending_events[0])
+      .toMatchObject({ display_name: "C. Sánchez", count: 3 });
+    expect(routine.manager_defensive_reference.leading_first_defending_events_all_source_corners)
+      .toEqual(expect.arrayContaining([
+        expect.objectContaining({ display_name: "F. Muslera", count: 1 }),
+      ]));
+    expect(routine.claim_boundary.unsupported).toEqual(expect.arrayContaining([
+      "marking assignment",
+      "rehearsal effectiveness",
+      "optimal matchup tactic",
+    ]));
+    for (const ledger of [
+      routine.opponent_attack_reference,
+      routine.manager_defensive_reference,
+      routine.held_out_match,
+    ]) {
+      expect(Object.values(ledger.situation_counts).reduce((sum, count) => sum + count, 0))
+        .toBe(ledger.classifiable_corners);
+    }
+    const publicRoutine = JSON.stringify(routine);
+    for (const forbidden of [
+      "preferred_foot", "birthDate", "birthArea", "passportArea", "height", "weight",
+      "currentTeamId", "currentNationalTeamId", "\"role\"",
+    ]) {
+      expect(publicRoutine).not.toContain(forbidden);
+    }
+    expect(publicRoutine).not.toMatch(/\\u[0-9a-f]{4}/iu);
   });
 });

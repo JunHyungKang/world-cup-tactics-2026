@@ -13,28 +13,24 @@ Official page: https://daker.ai/public/hackathons/world-cup-manager-tactics-web-
 
 **Live judge path:** https://junhyungkang.github.io/world-cup-tactics-2026/
 
-![Corner Policy Lab: one policy tested against two hidden tournament stages](docs/assets/gallery/corner-policy-lab-first-image.png)
-
 ## Judge experience
 
-1. Place the defensive leader, then keep one outlet role high or move it into a
-   second corner-delivery area.
-2. Lock one policy before either knockout-stage record is revealed.
-3. Test the same fingerprint against the round of 16 and the sealed final eight
-   matches.
-4. Inspect the complete record, one deterministic contradiction, and its source
-   path.
-5. Record the next meeting decision without changing the sealed policy or its
-   results.
+1. Compare Portugal's 14 group-stage attacking corners with the six corners
+   Uruguay faced, keeping the two small samples separate.
+2. Inspect three recorded corner-situation categories, their kickers, the first
+   recorded follow-up events, and ten-second shot receipts.
+3. Allocate exactly ten pre-match rehearsal repetitions and lock them before the
+   historical Uruguay–Portugal match is revealed.
+4. Compare the saved allocation with the held-out `5 / 2 / 3` record. The app
+   deliberately gives no score and makes no claim that rehearsal prevented a shot.
+5. Save the next meeting decision and reason without changing the revealed record.
 
-The submitted-plan path still takes eight activations: it places both roles in
-two areas and fits a captioned demo within 60 seconds. The refined candidate
-passes the raw-derived `7/7`, source interaction `10/10`, and built static
-release `12/12` contracts. The clean pre-release matrix also passes `60/60`
-across Chromium, Firefox, WebKit, and mobile. The final exact-public-release
-matrix adds the deployed-byte and three-state visual-evidence gates for `64/64`;
-its twelve PNGs must be retained as files, not memory-only attachments. These
-machine checks are not human-preference evidence.
+The planning PDF's earlier two-role, two-area hypothesis was rejected after its
+team-specific information gain disappeared under two-area compression. The
+implementation retains the submitted scarce-resource, precommitment, hidden
+evidence, and next-meeting structure, but moves the manager's decision onto
+observable team-event records. Browser and release checks are machine evidence,
+not human-preference evidence.
 
 ## Local setup
 
@@ -51,20 +47,14 @@ pnpm verify
 On macOS, install Poppler with `brew install poppler` before `pnpm verify`.
 `pnpm dev` and `pnpm build` do not require the Python/Poppler verification tools.
 
-The app is **Corner Policy Lab**: place the set-piece defensive leader, decide
-whether one outlet role stays high or moves into a second area, declare a
-minimum location-overlap criterion, lock one immutable policy, then expose it
-unchanged after a 48-match group-stage reference to the eight round-of-16
-matches and eight still-sealed
-quarter-final-and-later matches. The full record table and deterministic
-representative contradiction let the historical evidence argue back. The app
-evaluates delivery-location overlap only. Beside it, the same historical window
-shows a fixed count of defending Pass/Clearance records touching the attacking
-outlet band; the two observations are never combined. Causal recommendation is
-`REJECT`; the canonical claim is that causal recommendation is `REJECT`, and the
-empirical campaign remains `REVISE`. The final next-meeting note is a
-separate decision record: it cannot mutate the locked fingerprint, the two
-holdout results, or the evidence receipts.
+The app is **Corner Prep Lab**: a historical set-piece meeting tool for one
+named matchup. It keeps Portugal attack and Uruguay defensive-situation records
+separate, lets the manager allocate ten rehearsal repetitions, locks the choice,
+and then reveals the held-out match. Player names identify only the player
+associated with a recorded source event; they do not identify a receiver,
+physical first contact, duel winner, or marking assignment. Causal recommendation
+is `REJECT`, and the wider empirical campaign remains `REVISE`. The next-meeting
+note cannot mutate the allocation, held-out record, or source receipts.
 
 `pnpm data:audit` checks source admission, `pnpm copy:audit` rejects known
 translationese and stale Korean UI phrases, and `pnpm eligibility:audit` binds the
@@ -81,20 +71,22 @@ raw files fail that command; they are never silently skipped by the public suite
 
 ## Data, attribution, and limits
 
-Corner Policy Lab uses two records from Luca Pappalardo and Emanuele Massucco's
+Corner Prep Lab uses three records from Luca Pappalardo and Emanuele Massucco's
 Soccer Match Event Dataset:
 
 - [Events, Figshare item 7770599](https://figshare.com/articles/dataset/Events/7770599), DOI `10.6084/m9.figshare.7770599.v1`;
-- [Matches, Figshare item 7770422](https://figshare.com/articles/dataset/Matches/7770422/1), DOI `10.6084/m9.figshare.7770422.v1`.
+- [Matches, Figshare item 7770422](https://figshare.com/articles/dataset/Matches/7770422/1), DOI `10.6084/m9.figshare.7770422.v1`;
+- [Players, Figshare item 7765196](https://figshare.com/articles/dataset/Players/7765196), DOI `10.6084/m9.figshare.7765196.v3`.
 
-Both items display the [Creative Commons Attribution 4.0 International
+All three items display the [Creative Commons Attribution 4.0 International
 license](https://creativecommons.org/licenses/by/4.0/). This project transforms
 their 2018 World Cup subset into 603 corner restarts across all 64 matches. Of
 those, 557 endpoints are classifiable and 46 remain visibly unclassified. The
 public derivative preserves the fixed 48–8–8 match split, observed delivery
-areas, subsequent observed events, fixed outlet-band context, and source IDs. It contains no continuous
-tracking, player reach, reconstructed ball path, causal effect, or
-author/Wyscout/FIFA/team endorsement.
+areas, subsequent observed events, fixed outlet-band context, source IDs, and
+the narrowly admitted player ID-to-short-name joins. It contains no continuous
+tracking, player reach, reconstructed ball path, causal effect, player profile
+attributes, or author/Wyscout/FIFA/team/player endorsement.
 
 ## Static deployment
 

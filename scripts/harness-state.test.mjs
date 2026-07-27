@@ -47,14 +47,12 @@ describe("current harness state drift", () => {
 
   it("rejects stale active claims in each authoritative surface", () => {
     const cases = [
-      { key: "board", value: board.replace("Corner Policy Lab is the canonical root product", "CWR remains the root/submission package") },
+      { key: "board", value: board.replace("Corner Prep Lab is the canonical root product", "CWR remains the root/submission package") },
       { key: "judgeGate", value: judgeGate.replace("technical product proof and public candidate byte parity passed", "implementation unauthorized") },
-      { key: "readme", value: readme.replace("The app is **Corner Policy Lab**", "The app is **Corner War Room**") },
-      { key: "handoff", value: handoff.replace("selected `corner-policy-lab`", "official product remains `corner-war-room`") },
-      { key: "runbook", value: runbook.replace("PASS — LOCAL FREEZE", "portfolio P0 freeze boundary is `PENDING`") },
-      { key: "runbook", value: runbook.replace("| 8B | complete exact document gate |", "| 8B | human reviewer assumed complete |") },
+      { key: "readme", value: readme.replace("The app is **Corner Prep Lab**", "The app is **Corner War Room**") },
       { key: "productThesis", value: productThesis.replace("Product selection ID: `corner-policy-lab`", "Product selection ID: `corner-war-room`") },
-      { key: "decisionRegistry", value: decisionRegistry.replace("| D48 |", "| D48-stale |") },
+      { key: "decisionRegistry", value: decisionRegistry.replace("| D67 |", "| D67-stale |") },
+      { key: "interactionContract", value: interactionContract.replace("# Corner Prep Lab Interaction Acceptance Contract", "# Corner Policy Lab Interaction Acceptance Contract") },
     ];
     for (const changed of cases) {
       const errors = validateCurrentHarnessState({ ...input, [changed.key]: changed.value });

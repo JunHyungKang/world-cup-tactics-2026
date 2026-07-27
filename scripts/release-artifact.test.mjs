@@ -25,6 +25,7 @@ describe("clean public release artifact", () => {
     const selection = JSON.parse(bytes.selection);
     const sourceAudits = [JSON.parse(bytes.eventsAudit), JSON.parse(bytes.matchesAudit)];
     const sourceIds = ["pappalardo-wyscout-events-wc-2018", "pappalardo-wyscout-matches-wc-2018"];
+    const selectedSourceIds = [...sourceIds, "pappalardo-wyscout-players"];
 
     expect(derived.provenance.source_ids).toEqual(sourceIds);
     expect(derived.provenance.input_sha256).toEqual({
@@ -68,7 +69,8 @@ describe("clean public release artifact", () => {
       });
       expect(sourceIds).toContain(sourceAudit.source_id);
     }
-    expect(productBinding.source_ids).toEqual(sourceIds);
+    expect(productBinding.source_ids).toEqual(selectedSourceIds);
+    expect(productBinding.source_ids).toEqual(selection.source_ids);
     expect(productBinding.core_tactical_source_ids).toEqual(selection.core_tactical_source_ids);
     expect(productBinding.data_files).toEqual(selection.data_files);
     expect(derived.limitations.join("\n")).toMatch(/straight-line rendering assumptions/iu);
