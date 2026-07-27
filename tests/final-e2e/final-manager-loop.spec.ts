@@ -339,6 +339,8 @@ test("BG-11 zero-observation, recommendation, causality, and outcome claims stay
 
 test("BG-12 production marker binds the team-model release and exact source-scene data", async ({ page }, testInfo) => {
   await openInitial(page);
+  await expect(page.getByTestId("team-model"))
+    .toContainText("토너먼트 160개 · 16팀 중 12팀 개선");
   const evidence = await page.evaluate(async () => {
     const marker = await (await fetch("./submission-build.json", { cache: "no-store" })).json();
     const texts: string[] = [];
@@ -390,7 +392,6 @@ test("BG-12 production marker binds the team-model release and exact source-scen
   });
   expect(evidence.texts).toContain("포르투갈 코너 14개만");
   expect(evidence.texts).toContain("영상 검토 안건 두 개");
-  expect(evidence.texts).toContain("토너먼트 160개 · 16팀 중 12팀 개선");
   expect(evidence.texts).toContain("가려 둔 우루과이–포르투갈 코너 기록 보기");
   expect(evidence.texts).not.toContain("test-only-invalid-artifact");
   expect(evidence.texts).not.toContain("훈련 10회를 어떻게 나눌까요?");
@@ -403,6 +404,20 @@ test("BG-12 production marker binds the team-model release and exact source-scen
   }
 
   const situation = evidence.policyReport!.team_scouting.corner_situation_rehearsal;
+  expect(evidence.policyReport!.team_scouting).toMatchObject({
+    reference: {
+      matches: 48,
+      classified_corners: 397,
+    },
+    partition_scores: {
+      all_knockout: {
+        baseline: { corners: 160 },
+        team_conditioned: { corners: 160 },
+      },
+    },
+    teams_evaluated: 16,
+    teams_improved: 12,
+  });
   expect(situation).toMatchObject({
     status: "PASS",
     opponent_attack_reference: {
