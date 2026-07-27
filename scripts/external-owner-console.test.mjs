@@ -54,6 +54,7 @@ beforeAll(async () => {
       manifest: {
         path: fixturePaths.finalManifest,
         sha256: sha256(finalManifestBytes),
+        bytes: finalManifestBytes.length,
       },
       youtube: {
         title: "Corner Policy Lab | 포르투갈전 코너킥 수비, 두 역할을 어디에 둘까요?",
@@ -64,6 +65,7 @@ beforeAll(async () => {
       thumbnail: {
         path: fixturePaths.youtubeThumbnail,
         sha256: sha256(thumbnailBytes),
+        bytes: thumbnailBytes.length,
         source_path: "docs/assets/gallery/corner-policy-lab-first-image.png",
         source_sha256: "b".repeat(64),
       },
@@ -126,6 +128,26 @@ describe("external owner console", () => {
     expect(html).not.toContain("59.52초");
     expect(html).not.toContain("리허설만 확인");
     expect(html).not.toContain("READY TO SUBMIT");
+  });
+
+  it("fails closed on a stale release or altered canonical video", async () => {
+    const packageBytes = await readFile(fixturePaths.uploadPackage);
+    const packageJson = JSON.parse(packageBytes);
+    try {
+      packageJson.release.commit = "c".repeat(40);
+      await writeFile(fixturePaths.uploadPackage, `${JSON.stringify(packageJson, null, 2)}\n`);
+      await expect(buildFixtureModel()).rejects.toThrow("release commit");
+    } finally {
+      await writeFile(fixturePaths.uploadPackage, packageBytes);
+    }
+
+    const videoBytes = await readFile(fixturePaths.finalVideo);
+    try {
+      await writeFile(fixturePaths.finalVideo, Buffer.concat([videoBytes, Buffer.from("-drift")]));
+      await expect(buildFixtureModel()).rejects.toThrow("pending-listening video");
+    } finally {
+      await writeFile(fixturePaths.finalVideo, videoBytes);
+    }
   });
 
   it("writes a reviewable local packet without fabricating an external receipt", async () => {

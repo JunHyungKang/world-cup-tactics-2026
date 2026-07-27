@@ -79,7 +79,8 @@ export async function buildOwnerConsoleModel({
     throw new Error("YouTube package does not bind the exact pending-listening video");
   }
   if (uploadPackage.manifest.path !== artifactPaths.finalManifest ||
-      uploadPackage.manifest.sha256 !== finalManifestSha256) {
+      uploadPackage.manifest.sha256 !== finalManifestSha256 ||
+      uploadPackage.manifest.bytes !== (await readFile(resolve(root, artifactPaths.finalManifest))).length) {
     throw new Error("YouTube package does not bind the exact final video manifest");
   }
   if (uploadPackage.youtube.description_path !== artifactPaths.youtubeDescription ||
@@ -88,7 +89,8 @@ export async function buildOwnerConsoleModel({
     throw new Error("YouTube package does not bind the exact prepared description");
   }
   if (uploadPackage.thumbnail.path !== artifactPaths.youtubeThumbnail ||
-      uploadPackage.thumbnail.sha256 !== youtubeThumbnailSha256) {
+      uploadPackage.thumbnail.sha256 !== youtubeThumbnailSha256 ||
+      uploadPackage.thumbnail.bytes !== (await readFile(resolve(root, artifactPaths.youtubeThumbnail))).length) {
     throw new Error("YouTube package does not bind the exact prepared thumbnail");
   }
 
