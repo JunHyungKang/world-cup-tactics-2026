@@ -101,6 +101,27 @@ test("binds the predeclared overlap criterion into the immutable fingerprint", a
   expect(await fingerprintFor(40)).not.toBe(await fingerprintFor(60));
 });
 
+test("binds the ordered role assignment into the immutable fingerprint", async ({ page }) => {
+  const fingerprintFor = async (first: "short" | "central-far", second: "short" | "central-far") => {
+    await page.goto("/prototypes/policy-dojo/");
+    await page.locator(`.lane-card[data-lane="${first}"]`).click();
+    await page.locator(`.lane-card[data-lane="${second}"]`).click();
+    await page.getByRole("button", { name: "최소 위치 겹침률 60% 선택" }).click();
+    await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
+    const receipt = page.getByTestId("lock-receipt");
+    return {
+      fingerprint: (await receipt.locator(".policy-id").innerText()).trim(),
+      text: await receipt.innerText(),
+    };
+  };
+
+  const leaderShort = await fingerprintFor("short", "central-far");
+  const leaderCentral = await fingerprintFor("central-far", "short");
+  expect(leaderShort.text).toContain("숏 코너 + 중앙·파포스트");
+  expect(leaderCentral.text).toContain("중앙·파포스트 + 숏 코너");
+  expect(leaderShort.fingerprint).not.toBe(leaderCentral.fingerprint);
+});
+
 test("lets the manager abstain when support is insufficient", async ({ page }) => {
   await page.goto("/prototypes/policy-dojo/");
   await page.getByRole("button", { name: "선택을 보류하고 16경기 확인" }).click();

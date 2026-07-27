@@ -62,9 +62,12 @@ async function choosePolicy(page: Page, mode: "card" | "pitch" | "keyboard" = "c
   await expect(criterion).toHaveAttribute("aria-pressed", "true");
 }
 
-async function lockPolicy(page: Page) {
+async function lockPolicy(page: Page, staffing: "two-zones" | "outlet-kept" = "two-zones") {
   await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
   const receipt = page.getByTestId("lock-receipt");
+  await expect(receipt).toContainText(staffing === "outlet-kept"
+    ? "역습 역할 1명 전방 유지"
+    : "역습 역할 1명 두 번째 수비 구역 전환");
   await expect(receipt).toContainText("통과 기준 60%");
   return (await receipt.locator(".policy-id").innerText()).trim();
 }
@@ -101,8 +104,16 @@ test("BG-01 first-fold hierarchy, controls, and hit targets", async ({ page }) =
     await page.setViewportSize(viewport);
     await openInitial(page);
     await expect(page.getByText(/실제 코너 전달이 선택한 구역으로 왔는지만 확인합니다/)).toBeVisible();
+    await expect(page.getByTestId("team-context")).toContainText("포르투갈 47% · 대회 전체 53%");
+    await expect(page.getByTestId("forecast-audit")).toContainText("16강 예측 오차 2.14%↓ · 8강 이후 7.21%↓");
+    await expect(page.getByTestId("forecast-audit")).toContainText("16팀 중 12팀 개선, 4팀 악화");
     await expect(page.locator(".pitch")).toBeVisible();
     for (const lane of lanes) await assertTarget(page.locator(`.lane-card[data-lane="${lane.id}"]`));
+    await expect(page.locator('.lane-card[data-lane="short"]')).toContainText("33.5%");
+    await expect(page.locator('.lane-card[data-lane="near"]')).toContainText("27.5%");
+    await expect(page.locator('.lane-card[data-lane="central-far"]')).toContainText("35.5%");
+    await expect(page.locator('.lane-card[data-lane="other"]')).toContainText("3.5%");
+    await assertTarget(page.locator(".outlet-choice"));
     for (const value of [40, 50, 60]) await assertTarget(page.getByRole("button", { name: `최소 위치 겹침률 ${value}% 선택` }));
     await assertTarget(page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }));
     await assertTarget(page.getByRole("button", { name: "선택을 보류하고 16경기 확인" }));
@@ -113,9 +124,11 @@ test("BG-01 first-fold hierarchy, controls, and hit targets", async ({ page }) =
 test("BG-02 pointer, touch, and keyboard policy paths", async ({ page }, testInfo) => {
   await openInitial(page);
   await page.getByRole("button", { name: lanes[0].pitch }).click();
-  await page.getByRole("button", { name: lanes[1].pitch }).click();
+  await page.getByRole("button", { name: lanes[2].pitch }).click();
   await page.getByRole("button", { name: criterionName }).click();
   await expect(page.getByTestId("selection-count")).toHaveText("2/2");
+  await expect(page.getByTestId("role-tradeoff")).toContainText("두 역할을 수비에 배치");
+  await expect(page.getByTestId("role-tradeoff")).toContainText("수비 전환");
 
   await openInitial(page);
   const firstCard = page.locator('.lane-card[data-lane="short"]');
@@ -136,6 +149,14 @@ test("BG-03 input parity produces one deterministic policy fingerprint", async (
     fingerprints.push(await lockPolicy(page));
   }
   expect(new Set(fingerprints).size).toBe(1);
+
+  await openInitial(page);
+  await page.locator('.lane-card[data-lane="central-far"]').click();
+  await page.locator('.lane-card[data-lane="short"]').click();
+  await page.getByRole("button", { name: criterionName }).click();
+  const reverseRoleOrder = await lockPolicy(page);
+  await expect(page.getByTestId("lock-receipt")).toContainText("중앙·파포스트 + 숏 코너");
+  expect(reverseRoleOrder).not.toBe(fingerprints[0]);
 });
 
 test("BG-03B outlet role stays high as a complete, non-dominated manager policy", async ({ page }) => {
@@ -146,7 +167,7 @@ test("BG-03B outlet role stays high as a complete, non-dominated manager policy"
   await expect(outlet).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: criterionName }).click();
   await expect(page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" })).toBeEnabled();
-  const policyId = await lockPolicy(page);
+  const policyId = await lockPolicy(page, "outlet-kept");
   await expect(page.getByTestId("lock-receipt")).toContainText("역습 역할 1명 전방 유지");
   await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
   await expect(page.getByRole("heading", { name: /16강 8경기 · 선택 구역과 겹침/ })).toBeVisible();
@@ -279,6 +300,7 @@ test("BG-11 forbidden positive conclusions remain absent", async ({ page }) => {
   await expect(page.getByText(/노란 역할 표시는 감독의 선택이며 실제 선수 도달/)).toBeVisible();
   await expect(page.getByText(/두 팀 결합안도 시험했지만, 근거가 약해 추천에는 쓰지 않았습니다/)).toBeVisible();
   await expect(page.getByTestId("team-context")).toContainText("95% 불확실성 구간이 0을 지나므로");
+  await expect(page.getByTestId("forecast-audit")).toContainText("자동 추천하지 않음");
 });
 
 test("BG-12 production marker binds the Policy Lab release and admitted data", async ({ page }, testInfo) => {
@@ -296,14 +318,18 @@ test("BG-12 production marker binds the Policy Lab release and admitted data", a
       .map((byte) => byte.toString(16).padStart(2, "0")).join("");
     const binding = JSON.parse(new TextDecoder().decode(bindingBytes));
     const dataChecks = [];
+    let policyReport = null;
     for (const artifact of binding.data_files) {
       const response = await fetch(artifact.path.replace(/^public\//u, "./"), { cache: "no-store" });
       const bytes = new Uint8Array(await response.arrayBuffer());
       const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))]
         .map((byte) => byte.toString(16).padStart(2, "0")).join("");
       dataChecks.push({ status: response.status, digest, expected: artifact.sha256 });
+      if (artifact.path.endsWith("policy-lab-spike.json")) {
+        policyReport = JSON.parse(new TextDecoder().decode(bytes));
+      }
     }
-    return { marker, texts: texts.join("\n"), release, bindingStatus: bindingResponse.status, bindingDigest, dataChecks };
+    return { marker, texts: texts.join("\n"), release, bindingStatus: bindingResponse.status, bindingDigest, dataChecks, policyReport };
   });
   expect(evidence.marker.releaseCommit).toBe(testInfo.project.metadata.releaseCommit);
   expect(evidence.marker.buildSha256).toBe(testInfo.project.metadata.buildSha256);
@@ -324,6 +350,48 @@ test("BG-12 production marker binds the Policy Lab release and admitted data", a
     expect(check.status).toBe(200);
     expect(check.digest).toBe(check.expected);
   }
+  const scouting = evidence.policyReport!.team_scouting;
+  expect(scouting).toMatchObject({
+    status: "PASS",
+    model: { selection_data: "group-stage reference only", selected_concentration: 16 },
+    teams_improved: 12,
+    teams_evaluated: 16,
+  });
+  expect(scouting.partition_scores.round_of_16.improvement.log_loss_reduction_rate).toBeCloseTo(0.0214480788, 9);
+  expect(scouting.partition_scores.quarter_final_and_later.improvement.log_loss_reduction_rate).toBeCloseTo(0.0721235544, 9);
+  expect(scouting.partition_scores.all_knockout.improvement.log_loss_reduction_rate).toBeCloseTo(0.0458638470, 9);
+  expect(scouting.bootstrap.mean_log_score_gain_per_corner_interval.lower_95).toBeGreaterThan(0);
+  expect(scouting.bootstrap.probability_gain_above_zero).toBeGreaterThanOrEqual(0.975);
+  const dossier = scouting.first_fixed_round_of_16_example;
+  expect(dossier).toMatchObject({
+    selection_rule: "lowest source match ID in the predeclared round-of-16 partition; not selected by forecast result",
+    opponent_group_stage_classified_corners: 14,
+    opponent_group_stage_action_counts: { short: 7, near: 3, "central-far": 4, other: 0 },
+    manager_group_stage_defensive_exposure_source_corners: 6,
+    manager_group_stage_defensive_exposure_classified_corners: 5,
+    defensive_exposure_is_not_pooled_into_forecast: true,
+    held_out_opponent_action_counts: { short: 5, near: 1, "central-far": 4, other: 0 },
+  });
+  expect(dossier.opponent_evidence_weight).toBeCloseTo(0.4666666667, 9);
+  expect(dossier.tournament_prior_weight).toBeCloseTo(0.5333333333, 9);
+  expect(dossier.opponent_posterior_probabilities).toMatchObject({
+    short: expect.closeTo(0.3354324097, 9),
+    near: expect.closeTo(0.2746431570, 9),
+    "central-far": expect.closeTo(0.3549958018, 9),
+    other: expect.closeTo(0.0349286314, 9),
+  });
+  const matchup = scouting.matchup_challenger;
+  expect(matchup).toMatchObject({
+    status: "REJECT",
+    selected: { concentration: 16, defending_weight: 0.5 },
+    promotion_gates: {
+      match_cluster_interval_lower_above_zero: false,
+      match_cluster_probability_at_least_0975: false,
+    },
+  });
+  expect(matchup.partition_scores.all_knockout.improvement_vs_opponent_only.log_loss_reduction_rate).toBeCloseTo(0.0101179036, 9);
+  expect(matchup.bootstrap.mean_log_score_gain_per_corner_interval.lower_95).toBeLessThan(0);
+  expect(matchup.bootstrap.probability_gain_above_zero).toBeCloseTo(0.9226, 4);
 });
 
 test("BG-13 focus, status, and immutable next-meeting semantics", async ({ page }) => {
@@ -361,8 +429,8 @@ test("BG-14 screenshot transcript covers initial, selected, and counterexample",
   await attachScreenshot("artifact-selected");
   await lockPolicy(page);
   await revealRoundOf16(page);
-  await revealFinal(page);
   await attachScreenshot("artifact-counterexample");
+  await revealFinal(page);
   await expect(page.getByTestId("final-receipt")).toContainText("선택 변경 0회");
   await expect(page.getByTestId("counterexample")).toContainText("선택 밖 코너 기록");
 });
@@ -376,6 +444,11 @@ test("BG-15 invalid policy data fails closed without substitute controls", async
   expect(invalidApp.status()).toBe(200);
   expect(createHash("sha256").update(await invalidApp.body()).digest("hex"))
     .toBe(createHash("sha256").update(await publicApp.body()).digest("hex"));
+  const invalidReportResponse = await request.get("http://127.0.0.1:4174/data/policy-lab-spike.json");
+  const invalidReport = await invalidReportResponse.json();
+  expect(invalidReport.policy_campaign.product_status).toBe("PASS");
+  expect(invalidReport.team_scouting.status).toBe("PASS");
+  expect(invalidReport.team_scouting.matchup_challenger.status).toBe("PASS");
   await page.goto("http://127.0.0.1:4174");
   await expect(page.getByRole("alert")).toContainText("Policy Lab을 열 수 없습니다.");
   await expect(page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" })).toHaveCount(0);

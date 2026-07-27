@@ -89,7 +89,12 @@ function policyLabelFor(selected, abstained = false, outletKept = false) {
 
 function policyFingerprint(selected, abstained = false, minimumOverlap = state.minimumOverlap, outletKept = state.outletKept) {
   const staffing = abstained ? "abstain" : outletKept ? "outlet-kept" : "outlet-to-defense";
-  const source = `${abstained ? "abstain" : [...selected].sort().join("+")}|staffing:${staffing}|minimum-overlap:${minimumOverlap ?? "none"}|reference:48|rehearsal:8|final:8`;
+  const roleAssignment = abstained
+    ? "abstain"
+    : outletKept
+      ? `leader:${selected[0] ?? "none"}|outlet:kept`
+      : `leader:${selected[0] ?? "none"}|second:${selected[1] ?? "none"}`;
+  const source = `${roleAssignment}|staffing:${staffing}|minimum-overlap:${minimumOverlap ?? "none"}|reference:48|rehearsal:8|final:8`;
   let hash = 2166136261;
   for (const character of source) {
     hash ^= character.charCodeAt(0);
