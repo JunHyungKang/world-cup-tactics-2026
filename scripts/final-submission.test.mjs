@@ -380,6 +380,7 @@ describe("final submission readiness", () => {
       readFile("scripts/render-demo-narration.mjs", "utf8"),
       readFile("scripts/check-demo-narration.mjs", "utf8"),
     ]);
+    expect(renderer).toContain("schema_version: finalMode ? 1 : 2");
     expect(renderer).toContain("replace-browser-capture-startup-flash-with-first-complete-cold-open-frame");
     expect(renderer).toContain("[head][tail]concat=n=2:v=1:a=0[stitched]");
     expect(audit).toContain("first narrated-video frame is blank or flash-prone");

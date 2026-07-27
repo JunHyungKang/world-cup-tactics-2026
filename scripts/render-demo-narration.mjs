@@ -282,7 +282,7 @@ const [wavBytes, narratedBytes] = await Promise.all([
   readFile(narratedPath),
 ]);
 const manifest = {
-  schema_version: 2,
+  schema_version: finalMode ? 1 : 2,
   status: finalMode
     ? "final-upload-candidate-not-youtube-or-human-reviewed"
     : "local-narrated-rehearsal-not-youtube-or-human-evidence",
