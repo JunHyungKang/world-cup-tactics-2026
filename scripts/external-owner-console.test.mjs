@@ -7,36 +7,97 @@ import { buildOwnerConsoleModel, prepareOwnerConsole, renderOwnerConsole } from 
 
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const fixtureCommit = "a".repeat(40);
+const fixtureBuildSha256 = "d".repeat(64);
+const fixtureMarkerSha256 = "e".repeat(64);
+const fixtureDeployedUrl = "https://junhyungkang.github.io/world-cup-tactics-2026/";
 let directory;
 let fixturePaths;
 let expectedPlanSha;
-let expectedRehearsalSha;
+let expectedFinalVideoSha;
 
 beforeAll(async () => {
   directory = await mkdtemp(join(tmpdir(), "owner-console-test-"));
   fixturePaths = {
-    story: join(directory, "story.json"),
     planHandoff: join(directory, "handoff.json"),
     planPdf: join(directory, "plan.pdf"),
-    rehearsalVideo: join(directory, "rehearsal.webm"),
-    gallery: join(directory, "gallery.png"),
+    uploadPackage: join(directory, "youtube-upload-package.json"),
+    finalVideo: join(directory, "final-demo.webm"),
+    finalManifest: join(directory, "final-demo.json"),
+    youtubeDescription: join(directory, "youtube-description.txt"),
+    youtubeThumbnail: join(directory, "youtube-thumbnail.png"),
     outputDirectory: join(directory, "console"),
   };
   const planBytes = Buffer.from("eight-page-reviewed-plan-fixture");
-  const rehearsalBytes = Buffer.from("local-rehearsal-fixture");
+  const finalVideoBytes = Buffer.from("frozen-public-final-video-fixture");
+  const descriptionBytes = Buffer.from("포르투갈 상대 분석 설명 fixture\n");
+  const thumbnailBytes = Buffer.from("current-thumbnail-fixture");
   expectedPlanSha = sha256(planBytes);
-  expectedRehearsalSha = sha256(rehearsalBytes);
-  const sourceStory = JSON.parse(await readFile("docs/submission-story.json", "utf8"));
-  sourceStory.evidence.narrated_video = {
-    path: fixturePaths.rehearsalVideo,
-    sha256: expectedRehearsalSha,
-  };
-  sourceStory.gallery.first_image = fixturePaths.gallery;
+  expectedFinalVideoSha = sha256(finalVideoBytes);
+  const finalManifestBytes = Buffer.from(`${JSON.stringify({
+    status: "final-upload-candidate-not-youtube-or-human-reviewed",
+    source: {
+      release_commit: fixtureCommit,
+      build_sha256: fixtureBuildSha256,
+      deployed_marker_sha256: fixtureMarkerSha256,
+      deployed_url: fixtureDeployedUrl,
+    },
+    narrated_video: {
+      path: fixturePaths.finalVideo,
+      sha256: expectedFinalVideoSha,
+      bytes: finalVideoBytes.length,
+    },
+  }, null, 2)}\n`);
   await Promise.all([
     writeFile(fixturePaths.planPdf, planBytes),
-    writeFile(fixturePaths.rehearsalVideo, rehearsalBytes),
-    writeFile(fixturePaths.gallery, Buffer.from("gallery-fixture")),
-    writeFile(fixturePaths.story, `${JSON.stringify(sourceStory, null, 2)}\n`),
+    writeFile(fixturePaths.finalVideo, finalVideoBytes),
+    writeFile(fixturePaths.finalManifest, finalManifestBytes),
+    writeFile(fixturePaths.youtubeDescription, descriptionBytes),
+    writeFile(fixturePaths.youtubeThumbnail, thumbnailBytes),
+    writeFile(fixturePaths.uploadPackage, `${JSON.stringify({
+      status: "PREPARED-AWAITING-OWNER-LISTENING-AND-YOUTUBE-PUBLICATION-APPROVAL",
+      release: {
+        commit: fixtureCommit,
+        build_sha256: fixtureBuildSha256,
+        submission_marker_sha256: fixtureMarkerSha256,
+        deployed_url: fixtureDeployedUrl,
+        github_url: "https://github.com/JunHyungKang/world-cup-tactics-2026",
+      },
+      video: {
+        path: fixturePaths.finalVideo,
+        sha256: expectedFinalVideoSha,
+        bytes: finalVideoBytes.length,
+        duration_seconds: 59.84,
+        human_listening_status: "PENDING",
+      },
+      manifest: {
+        path: fixturePaths.finalManifest,
+        sha256: sha256(finalManifestBytes),
+        bytes: finalManifestBytes.length,
+      },
+      youtube: {
+        title: "Corner Policy Lab | 포르투갈전 코너킥 수비, 두 역할을 어디에 둘까요?",
+        description_path: fixturePaths.youtubeDescription,
+        description_sha256: sha256(descriptionBytes),
+        description_bytes: descriptionBytes.length,
+      },
+      thumbnail: {
+        path: fixturePaths.youtubeThumbnail,
+        sha256: sha256(thumbnailBytes),
+        bytes: thumbnailBytes.length,
+        source_path: "docs/assets/gallery/corner-policy-lab-first-image.png",
+        source_sha256: "b".repeat(64),
+      },
+      claim_boundary: {
+        product_scope: "opponent corner-delivery scouting and manager hypothesis stress test",
+      },
+      approval_boundary: {
+        required_phrase: "이 영상으로 YouTube 공개 승인",
+        does_not_authorize: [
+          "final DAKER submission",
+          "claiming human usability or preference evidence",
+        ],
+      },
+    }, null, 2)}\n`),
     writeFile(fixturePaths.planHandoff, `${JSON.stringify({
       ready_for_owner_upload: true,
       artifact: { path: fixturePaths.planPdf, sha256: expectedPlanSha, pages: 8 },
@@ -54,7 +115,7 @@ const buildFixtureModel = () => buildOwnerConsoleModel({
 });
 
 describe("external owner console", () => {
-  it("binds the exact reviewed plan and local rehearsal while locking final submission", async () => {
+  it("binds the exact reviewed plan and canonical upload package while keeping external actions gated", async () => {
     const model = await buildFixtureModel();
 
     expect(model.planning).toMatchObject({
@@ -63,27 +124,89 @@ describe("external owner console", () => {
       pages: 8,
     });
     expect(model.youtube).toMatchObject({
-      status: "LOCKED",
-      local_rehearsal_sha256: expectedRehearsalSha,
+      status: "READY-AWAITING-OWNER-LISTENING",
+      final_video_sha256: expectedFinalVideoSha,
+      approval_phrase: "이 영상으로 YouTube 공개 승인",
     });
-    expect(model.final_release.status).toBe("LOCKED");
+    expect(model.final_release.status).toBe("READY-AWAITING-OWNER-LISTENING");
     expect(model.public_release).toEqual({
-      status: "CANDIDATE-PUBLIC",
+      status: "VERIFIED-FINAL-CANDIDATE",
       deployed_url: "https://junhyungkang.github.io/world-cup-tactics-2026/",
       github_url: "https://github.com/JunHyungKang/world-cup-tactics-2026",
-      boundary: "현재 후보는 공개됐지만 최종 BG-12와 DAKER 제출 영수증은 아닙니다",
+      boundary: "웹과 GitHub는 검증됐지만 YouTube 공개와 DAKER 최종 제출은 아직 완료되지 않았습니다",
     });
   });
 
   it("states the claim and evidence boundaries in the rendered console", async () => {
     const html = renderOwnerConsole(await buildFixtureModel());
 
-    expect(html).toContain("현재 59.52초 파일은 화면 검토용 리허설이며 최종 YouTube 업로드 파일이 아닙니다.");
-    expect(html).toContain("인과 효과·승률·최적 정책을 주장하지 않습니다.");
+    expect(html).toContain("59.84초 영상 재생");
+    expect(html).toContain(expectedFinalVideoSha);
+    expect(html).toContain("이 영상으로 YouTube 공개 승인");
+    expect(html).toContain("포르투갈 상대 분석 설명 fixture");
     expect(html).toContain("에이전트 검토는 사람 참가자 테스트가 아니며");
     expect(html).toContain('value="https://junhyungkang.github.io/world-cup-tactics-2026/"');
     expect(html).toContain('value="https://github.com/JunHyungKang/world-cup-tactics-2026"');
+    expect(html).toContain('host==="youtube.com"');
+    expect(html).toContain('host==="youtu.be"');
+    expect(html).not.toContain("59.52초");
+    expect(html).not.toContain("리허설만 확인");
     expect(html).not.toContain("READY TO SUBMIT");
+  });
+
+  it("fails closed on a stale release or altered canonical video", async () => {
+    const packageBytes = await readFile(fixturePaths.uploadPackage);
+    const packageJson = JSON.parse(packageBytes);
+    try {
+      packageJson.release.commit = "c".repeat(40);
+      await writeFile(fixturePaths.uploadPackage, `${JSON.stringify(packageJson, null, 2)}\n`);
+      await expect(buildFixtureModel()).rejects.toThrow("release commit");
+    } finally {
+      await writeFile(fixturePaths.uploadPackage, packageBytes);
+    }
+
+    const videoBytes = await readFile(fixturePaths.finalVideo);
+    try {
+      await writeFile(fixturePaths.finalVideo, Buffer.concat([videoBytes, Buffer.from("-drift")]));
+      await expect(buildFixtureModel()).rejects.toThrow("pending-listening video");
+    } finally {
+      await writeFile(fixturePaths.finalVideo, videoBytes);
+    }
+  });
+
+  it("fails closed on release evidence, approval, manifest, description, or thumbnail drift", async () => {
+    const packageBytes = await readFile(fixturePaths.uploadPackage);
+    const packageJson = JSON.parse(packageBytes);
+    try {
+      packageJson.release.build_sha256 = "f".repeat(64);
+      await writeFile(fixturePaths.uploadPackage, `${JSON.stringify(packageJson, null, 2)}\n`);
+      await expect(buildFixtureModel()).rejects.toThrow("release evidence");
+    } finally {
+      await writeFile(fixturePaths.uploadPackage, packageBytes);
+    }
+
+    try {
+      const weakened = JSON.parse(packageBytes);
+      weakened.approval_boundary.required_phrase = "업로드 승인";
+      await writeFile(fixturePaths.uploadPackage, `${JSON.stringify(weakened, null, 2)}\n`);
+      await expect(buildFixtureModel()).rejects.toThrow("approval phrase");
+    } finally {
+      await writeFile(fixturePaths.uploadPackage, packageBytes);
+    }
+
+    for (const [path, expectedError] of [
+      [fixturePaths.finalManifest, "video manifest"],
+      [fixturePaths.youtubeDescription, "prepared description"],
+      [fixturePaths.youtubeThumbnail, "prepared thumbnail"],
+    ]) {
+      const bytes = await readFile(path);
+      try {
+        await writeFile(path, Buffer.concat([bytes, Buffer.from("\n")]));
+        await expect(buildFixtureModel()).rejects.toThrow(expectedError);
+      } finally {
+        await writeFile(path, bytes);
+      }
+    }
   });
 
   it("writes a reviewable local packet without fabricating an external receipt", async () => {

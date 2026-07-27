@@ -113,9 +113,10 @@ not deploy automatically. The resulting HTTPS URL becomes submission evidence
 only after the remote-byte parity gate passes.
 
 `pnpm submission:owner-console` prepares one local handoff page for the exact
-planning PDF and the later web, GitHub, YouTube, and DAKER fields. It keeps the
-local rehearsal visibly locked from final upload until public-release parity and
-the frozen-URL recording gates pass.
+planning PDF and the canonical `submissions/youtube-upload-package.json`. It
+refuses a stale release, video, manifest, description, or thumbnail; exposes only
+the exact frozen-public video for owner listening; and keeps YouTube publication
+and the later DAKER fields behind their separate approval and public-URL gates.
 
 ## Tech stack
 
