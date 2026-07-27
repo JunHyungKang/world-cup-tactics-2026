@@ -15,10 +15,17 @@ export const ROUTINE_ACTIONS = Object.freeze([
   "aerial-recorded-follow-up",
   "other-recorded-follow-up",
 ]);
+export const MATCHUP_SIGNATURES = Object.freeze([
+  "short-attacking-first",
+  "aerial-attacking-first",
+  "aerial-defending-first",
+  "other-attacking-first",
+  "other-defending-first",
+]);
 export const HORIZONS = Object.freeze([8, 10, 12, 15]);
 export const TEAM_PRIOR_CONCENTRATIONS = Object.freeze([0.5, 1, 2, 4, 8, 16, 32, 64, 128]);
 export const MATCHUP_DEFENSE_WEIGHTS = Object.freeze([0, 0.25, 0.5, 0.75, 1]);
-export const POLICY_SPIKE_VERSION = "policy-lab-spike-v9-team-situation-record";
+export const POLICY_SPIKE_VERSION = "policy-lab-spike-v10-matchup-question-board";
 export const PLAYERS_INPUT_SHA256 = "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e";
 
 function attackingPoint(point, eventTeamId, attackingTeamId, mirrorLaterally) {
@@ -276,6 +283,33 @@ function routineAction(episode) {
   return "other-recorded-follow-up";
 }
 
+function matchupSignature(episode) {
+  const routine = routineAction(episode);
+  const role = episode.observed_transition.first_event_team_role;
+  if (routine === "short-recorded-endpoint" && role === "attacking") {
+    return "short-attacking-first";
+  }
+  if (routine === "aerial-recorded-follow-up" && role === "attacking") {
+    return "aerial-attacking-first";
+  }
+  if (routine === "aerial-recorded-follow-up" && role === "defending") {
+    return "aerial-defending-first";
+  }
+  if (routine === "other-recorded-follow-up" && role === "attacking") {
+    return "other-attacking-first";
+  }
+  if (routine === "other-recorded-follow-up" && role === "defending") {
+    return "other-defending-first";
+  }
+  return null;
+}
+
+function routineForSignature(signature) {
+  if (signature.startsWith("short-")) return "short-recorded-endpoint";
+  if (signature.startsWith("aerial-")) return "aerial-recorded-follow-up";
+  return "other-recorded-follow-up";
+}
+
 function countPlayers(episodes, playerKey, directory) {
   const counts = new Map();
   for (const episode of episodes) {
@@ -368,6 +402,160 @@ function routineCards(episodes, directory, perspective) {
   });
 }
 
+function matchupSignatureCards(episodes, directory, perspective) {
+  return MATCHUP_SIGNATURES.map((signature) => {
+    const selected = episodes.filter((episode) => matchupSignature(episode) === signature);
+    return {
+      signature,
+      recorded_situation: routineForSignature(signature),
+      first_recorded_team_role: signature.includes("-attacking-") ? "attacking" : "defending",
+      corners: selected.length,
+      attacking_shots_within_10_seconds: selected.filter((episode) =>
+        episode.observed_outcome.attacking_shot).length,
+      leading_players: perspective === "attack"
+        ? {
+            corner_takers: countPlayers(selected, "corner_taker_player_id", directory).slice(0, 4),
+            first_attacking_events: countPlayers(selected, "first_attacking_event_player_id", directory).slice(0, 4),
+          }
+        : {
+            first_defending_events: countPlayers(selected, "first_defending_event_player_id", directory).slice(0, 4),
+          },
+      event_receipts: routineCards(selected, directory, perspective)
+        .flatMap((card) => card.event_receipts),
+    };
+  });
+}
+
+function cardBySignature(cards, signature) {
+  const card = cards.find((candidate) => candidate.signature === signature);
+  if (!card) throw new Error(`ledger is missing matchup signature card: ${signature}`);
+  return card;
+}
+
+function buildMatchupQuestionBoard(
+  opponentEpisodes,
+  managerEpisodes,
+  managerAllEpisodes,
+  heldOutEpisodes,
+  directory,
+) {
+  const opponentCards = matchupSignatureCards(opponentEpisodes, directory, "attack");
+  const managerCards = matchupSignatureCards(managerEpisodes, directory, "defense");
+  const heldOutCards = matchupSignatureCards(heldOutEpisodes, directory, "attack");
+  const unclassifiedManagerEpisodes = managerAllEpisodes.filter((episode) =>
+    episode.observed_action.validity !== "observed-endpoint");
+  return {
+    schema_version: 1,
+    status: "PASS",
+    decision: "Select exactly two team-linked sequence questions before the held-out match is visible.",
+    selection_contract: {
+      priority_count: 2,
+      no_default_priorities: true,
+      held_out_match_hidden_until_lock: true,
+    },
+    counterevidence_rule: [
+      "first unselected situation with a held-out attacking shot within 10 seconds",
+      "otherwise first unselected situation observed in the held-out match",
+      "otherwise first selected situation with a held-out attacking shot within 10 seconds",
+    ],
+    ontology: {
+      node_types: [
+        "Team",
+        "Match",
+        "CornerRestart",
+        "CornerTaker",
+        "RecordedSituation",
+        "RecordedFollowUp",
+        "RecordedShot",
+        "TrainingQuestion",
+        "SourceReceipt",
+      ],
+      edge_types: [
+        "ATTACK_RECORD_FOR",
+        "DEFENSIVE_EXPOSURE_FOR",
+        "KICK_TAKEN_BY",
+        "OBSERVED_NEXT",
+        "SHOT_RECORDED_WITHIN",
+        "SUPPORTS_QUESTION",
+        "DERIVED_FROM",
+      ],
+      forbidden_edges: [
+        "MARKED_BY",
+        "WOULD_PREVENT",
+        "CAUSED_SUCCESS",
+        "OPTIMAL_TACTIC",
+      ],
+    },
+    questions: MATCHUP_SIGNATURES.map((signature) => {
+      const opponent = cardBySignature(opponentCards, signature);
+      const manager = cardBySignature(managerCards, signature);
+      const heldOut = cardBySignature(heldOutCards, signature);
+      return {
+        id: signature,
+        recorded_situation: opponent.recorded_situation,
+        first_recorded_team_role: opponent.first_recorded_team_role,
+        opponent_attack: {
+          corners: opponent.corners,
+          attacking_shots_within_10_seconds: opponent.attacking_shots_within_10_seconds,
+          leading_corner_takers: opponent.leading_players.corner_takers,
+          leading_first_attacking_events: opponent.leading_players.first_attacking_events,
+          event_receipts: opponent.event_receipts,
+        },
+        manager_defensive_exposure: {
+          corners: manager.corners,
+          opponent_shots_within_10_seconds: manager.attacking_shots_within_10_seconds,
+          leading_first_defending_events: manager.leading_players.first_defending_events,
+          event_receipts: manager.event_receipts,
+        },
+        exposure_assessment: {
+          status: manager.corners > 0
+            ? "SEEN_IN_RECORDED_SAMPLE"
+            : "UNSEEN_IN_RECORDED_SAMPLE",
+          thin: opponent.corners < 2 || manager.corners < 2,
+          compatible_unclassified_manager_corners:
+            signature === "other-defending-first" ? unclassifiedManagerEpisodes.length : 0,
+          interpretation: manager.corners > 0
+            ? "The same recorded signature appears in Uruguay's classifiable group-stage defensive-exposure sample."
+            : "No classifiable Uruguay group-stage defensive-exposure record has this signature; this is not a weakness finding.",
+        },
+        held_out_evidence: {
+          corners: heldOut.corners,
+          attacking_shots_within_10_seconds: heldOut.attacking_shots_within_10_seconds,
+          event_receipts: heldOut.event_receipts,
+        },
+      };
+    }),
+    claim_boundary: {
+      supported: "A source-linked comparison of Portugal attack records and Uruguay defensive-exposure records that informs two manager-selected rehearsal questions.",
+      unsupported: [
+        "team strength or weakness",
+        "routine intent",
+        "marking assignment",
+        "rehearsal effectiveness",
+        "optimal priority selection",
+      ],
+    },
+    unclassified_manager_defensive_exposure: unclassifiedManagerEpisodes.map((episode) => ({
+      corner_event_id: episode.provenance.corner_event_id,
+      match_id: episode.state.match_id,
+      match_name: episode.provenance.match_name,
+      endpoint_validity: episode.observed_action.validity,
+      first_recorded_team_role: episode.observed_transition.first_event_team_role,
+      first_recorded_event_type: episode.observed_transition.first_event_type,
+      first_recorded_event_subtype: episode._routine?.first_event_subtype,
+      first_recorded_defending_actor: joinedPlayer(
+        directory,
+        episode._routine?.first_defending_event_player_id,
+        "first_defending_event_player_id",
+      ),
+      compatible_question_ids: episode.observed_transition.first_event_team_role === "defending" &&
+        !["Air duel", "Head pass"].includes(episode._routine?.first_event_subtype)
+        ? ["other-defending-first"]
+        : [],
+    })),
+  };
+}
+
 function buildCornerSituationRehearsal(episodes, players, example) {
   const directory = playerDirectory(players);
   const referenceIds = new Set(episodes.map((episode) => episode.state.match_id)
@@ -403,10 +591,46 @@ function buildCornerSituationRehearsal(episodes, players, example) {
       joinCoverage[`${ledger}_${playerKey}`] = actorJoinCoverage(selected, playerKey, directory);
     }
   }
+  const opponentAttackReference = {
+    team_id: example.opponent_team_id,
+    team_name: example.opponent_team_name,
+    source_corners: opponentReferenceAll.length,
+    classifiable_corners: opponentReference.length,
+    situation_counts: routineCounts(opponentReference),
+    situation_cards: routineCards(opponentReference, directory, "attack"),
+    leading_corner_takers: countPlayers(opponentReference, "corner_taker_player_id", directory).slice(0, 6),
+    leading_first_attacking_events: countPlayers(opponentReference, "first_attacking_event_player_id", directory).slice(0, 6),
+  };
+  const managerDefensiveReference = {
+    team_id: example.manager_team_id,
+    team_name: example.manager_team_name,
+    source_corners: managerExposureAll.length,
+    classifiable_corners: managerExposure.length,
+    situation_counts: routineCounts(managerExposure),
+    situation_cards: routineCards(managerExposure, directory, "defense"),
+    leading_first_defending_events: countPlayers(managerExposure, "first_defending_event_player_id", directory).slice(0, 6),
+    leading_first_defending_events_all_source_corners: countPlayers(
+      managerExposureAll,
+      "first_defending_event_player_id",
+      directory,
+    ).slice(0, 6),
+    opponent_shots_within_10_seconds: managerExposureAll.filter((episode) =>
+      episode.observed_outcome.attacking_shot).length,
+  };
+  const heldOutMatch = {
+    match_id: example.match_id,
+    match_name: example.match_name,
+    source_corners: heldOutAll.length,
+    classifiable_corners: heldOut.length,
+    situation_counts: routineCounts(heldOut),
+    situation_cards: routineCards(heldOut, directory, "attack"),
+    attacking_shots_within_10_seconds: heldOutAll.filter((episode) =>
+      episode.observed_outcome.attacking_shot).length,
+  };
   return {
     schema_version: 1,
     status: players.length > 0 ? "PASS" : "REVISE",
-    decision: "Allocate ten pre-match rehearsal repetitions across three deterministic observed corner-situation categories.",
+    decision: "Select two team-linked sequence questions before the held-out match is visible.",
     situation_rule: {
       "short-recorded-endpoint": "Classifiable corner endpoint in the project-defined short lane.",
       "aerial-recorded-follow-up": "Non-short delivery whose first recorded follow-up is an air duel or head pass.",
@@ -423,42 +647,16 @@ function buildCornerSituationRehearsal(episodes, players, example) {
       ],
     },
     player_join_coverage: joinCoverage,
-    opponent_attack_reference: {
-      team_id: example.opponent_team_id,
-      team_name: example.opponent_team_name,
-      source_corners: opponentReferenceAll.length,
-      classifiable_corners: opponentReference.length,
-      situation_counts: routineCounts(opponentReference),
-      situation_cards: routineCards(opponentReference, directory, "attack"),
-      leading_corner_takers: countPlayers(opponentReference, "corner_taker_player_id", directory).slice(0, 6),
-      leading_first_attacking_events: countPlayers(opponentReference, "first_attacking_event_player_id", directory).slice(0, 6),
-    },
-    manager_defensive_reference: {
-      team_id: example.manager_team_id,
-      team_name: example.manager_team_name,
-      source_corners: managerExposureAll.length,
-      classifiable_corners: managerExposure.length,
-      situation_counts: routineCounts(managerExposure),
-      situation_cards: routineCards(managerExposure, directory, "defense"),
-      leading_first_defending_events: countPlayers(managerExposure, "first_defending_event_player_id", directory).slice(0, 6),
-      leading_first_defending_events_all_source_corners: countPlayers(
-        managerExposureAll,
-        "first_defending_event_player_id",
-        directory,
-      ).slice(0, 6),
-      opponent_shots_within_10_seconds: managerExposureAll.filter((episode) =>
-        episode.observed_outcome.attacking_shot).length,
-    },
-    held_out_match: {
-      match_id: example.match_id,
-      match_name: example.match_name,
-      source_corners: heldOutAll.length,
-      classifiable_corners: heldOut.length,
-      situation_counts: routineCounts(heldOut),
-      situation_cards: routineCards(heldOut, directory, "attack"),
-      attacking_shots_within_10_seconds: heldOutAll.filter((episode) =>
-        episode.observed_outcome.attacking_shot).length,
-    },
+    opponent_attack_reference: opponentAttackReference,
+    manager_defensive_reference: managerDefensiveReference,
+    held_out_match: heldOutMatch,
+    matchup_question_board: buildMatchupQuestionBoard(
+      opponentReference,
+      managerExposure,
+      managerExposureAll,
+      heldOut,
+      directory,
+    ),
   };
 }
 

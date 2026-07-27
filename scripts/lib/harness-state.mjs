@@ -66,21 +66,38 @@ export function validateCurrentHarnessState({
     )?.[1]?.slice(0, 8);
     requireMarkers(errors, "competition board active row", boardRow, [
       "Corner Prep Lab is the canonical root product", currentPdf,
-      "old a570 two-role video is superseded", "four-browser static release `12/12` PASS",
+      "old `5/4/1` allocation video is superseded",
+      "Portugal/Uruguay signature pairs `7/2 · 1/2 · 4/0 · 1/0 · 1/1`",
+      "held-out counts `5/2/0/0/3`", "shot counts `2/0/0/0/2`",
+      "exactly two matchup questions", "counterevidence `261095314`",
+      "zero means an observation gap, not a weakness",
+      "four-browser static release `12/12`",
+      "pre-release BG matrix `56/56` PASS",
     ]);
-    requireMarkers(errors, "judge gate status", judgeStatus, ["technical product proof and public candidate byte parity passed"]);
+    requireMarkers(errors, "judge gate status", judgeStatus, [
+      "five-signature product proof passed",
+      "canonical public release and video reset are in progress",
+    ]);
     requireMarkers(errors, "README current product", readme, [
-      "The app is **Corner Prep Lab**", "Portugal's 14 group-stage attacking corners",
-      "Causal recommendation\nis `REJECT`",
+      "The app is **Corner Prep Lab**", "Five event-chain signatures",
+      "exactly two\nmatchup questions", "261095314",
+      "observation gap, not a weakness", "Causal\nrecommendation is `REJECT`",
     ]);
     requireMarkers(errors, "current product thesis", productThesis, [
       "Product selection ID: `corner-policy-lab`",
-      "Product selection status: `PASS — player-linked team-situation rehearsal`",
+      "Product selection status: `PASS — five-signature matchup-question board`",
+      "Event-chain matchup analysis status: `PASS — descriptive recorded sequences only`",
+      "Full tactical weakness inference status: `REJECT",
+      "`7/2`, `1/2`, `4/0`, `1/0`, and `1/1`",
+      "corner event `261095314`",
       "Product Gate result: `PASS`",
     ]);
     requireMarkers(errors, "interaction acceptance contract", interactionContract, [
       "# Corner Prep Lab Interaction Acceptance Contract", "BG-01", "BG-15",
-      "5/4/1", "5/2/3", "다음 회의 메모 저장",
+      "`7/2`, `1/2`, `4/0`, `1/0`, `1/1`",
+      "`5`, `2`, `0`, `0`, `3`", "`2`, `0`, `0`, `0`, `2`",
+      "Exactly two controls may be selected", "261095314",
+      "observation gap, not a weakness",
     ]);
     requireMarkers(errors, "official state judging contract", officialState, [
       "First-round voting weights are submitter 60%, participant 20%, and public 20%",
@@ -88,23 +105,30 @@ export function validateCurrentHarnessState({
     ]);
     requireMarkers(errors, "current judging map", judgingMap, [
       "제출팀 | 60%", "참가팀 | 20%", "대중 | 20%", "참신성 | 30", "감독 경험 설계 | 25",
-      "Observable Corner Prep Lab proof",
+      "Observable Corner Prep Lab proof", "five event-chain signatures",
+      "chooses two review questions", "deterministic counterevidence",
+      "observation gap",
     ]);
-    requireMarkers(errors, "decision registry D67", lineContaining(decisionRegistry, "| D67 |"), [
-      "| accepted |", "5/4/1", "5/2/3",
+    requireMarkers(errors, "decision registry D75", lineContaining(decisionRegistry, "| D75 |"), [
+      "| accepted |", "`7/2`, `1/2`, `4/0`, `1/0`, and `1/1`",
+      "`5`, `2`, `0`, `0`, and `3`", "two ten-second shots", "`261095314`",
     ]);
-    requireMarkers(errors, "decision registry D73", lineContaining(decisionRegistry, "| D73 |"), [
-      "| rejected |", "prototypes/opponent-scouting", "12/12",
+    requireMarkers(errors, "decision registry D76", lineContaining(decisionRegistry, "| D76 |"), [
+      "| rejected |", "zero count as a defensive weakness",
+      "`사전 관찰 공백`", "`팀별 이벤트 연쇄 대조`",
     ]);
     rejectMarkers(errors, "competition board active row", boardRow, [/CWR remains the root\/submission package/iu, /convert root app/iu]);
     rejectMarkers(errors, "judge differentiation gate", judgeGate, [/No official scoring weights have been published/iu, /가중치 미공개/iu]);
     rejectMarkers(errors, "README current product", readme, [
       /The app is \*\*Corner War Room\*\*/iu,
       /place the set-piece defensive leader/iu,
+      /allocate exactly ten/iu, /5\s*\/\s*2\s*\/\s*3/u,
+      /allocate ten rehearsal/iu,
     ]);
     rejectMarkers(errors, "interaction acceptance contract", interactionContract, [
       /^# Corner War Room/mu, /^# Corner Policy Lab/mu,
       /vite\.invalid-artifact\.config\.ts/u, /두 역할을 어디에 둘까요/iu,
+      /7\/5\/2/u, /5\/4\/1/u, /5\/2\/3/u, /corner_situation_rehearsal/u,
     ]);
     return errors;
   }

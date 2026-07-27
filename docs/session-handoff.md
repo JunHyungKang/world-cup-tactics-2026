@@ -1,5 +1,39 @@
 # Session Handoff
 
+## 2026-07-28 — five-signature matchup-question correction
+
+This checkpoint supersedes every older product, release, gallery, video, and
+next-action claim below. Historical checkpoints remain for provenance only.
+
+- The owner correctly rejected the technically validated `5/4/1` rehearsal
+  allocation as sparse category statistics rather than meaningful team
+  analysis. The public `main` at `8eae306…` and video
+  `8f9b759e…99ba0` belong to that rejected product and must not be uploaded.
+- The current product compares five exact Portugal-attack ×
+  Uruguay-defensive-exposure event-chain signatures. Pre-match pairs are
+  `7/2 · 1/2 · 4/0 · 1/0 · 1/1`; held-out counts are `5/2/0/0/3` and
+  ten-second shot counts are `2/0/0/0/2`.
+- The manager selects `aerial-defending-first` and
+  `short-attacking-first` in the official path, locks exactly two questions,
+  then opens unselected `other-defending-first` counterevidence: three scenes,
+  two shots, first receipt corner `261095314`.
+- Zero is an observation gap in Uruguay's five classifiable pre-match defensive
+  exposures, not a weakness. The source has no continuous tracking, marking,
+  player reach, rehearsed intent, or causal training effect.
+- The v10 derivative and accepted Events/Matches/Players lineage reproduce.
+  Narrow player identity semantics remain PASS. Clean full verification passes
+  `121/121` unit/contract checks; the corrected static release passes `12/12`
+  and the four-project pre-release BG matrix passes `56/56`.
+- Canonical product, interaction, judging, decision, first-place, Korean-copy,
+  gallery-source, and 59.5-second narration contracts now use the
+  five-signature story. The new gallery composite is a local candidate, not a
+  public or human-evidence artifact.
+- Remaining critical path: commit and deploy the corrected public release; run
+  public BG-12 and the exact
+  byte parity; record and independently review a new final video; obtain owner
+  listening approval; publish YouTube; then request separate final DAKER
+  submission approval.
+
 ## 2026-07-23 23:54 KST — public candidate checkpoint
 
 This checkpoint supersedes the older external-release status below.

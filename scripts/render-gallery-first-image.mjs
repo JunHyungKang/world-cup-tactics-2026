@@ -23,9 +23,9 @@ const [fontBytes, ...sourceBytes] = await Promise.all([
 const images = sourceBytes.map((bytes) => `data:image/png;base64,${bytes.toString("base64")}`);
 const font = `data:font/ttf;base64,${fontBytes.toString("base64")}`;
 const proofCards = [
-  ["1 · 두 팀 기록 분리", "포르투갈 14/14 · 우루과이 5/6", "선수·팀 역할·첫 후속 이벤트까지 확인", images[0], "#79D5A5"],
-  ["2 · 결과 전에 잠금", "훈련 10회 · 5/4/1", "7/5/2의 단순 환산 · 추천이나 최적화 아님", images[1], "#F1C84B"],
-  ["3 · 가린 기록과 비교", "실제 5/2/3 · 차이 0/-2/+2", "채점 대신 다음 회의에서 다시 볼 질문을 저장", images[2], "#F0A56A"],
+  ["1 · 두 팀의 장면을 대조", "포르투갈 14/14 · 우루과이 5/6", "전개·첫 후속 팀·선수·슈팅을 원본 이벤트로 확인", images[0], "#79D5A5"],
+  ["2 · 먼저 볼 질문을 잠금", "훈련 질문 2개", "우루과이의 경험과 관찰 공백을 보고 감독이 직접 선택", images[1], "#F1C84B"],
+  ["3 · 선택 밖 반례를 확인", "3장면 · 10초 안 슈팅 2장면", "corner 261095314를 다음 회의 질문으로 저장", images[2], "#F0A56A"],
 ];
 const proofHtml = proofCards.map(([step, title, detail, image, color]) => `
   <article class="proof" style="--accent:${color}">
@@ -84,30 +84,30 @@ try {
     <section class="layout">
       <div class="story">
         <div class="eyebrow">CORNER PREP LAB · 2018 WORLD CUP</div>
-        <h1 class="title">훈련 10회,<br><span>결과 보기 전에 나눕니다</span></h1>
+        <h1 class="title">포르투갈의 반복 전개,<br><span>우루과이는 겪어봤을까?</span></h1>
         <div class="sub">${escapeHtml(story.gallery.one_line)}</div>
         <div class="choices">
           <div class="choice primary">
-            <b>두 팀 기록은 분리</b>
-            <strong>14/14 · 5/6</strong>
-            <em>작은 표본과 빠진 정보 공개</em>
+            <b>포르투갈이 공격한 코너</b>
+            <strong>14/14</strong>
+            <em>반복 전개와 후속 이벤트 확인</em>
           </div>
           <div class="choice">
-            <b>감독의 수동 배분</b>
-            <strong>5 · 4 · 1</strong>
-            <em>단순 환산 · 최적 배분 아님</em>
+            <b>우루과이가 수비한 코너</b>
+            <strong>5/6</strong>
+            <em>같은 장면의 사전 경험 확인</em>
           </div>
         </div>
         <div class="campaign">
-          <div><strong>7/5/2</strong><span>포르투갈 조별리그</span></div>
+          <div><strong>5가지</strong><span>팀별 장면 분류</span></div>
           <b>→</b>
-          <div><strong>5/4/1</strong><span>경기 전 훈련 잠금</span></div>
+          <div><strong>2개</strong><span>훈련 질문 잠금</span></div>
           <b>→</b>
-          <div><strong>5/2/3</strong><span>가려 둔 맞대결</span></div>
+          <div><strong>3 · 2</strong><span>선택 밖 장면 · 슈팅</span></div>
         </div>
         <div class="receipt">
-          <strong>비슷한 횟수도 훈련 효과의 증거가 아닙니다</strong>
-          <span>원시 차이를 <em>다음 회의 질문</em>으로 남김</span>
+          <strong>0회는 약점이 아니라 이 표본의 관찰 공백입니다</strong>
+          <span>정답 대신 <em>다음 회의 질문</em>을 남김</span>
         </div>
       </div>
       <section class="proofs">${proofHtml}</section>

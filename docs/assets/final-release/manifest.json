@@ -1,31 +1,31 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "status": "current-candidate-gallery-source-not-public-or-human-evidence",
-  "release_manifest_sha256": "8d135163f0e8f32222c1b3144c36688cf45fa2545d4580bf4840a56f68270e86",
-  "story": "14/14·5/6 → evidence → 5/4/1 non-optimal → lock → 5/2/3 → raw difference → memo",
+  "release_manifest_sha256": "f59ef0bf1d334f8491045bed64032fda2d57a149eadd30e0e5c96e8f2c1c1874",
+  "story": "Portugal sequences × Uruguay exposure → choose two questions → lock → hidden matchup → unselected counterevidence → memo",
   "artifacts": [
     {
-      "id": "01-evidence-detail",
-      "proof": "14/14와 5/6을 분리하고 선수·팀 역할·후속 이벤트를 연다",
-      "path": "docs/assets/final-release/01-evidence-detail.png",
-      "bytes": 126533,
-      "sha256": "fc8122680fcfc13ebdfd1c8863d197aa96c46270d7d521c43a30129d146c84ee",
+      "id": "01-matchup-analysis",
+      "proof": "포르투갈의 반복 전개와 우루과이가 겪은 같은 장면을 원본 이벤트까지 대조한다",
+      "path": "docs/assets/final-release/01-matchup-analysis.png",
+      "bytes": 173415,
+      "sha256": "61e7563468be2c75970d29ea034e17adcd0329b131b0e025e8da9f083c945f37",
       "viewport": "1440x900"
     },
     {
-      "id": "02-locked-allocation",
-      "proof": "단순 환산한 5/4/1을 맞대결 기록 공개 전에 잠근다",
-      "path": "docs/assets/final-release/02-locked-allocation.png",
-      "bytes": 141462,
-      "sha256": "a6e76de03c29a1754a812c9999eef613605a614b9da1ac332148c1e847a96911",
+      "id": "02-locked-questions",
+      "proof": "우루과이의 사전 관찰 공백과 양 팀 공통 전개에서 두 질문을 골라 결과 전에 잠근다",
+      "path": "docs/assets/final-release/02-locked-questions.png",
+      "bytes": 145759,
+      "sha256": "997ca3b5cdfad8c8ba3fd24fb67f95d371d3c24ca4b67503ee858ffead3444e6",
       "viewport": "1440x900"
     },
     {
-      "id": "03-held-out-review",
-      "proof": "실제 5/2/3과 원시 차이를 보고 다음 회의 메모를 별도로 저장한다",
-      "path": "docs/assets/final-release/03-held-out-review.png",
-      "bytes": 143992,
-      "sha256": "e0f9584af4cc8648534e94210df6cfa9b7e118f78cce32647a61ef7e5fdc06c9",
+      "id": "03-counterevidence",
+      "proof": "선택 밖 3장면·10초 안 슈팅 2장면과 원본 corner 261095314를 다음 질문으로 남긴다",
+      "path": "docs/assets/final-release/03-counterevidence.png",
+      "bytes": 158776,
+      "sha256": "d4a26f120808c6eefcb5e66c66f61ad38cf03ebe2938c4cd8a7641b87afd99cd",
       "viewport": "1440x900"
     }
   ]

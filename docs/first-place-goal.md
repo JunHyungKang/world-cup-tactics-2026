@@ -1,86 +1,91 @@
 # First-Place Goal
 
-Status: `ACTIVE — planning submitted; the final content-addressed release, YouTube, and DAKER receipt remain`
+Status: `ACTIVE — planning submitted; five-signature public release, YouTube, and final DAKER receipt remain`
 
 ## Objective
 
-Finish Corner Policy Lab as a first-place-quality DAKER entry by freezing the
-planning PDF before `2026-07-27 10:00 KST` and the stamped app, public GitHub
-repository, and YouTube demo before `2026-08-03 10:00 KST`.
+Finish Corner Prep Lab as a first-place-quality DAKER entry before
+`2026-08-03 10:00 KST`: one keyless public app, public GitHub repository,
+sub-60-second YouTube demo, exact browser/hash/license evidence, and a final
+submission ledger.
 
-The product wins only if the judge experiences a clear manager loop without a
-synthetic recommendation: choose two priorities and a minimum location-overlap
-criterion from group-stage evidence, lock one policy before either holdout, let
-two knockout-stage records judge that predeclared criterion, and record the next
-meeting decision without rewriting the experiment.
+The product wins only if a judge understands this manager loop in five seconds:
+
+`Portugal repeated what? → Uruguay had faced what? → choose two questions →
+lock → reveal an unselected shot-bearing scene → revise the next meeting`
+
+The old role-placement and `5/4/1` count-allocation products are rejected. Their
+public app, gallery, and video must not be uploaded as the final entry.
 
 ## Completion scorecard
 
 Technical, planning, and release rows are completion gates. Human-outcome rows
-are claim gates only: while unavailable, they remain unevaluated and the related
-preference, usability, comprehension, and memorability claims stay omitted.
+are claim gates only: while unavailable, related preference, usability,
+comprehension, and memorability claims stay omitted.
 
 | Gate | Pass condition | Current state |
 |---|---|---|
-| Five-second comprehension — UNEVALUATED / NO CLAIM | fresh users explain `48경기에서 선택 → 두 번의 미공개 검증 → 다음 결정` without coaching | unavailable; synthetic review does not count |
-| Manager agency | select two areas and one predeclared criterion, lock, reveal both holdouts, inspect the contradiction, and save a separate next-meeting decision | automated source path `10/10` and keyboard/mobile contracts pass; human completion remains unavailable |
-| Claim safety | no prevention, player reach, changed result, optimal policy, or 2026 tendency is inferred | ontology path exposes provenance and forbidden relations; human misconception rate remains unavailable |
-| Comparative recall — UNEVALUATED / NO CLAIM | a fresh cohort recalls the one-policy/two-holdout contradiction after delay | unavailable; no comparative-memory claim allowed |
-| Data credibility | two cleared CC BY 4.0 sources, deterministic 603-corner derivative, 557 classified endpoints, 46 visible missing endpoints | passed; causal recommendation remains `REJECT` and empirical campaign `REVISE` |
-| Interaction/reliability | pointer, keyboard, mobile, contradiction, next-meeting note, refresh, fail-closed invalid data, file-backed visual evidence, and a non-blank first video frame | 102 deterministic tests pass; the clean pre-release matrix passes `60/60`; the final public matrix must pass `64/64` and retain twelve path-backed BG-14 PNGs across Chromium·Firefox·WebKit·mobile |
-| Planning package | final PDF content/render lint plus exact independent visual-QA ledger before deadline | cold-eye PDF `060376c8…` passed exact 8/8 independent-agent review with blocker=0, major=0, minor=0; DAKER returned the same remote SHA-256 and accepted the irreversible planning submission at `2026-07-26T18:38:37+09:00` |
-| Final package | keyless public app, repository, YouTube demo, exact release/browser hashes, owner receipt, and no post-deadline commit | the role-tradeoff story, redesigned gallery, and two-line Korean captions pass content review; tracked rehearsal hashes are explicitly local-only, while the admissible video is generated from the latest exact public release and bound by `submissions/final-demo.json`; YouTube publication and the final DAKER receipt remain |
+| Five-second comprehension — UNEVALUATED / NO CLAIM | a fresh user can say that the app compares Portugal's corner sequences with Uruguay's prior defensive exposure and asks for two review questions | no real participant evidence; synthetic critique is design input only |
+| Manager agency | inspect five team-linked sequences, choose exactly two questions, lock before reveal, open unselected counterevidence, save a separate next-meeting decision | product gate, static-release browser suite `12/12`, and four-project pre-release matrix `56/56` pass; public matrix pending |
+| Claim safety | zero remains an observation gap; no weakness, intent, marking, prevention, optimal tactic, or changed result is inferred | raw/data semantics pass; causal recommendation `REJECT`, wider empirical campaign `REVISE` |
+| Comparative recall — UNEVALUATED / NO CLAIM | a fresh cohort recalls the two-team question and unselected counterexample after delay | unavailable; no comparative-memory claim allowed |
+| Data credibility | accepted Events, Matches, and Players sources; deterministic 603-corner derivative; exact five-signature raw reproduction; narrow identity scope | accepted; Portugal/Uruguay pairs `7/2 · 1/2 · 4/0 · 1/0 · 1/1`, held-out `5/2/0/0/3`, shots `2/0/0/0/2` |
+| Interaction/reliability | pointer, keyboard, touch, hidden result, immutable lock, counterevidence `261095314`, refresh, fail-closed invalid data, responsive layout, Axe, and screenshot evidence | clean full verify, built release `12/12`, and BG-01–11 plus BG-13–15 `56/56` pass; stamped-public BG-12 and exact-public matrix pending |
+| Planning package | submitted PDF and exact independent document-QA receipt remain immutable | DAKER accepted PDF `060376c8…` at `2026-07-26T18:38:37+09:00`, submission ID `a072f2fb-6284-4697-bfa3-2c156d2bc1f6` |
+| Final package | new public app, repository, gallery, narrated video, browser report, YouTube URL, and final DAKER receipt all bind the same release | source story and new gallery candidate exist; stamped public app, new final video, YouTube publication, and final DAKER receipt remain |
 
 ## Winning execution lane
 
-1. Use the screenshot-bound eight-page planning package as the plan narrative.
-   Keep every participant, preference, and memorability result absent.
-2. Preserve the independent PDF review and exact ledger binding as document QA,
-   never as participant research.
-3. Keep one judge story everywhere: `48 → 8 → 8`, two priority areas plus one
-   predeclared overlap criterion in an immutable fingerprint, one contradiction,
-   then one next-meeting decision that cannot change results.
-4. Preserve the submitted DAKER planning receipt: remote PDF `060376c8…`,
-   submission ID `a072f2fb-6284-4697-bfa3-2c156d2bc1f6`, and platform status
-   `제출 완료`. The planning artifact is now immutable.
-5. For the final deadline, stamp one public release, run BG-01–15, record from
-   that exact URL, publish YouTube, verify every receipt, then freeze the commit.
+1. Preserve the submitted planning PDF and its receipt; do not rewrite or
+   resubmit it.
+2. Keep one public story everywhere:
+   `five team-linked sequences → two questions → lock → hidden match →
+   unselected counterevidence → next meeting`.
+3. Keep the two teams separate. Never turn Uruguay's five classifiable
+   exposures into a weakness score.
+4. Freeze accepted data, identity semantics, Korean copy, responsive behavior,
+   and the full clean verification suite.
+5. Commit and deploy one corrected release, prove exact public byte parity, and
+   run BG-01–15 against that URL.
+6. Record a new 59.5-second demo from those exact public bytes, add narration
+   and captions, inspect frames and audio, and bind the final hash.
+7. Publish only that approved video to YouTube, verify the public URL, then ask
+   separately before irreversible final DAKER submission.
 
 ## Stop rules
 
-- Do not add formation editing, AI chat, optimality scores, xG, simulation,
-  player reach, 2026 fixture decoration, or another dataset without a data and
-  product gate.
-- Do not average away fatal misconception counts.
-- Do not label synthetic Playwright touch as physical-device evidence.
-- Do not claim comparative memorability if the separate `3/5` delayed cohort fails.
-- If the same fatal misread remains at `2/5` after two hierarchy revisions, reject
-  or materially narrow the concept instead of polishing it.
+- Do not restore formation editing, count allocation, AI chat, reinforcement
+  learning, optimality scores, xG, simulated player reach, or a weakness label
+  without a new data and product gate.
+- Do not use a zero count as evidence of a team trait.
+- Do not describe the source event actor as a receiver, first-contact winner,
+  duel winner, or marker.
+- Do not label Playwright touch emulation as physical-device or human evidence.
+- Do not average away a fatal first-screen misunderstanding. If the two-team
+  question is not clear, simplify the product before polishing the video.
 
 ## No-human fallback lane
 
-The owner cannot recruit the ten-person primary plus delayed cohorts. Synthetic
-subagent personas may find defects and prioritize revisions, but they cannot
-produce participant rows, preference scores, spontaneous recall, or a human PASS.
+The owner cannot recruit a ten-person cohort. Synthetic subagent personas may
+find defects and prioritize revisions, but they cannot produce participant
+rows, preference scores, spontaneous recall, or a human PASS.
 
 Therefore:
 
 1. Keep `evidence/user-studies/primary-wave-1.json` pending and run its audit on
    every repository verification.
 2. Do not claim that the interface is more memorable, preferred, intuitive, or
-   validated by users. Present the three-persona review only as adversarial design
-   input.
-3. Compete on provable strengths: licensed and reproducible evidence, one direct
-   manager tradeoff, input parity, accessible nonvisual evidence, and the recorded
-   shot that the chosen priority does not explain.
-4. If any real participants later become available, use them only under the
-   frozen neutral protocol; never backfill synthetic observations as human rows.
+   validated by users.
+3. Compete on provable strengths: licensed and reproducible evidence, a
+   team-specific manager decision, input parity, accessible nonvisual evidence,
+   deterministic unselected counterevidence, and exact public artifact binding.
+4. If real participants later become available, use only the frozen neutral
+   protocol; never backfill synthetic observations as human rows.
 
 ## Next concrete artifact
 
-After the latest source commit is deployed, bind one `64/64` public report with
-twelve file-backed BG-14 PNGs and regenerate the sub-60-second video from those
-exact public bytes. Build the immutable 19-PNG review packet only after both
-artifacts pass. Only after owner listening approval may that exact video be
-published to YouTube. Keep the final DAKER web-link/video `제출` untouched until
-a separate action-time confirmation.
+Stamp and deploy the corrected public release, then run the complete
+public-browser matrix, and regenerate the final video from those exact bytes.
+Only after owner listening approval may that video be published to YouTube.
+Keep the final DAKER web-link/video submission untouched until a separate
+action-time confirmation.

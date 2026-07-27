@@ -80,8 +80,8 @@ const [storyBytes, editorialTreatmentBytes] = await Promise.all([
 ]);
 const story = JSON.parse(storyBytes.toString("utf8"));
 const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
-if (story.schema_version !== 3 || story.product_id !== "corner-policy-lab") {
-  throw new Error("demo recorder requires the canonical schema-3 Corner Prep Lab story");
+if (story.schema_version !== 4 || story.product_id !== "corner-policy-lab") {
+  throw new Error("demo recorder requires the canonical schema-4 Corner Prep Lab story");
 }
 
 let preview;
@@ -146,7 +146,9 @@ try {
     });
     const page = await context.newPage();
     await page.goto(baseURL);
-    await page.getByRole("heading", { name: /포르투갈 코너 상황 3유형/u }).waitFor();
+    await page.getByRole("heading", {
+      name: /포르투갈이 반복한 코너 전개.*우루과이는 이미 겪어봤을까요/u,
+    }).waitFor();
 
     await page.evaluate((treatment) => {
       const style = document.createElement("style");
@@ -245,6 +247,7 @@ try {
 
     const start = performance.now();
     const actions = [];
+    actions.push({ id: "hero-hold", scheduled_seconds: 0, actual_seconds: 0 });
     const editorialTransitions = [{ id: "hook", scheduled_seconds: 0, actual_seconds: 0 }];
     const waitUntil = async (seconds) => {
       const remaining = start + seconds * 1000 - performance.now();
@@ -274,41 +277,38 @@ try {
 
     await waitUntil(6);
     await updateEditorial("evidence", 6);
-    await page.locator('[data-routine-card="short-recorded-endpoint"] summary').click();
+    await page.locator('[data-question-card="short-attacking-first"] summary').click();
     mark("evidence-open", 6);
 
     await activateAt(
       "evidence-close",
       12,
-      page.locator('[data-routine-card="short-recorded-endpoint"] summary'),
+      page.locator('[data-question-card="short-attacking-first"] summary'),
     );
 
     await waitUntil(15);
-    await updateEditorial("allocate", 15);
-    const allocations = [
-      ["short-add-1", 15, "숏 구역 전달 훈련 1회 추가"],
-      ["short-add-2", 16, "숏 구역 전달 훈련 1회 추가"],
-      ["short-add-3", 17, "숏 구역 전달 훈련 1회 추가"],
-      ["short-add-4", 18, "숏 구역 전달 훈련 1회 추가"],
-      ["short-add-5", 19, "숏 구역 전달 훈련 1회 추가"],
-      ["aerial-add-1", 20, "비숏 · 공중 후속 기록 훈련 1회 추가"],
-      ["aerial-add-2", 21, "비숏 · 공중 후속 기록 훈련 1회 추가"],
-      ["aerial-add-3", 22, "비숏 · 공중 후속 기록 훈련 1회 추가"],
-      ["aerial-add-4", 23, "비숏 · 공중 후속 기록 훈련 1회 추가"],
-      ["other-add-1", 24, "비숏 · 기타 후속 기록 훈련 1회 추가"],
-    ];
-    for (const [id, scheduled, name] of allocations) {
-      await activateAt(id, scheduled, page.getByRole("button", { name }));
-    }
+    await updateEditorial("select", 15);
+    await page.locator('[data-select="aerial-defending-first"]').click();
+    mark("aerial-defending-select", 15);
+
+    await activateAt(
+      "short-attacking-select",
+      20,
+      page.locator('[data-select="short-attacking-first"]'),
+    );
 
     await waitUntil(25);
     await updateEditorial("lock", 25);
-    await page.getByRole("button", { name: "훈련 10회를 결과 전에 잠그기" }).click();
-    mark("training-lock", 25);
+    await page.getByRole("button", {
+      name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    }).click();
+    mark("question-lock", 25);
 
     await waitUntil(31);
     await updateEditorial("reveal", 31);
-    await page.getByRole("button", { name: "가려 둔 맞대결 첫 전개 보기" }).click();
+    await page.getByRole("button", {
+      name: "가려 둔 우루과이–포르투갈 코너 기록 보기",
+    }).click();
     mark("held-out-reveal", 31);
 
     await waitUntil(33);
@@ -316,20 +316,20 @@ try {
     mark("result-view", 33);
 
     await waitUntil(42);
-    await updateEditorial("receipts", 42);
-    await scrollTo(page.locator(".receipt-grid"));
-    mark("receipt-view", 42);
+    await updateEditorial("counterevidence", 42);
+    await scrollTo(page.getByTestId("counterevidence"));
+    mark("counterevidence-view", 42);
 
     await waitUntil(50);
     await updateEditorial("memo", 50);
-    const meetingDecision = page.getByLabel("다음 회의에서 훈련 비중 재배분");
+    const meetingDecision = page.getByLabel("다음 회의에서 훈련 질문 다시 선택");
     await scrollTo(meetingDecision);
     await meetingDecision.check();
     mark("meeting-decision", 50);
 
     await waitUntil(52);
     await page.getByRole("textbox", { name: /이유/u }).fill(
-      "비숏 전달 뒤 기타 후속 기록이 예상보다 2회 많아 재배분을 검토",
+      "선택하지 않은 그 밖의 전개가 3장면 나와 다음 회의에서 포함 여부를 검토",
     );
     mark("meeting-reason", 52);
 
@@ -343,18 +343,23 @@ try {
     mark("final-hold", 57);
 
     await waitUntil(59.9);
-    const allocationValues = await page.locator(".user-row span").allTextContents();
+    const questionValues = await page.locator(".user-row span").allTextContents();
     const heldOutValues = await page.locator(".actual-row span").allTextContents();
+    const shotValues = await page.locator(".comparison-row:last-child span").allTextContents();
     const finalFrame = {
-      allocation: `내 훈련 배분 ${allocationValues.join(" · ")}`,
+      questions: `내 훈련 질문 ${questionValues.join(" · ")}`,
       held_out: `실제 맞대결 ${heldOutValues.join(" · ")}`,
-      differences: await page.locator(".difference-grid").innerText(),
+      shots: `10초 안 슈팅 기록 ${shotValues.join(" · ")}`,
+      counterevidence: await page.getByTestId("counterevidence").innerText(),
       boundary: await page.locator(".result-boundary").innerText(),
       meeting_note: await page.getByTestId("meeting-note-receipt").innerText(),
     };
+    if (!finalFrame.counterevidence.includes("261095314")) {
+      throw new Error("canonical unselected counterevidence corner 261095314 is missing");
+    }
     const actionSchedule = actions.map(({ id, scheduled_seconds }) => [id, scheduled_seconds]);
     if (JSON.stringify(actionSchedule) !== JSON.stringify(exactDemoActions)) {
-      throw new Error("recorded action ledger drifted from the canonical 20-event schedule");
+      throw new Error("recorded action ledger drifted from the canonical 13-event schedule");
     }
     const video = page.video();
     await context.close();

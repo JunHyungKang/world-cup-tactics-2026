@@ -34,14 +34,30 @@ describe("selected-product release coherence", () => {
       { key: "stampedBuilder", value: input.stampedBuilder.replace("await buildPolicyLabRelease", "await legacyViteBuild") },
       { key: "preReleaseRunner", value: input.preReleaseRunner.replace("build-policy-lab.mjs", "node_modules/vite/bin/vite.js") },
       { key: "invalidFixture", value: input.invalidFixture.replace("corner_situation_rehearsal", "matchup_challenger") },
-      { key: "finalSpec", value: input.finalSpec.replace("포르투갈 코너 상황 3유형", "포르투갈전 코너킥 수비, 두 역할") },
-      { key: "demoRecorder", value: input.demoRecorder.replace("포르투갈 코너 상황 3유형", "포르투갈전 코너킥 수비, 두 역할") },
+      { key: "finalSpec", value: input.finalSpec.replace("포르투갈이 반복한 코너 전개", "포르투갈 코너 상황 3유형") },
+      { key: "demoRecorder", value: input.demoRecorder.replace("포르투갈이 반복한 코너 전개", "포르투갈 코너 상황 3유형") },
       { key: "editorialTreatment", value: { ...input.editorialTreatment, label: "[제품 화면]" } },
       { key: "interactionContract", value: input.interactionContract.replace("# Corner Prep Lab", "# Corner War Room") },
       { key: "judgingMap", value: input.judgingMap.replace("Observable Corner Prep Lab proof", "Observable Corner Policy Lab proof") },
     ];
     for (const changed of cases) {
       expect(validateReleaseCoherence({ ...input, [changed.key]: changed.value }).length, changed.key).toBeGreaterThan(0);
+    }
+  });
+
+  it("rejects the superseded 5/4/1 allocation loop on active release surfaces", () => {
+    const cases = [
+      { key: "finalSpec", suffix: "\nexpect(values).toHaveText([\"5\", \"4\", \"1\"]);\n" },
+      { key: "demoRecorder", suffix: "\nconst legacy = \"훈련 10회를 결과 전에 잠그기\";\n" },
+      { key: "interactionContract", suffix: "\n7/5/2 → 5/4/1 → 5/2/3\n" },
+      { key: "judgingMap", suffix: "\n7/5/2 → 5/4/1 → 5/2/3\n" },
+    ];
+    for (const changed of cases) {
+      const errors = validateReleaseCoherence({
+        ...input,
+        [changed.key]: `${input[changed.key]}${changed.suffix}`,
+      });
+      expect(errors.length, changed.key).toBeGreaterThan(0);
     }
   });
 });

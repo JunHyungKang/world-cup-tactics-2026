@@ -17,13 +17,14 @@ Official page: https://daker.ai/public/hackathons/world-cup-manager-tactics-web-
 
 1. Compare Portugal's 14 group-stage attacking corners with the six corners
    Uruguay faced, keeping the two small samples separate.
-2. Inspect three recorded corner-situation categories, their kickers, the first
-   recorded follow-up events, and ten-second shot receipts.
-3. Allocate exactly ten pre-match rehearsal repetitions and lock them before the
-   historical Uruguay–Portugal match is revealed.
-4. Compare the saved allocation with the held-out `5 / 2 / 3` record. The app
-   deliberately gives no score and makes no claim that rehearsal prevented a shot.
-5. Save the next meeting decision and reason without changing the revealed record.
+2. Compare five exact `restart family × first recorded follow-up team`
+   signatures, including their kickers, actors, and ten-second shot receipts.
+3. Choose exactly two training questions and lock them before the historical
+   Uruguay–Portugal match is revealed.
+4. Reveal all five held-out counts and open the first shot-bearing scene outside
+   the manager's choice. The canonical counterexample is corner `261095314`.
+5. Save the next meeting decision and reason without changing the locked
+   questions or revealed record.
 
 The planning PDF's earlier two-role, two-area hypothesis was rejected after its
 team-specific information gain disappeared under two-area compression. The
@@ -48,13 +49,17 @@ On macOS, install Poppler with `brew install poppler` before `pnpm verify`.
 `pnpm dev` and `pnpm build` do not require the Python/Poppler verification tools.
 
 The app is **Corner Prep Lab**: a historical set-piece meeting tool for one
-named matchup. It keeps Portugal attack and Uruguay defensive-situation records
-separate, lets the manager allocate ten rehearsal repetitions, locks the choice,
-and then reveals the held-out match. Player names identify only the player
-associated with a recorded source event; they do not identify a receiver,
-physical first contact, duel winner, or marking assignment. Causal recommendation
-is `REJECT`, and the wider empirical campaign remains `REVISE`. The next-meeting
-note cannot mutate the allocation, held-out record, or source receipts.
+named matchup. It asks what Portugal repeatedly recorded after corners, whether
+Uruguay had already defended the same sequence, and which two questions the
+manager wants to inspect first. Five event-chain signatures support exactly two
+matchup questions. The locked choice is then challenged by the held-out match
+and an unselected shot-bearing source scene. Player names identify
+only the player associated with a recorded source event; they do not identify a
+receiver, physical first contact, duel winner, or marking assignment. A zero is
+an observation gap, not a weakness. Causal
+recommendation is `REJECT`, and the wider empirical campaign remains `REVISE`.
+The next-meeting note cannot mutate the locked questions, held-out record, or
+source receipts.
 
 `pnpm data:audit` checks source admission, `pnpm copy:audit` rejects known
 translationese and stale Korean UI phrases, and `pnpm eligibility:audit` binds the

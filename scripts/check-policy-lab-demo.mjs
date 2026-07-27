@@ -102,19 +102,20 @@ for (const [index, [id, scheduled]] of exactDemoActions.entries()) {
   );
 }
 check(
-  visual.final_frame.allocation.includes("5 · 4 · 1") &&
-    visual.final_frame.held_out.includes("5 · 2 · 3"),
-  "final frame allocation-to-held-out proof drifted",
+  visual.final_frame.questions.includes("선택 · 선택 밖 · 선택 · 선택 밖 · 선택 밖") &&
+    visual.final_frame.held_out.includes("5 · 2 · 0 · 0 · 3") &&
+    visual.final_frame.shots.includes("2 · 0 · 0 · 0 · 2"),
+  "final frame question-to-five-signature proof drifted",
 );
 check(
-  visual.final_frame.differences.includes("횟수 차이 0") &&
-    visual.final_frame.differences.includes("훈련 배분이 2회 많음") &&
-    visual.final_frame.differences.includes("실제가 2회 많음"),
-  "raw difference proof drifted",
+  visual.final_frame.counterevidence.includes("그 밖의 전개 뒤 · 수비팀 먼저 기록") &&
+    visual.final_frame.counterevidence.includes("10초 안 포르투갈 슈팅 기록이 2장면") &&
+    visual.final_frame.counterevidence.includes("corner 261095314"),
+  "unselected deterministic counterevidence drifted",
 );
 check(
-  visual.final_frame.meeting_note.includes("다음 회의에서 훈련 비중 재배분") &&
-    visual.final_frame.meeting_note.includes("기록과 훈련 배분을 바꾸지 않습니다"),
+  visual.final_frame.meeting_note.includes("다음 회의에서 훈련 질문 다시 선택") &&
+    visual.final_frame.meeting_note.includes("잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다"),
   "immutable next-meeting note drifted",
 );
 
@@ -192,6 +193,6 @@ if (errors.length) {
 }
 console.log(
   `[PASS] Corner Prep Lab demo audit: ${Number(narratedMedia.format.duration).toFixed(3)}s, ` +
-  "20 timed events, 10 allocation clicks, one lock, 8 fitted cues, burned captions, " +
+  "13 timed events, 2 question selections, one lock, 8 fitted cues, burned captions, " +
   `SHA=${narrated.narrated_video.sha256}`,
 );

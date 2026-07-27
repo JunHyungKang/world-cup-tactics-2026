@@ -2,54 +2,82 @@
   "schema_version": 3,
   "product_id": "corner-policy-lab",
   "gallery": {
-    "title": "Corner Prep Lab — 포르투갈 코너 기록으로 훈련 10회를 나눕니다",
-    "one_line": "2018 월드컵 포르투갈의 코너 기록 14개와 우루과이가 겪은 수비 상황 6개를 따로 봅니다. 감독이 훈련 10회를 직접 나누고 결과 전에 잠근 뒤, 가려 둔 맞대결 기록 5·2·3과의 차이를 다음 회의 질문으로 남깁니다.",
+    "title": "Corner Prep Lab — 두 팀의 코너 전개로 훈련 질문 두 개를 고릅니다",
+    "one_line": "2018 월드컵에서 포르투갈이 공격한 코너 14개와 우루과이가 수비한 코너 6개를 비교합니다. 전개 유형과 다음으로 기록된 이벤트의 팀을 묶어 감독이 먼저 볼 질문 두 개를 고릅니다. 실제 맞대결을 연 뒤 선택하지 않은 슈팅 장면을 다음 회의 질문으로 남깁니다.",
     "first_image": "docs/assets/gallery/corner-policy-lab-first-image.png",
     "source_images": [
-      "docs/assets/final-release/01-evidence-detail.png",
-      "docs/assets/final-release/02-locked-allocation.png",
-      "docs/assets/final-release/03-held-out-review.png"
+      "docs/assets/final-release/01-matchup-analysis.png",
+      "docs/assets/final-release/02-locked-questions.png",
+      "docs/assets/final-release/03-counterevidence.png"
     ],
-    "hook": "포르투갈 코너 상황 3유형. 훈련 10회를 어떻게 나눌까요?"
+    "hook": "포르투갈이 반복한 코너 전개, 우루과이는 이미 겪어봤을까요?"
   },
   "manager_decision": {
     "opponent": "Portugal",
     "manager_team": "Uruguay",
     "opponent_group_stage_sample": "14/14",
     "manager_defensive_sample": "5/6",
-    "training_repetitions": 10,
-    "group_stage_counts": [7, 5, 2],
-    "demo_allocation": [5, 4, 1],
-    "held_out_counts": [5, 2, 3],
-    "actual_minus_allocation": [0, -2, 2],
-    "shots_within_10_seconds": "4/10",
-    "conversion": {
-      "method": "simple-proportional-rounding",
+    "signature_order": [
+      "short-attacking-first",
+      "aerial-attacking-first",
+      "aerial-defending-first",
+      "other-attacking-first",
+      "other-defending-first"
+    ],
+    "pre_match_counts": {
+      "opponent_attack": [7, 1, 4, 1, 1],
+      "manager_defensive_exposure": [2, 2, 0, 0, 1]
+    },
+    "priority_count": 2,
+    "demo_selected_questions": [
+      "aerial-defending-first",
+      "short-attacking-first"
+    ],
+    "held_out_counts": [5, 2, 0, 0, 3],
+    "held_out_shots_within_10_seconds": [2, 0, 0, 0, 2],
+    "counterevidence": {
+      "signature": "other-defending-first",
+      "corners": 3,
+      "shots_within_10_seconds": 2,
+      "corner_event_id": 261095314
+    },
+    "selection": {
       "is_recommendation": false,
+      "is_ranked": false,
       "is_optimal": false
     }
   },
   "video": {
-    "title": "Corner Prep Lab | 포르투갈 코너 기록으로 훈련 10회를 나눕니다",
+    "title": "Corner Prep Lab | 두 팀의 코너 전개로 훈련 질문 두 개를 고릅니다",
     "duration_limit_seconds": 60,
     "visual_duration_target_seconds": 60,
     "narrated_duration_target_seconds": 59.5,
-    "beat_order": ["hook", "evidence", "allocate", "lock", "reveal", "receipts", "memo", "final"],
+    "beat_order": [
+      "hook",
+      "evidence",
+      "select",
+      "lock",
+      "reveal",
+      "counterevidence",
+      "memo",
+      "final"
+    ],
     "narration": {
       "voice": "Yuna",
       "locale": "ko_KR",
       "rate_words_per_minute": 195,
-    "cue_rate_overrides": {
-      "final": 240
-    }
+      "cue_rate_overrides": {
+        "final": 240
+      }
     },
     "interaction": {
-      "timed_events": 20,
-      "activations": 16,
-      "allocation_activations": 10,
-      "policy_locks": 1,
+      "timed_events": 13,
+      "activations": 8,
+      "question_selection_activations": 2,
+      "question_locks": 1,
       "explicit_scrolls": 4,
       "result_reveal_seconds": 31,
+      "counterevidence_seconds": 42,
       "meeting_note_seconds": 55
     },
     "beats": [
@@ -57,57 +85,57 @@
         "id": "hook",
         "start": 0,
         "end": 6,
-        "action": "제품 첫 화면에서 포르투갈 14/14, 우루과이 5/6, 훈련 10회 결정을 함께 보여 준다.",
-        "proof": "두 팀의 작은 표본을 분리하고 첫 + 조작을 바로 노출"
+        "action": "첫 화면에서 포르투갈의 반복 전개와 우루과이의 사전 수비 경험을 대조하고, 먼저 볼 훈련 질문 두 개를 고르는 서비스임을 보여 준다.",
+        "proof": "두 팀 이름 · 14/14와 5/6 · 다섯 장면 분류 · 두 질문 선택"
       },
       {
         "id": "evidence",
         "start": 6,
         "end": 15,
-        "action": "첫 상황 카드의 선수·첫 후속 기록 근거를 열어 키커, 행위자, 팀 역할, 10초 안 슈팅 기록을 확인한다.",
-        "proof": "구역 집계 뒤의 선수·이벤트·팀·시간 맥락"
+        "action": "숏 코너 뒤 공격팀이 먼저 기록된 질문의 원본 이벤트 체인을 열어 두 팀의 장면, 선수, 팀 역할, 슈팅 기록을 확인한다.",
+        "proof": "위치 빈도 대신 전개 유형 × 후속 이벤트의 팀 × 원본 이벤트 ID"
       },
       {
-        "id": "allocate",
+        "id": "select",
         "start": 15,
         "end": 25,
-        "action": "조별리그 7·5·2를 열 번으로 단순 환산한 5·4·1을 직접 입력한다.",
-        "proof": "자동 추천이나 최적화가 아닌 재현 가능한 데모 배분"
+        "action": "aerial-defending-first와 short-attacking-first를 이번 미팅에서 먼저 볼 두 훈련 질문으로 선택한다.",
+        "proof": "같은 우선순위의 수동 선택 · 자동 순위나 자동 선택 없음"
       },
       {
         "id": "lock",
         "start": 25,
         "end": 31,
-        "action": "맞대결 기록을 보기 전에 훈련 10회를 잠근다.",
-        "proof": "결과 공개 전 확정 · 배분 조작 비활성화"
+        "action": "가려 둔 우루과이–포르투갈 코너 기록을 보기 전에 두 질문을 잠근다.",
+        "proof": "맞대결 공개 전 확정 · 선택 조작 비활성화"
       },
       {
         "id": "reveal",
         "start": 31,
         "end": 42,
-        "action": "가려 둔 우루과이–포르투갈 기록 5·2·3과 원시 차이 0·-2·+2를 공개한다.",
-        "proof": "채점이나 성공률 없이 배분과 실제 기록을 나란히 비교"
+        "action": "가려 둔 맞대결의 다섯 전개 횟수 5·2·0·0·3과 10초 안 슈팅 기록 2·0·0·0·2를 공개한다.",
+        "proof": "선택과 선택 밖 기록을 함께 공개하되 선택을 채점하지 않음"
       },
       {
-        "id": "receipts",
+        "id": "counterevidence",
         "start": 42,
         "end": 50,
-        "action": "세 유형의 이벤트 영수증과 10개 중 4개 뒤 슈팅 기록을 확인한다.",
-        "proof": "이벤트 ID·선수·팀 역할·후속 이벤트와 인과 한계"
+        "action": "선택하지 않은 other-defending-first의 3장면·2개 슈팅 기록과 첫 원본 영수증 corner 261095314를 연다.",
+        "proof": "선택 밖에서 먼저 확인할 구체적 장면 · Bernardo Silva → L. Suárez"
       },
       {
         "id": "memo",
         "start": 50,
         "end": 57,
-        "action": "훈련 비중 재배분을 선택하고 비숏 기타 후속 기록을 다시 볼 이유를 저장한다.",
-        "proof": "공개된 기록을 바꾸지 않는 별도 다음 회의 메모"
+        "action": "다음 회의에서 훈련 질문을 다시 선택하고, 선택 밖 장면을 포함할지 검토한다는 이유를 저장한다.",
+        "proof": "잠근 질문과 공개 기록을 바꾸지 않는 별도 다음 회의 메모"
       },
       {
         "id": "final",
         "start": 57,
         "end": 59.5,
-        "action": "잠근 5·4·1, 실제 5·2·3, 차이와 저장된 메모를 그대로 둔다.",
-        "proof": "근거와 빈칸은 도구가, 최종 결정은 감독이 담당"
+        "action": "잠근 두 질문, 실제 5·2·0·0·3, corner 261095314, 저장된 메모를 그대로 둔다.",
+        "proof": "두 팀 기록은 도구가 연결하고 무엇을 먼저 볼지는 감독이 결정"
       }
     ]
   },
@@ -136,21 +164,26 @@
     "result_prediction": false,
     "causal_recommendation_status": "REJECT",
     "empirical_campaign_status": "REVISE",
-    "allowed_negations": [
-      "최적 배분은 아닙니다.",
-      "어떤 훈련이 막았을지는 이 자료로 알 수 없습니다."
+    "required_boundaries": [
+      "도구가 정한 순위는 아닙니다.",
+      "0은 이 작은 표본에서 같은 장면을 찾지 못했다는 뜻입니다."
     ],
     "forbidden": [
-      "최적 배분입니다",
+      "약점",
+      "강점",
+      "최적",
       "AI 추천",
+      "정답",
       "수비 성공률",
-      "훈련이 막았습니다",
-      "실점을 막았습니다",
+      "훈련이 막았다",
+      "실점을 막았다",
+      "훈련이 예방했다",
       "승률",
       "xG",
       "위험도",
       "강화학습이 학습했다",
-      "경기 결과를 바꿨다"
+      "경기 결과를 바꿨다",
+      "원인"
     ]
   }
 }

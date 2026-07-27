@@ -1,83 +1,116 @@
 # Corner Prep Lab Product Contract
 
-Status: `PROMOTION IN PROGRESS — PRODUCT AND MOBILE PASS; SOURCE AND RELEASE BINDING REQUIRED`
+Status: `PROMOTION IN PROGRESS — FIVE-SIGNATURE PRODUCT PASS; CANONICAL RELEASE RESET`
 
-## Product identity
+## One-sentence product
 
-Corner Prep Lab is a historical match-preparation rehearsal for one named
-matchup. It is not a success predictor, an optimal-tactics recommender, or a
-simulation of player positioning. The manager reads Portugal's attacking-corner
-records and Uruguay's defensive-situation records separately, allocates ten
-training repetitions, locks the allocation, and then inspects a held-out match.
+Corner Prep Lab compares Portugal's repeated recorded corner sequences with
+the corner situations Uruguay had already defended, lets a manager lock two
+training questions before the historical matchup is shown, and then opens the
+first shot-bearing counterexample outside that choice.
 
-## Manager loop
+It is not a location-frequency dashboard, a weakness detector, an optimal-tactic
+recommender, or a player-position simulation.
+
+## Why this is team analysis
+
+The unit of analysis is not a pitch area alone. Each admitted scene binds:
+
+1. a named attacking or defending team;
+2. the corner taker;
+3. the restart family: short, aerial follow-up, or other non-short;
+4. the team of the first recorded follow-up;
+5. the first recorded attacking and defending actors when present;
+6. a ten-second attacking-shot record; and
+7. match, corner, and follow-up source IDs.
+
+The app asks three team-specific questions in order:
+
+`Portugal repeated what? → Uruguay had faced what? → What appeared in their matchup?`
+
+This is a descriptive comparison of event chains. It becomes a training agenda
+only when the manager chooses two questions. The data does not choose them.
+
+## Canonical manager loop
 
 1. See Portugal's `14/14` classifiable group-stage attacking corners and
-   Uruguay's `5/6` classifiable group-stage defensive situations.
-2. Compare three deterministic recorded categories:
-   `숏 구역 전달`, `비숏·공중 후속 기록`, and `비숏·기타 후속 기록`.
-3. Open evidence only when needed: source-linked kicker, first recorded
-   follow-up actor, first-event team role, event type, and ten-second shot record.
-4. Allocate exactly ten rehearsal repetitions. There is no default or model
-   recommendation.
-5. Lock the allocation before the historical Uruguay–Portugal match is visible.
-6. Reveal the held-out `5 / 2 / 3` record, raw differences, three event receipts,
-   and the `4/10` ten-second shot context.
-7. Save the next meeting decision and reason without changing the allocation or
-   revealed records.
+   Uruguay's `5/6` classifiable group-stage defensive exposures as separate
+   records.
+2. Compare five exact `restart family × first recorded follow-up team`
+   signatures:
 
-The official demonstration uses `5 / 4 / 1`, the largest-remainder conversion
-of Portugal's visible `7 / 5 / 2` group-stage counts to ten repetitions. It is a
-reproducible demonstration choice, not an optimal allocation.
+   | Signature | Portugal | Uruguay |
+   |---|---:|---:|
+   | short + attacking first | 7 | 2 |
+   | aerial + attacking first | 1 | 2 |
+   | aerial + defending first | 4 | 0 |
+   | other non-short + attacking first | 1 | 0 |
+   | other non-short + defending first | 1 | 1 |
 
-## Data and semantic invariants
+3. Open the source event chains, actors, and ten-second shot context when needed.
+4. Select exactly two training questions. There is no default, ranking, score,
+   model recommendation, or “best” answer.
+5. Lock the two questions before any Uruguay–Portugal corner is visible.
+6. Reveal the fixed held-out counts `5 / 2 / 0 / 0 / 3` and shot counts
+   `2 / 0 / 0 / 0 / 2`.
+7. Open the first shot-bearing scene among the unselected questions. In the
+   official path it is `other non-short + defending first`, corner `261095314`,
+   Bernardo Silva → L. Suárez, followed by a recorded clearance and a Portugal
+   shot within ten seconds.
+8. Save one next-meeting decision and reason without changing the locked
+   questions, revealed counts, or source receipts.
 
-- The wider transform contains 603 World Cup 2018 corners across 64 matches;
-  557 endpoints are classifiable and 46 remain unclassified.
-- The wider audit retains the fixed `48 → 8 → 8` match split. The product's
-  first historical example is selected by the lowest source match ID in the
-  fixed round-of-16 partition, not by its result.
-- Portugal's attack record is `7 / 5 / 2`; Uruguay's separate defensive-situation
-  record is `2 / 2 / 1`, with one additional unclassified endpoint.
-- The hidden Uruguay–Portugal attack record is `5 / 2 / 3`.
-- The two teams are never pooled into one success rate or matchup recommendation.
-- `playerId` identifies the player associated with a recorded source event. The
-  UI must say `첫 후속 기록의 선수` or `첫 수비 기록`; it must never say
-  receiver, physical first contact, duel winner, marking assignment, or reach.
-- Event IDs, offsets, team roles, event/sub-event names, deterministic selection
-  rules, and join status remain bound in the public derivative.
-- A count of ten-second shots is a subsequent historical record, not an effect
-  attributed to the manager's allocation.
+The official demonstration selects `aerial + defending first` and
+`short + attacking first`. This is a legible editorial path, not an optimal
+selection.
+
+## Small-sample and semantic boundaries
+
+- `0` means “no scene in this small admitted sample,” not “Uruguay is weak.”
+- Counts describe recorded events, not team intent or tactical quality.
+- `playerId` identifies the player associated with a source event. The UI may
+  say `키커`, `첫 후속 기록의 선수`, and `첫 수비 기록`; it must not invent a
+  receiver, physical first contact, duel winner, marker, or reachable area.
+- A shot within ten seconds is a later historical event, not an effect caused
+  or prevented by the manager's training choice.
+- The source contains no continuous tracking, marking assignment, rehearsed
+  routine label, or counterfactual outcome. Full tactical weakness and optimal
+  response claims remain rejected.
 
 ## Knowledge-graph boundary
 
-The evidence path may connect `Team`, `Match`, `CornerRestart`, `CornerTaker`,
-`RecordedSituation`, `RecordedFollowUp`, `RecordedShot`, and `SourceReceipt`.
-Allowed edges mean only source-recorded association and provenance.
-`WOULD_PREVENT`, `OPTIMAL_TACTIC`, `MARKED_BY`, and `CAUSED_SUCCESS` remain
-forbidden.
+Allowed nodes include `Team`, `Match`, `CornerRestart`, `RestartFamily`,
+`RecordedFollowUp`, `RecordedActor`, `RecordedShot`, `TrainingQuestion`, and
+`SourceReceipt`.
+
+Allowed edges bind only recorded association and provenance:
+`ATTACKED_IN`, `DEFENDED_IN`, `TAKEN_BY`, `FOLLOWED_BY`, `RECORDED_FOR_TEAM`,
+`FOLLOWED_WITHIN_10S_BY`, `SELECTED_AS_QUESTION`, and `SUPPORTED_BY_RECEIPT`.
+
+`IS_WEAK_AGAINST`, `MARKED_BY`, `RECEIVED_BY`, `WOULD_PREVENT`,
+`OPTIMAL_TACTIC`, and `CAUSED_SUCCESS` are forbidden.
 
 ## Fail-closed behavior
 
-The release must not build unless Events, Matches, and Players are all
-rights-cleared and accepted in `data/source-manifest.json`. Missing player joins,
-duplicate player IDs, invalid names, a non-PASS situation artifact, or an invalid
-bound report must stop the build or show an error page. No synthetic replacement
-record is allowed.
+The release must not build unless Events, Matches, and Players are rights-cleared
+and accepted in `data/source-manifest.json`. Missing or duplicate joins, invalid
+names, wrong team identities, any count other than the exact five-signature
+contract, a non-PASS matchup board, or an invalid release marker must stop the
+build or show one contained error page. No synthetic substitute is allowed.
 
 ## Planning consistency
 
-Validation rejected the planning PDF's two-role, two-area hypothesis because the
-team-conditioned proper-score gain disappeared when reduced to the two displayed
-areas. The implementation keeps the submitted scarce-resource choice,
-precommitment, hidden evidence, counterevidence, and next-meeting decision, but
-moves the visible action onto admitted team-event records. The correction is
-stated in-product and in `docs/product-thesis.md`.
+The submitted PDF's unsupported location/role mechanic is retained only as a
+falsified hypothesis. The implementation preserves the planning thesis's useful
+structure—two priorities, precommitment, hidden evidence, counterevidence, and a
+next-meeting decision—but moves the visible choice onto evidence admitted for
+both named teams. `docs/product-thesis.md` and `docs/decision-registry.md`
+record the correction.
 
-## Promotion decision
+## Promotion gate
 
-Product meaning, Korean copy, desktop interaction, and mobile first-action flow
-are `PASS`. Promotion still requires Players acceptance evidence, canonical
-static-build binding, the rebuilt multi-browser matrix, new gallery and video
-artifacts, and exact public-deployment verification. Causal recommendation
-remains `REJECT`; the wider empirical campaign remains `REVISE`.
+Product concept, raw reproducibility, player-identity semantics, initial
+responsive review, and the first static-release browser suite pass. Promotion
+still requires canonical Korean-copy QA, the complete regression and browser
+matrix, a new stamped public release, new gallery images, a newly narrated
+60-second video, public-URL-bound evidence, and submission preflight.

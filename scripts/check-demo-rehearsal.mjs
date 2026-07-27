@@ -104,7 +104,7 @@ check(
 );
 check(
   Array.isArray(manifest.actions) && manifest.actions.length === exactDemoActions.length,
-  "rehearsal action ledger must contain twenty bound interaction/view events",
+  "rehearsal action ledger must contain thirteen bound interaction/view events",
 );
 for (const [index, [id, scheduled]] of exactDemoActions.entries()) {
   const action = manifest.actions?.[index];
@@ -118,27 +118,31 @@ for (const [index, [id, scheduled]] of exactDemoActions.entries()) {
   );
 }
 check(
-  manifest.final_frame?.allocation?.includes("5 · 4 · 1"),
-  "final frame must preserve the locked 5/4/1",
+  manifest.final_frame?.questions?.includes("선택 · 선택 밖 · 선택 · 선택 밖 · 선택 밖"),
+  "final frame must preserve the two locked matchup questions",
 );
 check(
-  manifest.final_frame?.held_out?.includes("5 · 2 · 3"),
-  "final frame must preserve the held-out 5/2/3",
+  manifest.final_frame?.held_out?.includes("5 · 2 · 0 · 0 · 3"),
+  "final frame must preserve the five held-out signature counts",
 );
-for (const proof of ["횟수 차이 0", "훈련 배분이 2회 많음", "실제가 2회 많음"]) {
-  check(
-    manifest.final_frame?.differences?.includes(proof),
-    `final frame must preserve raw difference: ${proof}`,
-  );
-}
+check(
+  manifest.final_frame?.shots?.includes("2 · 0 · 0 · 0 · 2"),
+  "final frame must preserve the five held-out shot counts",
+);
+check(
+  manifest.final_frame?.counterevidence?.includes("그 밖의 전개 뒤 · 수비팀 먼저 기록") &&
+    manifest.final_frame?.counterevidence?.includes("10초 안 포르투갈 슈팅 기록이 2장면") &&
+    manifest.final_frame?.counterevidence?.includes("corner 261095314"),
+  "final frame must preserve the unselected deterministic counterevidence",
+);
 check(
   manifest.final_frame?.boundary?.includes("10개 중 4개") &&
     manifest.final_frame?.boundary?.includes("알 수 없습니다"),
   "final frame must preserve the 4/10 context and causal boundary",
 );
 check(
-  manifest.final_frame?.meeting_note?.includes("다음 회의에서 훈련 비중 재배분") &&
-    manifest.final_frame?.meeting_note?.includes("기록과 훈련 배분을 바꾸지 않습니다"),
+  manifest.final_frame?.meeting_note?.includes("다음 회의에서 훈련 질문 다시 선택") &&
+    manifest.final_frame?.meeting_note?.includes("잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다"),
   "final frame must preserve the separate immutable next-meeting memo",
 );
 
@@ -198,6 +202,6 @@ if (errors.length) {
 }
 console.log(
   `[PASS] ${finalMode ? "frozen-public demo visual" : "timed Corner Prep Lab rehearsal"}: ` +
-  `${manifest.video.duration_seconds.toFixed(3)}s, 20 on-time events, ` +
-  "5/4/1 → 5/2/3 → raw differences → immutable memo",
+  `${manifest.video.duration_seconds.toFixed(3)}s, 13 on-time events, ` +
+  "two questions → five-signature reveal → unselected counterevidence → immutable memo",
 );

@@ -48,16 +48,28 @@ describe("current harness state drift", () => {
   it("rejects stale active claims in each authoritative surface", () => {
     const cases = [
       { key: "board", value: board.replace("Corner Prep Lab is the canonical root product", "CWR remains the root/submission package") },
-      { key: "judgeGate", value: judgeGate.replace("technical product proof and public candidate byte parity passed", "implementation unauthorized") },
+      { key: "judgeGate", value: judgeGate.replace("five-signature product proof passed", "implementation unauthorized") },
       { key: "readme", value: readme.replace("The app is **Corner Prep Lab**", "The app is **Corner War Room**") },
       { key: "productThesis", value: productThesis.replace("Product selection ID: `corner-policy-lab`", "Product selection ID: `corner-war-room`") },
-      { key: "decisionRegistry", value: decisionRegistry.replace("| D67 |", "| D67-stale |") },
+      { key: "decisionRegistry", value: decisionRegistry.replace("| D75 |", "| D75-stale |") },
       { key: "interactionContract", value: interactionContract.replace("# Corner Prep Lab Interaction Acceptance Contract", "# Corner Policy Lab Interaction Acceptance Contract") },
     ];
     for (const changed of cases) {
       const errors = validateCurrentHarnessState({ ...input, [changed.key]: changed.value });
       expect(errors.length, changed.key).toBeGreaterThan(0);
     }
+  });
+
+  it("rejects active surfaces that regress to the superseded allocation loop", () => {
+    const staleReadme = `${readme}\nAllocate exactly ten rehearsal repetitions and reveal 5 / 2 / 3.\n`;
+    expect(validateCurrentHarnessState({ ...input, readme: staleReadme })).toContain(
+      "README current product contains stale current-state marker: allocate exactly ten",
+    );
+
+    const staleContract = `${interactionContract}\n7/5/2 → 5/4/1 → 5/2/3\n`;
+    expect(validateCurrentHarnessState({ ...input, interactionContract: staleContract })).toContain(
+      "interaction acceptance contract contains stale current-state marker: 7\\/5\\/2",
+    );
   });
 
   it("rejects selected sources that drift from accepted canonical evidence", () => {

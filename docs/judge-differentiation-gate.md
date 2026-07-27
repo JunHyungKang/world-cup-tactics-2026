@@ -1,45 +1,44 @@
 # Judge Differentiation Product Gate
 
-Verified: `2026-07-24T01:53:00+09:00`
+Verified: `2026-07-28 KST`
 
-Status: `PASS — Corner Policy Lab technical product proof and public candidate byte parity passed; final release evidence and human outcomes remain unavailable/no claim`
+Status: `PASS — five-signature product proof passed; canonical public release and video reset are in progress`
 
 ## One-sentence manager fantasy
 
-The judge chooses two corner-delivery areas and a minimum overlap criterion,
-locks both before seeing the knockout matches, and watches the historical record
-judge that commitment twice.
+The judge compares the corner sequences Portugal repeatedly recorded with the
+corner situations Uruguay had already defended, locks two training questions,
+then opens the first shot-bearing scene outside that choice.
 
 ## Why this is not another RAG dashboard
 
-The product never retrieves one similar scene and asks whether the answer looks
-right. It creates a falsifiable campaign:
+The product does not retrieve one similar past scene and ask whether an answer
+looks plausible. It creates a falsifiable attention decision:
 
-1. inspect only the 48 group-stage matches;
-2. choose two of four delivery areas or abstain;
-3. declare a 40%, 50%, or 60% minimum location-overlap criterion;
-4. lock areas and criterion in one immutable policy fingerprint;
-5. reveal the eight round-of-16 matches and a deterministic representative
-   contradiction;
-6. expose the same unchanged policy to eight quarter-final-and-later matches
-   that were still sealed;
-7. record the next meeting decision without changing the policy or either
-   evaluation receipt.
+1. keep Portugal's attacking corners and Uruguay's defensive exposures separate;
+2. connect five exact restart-family × first-follow-up-team signatures to named
+   actors and source IDs;
+3. let the manager choose exactly two questions with no default or ranking;
+4. lock the questions before the Uruguay–Portugal match is visible;
+5. reveal all five held-out counts and their ten-second shot records;
+6. open the first shot-bearing scene outside the manager's choice;
+7. save the next meeting decision without changing the locked questions or
+   historical record.
 
-The ontology is an inspectable evidence path and forbidden-inference guardrail,
-not a graph reasoning or recommendation engine. It joins
-`MatchContext`, `ScoutingPolicy`, `CornerRestart`, `DeliveryAction`,
-`ObservedEvent`, `OutcomeProxy`, and `Source`, while explicitly forbidding
-`WOULD_PREVENT`, `OPTIMAL_POLICY`, and `DEFENSIVE_DUTY_CAUSED`.
+The ontology is an evidence and forbidden-inference layer, not a recommendation
+engine. It joins `Team`, `Match`, `CornerRestart`, `RestartFamily`,
+`RecordedFollowUp`, `RecordedActor`, `RecordedShot`, `TrainingQuestion`, and
+`SourceReceipt`, while forbidding `IS_WEAK_AGAINST`, `MARKED_BY`,
+`WOULD_PREVENT`, `OPTIMAL_TACTIC`, and `CAUSED_SUCCESS`.
 
 ## Exact current proof
 
 | Official criterion | Current evidence | Remaining gate |
 |---|---|---|
-| Originality 30 | fixed 48–8–8 campaign, one-lock/two-holdout falsification, ontology guardrails | preserve the loop in the stamped final release |
-| Manager experience 25 | eight activations, two scarce priorities, one predeclared overlap criterion, same-policy receipts, abstention, and a separate next-meeting decision | public-URL BG-12 and human outcomes remain unclaimed |
-| Completeness 25 | 603 corners, 557 classified, 46 visible missing endpoints; 7/7 data/release, 10/10 source interaction, and 12/12 static browser checks | stamped BG-12 and final artifact review |
-| Planning/implementation consistency 20 | public candidate, canonical PDF, captures, release, story, gallery, narration, captions, and video are SHA-bound | bind the stamped commit and final URLs |
+| Originality 30 | two named team histories, five event-chain signatures, two-question precommitment, hidden match evidence, deterministic unselected counterevidence | preserve this loop in the stamped public release and final video |
+| Manager experience 25 | inspect team-linked scenes, choose two questions, lock, reveal `5/2/0/0/3`, open corner `261095314`, save the next question | complete the full browser matrix and public URL proof |
+| Completeness 25 | 603 corners, exact `7/2 · 1/2 · 4/0 · 1/0 · 1/1` pre-match pairs, `2/0/0/0/2` held-out shot counts, source-bound players, fail-closed release | regenerate gallery, narrated video, hashes, and final artifact review |
+| Planning/implementation consistency 20 | preserves two priorities, precommitment, hidden evidence, counterevidence, and a next-meeting decision while documenting the rejected location/role hypothesis | bind the corrected public app and video without altering the submitted PDF |
 
 The first-round funnel remains submitter `60%`, participant `20%`, and public
 `20%`. Human preference, comprehension, usability, and memorability are
@@ -47,19 +46,21 @@ unavailable and not claimed.
 
 ## Claim boundary
 
-The product reports delivery-location overlap and representative observed
-contradictions. It does not estimate defensive success, shot prevention, player
-reach, xG change, win probability, an optimal policy, or a changed match result.
-The product selection is `PASS`; causal recommendation is `REJECT`; the
-empirical campaign is `REVISE`.
+The product reports named-team event sequences, observation gaps, associated
+players, and later shot records. Uruguay has only five classifiable pre-match
+defensive exposures, so zero is not a weakness and a count is not a tactical
+trait. The product does not infer player intent, marking, continuous position,
+training effect, defensive success, shot prevention, xG change, win probability,
+an optimal tactic, or a changed match result.
 
 ## Verdict
 
-`PASS` for the selected product. The criterion-aware eight-page planning PDF
-`060376c8…` passed exact-hash independent review with zero blocker, major, or
-minor findings after its manager-dilemma structure, fingerprint lineage,
-standalone CC BY 4.0 attribution, and complete seven-relation evidence crop were
-verified. The stamped public release and deployed BG-01–15 `60/60` evidence are
-complete. Final completion requires YouTube and DAKER receipts. No local or
-agent-generated artifact is human evidence or an external submission
+`PASS` for the five-signature product concept, clean full verification,
+four-browser static release `12/12`, and pre-release BG matrix `56/56`.
+The previous public app, gallery, and video belong to the rejected `5/4/1`
+allocation product and cannot be uploaded. Final completion requires a newly
+stamped public release, the complete public
+browser matrix, a new gallery and narrated video, independent exact-artifact
+review, YouTube publication, and the separate DAKER submission receipt. No
+local or agent-generated artifact is human evidence or an external submission
 confirmation.

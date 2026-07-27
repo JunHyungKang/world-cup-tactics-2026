@@ -91,6 +91,6 @@ if (errors.length) {
 }
 console.log(
   contractOnly
-    ? "[PASS] Corner Prep Lab source contract: 14/14·5/6 → evidence → 5/4/1 non-optimal → lock → 5/2/3 → raw differences → memo"
-    : "[PASS] canonical Corner Prep Lab story, gallery, storyboard, narration, and local rehearsal chain",
+    ? "[PASS] Corner Prep Lab source contract: five team-linked signatures → two manual questions → lock → 5/2/0/0/3 reveal → unselected 261095314 → memo"
+    : "[PASS] canonical five-signature Corner Prep Lab story, gallery, storyboard, narration, and local rehearsal chain",
 );

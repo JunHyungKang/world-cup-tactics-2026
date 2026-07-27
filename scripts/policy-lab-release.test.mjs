@@ -24,7 +24,7 @@ describe("Policy Lab static candidate release", () => {
       release_status: "candidate-public",
       product_selection_status: "PASS",
       implementation_refinement_status: "PASS",
-      manager_loop: "team-situation-rehearsal",
+      manager_loop: "matchup-question-lock",
       causal_recommendation_status: "REJECT",
       empirical_campaign_status: "REVISE",
       entrypoint: "index.html",
@@ -64,7 +64,17 @@ describe("Policy Lab static candidate release", () => {
           "other-recorded-follow-up": 3,
         },
       },
+      matchup_question_board: {
+        status: "PASS",
+        selection_contract: {
+          priority_count: 2,
+          no_default_priorities: true,
+          held_out_match_hidden_until_lock: true,
+        },
+      },
     });
+    expect(report.team_scouting.corner_situation_rehearsal.matchup_question_board.questions)
+      .toHaveLength(5);
   });
 
   it("records the exact bytes and hashes of every deployable file", async () => {

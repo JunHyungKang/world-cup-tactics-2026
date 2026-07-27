@@ -1,17 +1,35 @@
-const ROUTINES = [
+const SITUATIONS = [
   "short-recorded-endpoint",
   "aerial-recorded-follow-up",
   "other-recorded-follow-up",
 ];
+const SIGNATURES = [
+  "short-attacking-first",
+  "aerial-attacking-first",
+  "aerial-defending-first",
+  "other-attacking-first",
+  "other-defending-first",
+];
 const LABEL = {
-  "short-recorded-endpoint": "숏 구역 전달",
-  "aerial-recorded-follow-up": "비숏 · 공중 후속 기록",
-  "other-recorded-follow-up": "비숏 · 기타 후속 기록",
+  "short-attacking-first": "숏 코너 뒤 · 공격팀 먼저 기록",
+  "aerial-attacking-first": "공중 경합·헤더 뒤 · 공격팀 먼저 기록",
+  "aerial-defending-first": "공중 경합·헤더 뒤 · 수비팀 먼저 기록",
+  "other-attacking-first": "그 밖의 전개 뒤 · 공격팀 먼저 기록",
+  "other-defending-first": "그 밖의 전개 뒤 · 수비팀 먼저 기록",
 };
 const DESCRIPTION = {
-  "short-recorded-endpoint": "끝점이 프로젝트 정의 숏 구역",
-  "aerial-recorded-follow-up": "첫 후속 기록이 공중 경합 또는 헤더 패스",
-  "other-recorded-follow-up": "그 밖의 비숏 전달 · 후속 기록 유형 그대로 공개",
+  "short-attacking-first": "숏 구역으로 보낸 뒤 첫 후속 이벤트가 공격팀",
+  "aerial-attacking-first": "공중 경합·헤더 뒤 첫 후속 이벤트가 공격팀",
+  "aerial-defending-first": "공중 경합·헤더 뒤 첫 후속 이벤트가 수비팀",
+  "other-attacking-first": "그 밖의 코너 전개 뒤 첫 후속 이벤트가 공격팀",
+  "other-defending-first": "그 밖의 코너 전개 뒤 첫 후속 이벤트가 수비팀",
+};
+const QUESTION = {
+  "short-attacking-first": "숏 코너 뒤 첫 후속 이벤트도 포르투갈 쪽이었던 장면을 볼까요?",
+  "aerial-attacking-first": "공중 경합·헤더 뒤 첫 후속 이벤트도 포르투갈 쪽이었던 장면을 볼까요?",
+  "aerial-defending-first": "공중 경합·헤더 뒤 첫 후속 이벤트가 상대 수비 쪽이었던 장면을 볼까요?",
+  "other-attacking-first": "그 밖의 코너 전개 뒤 첫 후속 이벤트도 포르투갈 쪽이었던 장면을 볼까요?",
+  "other-defending-first": "그 밖의 코너 전개 뒤 첫 후속 이벤트가 상대 수비 쪽이었던 장면을 볼까요?",
 };
 const EVENT_LABEL = {
   Pass: "패스",
@@ -25,10 +43,10 @@ const EVENT_LABEL = {
   "Ground loose ball duel": "세컨드볼 경합",
   Touch: "터치",
 };
-const TRAINING_REPS = 10;
+const PRIORITY_COUNT = 2;
 const MEETING_DECISIONS = {
-  keep: "이 배분을 다음 회의에서도 유지",
-  revise: "다음 회의에서 훈련 비중 재배분",
+  keep: "선택한 두 질문을 다음 회의에서도 유지",
+  revise: "다음 회의에서 훈련 질문 다시 선택",
   defer: "근거가 부족해 결정 보류",
 };
 
@@ -38,7 +56,7 @@ let state = freshState();
 
 function freshState() {
   return {
-    allocation: Object.fromEntries(ROUTINES.map((routine) => [routine, 0])),
+    priorities: [],
     locked: false,
     revealed: false,
     meetingNote: null,
@@ -53,9 +71,10 @@ function validate(value) {
   const heldOutTotal = Object.values(situation?.held_out_match?.situation_counts ?? {})
     .reduce((sum, count) => sum + count, 0);
   const exactCounts = (actual, expected) =>
-    ROUTINES.every((key) => actual?.[key] === expected[key]) &&
-    Object.keys(actual ?? {}).length === ROUTINES.length;
+    SITUATIONS.every((key) => actual?.[key] === expected[key]) &&
+    Object.keys(actual ?? {}).length === SITUATIONS.length;
   const joins = Object.values(situation?.player_join_coverage ?? {});
+  const board = situation?.matchup_question_board;
   if (value?.population?.source_corners !== 603 ||
       value?.policy_campaign?.reference_match_ids?.length !== 48 ||
       scouting?.status !== "PASS" ||
@@ -83,6 +102,10 @@ function validate(value) {
       joins.length !== 12 ||
       joins.some((coverage) => coverage.missing !== 0 ||
         coverage.joined !== coverage.source_events_with_actor) ||
+      board?.status !== "PASS" ||
+      board?.selection_contract?.priority_count !== PRIORITY_COUNT ||
+      board?.questions?.length !== SIGNATURES.length ||
+      !SIGNATURES.every((signature) => board.questions.some((question) => question.id === signature)) ||
       !value?.provenance?.source_ids?.includes("pappalardo-wyscout-players")) {
     throw new Error("불러온 자료가 팀별 코너 첫 전개 계약과 일치하지 않습니다.");
   }
@@ -93,19 +116,36 @@ function routineAudit() {
   return report.team_scouting.corner_situation_rehearsal;
 }
 
-function allocated() {
-  return ROUTINES.reduce((sum, routine) => sum + state.allocation[routine], 0);
+function priorityCount() {
+  return state.priorities.length;
 }
 
-function adjustAllocation(routine, delta) {
+function priorityMix(audit) {
+  if (state.priorities.length === 0) return "사전 기록에서 찾지 못한 장면과 이미 겪은 장면을 함께 비교할 수 있습니다.";
+  const selected = state.priorities.map((signature) => questionFor(audit, signature));
+  const gaps = selected.filter((question) =>
+    question.manager_defensive_exposure.corners === 0).length;
+  const seen = selected.length - gaps;
+  return `사전 관찰 공백 ${gaps}개 · 우루과이도 겪은 장면 ${seen}개`;
+}
+
+function selectedQuestionLabels() {
+  if (state.priorities.length === 0) return "아직 선택한 질문이 없습니다.";
+  return state.priorities.map((signature) => LABEL[signature]).join(" · ");
+}
+
+function togglePriority(routine) {
   if (state.locked) return;
-  const next = state.allocation[routine] + delta;
-  if (next < 0 || next > TRAINING_REPS || allocated() + delta > TRAINING_REPS) return;
-  state.allocation = { ...state.allocation, [routine]: next };
+  if (state.priorities.includes(routine)) {
+    state.priorities = state.priorities.filter((candidate) => candidate !== routine);
+    return;
+  }
+  if (priorityCount() >= PRIORITY_COUNT) return;
+  state.priorities = [...state.priorities, routine];
 }
 
-function cardFor(ledger, routine) {
-  return ledger.situation_cards.find((card) => card.situation === routine);
+function questionFor(audit, signature) {
+  return audit.matchup_question_board.questions.find((question) => question.id === signature);
 }
 
 function names(players, limit = 2) {
@@ -113,9 +153,50 @@ function names(players, limit = 2) {
   return players.slice(0, limit).map((player) => `${player.display_name} ${player.count}회`).join(" · ");
 }
 
-function roleCounts(card, attackingName, defendingName) {
-  const counts = card.first_event_team_role_counts;
-  return `${attackingName} ${counts.attacking}회 · ${defendingName} ${counts.defending}회`;
+function eventName(receipt) {
+  const followUp = receipt.first_recorded_follow_up;
+  return [EVENT_LABEL[followUp.event_name] ?? followUp.event_name,
+    EVENT_LABEL[followUp.sub_event_name] ?? followUp.sub_event_name].join(" · ");
+}
+
+function evidenceCue(signature, question) {
+  const attack = question.opponent_attack.corners;
+  const defense = question.manager_defensive_exposure.corners;
+  if (signature === "short-attacking-first") {
+    return `포르투갈 ${attack}장면 · 우루과이가 겪은 같은 전개 ${defense}장면. 양쪽 사전 기록 모두 공격팀 이벤트가 먼저였습니다.`;
+  }
+  if (signature === "aerial-attacking-first") {
+    return `포르투갈 ${attack}장면 · 우루과이가 겪은 같은 전개 ${defense}장면. 양쪽 사전 기록 모두 공중 경합·헤더 뒤 공격팀 이벤트가 먼저였습니다.`;
+  }
+  if (defense === 0) {
+    return `포르투갈 ${attack}장면 · 우루과이 조별리그 수비 기록 0장면. 약점이 아니라 이 작은 표본에서 같은 장면을 확인하지 못했다는 뜻입니다.`;
+  }
+  return `포르투갈 ${attack}장면 · 우루과이가 겪은 같은 전개 ${defense}장면. 두 팀 사전 기록에 각각 한 장면뿐입니다.`;
+}
+
+function exposureBadge(corners) {
+  if (corners === 0) return "관찰 0회 · 약점 판정 아님";
+  if (corners === 1) return "1회 관찰 · 표본 한 장면";
+  return `같은 분류 ${corners}회`;
+}
+
+function sceneRows(card, perspective) {
+  return `<ol class="scene-ledger">
+    ${card.event_receipts.map((receipt) => {
+      const followUp = receipt.first_recorded_follow_up;
+      const defending = receipt.first_recorded_defending_event;
+      const nextActor = perspective === "attack"
+        ? followUp.actor?.display_name ?? "선수 기록 없음"
+        : defending.actor?.display_name ?? "선수 기록 없음";
+      const nextLabel = perspective === "attack" ? "첫 후속 기록" : "우루과이 첫 수비 기록";
+      return `<li>
+        <span>${escapeHtml(receipt.match_name)}</span>
+        <strong>${escapeHtml(receipt.corner_taker?.display_name ?? "키커 기록 없음")} → ${escapeHtml(nextActor)}</strong>
+        <small>${nextLabel} · ${escapeHtml(eventName(receipt))}</small>
+        <em>${receipt.attacking_shot_within_10_seconds ? "10초 안 슈팅 기록" : "10초 안 슈팅 없음"}</em>
+      </li>`;
+    }).join("")}
+  </ol>`;
 }
 
 function escapeHtml(value) {
@@ -128,40 +209,54 @@ function escapeHtml(value) {
   })[character]);
 }
 
-function routineCards(audit) {
-  const attack = audit.opponent_attack_reference;
-  const defense = audit.manager_defensive_reference;
-  return ROUTINES.map((routine) => {
-    const attackCard = cardFor(attack, routine);
-    const defenseCard = cardFor(defense, routine);
-    const count = state.allocation[routine];
-    return `<article class="routine" data-routine-card="${routine}">
+function questionCards(audit) {
+  return SIGNATURES.map((signature) => {
+    const selected = state.priorities.includes(signature);
+    const question = questionFor(audit, signature);
+    const attack = question.opponent_attack;
+    const defense = question.manager_defensive_exposure;
+    const attackTaker = attack.leading_corner_takers[0];
+    const attackFollow = attack.leading_first_attacking_events[0];
+    const defenseActor = defense.leading_first_defending_events[0];
+    const firstRole = question.first_recorded_team_role;
+    return `<article class="routine ${selected ? "selected-priority" : ""}" data-question-card="${signature}">
       <header>
-        <span><strong>${LABEL[routine]}</strong><small>${DESCRIPTION[routine]}</small></span>
-        <em>${attackCard.corners}/${attack.classifiable_corners}</em>
+        <span><strong>${LABEL[signature]}</strong><small>${DESCRIPTION[signature]}</small></span>
+        <em>${selected ? "우선순위 선택" : exposureBadge(defense.corners)}</em>
       </header>
-      <div class="team-bars" aria-label="${LABEL[routine]} 관측 수 비교">
-        <span><b>포르투갈 공격</b><i style="--value:${attackCard.corners / attack.classifiable_corners}"></i><strong>${attackCard.corners}회</strong></span>
-        <span><b>우루과이 수비 상황</b><i class="defense" style="--value:${defenseCard.corners / defense.classifiable_corners}"></i><strong>${defenseCard.corners}회</strong></span>
+      <p class="matchup-question">${QUESTION[signature]}</p>
+      <button
+        aria-label="${LABEL[signature]}. 포르투갈 ${attack.corners}회, 우루과이 ${defense.corners}회. ${selected ? "훈련 질문에서 빼기" : "훈련 질문으로 선택"}"
+        aria-pressed="${selected}"
+        class="priority-toggle"
+        data-select="${signature}"
+        type="button"
+        ${state.locked || (!selected && priorityCount() >= PRIORITY_COUNT) ? "disabled" : ""}
+      >${selected ? "훈련 질문에서 빼기" : "훈련 질문으로 선택"}</button>
+      <div class="matchup-chain" aria-label="${LABEL[signature]} 팀별 기록 연결">
+        <article class="attack-node">
+          <span>포르투갈 공격 · ${attack.corners}장면</span>
+          <strong>키커 ${attackTaker?.display_name ?? "기록 없음"} ${attackTaker?.count ?? 0}회</strong>
+          <small>첫 공격 기록 ${attackFollow?.display_name ?? "기록 없음"} ${attackFollow?.count ?? 0}회</small>
+          <small>첫 후속 기록 · ${firstRole === "attacking" ? "포르투갈" : "상대 수비팀"}</small>
+          <em>10초 안 슈팅 ${attack.attacking_shots_within_10_seconds}/${attack.corners}</em>
+        </article>
+        <span class="chain-link" aria-hidden="true">↔</span>
+        <article class="defense-node">
+          <span>우루과이 수비 기록 · ${defense.corners}장면</span>
+          <strong>${defense.corners === 0 ? "같은 장면 기록 없음" : `첫 수비 기록 ${defenseActor?.display_name ?? "선수 기록 없음"} ${defenseActor?.count ?? 0}회`}</strong>
+          <small>${defense.corners === 0 ? "첫 후속 팀 기록 없음" : `첫 후속 기록 · ${firstRole === "attacking" ? "상대 공격팀" : "우루과이"}`}</small>
+          <em>${defense.corners === 0 ? "같은 수비 장면 기록 없음" : `10초 안 상대 슈팅 ${defense.opponent_shots_within_10_seconds}/${defense.corners}`}</em>
+        </article>
       </div>
+      <p class="evidence-cue"><strong>두 팀을 나란히 보면</strong>${evidenceCue(signature, question)}</p>
       <details class="evidence-detail">
-        <summary>선수·첫 후속 기록 근거</summary>
-        <dl>
-          <div><dt>주요 키커</dt><dd>${names(attackCard.leading_players.corner_takers)}</dd></div>
-          <div><dt>코너 뒤 첫 공격 기록</dt><dd>${names(attackCard.leading_players.first_attacking_events)}</dd></div>
-          <div><dt>첫 후속 기록의 팀</dt><dd>${roleCounts(attackCard, "포르투갈", "상대팀")}</dd></div>
-          <div><dt>10초 안 포르투갈 슈팅 기록</dt><dd>${attackCard.attacking_shots_within_10_seconds}/${attackCard.corners}회</dd></div>
-          <div><dt>우루과이의 첫 수비 기록</dt><dd>${names(defenseCard.leading_players.first_defending_events)}</dd></div>
-          <div><dt>우루과이가 겪은 첫 후속 기록의 팀</dt><dd>${roleCounts(defenseCard, "상대팀", "우루과이")}</dd></div>
-          <div><dt>10초 안 상대 슈팅 기록</dt><dd>${defenseCard.attacking_shots_within_10_seconds}/${defenseCard.corners}회</dd></div>
-        </dl>
+        <summary>원본 이벤트 체인 ${attack.corners + defense.corners}장면 보기</summary>
+        <div class="scene-columns">
+          <section><h3>포르투갈 공격</h3>${sceneRows(attack, "attack")}</section>
+          <section><h3>우루과이 수비 기록</h3>${sceneRows(defense, "defense")}</section>
+        </div>
       </details>
-      <div class="allocator">
-        <button type="button" data-adjust="-1" data-routine="${routine}" aria-label="${LABEL[routine]} 훈련 1회 빼기" ${state.locked || count === 0 ? "disabled" : ""}>−</button>
-        <span aria-live="polite"><strong>${count}</strong><small>회 훈련</small></span>
-        <button type="button" data-adjust="1" data-routine="${routine}" aria-label="${LABEL[routine]} 훈련 1회 추가" ${state.locked || allocated() === TRAINING_REPS ? "disabled" : ""}>+</button>
-      </div>
-      <div class="tokens" aria-hidden="true">${Array.from({ length: count }, () => "<i></i>").join("")}</div>
     </article>`;
   }).join("");
 }
@@ -169,39 +264,51 @@ function routineCards(audit) {
 function comparisonRow(label, values, className = "") {
   return `<div class="comparison-row ${className}">
     <strong>${label}</strong>
-    ${ROUTINES.map((routine) => `<span>${values[routine]}</span>`).join("")}
+    ${SIGNATURES.map((signature) => `<span>${values[signature]}</span>`).join("")}
   </div>`;
 }
 
-function receiptMarkup(card) {
-  const receipt = card.event_receipts[0];
+function receiptMarkup(question) {
+  const receipt = question.held_out_evidence.event_receipts[0];
   if (!receipt) return "";
   const followUp = receipt.first_recorded_follow_up;
-  const event = [EVENT_LABEL[followUp.event_name] ?? followUp.event_name,
-    EVENT_LABEL[followUp.sub_event_name] ?? followUp.sub_event_name].join(" · ");
   return `<article>
-    <span>${LABEL[card.situation]} · 실제 ${card.corners}회</span>
+    <span>${LABEL[question.id]} · 실제 ${question.held_out_evidence.corners}회</span>
     <strong>키커: ${receipt.corner_taker?.display_name ?? "선수 미상"}</strong>
     <small>첫 후속 기록의 선수: ${followUp.actor?.display_name ?? "선수 미상"}</small>
     <small>첫 후속 기록의 팀: ${followUp.team_role === "attacking" ? "포르투갈" : "우루과이"}</small>
-    <small>첫 후속 기록 ${event} · ${receipt.attacking_shot_within_10_seconds ? "10초 안 포르투갈 슈팅 기록 있음" : "10초 안 포르투갈 슈팅 기록 없음"}</small>
+    <small>첫 후속 기록 ${eventName(receipt)} · ${receipt.attacking_shot_within_10_seconds ? "10초 안 포르투갈 슈팅 기록 있음" : "10초 안 포르투갈 슈팅 기록 없음"}</small>
     <code>match ${receipt.match_id} · corner ${receipt.corner_event_id}</code>
   </article>`;
 }
 
-function differenceMarkup(audit) {
-  const actual = audit.held_out_match.situation_counts;
-  return `<div class="difference-grid" aria-label="훈련 배분과 실제 첫 전개 횟수의 차이">
-    ${ROUTINES.map((routine) => {
-      const difference = actual[routine] - state.allocation[routine];
-      const label = difference === 0
-        ? "횟수 차이 0"
-        : difference > 0
-          ? `실제가 ${difference}회 많음`
-          : `훈련 배분이 ${Math.abs(difference)}회 많음`;
-      return `<article><span>${LABEL[routine]}</span><strong>${label}</strong></article>`;
-    }).join("")}
-  </div>`;
+function firstCounterevidence(audit) {
+  const questions = audit.matchup_question_board.questions;
+  const unselected = questions.filter((question) => !state.priorities.includes(question.id));
+  return unselected.find((question) =>
+    question.held_out_evidence.attacking_shots_within_10_seconds > 0) ??
+    unselected.find((question) => question.held_out_evidence.corners > 0) ??
+    questions.find((question) =>
+      state.priorities.includes(question.id) &&
+      question.held_out_evidence.attacking_shots_within_10_seconds > 0);
+}
+
+function counterevidenceMarkup(audit) {
+  const question = firstCounterevidence(audit);
+  if (!question) return "";
+  const receipt = question.held_out_evidence.event_receipts.find((candidate) =>
+    candidate.attacking_shot_within_10_seconds) ?? question.held_out_evidence.event_receipts[0];
+  const selected = state.priorities.includes(question.id);
+  return `<section class="counterevidence" data-testid="counterevidence">
+    <p class="eyebrow">${selected ? "선택한 질문의 첫 슈팅 기록" : "선택 밖에서 먼저 확인할 슈팅 기록"}</p>
+    <h3>${LABEL[question.id]} · 실제 ${question.held_out_evidence.corners}장면</h3>
+    <p>${selected ? "선택한 질문 안" : "선택하지 않은 질문"}에서 10초 안 포르투갈 슈팅 기록이 ${question.held_out_evidence.attacking_shots_within_10_seconds}장면 남았습니다. 이것은 선택의 정답표가 아니라 다음 회의에서 다시 볼 근거입니다.</p>
+    ${receipt ? `<div class="counter-receipt">
+      <strong>${escapeHtml(receipt.match_name)} · corner ${receipt.corner_event_id}</strong>
+      <span>${escapeHtml(receipt.corner_taker?.display_name ?? "키커 기록 없음")} → ${escapeHtml(receipt.first_recorded_follow_up.actor?.display_name ?? "선수 기록 없음")} · ${escapeHtml(eventName(receipt))}</span>
+      <small>10초 안 포르투갈 슈팅 기록 있음 · 출처 이벤트 ${receipt.first_recorded_follow_up.source_event_id}</small>
+    </div>` : ""}
+  </section>`;
 }
 
 function meetingNoteMarkup() {
@@ -210,18 +317,18 @@ function meetingNoteMarkup() {
       <span>다음 전술 회의 메모</span>
       <strong>${MEETING_DECISIONS[state.meetingNote.decision]}</strong>
       <p>${escapeHtml(state.meetingNote.reason)}</p>
-      <small>이 메모는 이미 공개된 경기 기록과 훈련 배분을 바꾸지 않습니다.</small>
+      <small>이 메모는 이미 잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다.</small>
     </section>`;
   }
   return `<form class="meeting-note" data-action="save-meeting-note">
     <fieldset>
-      <legend>이 차이를 보고 다음 회의의 결정을 남기세요</legend>
+      <legend>선택 밖 기록을 보고 다음 회의의 결정을 남기세요</legend>
       <div class="meeting-options">
         ${Object.entries(MEETING_DECISIONS).map(([value, label]) =>
           `<label><input required type="radio" name="meeting-decision" value="${value}"><span>${label}</span></label>`).join("")}
       </div>
       <label class="meeting-reason" for="meeting-reason">이유 <span>(120자 이내)</span></label>
-      <textarea id="meeting-reason" name="meeting-reason" maxlength="120" rows="3" required placeholder="예: 비숏 전달 뒤 기타 후속 기록이 예상보다 2회 많아 재배분을 검토"></textarea>
+      <textarea id="meeting-reason" name="meeting-reason" maxlength="120" rows="3" required placeholder="예: 선택하지 않은 ‘그 밖의 전개 뒤 수비팀 먼저 기록’이 3장면 나와 다음 회의에서 검토"></textarea>
       <button type="submit">다음 회의 메모 저장</button>
     </fieldset>
   </form>`;
@@ -229,27 +336,49 @@ function meetingNoteMarkup() {
 
 function resultMarkup(audit) {
   if (!state.revealed) return "";
-  const reference = audit.opponent_attack_reference.situation_counts;
-  const heldOut = audit.held_out_match;
+  const questions = audit.matchup_question_board.questions;
+  const selectedValues = Object.fromEntries(SIGNATURES.map((signature) => [
+    signature,
+    state.priorities.includes(signature) ? "선택" : "선택 밖",
+  ]));
+  const attackValues = Object.fromEntries(questions.map((question) => [
+    question.id,
+    question.opponent_attack.corners,
+  ]));
+  const defenseValues = Object.fromEntries(questions.map((question) => [
+    question.id,
+    question.manager_defensive_exposure.corners,
+  ]));
+  const actualValues = Object.fromEntries(questions.map((question) => [
+    question.id,
+    question.held_out_evidence.corners,
+  ]));
+  const shotValues = Object.fromEntries(questions.map((question) => [
+    question.id,
+    question.held_out_evidence.attacking_shots_within_10_seconds,
+  ]));
   return `<section class="result" data-testid="scouting-result" tabindex="-1">
     <p class="eyebrow">가려 둔 맞대결 기록 공개</p>
     <h2>우루과이–포르투갈 · 포르투갈 코너 10개</h2>
-    <p class="result-lead">훈련 효과를 채점하지 않습니다. 경기 전에 나눈 훈련 횟수와 실제 첫 전개 기록을 나란히 놓고, 다음 회의에서 무엇을 더 볼지 정합니다.</p>
-    <p class="not-a-score"><strong>횟수가 같거나 비슷해도 훈련이 옳았다는 뜻은 아닙니다.</strong> 아래 비교는 다음 회의의 질문을 찾기 위한 기록입니다.</p>
-    <div class="comparison" role="group" aria-label="훈련 배분, 조별리그 관측, 실제 맞대결 코너 상황 비교" tabindex="0">
-      <div class="comparison-row headings"><strong></strong>${ROUTINES.map((routine) => `<span>${LABEL[routine]}</span>`).join("")}</div>
-      ${comparisonRow("내 훈련 배분", state.allocation, "user-row")}
-      ${comparisonRow("포르투갈 조별리그", reference)}
-      ${comparisonRow("실제 맞대결", heldOut.situation_counts, "actual-row")}
+    <p class="result-lead">선택이 맞았는지 채점하지 않습니다. 먼저 보기로 한 두 질문과 선택하지 않은 질문이 실제 맞대결에서 어떻게 나타났는지 확인합니다.</p>
+    <p class="not-a-score"><strong>관찰 횟수는 전술의 강점·약점·효과를 뜻하지 않습니다.</strong> 다음 회의에서 어떤 장면을 다시 볼지 정하기 위한 원장입니다.</p>
+    <div class="comparison" role="group" aria-label="훈련 질문과 두 팀의 사전 기록, 실제 맞대결 기록 비교" tabindex="0">
+      <div class="comparison-row headings"><strong></strong>${SIGNATURES.map((signature) => `<span>${LABEL[signature]}</span>`).join("")}</div>
+      ${comparisonRow("내 훈련 질문", selectedValues, "user-row")}
+      ${comparisonRow("포르투갈 사전 기록", attackValues)}
+      ${comparisonRow("우루과이 사전 기록", defenseValues)}
+      ${comparisonRow("실제 맞대결", actualValues, "actual-row")}
+      ${comparisonRow("10초 안 슈팅 기록", shotValues)}
     </div>
-    ${differenceMarkup(audit)}
-    <div class="receipt-grid">${heldOut.situation_cards.map(receiptMarkup).join("")}</div>
+    ${counterevidenceMarkup(audit)}
+    <div class="receipt-grid">${questions.filter((question) =>
+      question.held_out_evidence.corners > 0).map(receiptMarkup).join("")}</div>
     <div class="result-boundary">
       <strong>실제 맞대결에서는 포르투갈 코너 10개 중 4개 뒤에 10초 안 슈팅 기록이 있었습니다.</strong>
-      <span>어떤 훈련 배분이 이를 막았을지는 이 데이터로 알 수 없습니다. 선수 위치·마킹·도달 범위가 없기 때문입니다.</span>
+      <span>어떤 훈련이 이를 막았을지는 이 데이터로 알 수 없습니다. 선수 위치·마킹·도달 범위가 없기 때문입니다.</span>
     </div>
     ${meetingNoteMarkup()}
-    <button class="restart" type="button" data-action="restart">다른 훈련 배분 검토하기</button>
+    <button class="restart" type="button" data-action="restart">다른 두 질문 검토하기</button>
   </section>`;
 }
 
@@ -258,58 +387,66 @@ function render() {
   const audit = routineAudit();
   const attack = audit.opponent_attack_reference;
   const defense = audit.manager_defensive_reference;
-  const used = allocated();
-  const remaining = TRAINING_REPS - used;
+  const used = priorityCount();
+  const remaining = PRIORITY_COUNT - used;
   app.innerHTML = `
     <header class="hero">
-      <p class="eyebrow">CORNER PREP LAB · 2018 WORLD CUP</p>
-      <h1>포르투갈 코너 상황 3유형.<br><span>훈련 10회를 어떻게 나눌까요?</span></h1>
-      <p>포르투갈의 키커와 첫 전개, 우루과이가 실제로 겪은 수비 상황을 따로 보고 경기 전 훈련을 배분하세요.</p>
-      <aside><strong>두 팀의 기록을 하나의 성공률로 합치지 않습니다.</strong> 작은 표본과 빠진 정보를 함께 보여 주며, 최종 판단은 감독이 합니다.</aside>
+      <p class="eyebrow">CORNER PREP LAB · 2018 월드컵 16강</p>
+      <h1>포르투갈이 반복한 코너 전개,<br><span>우루과이는 이미 겪어봤을까요?</span></h1>
+      <p>포르투갈이 공격한 코너 14개에서 반복 전개를 찾고, 우루과이가 수비한 코너 6개에서 같은 이벤트 연쇄가 있었는지 대조합니다. 그 차이로 훈련에서 먼저 볼 질문 두 개를 정합니다.</p>
+      <aside><strong>0회는 약점이 아닙니다.</strong> 이 표본에서 같은 분류의 기록을 찾지 못했다는 뜻입니다.</aside>
     </header>
 
     <section class="workspace" data-routine-status="${audit.status}" data-revealed="${state.revealed}">
       <div class="matchup">
         <strong>2018 월드컵 16강 · 우루과이 vs 포르투갈</strong>
-        <span>맞대결 10개 코너의 첫 전개는 훈련 배분을 잠글 때까지 가려 둡니다.</span>
+        <span>맞대결 10개 코너는 훈련 질문 두 개를 잠글 때까지 가려 둡니다.</span>
       </div>
       <div class="quick-evidence" aria-label="두 팀의 사전 기록 수">
         <article>
-          <span>포르투갈 공격 기록</span>
+          <span>포르투갈이 공격한 코너</span>
           <strong>${attack.classifiable_corners}/${attack.source_corners}</strong>
-          <small>조별리그 코너 · 전부 유형 분류</small>
+          <small>조별리그 · 14개 모두 전개 분류</small>
         </article>
         <article>
-          <span>우루과이 수비 상황</span>
+          <span>우루과이가 수비한 코너</span>
           <strong>${defense.classifiable_corners}/${defense.source_corners}</strong>
-          <small>조별리그 상대 코너 · 1개 분류 제외</small>
+          <small>조별리그 · 6개 중 1개 분류 제외</small>
         </article>
       </div>
-      <p class="allocation-goal"><strong>목표</strong> 상대의 관측된 코너 상황에 대비할 훈련 10회의 비중을 정합니다.</p>
-      <div class="routine-grid" aria-label="상대 코너 첫 전개 훈련 10회 배분">${routineCards(audit)}</div>
+      <div class="analysis-path" aria-label="맞대결 분석 순서">
+        <span><strong>1</strong> 포르투갈의 반복 전개</span>
+        <i aria-hidden="true">→</i>
+        <span><strong>2</strong> 우루과이의 사전 경험</span>
+        <i aria-hidden="true">→</i>
+        <span><strong>3</strong> 실제 맞대결에서 확인</span>
+      </div>
+      <p class="allocation-goal"><strong>이번 미팅에서</strong> 먼저 검토할 훈련 질문 두 개를 고르세요. 자동 선택이나 순위는 없습니다.</p>
+      <div class="routine-grid" aria-label="팀별 코너 기록을 연결한 훈련 질문 다섯 개">${questionCards(audit)}</div>
 
       <div class="commit">
         <div>
-          <span>경기 전 훈련 계획</span>
-          <strong data-testid="allocation-summary">${used}회 배분 · ${remaining}회 남음</strong>
-          <small>${state.locked ? "맞대결 기록을 보기 전에 잠갔습니다." : "자동 추천 없이 직접 10회를 모두 나누세요."}</small>
+          <span>이번 미팅의 훈련 질문</span>
+          <strong aria-live="polite" data-testid="priority-summary">${used}/${PRIORITY_COUNT}개 선택 · ${remaining}개 남음</strong>
+          <em data-testid="selected-question-labels">${selectedQuestionLabels()}</em>
+          <small data-testid="priority-mix">${priorityMix(audit)} · ${state.locked ? "맞대결 기록을 보기 전에 잠갔습니다." : "자동 추천은 없습니다."}</small>
         </div>
         ${!state.locked
-          ? `<button type="button" data-action="lock" ${remaining === 0 ? "" : "disabled"}>훈련 10회를 결과 전에 잠그기</button>`
+          ? `<button type="button" data-action="lock" ${remaining === 0 ? "" : "disabled"}>선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기</button>`
           : !state.revealed
-            ? `<button type="button" data-action="reveal">가려 둔 맞대결 첫 전개 보기</button>`
+            ? `<button type="button" data-action="reveal">가려 둔 우루과이–포르투갈 코너 기록 보기</button>`
             : ""}
       </div>
-      <p class="always-boundary"><strong>이 배분은 전술 추천이 아닙니다.</strong> 키커·첫 후속·첫 수비는 데이터에 남은 기록이며, 선수의 당시 위치와 마킹 방식은 없습니다. 훈련 효과, 수비 성공, 실점 방지, 최적 전술은 판단하지 않습니다.</p>
+      <p class="always-boundary"><strong>이 선택은 전술 추천이 아닙니다.</strong> 키커·첫 후속·첫 수비는 데이터에 남은 기록이며, 선수의 당시 위치와 마킹 방식은 없습니다. 훈련 효과, 수비 성공, 실점 방지, 최적 전술은 판단하지 않습니다.</p>
       ${resultMarkup(audit)}
       <details class="method-context">
-        <summary>왜 이렇게 나누나요? 팀 기록과 기획 변경 보기</summary>
-        <p class="correction-note"><strong>기획서의 가설을 데이터로 다시 검증했습니다.</strong> 두 역할·두 구역 선택은 팀별 정보 이득이 사라져 기각했습니다. ‘제한된 자원 → 결과 전에 확정 → 가려 둔 경기 공개’ 구조는 유지하고, 기록에서 직접 확인할 수 있는 훈련 배분으로 바꿨습니다.</p>
+        <summary>분류 규칙과 기획 변경 보기</summary>
+        <p class="correction-note"><strong>기획서의 위치·임계값 단위는 데이터 검증 뒤 기각했습니다.</strong> ‘두 우선순위 → 결과 전에 확정 → 가려 둔 경기의 반박’ 구조는 유지하고, 포르투갈 공격과 우루과이 수비 기록을 연결한 다섯 장면 분류로 바꿨습니다.</p>
         <div class="briefing">
           <div class="brief-title">
             <p class="eyebrow">두 팀 사전 브리핑</p>
-            <h2>상대의 코너 뒤 첫 전개와 우리 팀이 겪은 수비 상황을 따로 비교합니다</h2>
-            <p>포르투갈 14개는 상대 공격 기록, 우루과이 5개는 우리 수비가 실제로 겪은 상황입니다. 우루과이 표본 1개는 전달 끝점을 분류할 수 없어 유형별 횟수에서 제외했습니다.</p>
+            <h2>전개 분류와 첫 후속 기록의 팀을 결합해 두 팀의 장면을 대조합니다</h2>
+            <p>포르투갈 14개는 상대 공격 기록, 우루과이 5개는 우리 수비가 실제로 겪은 분류 가능 장면입니다. 우루과이 1개는 전달 끝점이 비어 있어 다섯 장면 분류에서 제외했습니다.</p>
           </div>
           <article class="team-ledger attack-ledger">
             <span>포르투갈 공격 기록</span>
@@ -327,28 +464,29 @@ function render() {
         <div class="routine-legend">
           <span><i></i>포르투갈 공격 기록</span>
           <span><i class="defense"></i>우루과이가 겪은 수비 상황</span>
-          <strong>숫자가 작을수록 모르는 것이 많습니다</strong>
+          <strong>관찰 0회는 약점 판정이 아닙니다</strong>
         </div>
       </details>
     </section>
 
     <section class="audit">
       <div>
-        <p class="eyebrow">왜 단순 위치 통계와 다른가</p>
-        <h2>구역 수만 보지 않고 ‘누가 차고 → 누가 첫 후속 기록에 남았고 → 10초 안 무엇이 기록됐는지’를 팀별로 확인합니다.</h2>
+        <p class="eyebrow">팀 이름을 붙인 빈도표에서 한 단계 더</p>
+        <h2>포르투갈의 ‘키커 → 첫 후속 기록 → 10초 안 슈팅’과 우루과이의 같은 전개 기록을 장면 단위로 연결합니다.</h2>
       </div>
       <div class="audit-metrics">
         <article><strong>8/14</strong><span>포르투갈 조별리그 · 콰레스마 코너</span></article>
-        <article><strong>6회</strong><span>첫 공격 기록 · 하파엘 게헤이루</span></article>
-        <article><strong>5/6</strong><span>우루과이 수비 상황 · 유형 분류</span></article>
+        <article><strong>6회</strong><span>코너 뒤 첫 공격 이벤트 · 하파엘 게헤이루</span></article>
+        <article><strong>5/6</strong><span>우루과이가 수비한 코너 · 유형 분류</span></article>
       </div>
-      <p>팀별 전달 위치 확률은 대회 평균보다 토너먼트 160개에서 로그손실을 4.59% 줄였지만, 두 구역으로 압축하면 이점이 사라졌습니다. 그래서 선수 배치와 ‘최적 두 곳’은 버리고, 두 팀의 실제 코너 기록을 따로 보며 훈련 자원만 직접 배분합니다.</p>
+      <p>다섯 장면 분류는 위치만 집계하지 않습니다. 전개 유형과 어느 팀의 후속 이벤트가 먼저 기록됐는지를 함께 보고, 각 장면의 키커·후속 이벤트·선수·슈팅 기록을 원본 이벤트 ID로 다시 확인합니다. 기록이 없다는 사실은 취약성이 아니라 관찰 공백으로만 남깁니다.</p>
       <details>
         <summary>자료·분류 규칙·판단 한계</summary>
         <ul>
           <li>숏 구역 전달: 프로젝트가 정의한 숏 구역에서 끝난 코너입니다.</li>
-          <li>비숏·공중 후속 기록: 숏이 아니며 첫 후속 기록이 공중 경합 또는 헤더 패스인 코너입니다.</li>
-          <li>비숏·기타 후속 기록: 나머지 분류 가능한 비숏 전달로, 첫 후속 기록의 실제 유형을 함께 공개합니다.</li>
+          <li>공중 경합·헤더 뒤: 숏 코너가 아니며 첫 후속 기록이 공중 경합 또는 헤더 패스인 코너입니다.</li>
+          <li>그 밖의 전개 뒤: 나머지 분류 가능한 코너로, 첫 후속 기록의 실제 유형을 함께 공개합니다.</li>
+          <li>각 전개는 첫 후속 기록이 공격팀과 수비팀 중 어느 쪽인지 나눕니다. 이는 첫 접촉, 소유권, 경합 승자를 뜻하지 않습니다.</li>
           <li>이벤트 ID와 선수 ID는 Pappalardo &amp; Massucco의 Wyscout World Cup 2018
             <a href="https://figshare.com/articles/dataset/Events/7770599">Events</a>,
             <a href="https://figshare.com/articles/dataset/Matches/7770422/1">Matches</a>,
@@ -363,21 +501,20 @@ function render() {
 }
 
 app.addEventListener("click", (event) => {
-  const adjuster = event.target.closest("[data-adjust]");
-  if (adjuster) {
-    adjustAllocation(adjuster.dataset.routine, Number(adjuster.dataset.adjust));
+  const selector = event.target.closest("[data-select]");
+  if (selector) {
+    const signature = selector.dataset.select;
+    togglePriority(signature);
     render();
-    if (allocated() === TRAINING_REPS) {
+    if (priorityCount() === PRIORITY_COUNT) {
       document.querySelector('[data-action="lock"]')?.focus();
     } else {
-      document.querySelector(
-        `[data-routine="${adjuster.dataset.routine}"][data-adjust="${adjuster.dataset.adjust}"]`,
-      )?.focus();
+      document.querySelector(`[data-select="${signature}"]`)?.focus();
     }
     return;
   }
   const action = event.target.closest("[data-action]")?.dataset.action;
-  if (action === "lock" && allocated() === TRAINING_REPS) {
+  if (action === "lock" && priorityCount() === PRIORITY_COUNT) {
     state.locked = true;
   } else if (action === "reveal" && state.locked) {
     state.revealed = true;
@@ -388,7 +525,7 @@ app.addEventListener("click", (event) => {
   }
   render();
   if (action === "reveal") document.querySelector("[data-testid=scouting-result]")?.focus();
-  if (action === "restart") document.querySelector('[data-routine="short-recorded-endpoint"][data-adjust="1"]')?.focus();
+  if (action === "restart") document.querySelector('[data-select="short-attacking-first"]')?.focus();
 });
 
 app.addEventListener("submit", (event) => {

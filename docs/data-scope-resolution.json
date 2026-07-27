@@ -32,13 +32,13 @@
     "product_id": "corner-policy-lab",
     "official_state_sha256": "b78bc9a684910a9d62efb623a1c6f86d6a77182c1ec32cbfebddb6c406d18167",
     "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
-    "product_thesis_sha256": "5831f7fe26c540a2d2c41a0bb27d27a78271de7500616f87d42a532f48e8d26a",
+    "product_thesis_sha256": "64adf7a1a4189dde168427658d7b92bd4d6cc5fdcb9311be48a7e4b38ac222c5",
     "planning_source_sha256": "b9e21771f43b042cdf96a12c9159c01c18ec1c03936489c222584e6da115e17c",
-    "source_manifest_sha256": "940230dd6686c658d1bf6d5c5439e05b16e38508708cdff54f06e94ff6db4c04",
-    "product_selection_sha256": "958e143e07567f584b2ac98dbc3f452d7421b7e22a5e843b7053048e382ac261",
+    "source_manifest_sha256": "91f992b606cd37e041d42880e4e18a816095aee1810f99dcec425a633d7697a5",
+    "product_selection_sha256": "34206206fcccb73917075820300ce2716923d663d2d6f03a1f273881c5cff7e9",
     "derived_binding": {
       "path": "public/data/product-binding.json",
-      "sha256": "c9de350c02a1a046487e8981ee708124efd18f43df56c48a74cbe0e660c794b8"
+      "sha256": "f8a140cb518068a1380c7932600e8693483c4110f96855a5c216338c28e2226a"
     }
   },
   "note": "The official DAKER Data-tab rule resolves year eligibility without a board post. Three CC BY 4.0 Figshare sources and the independently tested public derivative are bound to Corner Policy Lab. Events and Matches own the historical team-event evidence; Players supplies only player_id to normalized short display-name joins. No evaluative or performance ranking of a player is allowed; factual event-frequency summaries over the fixed historical sample are allowed and are not player rankings. The selected product keeps Portugal attack, Uruguay defensive exposure, and the held-out match separate, gives no allocation correctness score, and does not claim physical contact, marking, player reach, tactical effect, or persistence to 2026."

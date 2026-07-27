@@ -1,19 +1,20 @@
-# Corner Prep Lab — 포르투갈 코너 기록으로 훈련 10회를 나눕니다
+# Corner Prep Lab — 두 팀의 코너 전개로 훈련 질문 두 개를 고릅니다
 
-Status: `CURRENT SCRIPT — ONLY AN EXACT-PUBLIC-RELEASE RECORDING MAY BE PUBLISHED`
+Status: `CURRENT FIVE-SIGNATURE SCRIPT — ONLY AN EXACT-PUBLIC-RELEASE RECORDING MAY BE PUBLISHED`
 
 | Time | Action | Narration |
 |---|---|---|
-| 0–6s | Show the named teams, `14/14`, `5/6`, and the first allocation card | `포르투갈의 코너 기록과 우루과이가 겪은 수비 상황을 따로 보고, 훈련 열 번을 나눕니다.` |
-| 6–15s | Open one player-and-event evidence detail | `구역 수만 보지 않습니다. 누가 찼고, 어느 팀의 어떤 후속 기록이 남았는지 확인합니다.` |
-| 15–25s | Allocate `5 / 4 / 1` | `조별리그의 일곱·다섯·두 번을 열 번으로 단순 환산해, 다섯·넷·하나로 잠급니다. 최적 배분은 아닙니다.` |
-| 25–31s | Lock before the matchup record is visible | `맞대결 기록을 보기 전에 훈련 계획을 확정합니다.` |
-| 31–42s | Reveal `5 / 2 / 3` and its raw differences | `실제 기록은 다섯·둘·셋입니다. 맞고 틀린 점수가 아니라, 다음 회의에서 바꿀 질문입니다.` |
-| 42–50s | Show event receipts and the `4/10` shot context | `기록 열 개 중 네 개 뒤에 슈팅이 있었지만, 어떤 훈련이 막았을지는 이 자료로 알 수 없습니다.` |
-| 50–57s | Save a rehearsal-reallocation note and reason | `그래서 비숏 기타 후속 기록을 다음 회의에서 다시 보기로 남깁니다.` |
-| 57–59.5s | Hold the result and immutable memo receipt | `근거는 도구가, 결정은 감독이 합니다.` |
+| 0–6s | Show the named teams, `14/14`, `5/6`, the three-step path, and five question cards | `포르투갈의 반복 코너 전개와 우루과이가 겪은 수비 장면을 대조해, 먼저 볼 훈련 질문 두 개를 고릅니다.` |
+| 6–15s | Open the `short-attacking-first` event-chain detail | `위치만 세지 않습니다. 전개 유형, 다음으로 기록된 이벤트의 팀, 선수와 슈팅 기록을 장면마다 연결합니다.` |
+| 15–25s | Select `aerial-defending-first`, then `short-attacking-first` | `공중 경합 뒤 수비팀 기록과 숏 코너 뒤 공격팀 기록을 먼저 봅니다. 도구가 정한 순위는 아닙니다.` |
+| 25–31s | Lock both questions before the matchup record is visible | `실제 맞대결을 열기 전에, 먼저 볼 두 질문을 잠급니다.` |
+| 31–42s | Reveal all five held-out counts `5 / 2 / 0 / 0 / 3` | `실제 맞대결의 코너 열 개는 다섯·둘·영·영·셋입니다. 선택을 채점하지 않고, 선택 밖 기록도 함께 봅니다.` |
+| 42–50s | Open the unselected `other-defending-first` evidence: 3 scenes, 2 later shots, corner `261095314` | `선택하지 않은 그 밖의 전개는 세 장면이었고, 그중 두 장면에 슈팅이 기록됐습니다. 첫 원본 기록을 엽니다.` |
+| 50–57s | Save `다음 회의에서 훈련 질문 다시 선택` with an inclusion-review reason | `이 장면을 다음 회의에서 다시 볼 질문으로 메모합니다. 잠근 질문과 공개 기록은 그대로입니다.` |
+| 57–59.5s | Hold the locked questions, five-count comparison, counterevidence, and memo | `근거는 도구가 연결하고, 질문은 감독이 고릅니다.` |
 
-The final frame must show the locked `5 / 4 / 1`, held-out `5 / 2 / 3`, raw
-differences, unchanged record, and separate next-meeting note. It must not imply
-that the allocation predicted the match, prevented a shot, optimized a tactic,
-or learned a reinforcement-learning policy.
+The final frame must show the two locked questions, held-out
+`5 / 2 / 0 / 0 / 3`, unselected counterevidence `261095314`, and the separate
+next-meeting note. It must not score the selection, infer a team trait from zero
+observations, rank the questions, attribute a later shot to the training choice,
+or invent player position and marking information.

@@ -2,12 +2,12 @@
   "schema_version": 1,
   "status": "PASS",
   "source_id": "pappalardo-wyscout-players",
-  "reviewer": "final_submission_auditor",
-  "reviewed_at": "2026-07-28T04:37:30+09:00",
+  "reviewer": "team_tactics_data_audit",
+  "reviewed_at": "2026-07-28T06:07:40+09:00",
   "public_json_path": "public/data/policy-lab-spike.json",
-  "public_json_sha256": "f32a78e48894402ff52b45f1e6f2d5c6666b4904e5b36a119929de5725a6ee35",
+  "public_json_sha256": "5bd7e5dd4d0221551cb9b5adadb37e8ff18129a6f84abc3e7e8e3b70adc56bf6",
   "review_basis": {
-    "user_finding": "A location-only statistic without team analysis is not a meaningful tactical product; player identity may add inspectable team-event context but must not be presented as proof that an allocation is correct.",
+    "user_finding": "A location-only statistic without team analysis is not a meaningful tactical product; player identity may add inspectable team-event context but must not be presented as proof that a selected training question is correct.",
     "independent_initial_findings": [
       "admit only player_id and a normalized shortName-derived display_name",
       "describe the identity as the actor associated with the first recorded follow-up event rather than a receiver or physical first contact",
@@ -15,7 +15,7 @@
       "keep attribution, transformation notice, and no-endorsement wording visible",
       "reject fallback player labels and fail closed on every missing actor required by the public fixed example"
     ],
-    "independent_final_finding": "PASS after the manifest rights_status enum, fail-closed joins, field minimization, exact event receipts, attribution boundary, and raw-free regression were corrected and hash-bound."
+    "independent_final_finding": "PASS after five source-derived sequence signatures were checked across Portugal attack, Uruguay defensive exposure, and the held-out match. The question board repeats already-admitted identity receipts without expanding the 41-player identity set; it preserves fail-closed joins, field minimization, exact event semantics, attribution, and the no-contact/no-marking boundary."
   },
   "allowed_identity_fields": [
     "player_id",
@@ -74,7 +74,9 @@
   },
   "final_result": {
     "join_ledger_pass": 12,
-    "identity_scope_pass": 139,
+    "identity_scope_pass": 248,
+    "unique_player_ids": 41,
+    "matchup_signature_receipts": 29,
     "exact_receipt_pass": 1,
     "uncertain": 0,
     "fail": 0

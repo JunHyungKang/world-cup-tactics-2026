@@ -54,7 +54,7 @@ export async function buildPolicyLabRelease({ outputRoot = "dist-policy-lab", re
     release_status: releaseStatus,
     product_selection_status: "PASS",
     implementation_refinement_status: "PASS",
-    manager_loop: "team-situation-rehearsal",
+    manager_loop: "matchup-question-lock",
     causal_recommendation_status: "REJECT",
     empirical_campaign_status: "REVISE",
     entrypoint: "index.html",

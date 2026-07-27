@@ -54,7 +54,7 @@ describe("Players source clean-release evidence", () => {
 
   it("admits only the minimal factual identity fields", () => {
     const identities = collectIdentityRecords(rehearsal);
-    expect(identities).toHaveLength(139);
+    expect(identities).toHaveLength(248);
     expect(new Set(identities.map(({ player_id: id }) => id)).size).toBe(41);
     for (const identity of identities) {
       expect(Object.keys(identity).sort()).toEqual(
@@ -132,15 +132,23 @@ describe("Players source clean-release evidence", () => {
       schema_version: 1,
       status: "PASS",
       source_id: "pappalardo-wyscout-players",
-      reviewer: "final_submission_auditor",
+      reviewer: "team_tactics_data_audit",
       public_json_sha256: sha256(bytes.derived),
-      final_result: { join_ledger_pass: 12, identity_scope_pass: 139, exact_receipt_pass: 1, uncertain: 0, fail: 0 },
+      final_result: {
+        join_ledger_pass: 12,
+        identity_scope_pass: 248,
+        unique_player_ids: 41,
+        matchup_signature_receipts: 29,
+        exact_receipt_pass: 1,
+        uncertain: 0,
+        fail: 0,
+      },
     });
     expect(audit).toMatchObject({
       schema_version: 1,
       status: "PASS",
       source_id: "pappalardo-wyscout-players",
-      reviewer: "final_submission_auditor",
+      reviewer: "team_tactics_data_audit",
       public_json_sha256: sha256(bytes.derived),
       semantic_review: { path: paths.semanticReview, sha256: sha256(bytes.semanticReview) },
       window_review: { path: paths.joinReview, sha256: sha256(bytes.joinReview) },

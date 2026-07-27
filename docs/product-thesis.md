@@ -4,98 +4,106 @@ Product selection ID: `corner-policy-lab`
 
 Product data scope: `official-open-historical-tactics`
 
-Product selection status: `PASS — player-linked team-situation rehearsal`
+Product selection status: `PASS — five-signature matchup-question board`
 
-Implementation refinement status: `PASS — unsupported a570 role placement replaced`
+Implementation refinement status: `IN PROGRESS — canonical release and video reset`
 
 Causal recommendation status: `REJECT`
 
 Empirical campaign status: `REVISE`
 
-Team-conditioned forecast status: `PASS — recorded delivery locations only`
+Event-chain matchup analysis status: `PASS — descriptive recorded sequences only`
 
-Two-team matchup forecast status: `REJECT — match-cluster uncertainty gate failed`
+Full tactical weakness inference status: `REJECT — no tracking, marking, or role-position data`
 
-## 2026-07-28 second product correction
+## 2026-07-28 third product correction
 
-The owner correctly rejected the corrected release as a tactical product. The
-release names Portugal and Uruguay, but its displayed forecast uses only
-Portugal's partially pooled delivery endpoints. Uruguay's defensive exposure is
-not admitted into that forecast, and the manager still moves two defensive roles
-even though the data contains no observed role placement. More decisively, the
-four-way team forecast's proper-score gain disappears when compressed into the
-two selected areas used by the primary interaction. The current public release
-and narrated video are therefore `REJECT` for final upload even though their
-technical and claim-boundary checks pass.
+The owner correctly rejected the ten-repetition release as meaningful team
+analysis. Splitting a sparse count into `5/4/1` made the user manipulate a
+number, but it did not answer what Portugal repeatedly did, whether Uruguay had
+already faced the same sequence, or what appeared outside the manager's initial
+focus. The public release and narrated video with SHA-256 `8f9b759e…99ba0` are
+therefore superseded and forbidden for YouTube or final submission.
 
-The bounded replacement question is:
+The canonical product question is now:
 
-> 포르투갈의 키커와 첫 후속 기록, 우루과이가 실제로 겪은 수비 상황을
-> 따로 보고 경기 전 훈련 10회를 어떻게 나눌 것인가?
+> 포르투갈이 반복한 코너 전개를 우루과이는 이미 겪어봤을까? 그렇지
+> 않다면 이번 훈련에서 어떤 두 장면을 먼저 볼 것인가?
 
-This is a **two-record match-preparation rehearsal**, not a matchup success
-predictor. The product keeps Portugal's 14 classifiable group-stage attacking
-corners and Uruguay's five classifiable defensive exposures separate. It derives
-three mutually exclusive recorded corner-situation categories:
+This is a **two-team matchup question board**, not a location-frequency chart,
+success predictor, or full tactical model. The transform keeps Portugal's 14
+classifiable attacking corners and Uruguay's five classifiable defensive
+exposures separate, then describes each scene with two source-recorded facts:
 
-1. `숏 구역 전달`: a classifiable endpoint in the project-defined short lane;
-2. `비숏·공중 후속 기록`: a non-short corner whose first recorded follow-up is
-   an air duel or head pass;
-3. `비숏·기타 후속 기록`: another classifiable non-short corner whose first
-   recorded follow-up is another event type, disclosed in each receipt.
+1. the recorded restart family: short, aerial follow-up, or other non-short;
+2. whether the first recorded follow-up belongs to the attacking or defending
+   team.
 
-The current fixed pre-match ledgers are Portugal `7 / 5 / 2` and Uruguay
-defensive exposure `2 / 2 / 1`, with one additional Uruguay source corner whose
-endpoint remains unclassified. The manager allocates exactly ten rehearsals,
-locks them, then reveals the untouched Uruguay–Portugal ledger `5 / 2 / 3` and
-source-event receipts. No score says the training was correct or prevented a
-shot.
+Their valid combinations form five exact sequence signatures. The pre-match
+Portugal/Uruguay pairs are `7/2`, `1/2`, `4/0`, `1/0`, and `1/1`:
 
-The same Figshare collection's Players v3 item can factually attach a
-Unicode-normalized `shortName` to the player associated with a recorded event.
-The fixed example joins Portugal's 14 corner takers and 14 first recorded
-follow-up actors, plus Uruguay's six first recorded defending actors. These are
-not physical first-contact, receiver, duel-winner, marking, or reach labels.
-Only `player_id` and `display_name` may enter the public derivative; all other
-profile fields and every likeness asset remain excluded.
+| Recorded sequence | Portugal attack | Uruguay defensive exposure |
+|---|---:|---:|
+| Short, attacking team recorded first | 7 | 2 |
+| Aerial follow-up, attacking team recorded first | 1 | 2 |
+| Aerial follow-up, defending team recorded first | 4 | 0 |
+| Other non-short, attacking team recorded first | 1 | 0 |
+| Other non-short, defending team recorded first | 1 | 1 |
+
+Zero means that the small Uruguay group-stage sample contains no scene in that
+classification. It is an observation gap, not a weakness. The manager chooses
+exactly two questions to inspect in training, locks them before seeing the
+Uruguay–Portugal match, then reveals all five held-out counts. The deterministic
+counterevidence is the first shot-bearing scene among the unselected questions.
+In the official path, `other non-short + defending first` was unselected but
+appeared three times and had two shots within ten seconds; the first receipt is
+corner event `261095314`. This creates a concrete next-meeting question without
+claiming that the original choice was right or wrong.
+
+Player names make the team analysis inspectable rather than decorative. The
+same CC BY 4.0 collection attaches a normalized source `shortName` to each
+recorded kicker, first follow-up actor, and first defending actor. These links do
+not identify a physical first contact, receiver, duel winner, marking assignment,
+or player position. Only `player_id` and `display_name` enter the public
+derivative.
 
 ### Product Gate candidate card
 
 - **Target user / fantasy:** a set-piece coach preparing one historical
-  knockout matchup with scarce training time.
-- **Decision / manipulation / consequence:** allocate ten rehearsal tokens
-  across three observed corner-situation categories; lock before reveal; compare the saved
-  allocation with the held-out team-event ledger and record the next meeting's
-  change.
-- **Real data and decision relevance:** Portugal's corner takers, first
-  recorded follow-up events, situation counts, and Uruguay's separately observed
-  first defending events determine which known patterns and evidence gaps the
-  manager can rehearse.
-- **Differentiation:** not formation drag-and-drop, a dashboard, or a generated
-  recommendation; the decision consumes a limited training budget and opens
-  source-linked counterevidence.
-- **60-second path:** understand two separate team ledgers; inspect three
-  player-linked situation categories; allocate `5 / 4 / 1` from the visible
-  group-stage ratio; lock; reveal the fixed matchup `5 / 2 / 3`;
-  open three source receipts; state what the data cannot prove.
+  knockout matchup who must choose what to review first.
+- **Decision / manipulation / consequence:** compare five exact two-team
+  sequence signatures, choose two training questions, lock before reveal,
+  inspect an unselected shot-bearing counterexample, and record the next
+  meeting's change.
+- **Real data and decision relevance:** Portugal's recorded restart/follow-up
+  chains define the opponent patterns; Uruguay's separately observed defensive
+  chains show prior exposure or an explicit observation gap.
+- **Differentiation:** not formation drag-and-drop, a count allocation, a static
+  dashboard, or a generated recommendation; the manager commits attention
+  before hidden matchup evidence challenges it.
+- **60-second path:** understand Portugal's repeated sequences and Uruguay's
+  prior exposure; select aerial-defending-first and short-attacking-first;
+  lock; reveal the five-signature matchup; open unselected counterevidence
+  `261095314`; save a new review question; state the tracking-data boundary.
 - **Prototype owner / tests / time box:** `prototypes/opponent-scouting`,
   `scripts/lib/policy-lab-spike.mjs`, and the opponent-scouting Playwright
-  contract; promotion must finish data rights, Korean comprehension, public
-  browser, and new-video gates before 2026-08-03.
+  contract; promotion must finish Korean comprehension, canonical release,
+  public browser, and new-video gates before 2026-08-03.
 - **Stop signals:** any player join ambiguity, identity-rights failure,
-  receiver/contact wording, hidden combination of the two teams, recommendation
-  claim, or inability to explain the value in five seconds.
+  receiver/contact wording, pooled team count, weakness/recommendation claim,
+  or inability to explain the matchup question in five seconds.
 - **Risks:** sparse Uruguay support, event rather than tracking data, immutable
   planning-PDF consistency, and full evidence reset after promotion.
-- **Expected judging value:** stronger originality, team specificity, direct
-  manipulation, provenance, and visual clarity; no claim of predictive tactical
-  effectiveness.
+- **Expected judging value:** team specificity, falsifiable precommitment,
+  player-linked provenance, counterevidence, and visual clarity; no claim of
+  predictive tactical effectiveness.
 
-Product Gate result: `PASS`. Players is independently accepted for the narrow
-recorded-actor identity use; the situation-allocation loop passes deterministic
-data, Korean copy, desktop, mobile, accessibility, and four-browser static-release
-gates. Independent football review finds no remaining tactical-effect claim.
-Public deployment, gallery, video, and exact submission evidence remain separate
+Product Gate result: `PASS` for implementation. Independent UX and football/data
+reviews reject the old allocation loop and accept the five-signature,
+two-question loop within the stated claim boundary. Raw reproduction, the narrow
+Players identity use, the first browser interaction suite, and responsive
+screenshots pass. Canonical documentation, the complete regression matrix,
+public deployment, gallery, video, and exact submission evidence remain open
 release gates.
 
 ## 2026-07-27 product correction

@@ -14,7 +14,7 @@ describe("Policy Lab committed derivative", () => {
   });
 
   it("pins the immutable raw inputs and deterministic transform", () => {
-    expect(report.transform_version).toBe("policy-lab-spike-v9-team-situation-record");
+    expect(report.transform_version).toBe("policy-lab-spike-v10-matchup-question-board");
     expect(report.provenance.input_sha256).toEqual({
       eventsZip: "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
       events: "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
@@ -294,5 +294,93 @@ describe("Policy Lab committed derivative", () => {
       expect(publicRoutine).not.toContain(forbidden);
     }
     expect(publicRoutine).not.toMatch(/\\u[0-9a-f]{4}/iu);
+  });
+
+  it("binds two manager-selected questions to both teams and deterministic counterevidence", () => {
+    const board = report.team_scouting.corner_situation_rehearsal.matchup_question_board;
+    expect(board).toMatchObject({
+      status: "PASS",
+      selection_contract: {
+        priority_count: 2,
+        no_default_priorities: true,
+        held_out_match_hidden_until_lock: true,
+      },
+    });
+    expect(board.questions).toHaveLength(5);
+    expect(board.ontology.forbidden_edges).toEqual(expect.arrayContaining([
+      "MARKED_BY",
+      "WOULD_PREVENT",
+      "CAUSED_SUCCESS",
+      "OPTIMAL_TACTIC",
+    ]));
+    const short = board.questions.find((question) =>
+      question.id === "short-attacking-first");
+    expect(short).toMatchObject({
+      recorded_situation: "short-recorded-endpoint",
+      first_recorded_team_role: "attacking",
+      opponent_attack: {
+        corners: 7,
+        attacking_shots_within_10_seconds: 1,
+      },
+      manager_defensive_exposure: {
+        corners: 2,
+        opponent_shots_within_10_seconds: 0,
+      },
+      held_out_evidence: {
+        corners: 5,
+        attacking_shots_within_10_seconds: 2,
+      },
+    });
+    const aerialAttacking = board.questions.find((question) =>
+      question.id === "aerial-attacking-first");
+    expect(aerialAttacking).toMatchObject({
+      opponent_attack: {
+        corners: 1,
+        attacking_shots_within_10_seconds: 1,
+      },
+      manager_defensive_exposure: {
+        corners: 2,
+        opponent_shots_within_10_seconds: 1,
+      },
+      held_out_evidence: {
+        corners: 2,
+        attacking_shots_within_10_seconds: 0,
+      },
+    });
+    const aerialDefending = board.questions.find((question) =>
+      question.id === "aerial-defending-first");
+    expect(aerialDefending).toMatchObject({
+      opponent_attack: { corners: 4, attacking_shots_within_10_seconds: 1 },
+      manager_defensive_exposure: { corners: 0, opponent_shots_within_10_seconds: 0 },
+      exposure_assessment: {
+        status: "UNSEEN_IN_RECORDED_SAMPLE",
+        thin: true,
+        compatible_unclassified_manager_corners: 0,
+      },
+      held_out_evidence: { corners: 0, attacking_shots_within_10_seconds: 0 },
+    });
+    const otherDefending = board.questions.find((question) =>
+      question.id === "other-defending-first");
+    expect(otherDefending).toMatchObject({
+      opponent_attack: { corners: 1, attacking_shots_within_10_seconds: 0 },
+      manager_defensive_exposure: { corners: 1, opponent_shots_within_10_seconds: 0 },
+      exposure_assessment: {
+        status: "SEEN_IN_RECORDED_SAMPLE",
+        thin: true,
+        compatible_unclassified_manager_corners: 1,
+      },
+      held_out_evidence: { corners: 3, attacking_shots_within_10_seconds: 2 },
+    });
+    expect(otherDefending.held_out_evidence.event_receipts.filter((receipt) =>
+      receipt.attacking_shot_within_10_seconds)).toHaveLength(2);
+    expect(board.unclassified_manager_defensive_exposure).toEqual([
+      expect.objectContaining({
+        corner_event_id: 260303991,
+        endpoint_validity: "placeholder-endpoint",
+        first_recorded_team_role: "defending",
+        first_recorded_event_subtype: "Goalkeeper leaving line",
+        compatible_question_ids: ["other-defending-first"],
+      }),
+    ]);
   });
 });

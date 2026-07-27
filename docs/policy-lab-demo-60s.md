@@ -1,30 +1,31 @@
 # Corner Prep Lab — 60-Second Judge Demo
 
-Status: `NEW CANONICAL SCRIPT — RECORD ONLY FROM THE EXACT PUBLIC RELEASE`
+Status: `NEW FIVE-SIGNATURE SCRIPT — RECORD ONLY FROM THE EXACT PUBLIC RELEASE`
 
-Gallery title: `Corner Prep Lab — 포르투갈 코너 기록으로 훈련 10회를 나눕니다`
+Gallery title: `Corner Prep Lab — 두 팀의 코너 전개로 훈련 질문 두 개를 고릅니다`
 
 | Time | Screen action | Korean narration | Observable proof |
 |---|---|---|---|
-| 0–6s | Hold the hero, `14/14`, `5/6`, and first allocation card | `포르투갈의 코너 기록과 우루과이가 겪은 수비 상황을 따로 보고, 훈련 열 번을 나눕니다.` | Named teams, small samples, and manager action appear before methodology |
-| 6–15s | Open one evidence detail, then close it | `구역 수만 보지 않습니다. 누가 찼고, 어느 팀의 어떤 후속 기록이 남았는지 확인합니다.` | Kicker, recorded actor, team role, event type, and ten-second shot context |
-| 15–25s | Allocate `5 / 4 / 1` | `조별리그의 일곱·다섯·두 번을 열 번으로 단순 환산해, 다섯·넷·하나로 잠급니다. 최적 배분은 아닙니다.` | Reproducible demo choice and explicit non-recommendation |
-| 25–31s | Lock before reveal | `맞대결 기록을 보기 전에 훈련 계획을 확정합니다.` | Hidden outcome and disabled controls |
-| 31–42s | Reveal held-out `5 / 2 / 3` and raw differences | `실제 기록은 다섯·둘·셋입니다. 맞고 틀린 점수가 아니라, 다음 회의에서 바꿀 질문입니다.` | Difference `0 / 배분 2회 많음 / 실제 2회 많음`; no score |
-| 42–50s | Show three source receipts and `4/10` shot context | `기록 열 개 중 네 개 뒤에 슈팅이 있었지만, 어떤 훈련이 막았을지는 이 자료로 알 수 없습니다.` | Event IDs, actors, event types, and causal boundary |
-| 50–57s | Save `훈련 비중 재배분` and one reason | `그래서 비숏 기타 후속 기록을 다음 회의에서 다시 보기로 남깁니다.` | Separate next-meeting decision; revealed record unchanged |
-| 57–59.5s | Hold result and memo | `근거는 도구가, 결정은 감독이 합니다.` | Team specificity, uncertainty, and manager agency |
+| 0–6s | Hold the named teams, `14/14`, `5/6`, five questions, and the first selection control | `포르투갈의 반복 코너 전개와 우루과이가 겪은 수비 장면을 대조해, 먼저 볼 훈련 질문 두 개를 고릅니다.` | The judge understands the two-team comparison and one direct decision before methodology |
+| 6–15s | Open the `숏 코너 뒤 · 공격팀 먼저 기록` event chains, then close them | `위치만 세지 않습니다. 전개 유형, 다음으로 기록된 이벤트의 팀, 선수와 슈팅 기록을 장면마다 연결합니다.` | Portugal attack and Uruguay defensive-exposure scenes, actors, team roles, shots, and source receipts |
+| 15–25s | Select `aerial-defending-first`, then `short-attacking-first` | `공중 경합 뒤 수비팀 기록과 숏 코너 뒤 공격팀 기록을 먼저 봅니다. 도구가 정한 순위는 아닙니다.` | Exactly two manual questions with equal priority and no automatic selection |
+| 25–31s | Lock the two questions before reveal | `실제 맞대결을 열기 전에, 먼저 볼 두 질문을 잠급니다.` | Hidden matchup and disabled selection controls |
+| 31–42s | Reveal held-out counts `5 / 2 / 0 / 0 / 3` and shot counts `2 / 0 / 0 / 0 / 2` | `실제 맞대결의 코너 열 개는 다섯·둘·영·영·셋입니다. 선택을 채점하지 않고, 선택 밖 기록도 함께 봅니다.` | All five signatures remain visible as selected or unselected observations |
+| 42–50s | Open the unselected `other-defending-first` counterevidence and corner `261095314` | `선택하지 않은 그 밖의 전개는 세 장면이었고, 그중 두 장면에 슈팅이 기록됐습니다. 첫 원본 기록을 엽니다.` | Three scenes, two later shots, Bernardo Silva → L. Suárez, and an exact source event |
+| 50–57s | Save `다음 회의에서 훈련 질문 다시 선택` and a concrete reason | `이 장면을 다음 회의에서 다시 볼 질문으로 메모합니다. 잠근 질문과 공개 기록은 그대로입니다.` | A separate next-meeting decision that cannot rewrite the locked or historical record |
+| 57–59.5s | Hold the locked questions, held-out comparison, counterevidence, and memo | `근거는 도구가 연결하고, 질문은 감독이 고릅니다.` | Team-specific evidence, an observation gap, and manager agency |
 
 ## First-five-second contract
 
 At desktop and `390×844`, the first frame must make visible or immediately
 reachable without scrolling:
 
-- `포르투갈 코너 상황 3유형`;
+- `포르투갈이 반복한 코너 전개, 우루과이는 이미 겪어봤을까요?`;
 - Portugal `14/14` and Uruguay `5/6`;
-- `훈련 10회를 어떻게 나눌까요?`;
-- the first `+` allocation control;
-- the small-sample and no-success-rate boundary.
+- the three-step path `포르투갈의 반복 전개 → 우루과이의 사전 경험 → 실제 맞대결`;
+- `먼저 검토할 훈련 질문 두 개를 고르세요`;
+- the first question-selection control; and
+- the small-sample observation-gap boundary.
 
 The detailed planning correction and research metrics stay outside the narrated
 60 seconds. Every editorial overlay is labelled `[편집 요약]`; no generated
@@ -32,6 +33,9 @@ match footage or simulated outcome is used.
 
 ## Claim boundary
 
-The narration may say `기록`, `상황`, `배분`, `결과 전에 확정`, `차이`,
-and `다음 회의`. It may not say `정답`, `추천`, `수비 성공`, `막았다`,
-`위험도`, `강화학습이 학습했다`, `최적`, or `경기 결과를 바꿨다`.
+The narration may say `기록`, `장면`, `전개`, `다음으로 기록된 이벤트의 팀`,
+`두 질문`, `결과 전에 잠금`, `선택 밖`, and `다음 회의`. It must not
+describe any count as a team trait, score the manager, rank the two questions,
+attribute a later shot to the selection, or imply a preferred response. `0`
+means only that the same classified scene was not found in the small admitted
+sample.

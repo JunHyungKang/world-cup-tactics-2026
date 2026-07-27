@@ -36,8 +36,8 @@
       "schema_units": "JSON spatio-temporal match events with event time, type/subtype, player/team, tags, and normalized positions",
       "coverage": "Locally verified: 101759 events across 64 matches; 603 corners across 32 teams; all corners have two position objects; 412 carry the accurate tag",
       "known_gaps": "No full-player tracking or continuous ball path; event positions cannot prove a defender would intercept or a goal would be prevented",
-      "product_use": "Derive attributed 10-second Brazil corner windows, endpoint/marker contact summaries, boundary-robust Skeptic examples, and a separate defending-team outlet-band evidence column for Corner War Room",
-      "next_gate": "Keep the Korean straight-line rendering disclaimer beside every browser receipt and rerun the bound transform test before both freezes",
+      "product_use": "Derive the full 603-corner audit plus the fixed Portugal attack, Uruguay defensive-exposure, and hidden Uruguay-Portugal event ledgers. Power five source-linked sequence signatures defined by recorded situation category and first-follow-up team role, including exact kicker, event, actor, ten-second shot, missingness, and source receipts. A zero count is only an observation gap, never a team weakness.",
+      "next_gate": "Keep all five sequence signatures, the 260303991 placeholder receipt, source-order counterevidence rule, and no-contact/no-causality boundary covered by raw reproduction and release tests before every freeze",
       "acceptance_evidence": {
         "accepted_at": "2026-07-18T11:50:00+09:00",
         "implementer": "corner-transform-implementer",
@@ -76,8 +76,8 @@
       "schema_units": "JSON match metadata including competition ID, participating teams, date, duration, winner, venue, and formation/lineup metadata",
       "coverage": "Locally verified: 64 FIFA World Cup 2018 match records mapping all 101759 inspected events",
       "known_gaps": "Metadata does not provide continuous tracking or validate tactical counterfactuals; team/player display rights remain separate from data licensing",
-      "product_use": "Map World Cup event sequences to opponent, match, and minute evidence in Corner War Room",
-      "next_gate": "Keep match labels source-linked and avoid crests, flags, photos, formation truth, or counterfactual claims",
+      "product_use": "Map every fixed Portugal, Uruguay, and held-out corner sequence to its historical match and team roles for the five-question matchup board. Match metadata names context only; it does not supply formation, marking, or tactical truth.",
+      "next_gate": "Keep the 48-reference/8-rehearsal/8-final split, hidden-match identity, and match labels source-linked; continue to exclude crests, flags, photos, formation truth, and counterfactual claims",
       "acceptance_evidence": {
         "accepted_at": "2026-07-18T11:50:00+09:00",
         "implementer": "corner-transform-implementer",
@@ -114,29 +114,29 @@
       "local_path": "data/raw/pappalardo/players.json (gitignored)",
       "sha256": "players.json 877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e (1737347 bytes); publisher/computed MD5 f28ddf6326281efeda6488b2169f5609; download https://ndownloader.figshare.com/files/15073721",
       "schema_units": "JSON player dimension, 3603 rows; locally verified wyId is present and unique in all rows. Product transform admits only wyId and one-pass Unicode-decoded, NFC-normalized, trimmed shortName.",
-      "coverage": "Current fixed example joins Portugal group-stage corner takers 14/14 and first recorded follow-up actors 14/14; Uruguay group-stage first recorded defending actors 6/6. The existing 5 classifiable plus 1 placeholder endpoint boundary remains unchanged.",
+      "coverage": "Current fixed example joins Portugal group-stage corner takers 14/14 and first recorded follow-up actors 14/14; Uruguay group-stage first recorded defending actors 6/6; held-out match corner takers and first follow-up actors 10/10. Five sequence signatures cover all 29 classifiable event receipts, while the separate Uruguay placeholder receipt remains visible.",
       "known_gaps": "playerId names the player associated with a recorded event; it does not prove physical first contact, reception, duel victory, marking assignment, reach, or causal effect. CC BY does not grant publicity, privacy, personality, trademark, or endorsement rights. Source shortName strings contain literal Unicode escapes that require deterministic one-pass normalization.",
-      "product_use": "Link player IDs to factual short display names in separate Portugal attack, Uruguay defensive-exposure, and held-out match event records. The identity is only the actor associated with the recorded event. Do not expose full-name composition, birth/passport data, height, weight, preferred foot, role, current team IDs, photos, flags, crests, evaluative or performance rankings, recommendations, physical-contact claims, or tactical-effect claims. Factual event-frequency summaries over the fixed historical sample, such as recorded-event counts, are allowed and are not player rankings.",
+      "product_use": "Link player IDs to factual short display names in separate Portugal attack, Uruguay defensive-exposure, held-out match, and five sequence-question receipts. The identity is only the actor associated with the recorded event. Do not expose full-name composition, birth/passport data, height, weight, preferred foot, role, current team IDs, photos, flags, crests, evaluative or performance rankings, recommendations, physical-contact claims, or tactical-effect claims. Repeating an admitted receipt inside a question does not expand the 41-player identity set.",
       "next_gate": "Keep the clean-release identity test and visible attribution/no-endorsement wording bound to every release. Reopen admission before adding any Players field, identity asset, or broader player claim.",
       "acceptance_evidence": {
-        "accepted_at": "2026-07-28T04:39:25+09:00",
+        "accepted_at": "2026-07-28T06:07:40+09:00",
         "implementer": "players-identity-implementer",
-        "reviewer": "final_submission_auditor",
+        "reviewer": "team_tactics_data_audit",
         "raw_transform_result": "4/4 passed",
         "raw_transform_argv": ["node_modules/vitest/vitest.mjs", "run", "--config", "vite.raw.config.ts", "scripts/policy-lab-spike-reproduction.test.mjs"],
         "test_argv": ["node_modules/vitest/vitest.mjs", "run", "scripts/player-identity-release.test.mjs"],
         "artifacts": {
           "rights": { "path": "evidence/pappalardo-wyscout-players/rights.json", "sha256": "ff3bfee33a5567deb084f2f4c62643de9ff289f410a38212f5287f815fb7f867" },
-          "capability": { "path": "evidence/pappalardo-wyscout-players/capability.json", "sha256": "a6ff0697ba4b930836b5780dd8e0e168ebb304f4d4fad3919a57af9f13dc4f45" },
-          "transform": { "path": "scripts/lib/policy-lab-spike.mjs", "sha256": "a3715737224a14a2a1388021514c1bc372fe6c74e39fbb2e6a6cf2c8ddb3c29c" },
+          "capability": { "path": "evidence/pappalardo-wyscout-players/capability.json", "sha256": "a23bc43817f52f91db5c15ffd891c28985aba806ffc87c425ebba54ea09a1cda" },
+          "transform": { "path": "scripts/lib/policy-lab-spike.mjs", "sha256": "f7f05e73553135f58b057d90424cebec9b1894865c603ad031fb32617b630840" },
           "raw_transform_test": { "path": "scripts/policy-lab-spike-reproduction.test.mjs", "sha256": "8b2c44738254266d867469a0cba723531a5c17beeb8e41b68481aec70b3d67a3" },
-          "raw_transform_receipt": { "path": "evidence/pappalardo-wyscout-players/test-receipt.json", "sha256": "947eea9a60b59a42c1ce06ac681a1dafc43b01ce3793da5c6903d16feaaea2c6" },
-          "release_test": { "path": "scripts/player-identity-release.test.mjs", "sha256": "7051328b39841113a0c46b7b0d30296cdd2f8eca32fe901e6674642671af8e6b" },
-          "release_test_receipt": { "path": "evidence/pappalardo-wyscout-players/release-test-receipt.json", "sha256": "fae601a6a70a64a3272a554970f73f5e1e4405a8de157ab41a54912a22b4cff4" },
-          "semantic_review": { "path": "data/audit/player-identity-semantic-review.json", "sha256": "57c25023f5d1a1671fb6ae57b482610a4443aa7b663b26c1e89559422ac84b71" },
+          "raw_transform_receipt": { "path": "evidence/pappalardo-wyscout-players/test-receipt.json", "sha256": "c9ac5f1c8b7b2a0da6a6d5f02d6c08f7dc0a521e3daefe9694bba3cb6d05b0f3" },
+          "release_test": { "path": "scripts/player-identity-release.test.mjs", "sha256": "15013b62b07080bf79fe80f6141b20fec16fbff3864595c77f89bc5a772f206e" },
+          "release_test_receipt": { "path": "evidence/pappalardo-wyscout-players/release-test-receipt.json", "sha256": "83279ac4c5d97af36a098ea0e24940304b8169aabe46f05f2c8d03010e24c539" },
+          "semantic_review": { "path": "data/audit/player-identity-semantic-review.json", "sha256": "fdd608e366ed456c4b5f34bf8efc3009dfa5108875bb3f17243f9461a13cc65b" },
           "window_review": { "path": "data/audit/player-join-review.csv", "sha256": "c85deac223d3dc2fb6447f9dd7c8f28830e1df36c593627c816b77ddf40cf5e9" },
-          "audit": { "path": "evidence/pappalardo-wyscout-players/audit.json", "sha256": "be48ff2b4c35d906cd9e26289b86db0969ee8b1e2fc8314835d334fa1f218d1b" },
-          "derived": { "path": "public/data/policy-lab-spike.json", "sha256": "f32a78e48894402ff52b45f1e6f2d5c6666b4904e5b36a119929de5725a6ee35" }
+          "audit": { "path": "evidence/pappalardo-wyscout-players/audit.json", "sha256": "ec36f6425c6691035ca0a69b266731099727ed68845de278dffac2cf15a6f906" },
+          "derived": { "path": "public/data/policy-lab-spike.json", "sha256": "5bd7e5dd4d0221551cb9b5adadb37e8ff18129a6f84abc3e7e8e3b70adc56bf6" }
         }
       }
     },
@@ -237,5 +237,5 @@
     }
   ],
   "status": "accepted-historical-product-data",
-  "note": "The two CC BY 4.0 Figshare World Cup 2018 sources are accepted for Corner War Room after pinned ZIP/extracted hashes, deterministic transformation, 42/42 structural and semantic review, corrected half-open sensitivity, source lineage, and attribution checks. Other sources retain their own pending/rejected states."
+  "note": "The three CC BY 4.0 Figshare World Cup 2018 sources are accepted for Corner Prep Lab after pinned ZIP/extracted hashes, deterministic transformation, structural and semantic review, five-signature raw reproduction, narrow player-identity checks, source lineage, and attribution checks. Other sources retain their own pending/rejected states."
 }

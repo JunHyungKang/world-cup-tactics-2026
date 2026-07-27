@@ -8,64 +8,64 @@
       "id": "hook",
       "scheduled_seconds": 0,
       "kicker": "60초 제품 데모",
-      "title": "포르투갈 코너 상황 3유형",
-      "detail": "두 팀 기록을 따로 보고 훈련 10회를 직접 배분",
+      "title": "포르투갈의 반복 전개, 우루과이는 겪어봤을까",
+      "detail": "두 팀 장면을 대조해 먼저 볼 훈련 질문 2개 선택",
       "tone": "promise"
     },
     {
       "id": "evidence",
       "scheduled_seconds": 6,
-      "kicker": "01 · 집계 뒤의 기록",
-      "title": "누가 찼고, 누가 첫 후속 기록에 남았나",
-      "detail": "선수 · 팀 역할 · 이벤트 · 10초 안 슈팅 맥락",
+      "kicker": "01 · 팀별 이벤트 연쇄",
+      "title": "위치가 아니라 전개 뒤 첫 기록까지",
+      "detail": "전개 유형 · 첫 후속 팀 · 선수 · 10초 안 슈팅 기록",
       "tone": "evidence"
     },
     {
-      "id": "allocate",
+      "id": "select",
       "scheduled_seconds": 15,
-      "kicker": "02 · 감독의 수동 배분",
-      "title": "7·5·2를 열 번으로 단순 환산",
-      "detail": "5·4·1은 데모 선택 · 추천도 최적 배분도 아님",
+      "kicker": "02 · 감독의 두 질문",
+      "title": "공중 경합 뒤 수비팀 / 숏 코너 뒤 공격팀",
+      "detail": "두 질문은 같은 우선순위 · 자동 선택 없음",
       "tone": "decision"
     },
     {
       "id": "lock",
       "scheduled_seconds": 25,
-      "kicker": "03 · 결과 보기 전",
-      "title": "훈련 10회를 먼저 잠금",
-      "detail": "가려 둔 맞대결 기록은 아직 열지 않음",
+      "kicker": "03 · 맞대결 공개 전",
+      "title": "먼저 볼 두 질문을 잠금",
+      "detail": "가려 둔 우루과이–포르투갈 장면은 아직 열지 않음",
       "tone": "lock"
     },
     {
       "id": "reveal",
       "scheduled_seconds": 31,
       "kicker": "04 · 가려 둔 기록 공개",
-      "title": "5·4·1과 실제 5·2·3",
-      "detail": "차이 0 · 배분 2회 많음 · 실제 2회 많음",
+      "title": "실제 맞대결 5·2·0·0·3",
+      "detail": "선택과 선택 밖을 함께 공개 · 0회는 관찰 공백, 능력 판단 아님",
       "tone": "counterexample"
     },
     {
-      "id": "receipts",
+      "id": "counterevidence",
       "scheduled_seconds": 42,
-      "kicker": "05 · 원자료 영수증",
-      "title": "세 유형의 선수·이벤트 기록",
-      "detail": "10개 중 4개 뒤 슈팅 기록 · 훈련 효과는 판단 불가",
+      "kicker": "05 · 선택 밖 장면",
+      "title": "그 밖의 전개·수비팀 첫 기록 3장면",
+      "detail": "슈팅 기록 2장면 · corner 261095314",
       "tone": "boundary"
     },
     {
       "id": "memo",
       "scheduled_seconds": 50,
       "kicker": "06 · 다음 회의 질문",
-      "title": "비숏 기타 후속 기록을 다시 보기",
-      "detail": "확인한 기록은 그대로 · 별도 메모만 저장",
+      "title": "선택 밖 장면을 다음 의제로",
+      "detail": "잠근 질문과 공개 기록은 그대로 · 별도 메모만 저장",
       "tone": "decision"
     },
     {
       "id": "final",
       "scheduled_seconds": 57,
-      "kicker": "감독의 결정 다시 보기",
-      "title": "근거와 빈칸은 도구가 보여 줍니다",
-      "detail": "최종 배분과 다음 결정은 감독이 합니다",
+      "kicker": "감독의 질문 다시 보기",
+      "title": "근거는 도구가 연결하고, 질문은 감독이 고릅니다.",
+      "detail": "추적·마킹 정보 없음 · 배치나 훈련 효과 판단 없음",
       "tone": "promise"
     }
   ],
@@ -74,6 +74,7 @@
     "human_evidence": false,
     "causal_effect": false,
     "result_prediction": false,
-    "optimal_policy": false
+    "optimal_policy": false,
+    "team_trait_inference": false
   }
 }
