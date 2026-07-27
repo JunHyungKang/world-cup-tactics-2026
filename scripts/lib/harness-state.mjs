@@ -61,39 +61,26 @@ export function validateCurrentHarnessState({
   if (selection.product_id === "corner-policy-lab") {
     const boardRow = lineContaining(board, "| P0 | World Cup Tactics Web Challenge |");
     const judgeStatus = lineContaining(judgeGate, "Status: `");
-    const handoffCheckpoint = section(handoff, "## 2026-07-19 23:59 KST — canonical Policy Lab conversion checkpoint");
-    const runbookCurrent = section(runbook, "## Current verified state");
-    const currentVideo = submissionStory?.evidence?.narrated_video?.sha256?.slice(0, 8);
     const currentPdf = /\bpdf=([0-9a-f]{64})\b/u.exec(
       submissionLedger?.split("\n").find((line) => line.includes("| plan-visual-qa |")) ?? "",
     )?.[1]?.slice(0, 8);
     requireMarkers(errors, "competition board active row", boardRow, [
-      "Corner Policy Lab is the canonical root product", currentVideo, currentPdf,
-      "explicitly local rehearsal evidence", "path-backed `64/64` report",
+      "Corner Prep Lab is the canonical root product", currentPdf,
+      "old a570 two-role video is superseded", "four-browser static release `12/12` PASS",
     ]);
     requireMarkers(errors, "judge gate status", judgeStatus, ["technical product proof and public candidate byte parity passed"]);
     requireMarkers(errors, "README current product", readme, [
-      "The app is **Corner Policy Lab**", "48-match group-stage reference", "causal recommendation is `REJECT`",
-    ]);
-    requireMarkers(errors, "canonical handoff checkpoint", handoffCheckpoint, [
-      "selected `corner-policy-lab`", "Root `pnpm dev`, `pnpm build`, and `dist/` now serve Corner Policy Lab",
-      "59.520s", "34.005s", "output/pdf/corner-policy-lab-planning.pdf", "Human outcome evidence remains unavailable/no-claim",
-    ]);
-    requireMarkers(errors, "post-P0 execution runbook current state", runbookCurrent, [
-      "PASS — LOCAL FREEZE", "World Cup repository is activated", "Corner Policy Lab is the\nselected root product",
-      "7/7 policy data/release", "12/12 static four-environment browser PASS",
-    ]);
-    requireMarkers(errors, "post-P0 execution runbook", runbook, [
-      "output/pdf/corner-policy-lab-planning.pdf", "| 8B | complete exact document gate |",
-      "--require-final-submitted true", "VoiceOver stays unavailable/no-claim",
+      "The app is **Corner Prep Lab**", "Portugal's 14 group-stage attacking corners",
+      "Causal recommendation\nis `REJECT`",
     ]);
     requireMarkers(errors, "current product thesis", productThesis, [
-      "Product selection ID: `corner-policy-lab`", "policy data/release contracts: `7/7`",
-      "built static release: `12/12`", "human comprehension or preference\nevidence remain incomplete",
+      "Product selection ID: `corner-policy-lab`",
+      "Product selection status: `PASS — player-linked team-situation rehearsal`",
+      "Product Gate result: `PASS`",
     ]);
     requireMarkers(errors, "interaction acceptance contract", interactionContract, [
-      "# Corner Policy Lab Interaction Acceptance Contract", "BG-01", "BG-15",
-      "판단 보류", "선택 변경 0회",
+      "# Corner Prep Lab Interaction Acceptance Contract", "BG-01", "BG-15",
+      "5/4/1", "5/2/3", "다음 회의 메모 저장",
     ]);
     requireMarkers(errors, "official state judging contract", officialState, [
       "First-round voting weights are submitter 60%, participant 20%, and public 20%",
@@ -101,17 +88,23 @@ export function validateCurrentHarnessState({
     ]);
     requireMarkers(errors, "current judging map", judgingMap, [
       "제출팀 | 60%", "참가팀 | 20%", "대중 | 20%", "참신성 | 30", "감독 경험 설계 | 25",
+      "Observable Corner Prep Lab proof",
     ]);
-    requireMarkers(errors, "decision registry D48", lineContaining(decisionRegistry, "| D48 |"), [
-      "| accepted |", "Corner Policy Lab", "98/100", "Corner War Room", "97/100",
+    requireMarkers(errors, "decision registry D67", lineContaining(decisionRegistry, "| D67 |"), [
+      "| accepted |", "5/4/1", "5/2/3",
+    ]);
+    requireMarkers(errors, "decision registry D73", lineContaining(decisionRegistry, "| D73 |"), [
+      "| rejected |", "prototypes/opponent-scouting", "12/12",
     ]);
     rejectMarkers(errors, "competition board active row", boardRow, [/CWR remains the root\/submission package/iu, /convert root app/iu]);
     rejectMarkers(errors, "judge differentiation gate", judgeGate, [/No official scoring weights have been published/iu, /가중치 미공개/iu]);
-    rejectMarkers(errors, "README current product", readme, [/The app is \*\*Corner War Room\*\*/iu, /42-window Brazil/iu]);
-    rejectMarkers(errors, "canonical handoff checkpoint", handoffCheckpoint, [/official product remains `corner-war-room`/iu, /Policy Lab remains a research challenger/iu]);
-    rejectMarkers(errors, "post-P0 execution runbook current state", runbookCurrent, [/portfolio P0 freeze boundary is\s*`PENDING`/iu, /Corner War Room is implemented/iu]);
+    rejectMarkers(errors, "README current product", readme, [
+      /The app is \*\*Corner War Room\*\*/iu,
+      /place the set-piece defensive leader/iu,
+    ]);
     rejectMarkers(errors, "interaction acceptance contract", interactionContract, [
-      /^# Corner War Room/mu, /vite\.invalid-artifact\.config\.ts/u,
+      /^# Corner War Room/mu, /^# Corner Policy Lab/mu,
+      /vite\.invalid-artifact\.config\.ts/u, /두 역할을 어디에 둘까요/iu,
     ]);
     return errors;
   }

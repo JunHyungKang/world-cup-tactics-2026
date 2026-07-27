@@ -10,10 +10,16 @@ import {
 } from "./corner-transform.mjs";
 
 export const DELIVERY_ACTIONS = Object.freeze(["short", "near", "central-far", "other"]);
+export const ROUTINE_ACTIONS = Object.freeze([
+  "short-recorded-endpoint",
+  "aerial-recorded-follow-up",
+  "other-recorded-follow-up",
+]);
 export const HORIZONS = Object.freeze([8, 10, 12, 15]);
 export const TEAM_PRIOR_CONCENTRATIONS = Object.freeze([0.5, 1, 2, 4, 8, 16, 32, 64, 128]);
 export const MATCHUP_DEFENSE_WEIGHTS = Object.freeze([0, 0.25, 0.5, 0.75, 1]);
-export const POLICY_SPIKE_VERSION = "policy-lab-spike-v7-matchup-challenger";
+export const POLICY_SPIKE_VERSION = "policy-lab-spike-v9-team-situation-record";
+export const PLAYERS_INPUT_SHA256 = "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e";
 
 function attackingPoint(point, eventTeamId, attackingTeamId, mirrorLaterally) {
   const teamFrame = Number(eventTeamId) === Number(attackingTeamId)
@@ -76,8 +82,10 @@ function buildEpisode(corner, periodEvents, match, horizonSeconds) {
   const followUps = events.filter((event) => Number(event.id) !== Number(corner.id));
   const attackingShots = followUps.filter((event) => Number(event.teamId) === attackingTeamId && event.eventName === "Shot");
   const first = followUps[0] ?? null;
+  const firstAttacking = followUps.find((event) => Number(event.teamId) === attackingTeamId) ?? null;
+  const firstDefending = followUps.find((event) => Number(event.teamId) === defendingTeamId) ?? null;
 
-  return {
+  const episode = {
     id: `corner:${Number(corner.id)}`,
     state: {
       match_id: Number(corner.matchId),
@@ -115,6 +123,29 @@ function buildEpisode(corner, periodEvents, match, horizonSeconds) {
       source_ids: ["pappalardo-wyscout-events-wc-2018", "pappalardo-wyscout-matches-wc-2018"],
     },
   };
+  Object.defineProperty(episode, "_routine", {
+    enumerable: false,
+    value: {
+      first_event_subtype: first?.subEventName ?? "No recorded event",
+      corner_taker_player_id: Number(corner.playerId) || null,
+      first_event_player_id: Number(first?.playerId) || null,
+      first_event_source_event_id: Number(first?.id) || null,
+      first_event_offset_us: first === null ? null : eventMicroseconds(first) - eventMicroseconds(corner),
+      first_attacking_event_player_id: Number(firstAttacking?.playerId) || null,
+      first_attacking_event_source_event_id: Number(firstAttacking?.id) || null,
+      first_attacking_event_offset_us: firstAttacking === null ? null :
+        eventMicroseconds(firstAttacking) - eventMicroseconds(corner),
+      first_attacking_event_type: firstAttacking?.eventName ?? "No recorded event",
+      first_attacking_event_subtype: firstAttacking?.subEventName ?? "No recorded event",
+      first_defending_event_player_id: Number(firstDefending?.playerId) || null,
+      first_defending_event_source_event_id: Number(firstDefending?.id) || null,
+      first_defending_event_offset_us: firstDefending === null ? null :
+        eventMicroseconds(firstDefending) - eventMicroseconds(corner),
+      first_defending_event_type: firstDefending?.eventName ?? "No recorded event",
+      first_defending_event_subtype: firstDefending?.subEventName ?? "No recorded event",
+    },
+  });
+  return episode;
 }
 
 export function derivePolicyEpisodes(events, matches, horizonSeconds = 10) {
@@ -191,6 +222,244 @@ function teamNames(matches) {
     }
   }
   return names;
+}
+
+function normalizedPlayerName(value) {
+  return String(value ?? "")
+    .replace(/\\u([0-9a-f]{4})/giu, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
+    .normalize("NFC")
+    .trim();
+}
+
+function playerDirectory(players) {
+  const directory = new Map();
+  for (const player of players) {
+    const playerId = Number(player.wyId);
+    if (!Number.isInteger(playerId) || directory.has(playerId)) {
+      throw new Error(`players source has an invalid or duplicate wyId: ${player.wyId}`);
+    }
+    const shortName = normalizedPlayerName(player.shortName);
+    if (!shortName || /\\u[0-9a-f]{4}/iu.test(shortName)) {
+      throw new Error(`player ${playerId} has an invalid display name after one-pass normalization`);
+    }
+    directory.set(playerId, {
+      player_id: playerId,
+      display_name: shortName,
+    });
+  }
+  return directory;
+}
+
+function joinedPlayer(directory, playerId, context) {
+  if (!playerId) return null;
+  const player = directory.get(playerId);
+  if (!player) throw new Error(`players source is missing ${context}: ${playerId}`);
+  return player;
+}
+
+function actorJoinCoverage(episodes, playerKey, directory) {
+  const actorIds = episodes.map((episode) => episode._routine?.[playerKey]).filter(Boolean);
+  const joined = actorIds.filter((playerId) => directory.has(playerId));
+  if (joined.length !== actorIds.length) {
+    const missing = actorIds.filter((playerId) => !directory.has(playerId));
+    throw new Error(`players source is missing ${playerKey}: ${[...new Set(missing)].join(",")}`);
+  }
+  return { source_events_with_actor: actorIds.length, joined: joined.length, missing: 0 };
+}
+
+function routineAction(episode) {
+  if (episode.observed_action.validity !== "observed-endpoint") return null;
+  if (episode.observed_action.value === "short") return "short-recorded-endpoint";
+  if (["Air duel", "Head pass"].includes(episode._routine?.first_event_subtype)) {
+    return "aerial-recorded-follow-up";
+  }
+  return "other-recorded-follow-up";
+}
+
+function countPlayers(episodes, playerKey, directory) {
+  const counts = new Map();
+  for (const episode of episodes) {
+    const playerId = episode._routine?.[playerKey];
+    if (!playerId) continue;
+    counts.set(playerId, (counts.get(playerId) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([playerId, count]) => ({
+      ...joinedPlayer(directory, playerId, playerKey),
+      count,
+    }))
+    .sort((left, right) => right.count - left.count || left.player_id - right.player_id);
+}
+
+function routineCounts(episodes) {
+  return Object.fromEntries(ROUTINE_ACTIONS.map((routine) => [
+    routine,
+    episodes.filter((episode) => routineAction(episode) === routine).length,
+  ]));
+}
+
+function routineCards(episodes, directory, perspective) {
+  return ROUTINE_ACTIONS.map((routine) => {
+    const selected = episodes.filter((episode) => routineAction(episode) === routine);
+    return {
+      situation: routine,
+      corners: selected.length,
+      attacking_shots_within_10_seconds: selected.filter((episode) =>
+        episode.observed_outcome.attacking_shot).length,
+      first_event_team_role_counts: {
+        attacking: selected.filter((episode) =>
+          episode.observed_transition.first_event_team_role === "attacking").length,
+        defending: selected.filter((episode) =>
+          episode.observed_transition.first_event_team_role === "defending").length,
+        none: selected.filter((episode) =>
+          episode.observed_transition.first_event_team_role === "none").length,
+      },
+      leading_players: perspective === "attack"
+        ? {
+            corner_takers: countPlayers(selected, "corner_taker_player_id", directory).slice(0, 4),
+            first_attacking_events: countPlayers(selected, "first_attacking_event_player_id", directory).slice(0, 4),
+          }
+        : {
+            first_defending_events: countPlayers(selected, "first_defending_event_player_id", directory).slice(0, 4),
+          },
+      event_receipts: selected.map((episode) => ({
+        corner_event_id: episode.provenance.corner_event_id,
+        match_id: episode.state.match_id,
+        match_name: episode.provenance.match_name,
+        corner_taker: joinedPlayer(
+          directory,
+          episode._routine?.corner_taker_player_id,
+          "corner_taker_player_id",
+        ),
+        first_event_team_role: episode.observed_transition.first_event_team_role,
+        first_event_type: episode.observed_transition.first_event_type,
+        first_event_subtype: episode._routine?.first_event_subtype,
+        first_recorded_follow_up: {
+          source_event_id: episode._routine?.first_event_source_event_id,
+          offset_us: episode._routine?.first_event_offset_us,
+          actor: joinedPlayer(
+            directory,
+            episode._routine?.first_event_player_id,
+            "first_event_player_id",
+          ),
+          team_role: episode.observed_transition.first_event_team_role,
+          event_name: episode.observed_transition.first_event_type,
+          sub_event_name: episode._routine?.first_event_subtype,
+          selection_rule: "earliest event after the corner within the fixed inclusive 10-second window",
+          join_status: episode._routine?.first_event_player_id ? "joined" : "no-recorded-actor",
+        },
+        first_recorded_defending_event: {
+          source_event_id: episode._routine?.first_defending_event_source_event_id,
+          offset_us: episode._routine?.first_defending_event_offset_us,
+          actor: joinedPlayer(
+            directory,
+            episode._routine?.first_defending_event_player_id,
+            "first_defending_event_player_id",
+          ),
+          team_role: "defending",
+          event_name: episode._routine?.first_defending_event_type,
+          sub_event_name: episode._routine?.first_defending_event_subtype,
+          selection_rule: "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+          join_status: episode._routine?.first_defending_event_player_id ? "joined" : "no-recorded-actor",
+        },
+        attacking_shot_within_10_seconds: episode.observed_outcome.attacking_shot,
+      })),
+    };
+  });
+}
+
+function buildCornerSituationRehearsal(episodes, players, example) {
+  const directory = playerDirectory(players);
+  const referenceIds = new Set(episodes.map((episode) => episode.state.match_id)
+    .sort((left, right) => left - right).filter((matchId, index, values) =>
+      index === 0 || matchId !== values[index - 1]).slice(0, 48));
+  const opponentReferenceAll = episodes.filter((episode) =>
+    referenceIds.has(episode.state.match_id) &&
+    episode.state.attacking_team_id === example.opponent_team_id);
+  const opponentReference = opponentReferenceAll.filter((episode) =>
+    episode.observed_action.validity === "observed-endpoint");
+  const managerExposureAll = episodes.filter((episode) =>
+    referenceIds.has(episode.state.match_id) &&
+    episode.state.defending_team_id === example.manager_team_id);
+  const managerExposure = managerExposureAll.filter((episode) =>
+    episode.observed_action.validity === "observed-endpoint");
+  const heldOutAll = episodes.filter((episode) =>
+    episode.state.match_id === example.match_id &&
+    episode.state.attacking_team_id === example.opponent_team_id);
+  const heldOut = heldOutAll.filter((episode) =>
+    episode.observed_action.validity === "observed-endpoint");
+  const joinCoverage = {};
+  for (const [ledger, selected] of [
+    ["opponent_reference", opponentReferenceAll],
+    ["manager_defensive_reference", managerExposureAll],
+    ["held_out_match", heldOutAll],
+  ]) {
+    for (const playerKey of [
+      "corner_taker_player_id",
+      "first_event_player_id",
+      "first_attacking_event_player_id",
+      "first_defending_event_player_id",
+    ]) {
+      joinCoverage[`${ledger}_${playerKey}`] = actorJoinCoverage(selected, playerKey, directory);
+    }
+  }
+  return {
+    schema_version: 1,
+    status: players.length > 0 ? "PASS" : "REVISE",
+    decision: "Allocate ten pre-match rehearsal repetitions across three deterministic observed corner-situation categories.",
+    situation_rule: {
+      "short-recorded-endpoint": "Classifiable corner endpoint in the project-defined short lane.",
+      "aerial-recorded-follow-up": "Non-short delivery whose first recorded follow-up is an air duel or head pass.",
+      "other-recorded-follow-up": "Other classifiable non-short delivery; the first recorded follow-up can be a clearance, ground duel, touch, pass, or another event.",
+    },
+    claim_boundary: {
+      supported: "Separate opponent attack and manager-team defensive-exposure ledgers with player-linked recorded event chains.",
+      unsupported: [
+        "marking assignment",
+        "player position or reach at the kick",
+        "rehearsal effectiveness",
+        "defensive success caused by a plan",
+        "optimal matchup tactic",
+      ],
+    },
+    player_join_coverage: joinCoverage,
+    opponent_attack_reference: {
+      team_id: example.opponent_team_id,
+      team_name: example.opponent_team_name,
+      source_corners: opponentReferenceAll.length,
+      classifiable_corners: opponentReference.length,
+      situation_counts: routineCounts(opponentReference),
+      situation_cards: routineCards(opponentReference, directory, "attack"),
+      leading_corner_takers: countPlayers(opponentReference, "corner_taker_player_id", directory).slice(0, 6),
+      leading_first_attacking_events: countPlayers(opponentReference, "first_attacking_event_player_id", directory).slice(0, 6),
+    },
+    manager_defensive_reference: {
+      team_id: example.manager_team_id,
+      team_name: example.manager_team_name,
+      source_corners: managerExposureAll.length,
+      classifiable_corners: managerExposure.length,
+      situation_counts: routineCounts(managerExposure),
+      situation_cards: routineCards(managerExposure, directory, "defense"),
+      leading_first_defending_events: countPlayers(managerExposure, "first_defending_event_player_id", directory).slice(0, 6),
+      leading_first_defending_events_all_source_corners: countPlayers(
+        managerExposureAll,
+        "first_defending_event_player_id",
+        directory,
+      ).slice(0, 6),
+      opponent_shots_within_10_seconds: managerExposureAll.filter((episode) =>
+        episode.observed_outcome.attacking_shot).length,
+    },
+    held_out_match: {
+      match_id: example.match_id,
+      match_name: example.match_name,
+      source_corners: heldOutAll.length,
+      classifiable_corners: heldOut.length,
+      situation_counts: routineCounts(heldOut),
+      situation_cards: routineCards(heldOut, directory, "attack"),
+      attacking_shots_within_10_seconds: heldOutAll.filter((episode) =>
+        episode.observed_outcome.attacking_shot).length,
+    },
+  };
 }
 
 // Lanczos approximation. Inputs here are positive Dirichlet parameters only.
@@ -556,7 +825,7 @@ function forecastBootstrap(episodes, globalProbabilities, teamProbabilities, dra
   };
 }
 
-export function buildTeamScoutingAudit(allEpisodes, matches) {
+export function buildTeamScoutingAudit(allEpisodes, matches, players = []) {
   const eligible = allEpisodes.filter((episode) => episode.observed_action.validity === "observed-endpoint");
   const matchIds = [...new Set(eligible.map((episode) => episode.state.match_id))].sort((a, b) => a - b);
   const referenceIds = matchIds.slice(0, 48);
@@ -770,6 +1039,7 @@ export function buildTeamScoutingAudit(allEpisodes, matches) {
       ...firstExample,
       held_out_opponent_corners: firstExample.held_out_opponent_classified_corners,
     },
+    corner_situation_rehearsal: buildCornerSituationRehearsal(allEpisodes, players, firstExample),
   };
 }
 
@@ -965,7 +1235,7 @@ function rewardSensitivity(episodes) {
   });
 }
 
-export function buildPolicyLabSpike(events, matches) {
+export function buildPolicyLabSpike(events, matches, players = []) {
   const byHorizon = Object.fromEntries(HORIZONS.map((horizon) => {
     const episodes = derivePolicyEpisodes(events, matches, horizon);
     const summary = actionSummary(episodes);
@@ -997,8 +1267,12 @@ export function buildPolicyLabSpike(events, matches) {
     schema_version: 1,
     transform_version: POLICY_SPIKE_VERSION,
     provenance: {
-      source_ids: ["pappalardo-wyscout-events-wc-2018", "pappalardo-wyscout-matches-wc-2018"],
-      input_sha256: INPUT_HASHES,
+      source_ids: [
+        "pappalardo-wyscout-events-wc-2018",
+        "pappalardo-wyscout-matches-wc-2018",
+        "pappalardo-wyscout-players",
+      ],
+      input_sha256: { ...INPUT_HASHES, players: PLAYERS_INPUT_SHA256 },
       bootstrap_seed: "0x5eed1234",
     },
     status: candidateRejected ? "REJECT" : Object.values(gates).every(Boolean) ? "PASS" : "REVISE",
@@ -1015,7 +1289,7 @@ export function buildPolicyLabSpike(events, matches) {
     clustered_bootstrap: bootstrap,
     reward_sensitivity: reward,
     policy_campaign: buildPolicyCampaign(episodes),
-    team_scouting: buildTeamScoutingAudit(episodes, matches),
+    team_scouting: buildTeamScoutingAudit(episodes, matches, players),
     blind_folds: blindFolds,
     leave_one_match_out: leaveOneMatchOut(eligibleEpisodes),
     horizon_sensitivity: byHorizon,

@@ -1,16 +1,18 @@
 {
   "schema_version": 1,
-  "transform_version": "policy-lab-spike-v7-matchup-challenger",
+  "transform_version": "policy-lab-spike-v9-team-situation-record",
   "provenance": {
     "source_ids": [
       "pappalardo-wyscout-events-wc-2018",
-      "pappalardo-wyscout-matches-wc-2018"
+      "pappalardo-wyscout-matches-wc-2018",
+      "pappalardo-wyscout-players"
     ],
     "input_sha256": {
       "eventsZip": "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
       "events": "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
       "matchesZip": "c8f92bb7533e5c127e043cee764c991b5c25b4f5e70a65be931baae0b1765ce9",
-      "matches": "1ddab20c8605c063a62341eb846466c8d040885a5f0f9a3e26d023123786abb6"
+      "matches": "1ddab20c8605c063a62341eb846466c8d040885a5f0f9a3e26d023123786abb6",
+      "players": "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e"
     },
     "bootstrap_seed": "0x5eed1234"
   },
@@ -9628,6 +9630,1688 @@
       ],
       "team_conditioned_top_two_covered": 9,
       "held_out_opponent_corners": 10
+    },
+    "corner_situation_rehearsal": {
+      "schema_version": 1,
+      "status": "PASS",
+      "decision": "Allocate ten pre-match rehearsal repetitions across three deterministic observed corner-situation categories.",
+      "situation_rule": {
+        "short-recorded-endpoint": "Classifiable corner endpoint in the project-defined short lane.",
+        "aerial-recorded-follow-up": "Non-short delivery whose first recorded follow-up is an air duel or head pass.",
+        "other-recorded-follow-up": "Other classifiable non-short delivery; the first recorded follow-up can be a clearance, ground duel, touch, pass, or another event."
+      },
+      "claim_boundary": {
+        "supported": "Separate opponent attack and manager-team defensive-exposure ledgers with player-linked recorded event chains.",
+        "unsupported": [
+          "marking assignment",
+          "player position or reach at the kick",
+          "rehearsal effectiveness",
+          "defensive success caused by a plan",
+          "optimal matchup tactic"
+        ]
+      },
+      "player_join_coverage": {
+        "opponent_reference_corner_taker_player_id": {
+          "source_events_with_actor": 14,
+          "joined": 14,
+          "missing": 0
+        },
+        "opponent_reference_first_event_player_id": {
+          "source_events_with_actor": 14,
+          "joined": 14,
+          "missing": 0
+        },
+        "opponent_reference_first_attacking_event_player_id": {
+          "source_events_with_actor": 14,
+          "joined": 14,
+          "missing": 0
+        },
+        "opponent_reference_first_defending_event_player_id": {
+          "source_events_with_actor": 13,
+          "joined": 13,
+          "missing": 0
+        },
+        "manager_defensive_reference_corner_taker_player_id": {
+          "source_events_with_actor": 6,
+          "joined": 6,
+          "missing": 0
+        },
+        "manager_defensive_reference_first_event_player_id": {
+          "source_events_with_actor": 6,
+          "joined": 6,
+          "missing": 0
+        },
+        "manager_defensive_reference_first_attacking_event_player_id": {
+          "source_events_with_actor": 5,
+          "joined": 5,
+          "missing": 0
+        },
+        "manager_defensive_reference_first_defending_event_player_id": {
+          "source_events_with_actor": 6,
+          "joined": 6,
+          "missing": 0
+        },
+        "held_out_match_corner_taker_player_id": {
+          "source_events_with_actor": 10,
+          "joined": 10,
+          "missing": 0
+        },
+        "held_out_match_first_event_player_id": {
+          "source_events_with_actor": 10,
+          "joined": 10,
+          "missing": 0
+        },
+        "held_out_match_first_attacking_event_player_id": {
+          "source_events_with_actor": 10,
+          "joined": 10,
+          "missing": 0
+        },
+        "held_out_match_first_defending_event_player_id": {
+          "source_events_with_actor": 9,
+          "joined": 9,
+          "missing": 0
+        }
+      },
+      "opponent_attack_reference": {
+        "team_id": 9905,
+        "team_name": "Portugal",
+        "source_corners": 14,
+        "classifiable_corners": 14,
+        "situation_counts": {
+          "short-recorded-endpoint": 7,
+          "aerial-recorded-follow-up": 5,
+          "other-recorded-follow-up": 2
+        },
+        "situation_cards": [
+          {
+            "situation": "short-recorded-endpoint",
+            "corners": 7,
+            "attacking_shots_within_10_seconds": 1,
+            "first_event_team_role_counts": {
+              "attacking": 7,
+              "defending": 0,
+              "none": 0
+            },
+            "leading_players": {
+              "corner_takers": [
+                {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma",
+                  "count": 4
+                },
+                {
+                  "player_id": 70093,
+                  "display_name": "João Moutinho",
+                  "count": 1
+                },
+                {
+                  "player_id": 243588,
+                  "display_name": "Bruno Fernandes",
+                  "count": 1
+                },
+                {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva",
+                  "count": 1
+                }
+              ],
+              "first_attacking_events": [
+                {
+                  "player_id": 28907,
+                  "display_name": "Raphaël Guerreiro",
+                  "count": 5
+                },
+                {
+                  "player_id": 70093,
+                  "display_name": "João Moutinho",
+                  "count": 1
+                },
+                {
+                  "player_id": 70965,
+                  "display_name": "João Mário",
+                  "count": 1
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 258702322,
+                "match_id": 2057960,
+                "match_name": "Portugal - Spain",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 258702323,
+                  "offset_us": 1838893,
+                  "actor": {
+                    "player_id": 70965,
+                    "display_name": "João Mário"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 258702455,
+                  "offset_us": 3933307,
+                  "actor": {
+                    "player_id": 3269,
+                    "display_name": "Jordi Alba"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground defending duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 258702651,
+                "match_id": 2057960,
+                "match_name": "Portugal - Spain",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 258702655,
+                  "offset_us": 1392998,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": null,
+                  "offset_us": null,
+                  "actor": null,
+                  "team_role": "defending",
+                  "event_name": "No recorded event",
+                  "sub_event_name": "No recorded event",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "no-recorded-actor"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 258702667,
+                "match_id": 2057960,
+                "match_name": "Portugal - Spain",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Ground attacking duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 258702673,
+                  "offset_us": 1112616,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground attacking duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 258702797,
+                  "offset_us": 1632094,
+                  "actor": {
+                    "player_id": 4498,
+                    "display_name": "Lucas Vázquez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground defending duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 259477229,
+                "match_id": 2057962,
+                "match_name": "Portugal - Morocco",
+                "corner_taker": {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Cross",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259477231,
+                  "offset_us": 1225153,
+                  "actor": {
+                    "player_id": 70093,
+                    "display_name": "João Moutinho"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Cross",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259477159,
+                  "offset_us": 1368232,
+                  "actor": {
+                    "player_id": 20579,
+                    "display_name": "M. Benatia"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground loose ball duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              },
+              {
+                "corner_event_id": 259478187,
+                "match_id": 2057962,
+                "match_name": "Portugal - Morocco",
+                "corner_taker": {
+                  "player_id": 70093,
+                  "display_name": "João Moutinho"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Cross",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259478189,
+                  "offset_us": 1253436,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Cross",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259478215,
+                  "offset_us": 1809215,
+                  "actor": {
+                    "player_id": 101620,
+                    "display_name": "M. da Costa"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground loose ball duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 259479134,
+                "match_id": 2057962,
+                "match_name": "Portugal - Morocco",
+                "corner_taker": {
+                  "player_id": 243588,
+                  "display_name": "Bruno Fernandes"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259479135,
+                  "offset_us": 1630885,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259479197,
+                  "offset_us": 1712366,
+                  "actor": {
+                    "player_id": 101846,
+                    "display_name": "M. Boussoufa"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Touch",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 260341439,
+                "match_id": 2057964,
+                "match_name": "Iran - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Cross",
+                "first_recorded_follow_up": {
+                  "source_event_id": 260341441,
+                  "offset_us": 906848,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Cross",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 260341510,
+                  "offset_us": 2702812,
+                  "actor": {
+                    "player_id": 238031,
+                    "display_name": "A. Beiranvand"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Goalkeeper leaving line",
+                  "sub_event_name": "Goalkeeper leaving line",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          },
+          {
+            "situation": "aerial-recorded-follow-up",
+            "corners": 5,
+            "attacking_shots_within_10_seconds": 2,
+            "first_event_team_role_counts": {
+              "attacking": 1,
+              "defending": 4,
+              "none": 0
+            },
+            "leading_players": {
+              "corner_takers": [
+                {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma",
+                  "count": 2
+                },
+                {
+                  "player_id": 70093,
+                  "display_name": "João Moutinho",
+                  "count": 2
+                },
+                {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva",
+                  "count": 1
+                }
+              ],
+              "first_attacking_events": [
+                {
+                  "player_id": 8126,
+                  "display_name": "José Fonte",
+                  "count": 2
+                },
+                {
+                  "player_id": 28907,
+                  "display_name": "Raphaël Guerreiro",
+                  "count": 1
+                },
+                {
+                  "player_id": 37762,
+                  "display_name": "William Carvalho",
+                  "count": 1
+                },
+                {
+                  "player_id": 237034,
+                  "display_name": "Gonçalo Guedes",
+                  "count": 1
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 258702138,
+                "match_id": 2057960,
+                "match_name": "Portugal - Spain",
+                "corner_taker": {
+                  "player_id": 70093,
+                  "display_name": "João Moutinho"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 258702230,
+                  "offset_us": 1687840,
+                  "actor": {
+                    "player_id": 3563,
+                    "display_name": "Isco"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 258702230,
+                  "offset_us": 1687840,
+                  "actor": {
+                    "player_id": 3563,
+                    "display_name": "Isco"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 259477222,
+                "match_id": 2057962,
+                "match_name": "Portugal - Morocco",
+                "corner_taker": {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259477153,
+                  "offset_us": 788856,
+                  "actor": {
+                    "player_id": 29625,
+                    "display_name": "K. Boutaïb"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259477153,
+                  "offset_us": 788856,
+                  "actor": {
+                    "player_id": 29625,
+                    "display_name": "K. Boutaïb"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              },
+              {
+                "corner_event_id": 259477847,
+                "match_id": 2057962,
+                "match_name": "Portugal - Morocco",
+                "corner_taker": {
+                  "player_id": 70093,
+                  "display_name": "João Moutinho"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259477860,
+                  "offset_us": 3048515,
+                  "actor": {
+                    "player_id": 149074,
+                    "display_name": "N. Dirar"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259477860,
+                  "offset_us": 3048515,
+                  "actor": {
+                    "player_id": 149074,
+                    "display_name": "N. Dirar"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 260341413,
+                "match_id": 2057964,
+                "match_name": "Iran - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Head pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 260341419,
+                  "offset_us": 3358781,
+                  "actor": {
+                    "player_id": 37762,
+                    "display_name": "William Carvalho"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Head pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 260341501,
+                  "offset_us": 4702901,
+                  "actor": {
+                    "player_id": 79449,
+                    "display_name": "M. Pouraliganji"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Clearance",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              },
+              {
+                "corner_event_id": 260341691,
+                "match_id": 2057964,
+                "match_name": "Iran - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 260341676,
+                  "offset_us": 1813648,
+                  "actor": {
+                    "player_id": 79006,
+                    "display_name": "S. Azmoun"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 260341676,
+                  "offset_us": 1813648,
+                  "actor": {
+                    "player_id": 79006,
+                    "display_name": "S. Azmoun"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          },
+          {
+            "situation": "other-recorded-follow-up",
+            "corners": 2,
+            "attacking_shots_within_10_seconds": 0,
+            "first_event_team_role_counts": {
+              "attacking": 1,
+              "defending": 1,
+              "none": 0
+            },
+            "leading_players": {
+              "corner_takers": [
+                {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma",
+                  "count": 2
+                }
+              ],
+              "first_attacking_events": [
+                {
+                  "player_id": 3305,
+                  "display_name": "Pepe",
+                  "count": 1
+                },
+                {
+                  "player_id": 8126,
+                  "display_name": "José Fonte",
+                  "count": 1
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 260341391,
+                "match_id": 2057964,
+                "match_name": "Iran - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Others on the ball",
+                "first_event_subtype": "Touch",
+                "first_recorded_follow_up": {
+                  "source_event_id": 260341396,
+                  "offset_us": 1760216,
+                  "actor": {
+                    "player_id": 8126,
+                    "display_name": "José Fonte"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Touch",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 260341474,
+                  "offset_us": 2518354,
+                  "actor": {
+                    "player_id": 79006,
+                    "display_name": "S. Azmoun"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 260341400,
+                "match_id": 2057964,
+                "match_name": "Iran - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Others on the ball",
+                "first_event_subtype": "Clearance",
+                "first_recorded_follow_up": {
+                  "source_event_id": 260341483,
+                  "offset_us": 1850569,
+                  "actor": {
+                    "player_id": 79006,
+                    "display_name": "S. Azmoun"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Clearance",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 260341483,
+                  "offset_us": 1850569,
+                  "actor": {
+                    "player_id": 79006,
+                    "display_name": "S. Azmoun"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Clearance",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          }
+        ],
+        "leading_corner_takers": [
+          {
+            "player_id": 32597,
+            "display_name": "Ricardo Quaresma",
+            "count": 8
+          },
+          {
+            "player_id": 70093,
+            "display_name": "João Moutinho",
+            "count": 3
+          },
+          {
+            "player_id": 265673,
+            "display_name": "Bernardo Silva",
+            "count": 2
+          },
+          {
+            "player_id": 243588,
+            "display_name": "Bruno Fernandes",
+            "count": 1
+          }
+        ],
+        "leading_first_attacking_events": [
+          {
+            "player_id": 28907,
+            "display_name": "Raphaël Guerreiro",
+            "count": 6
+          },
+          {
+            "player_id": 8126,
+            "display_name": "José Fonte",
+            "count": 3
+          },
+          {
+            "player_id": 3305,
+            "display_name": "Pepe",
+            "count": 1
+          },
+          {
+            "player_id": 37762,
+            "display_name": "William Carvalho",
+            "count": 1
+          },
+          {
+            "player_id": 70093,
+            "display_name": "João Moutinho",
+            "count": 1
+          },
+          {
+            "player_id": 70965,
+            "display_name": "João Mário",
+            "count": 1
+          }
+        ]
+      },
+      "manager_defensive_reference": {
+        "team_id": 15670,
+        "team_name": "Uruguay",
+        "source_corners": 6,
+        "classifiable_corners": 5,
+        "situation_counts": {
+          "short-recorded-endpoint": 2,
+          "aerial-recorded-follow-up": 2,
+          "other-recorded-follow-up": 1
+        },
+        "situation_cards": [
+          {
+            "situation": "short-recorded-endpoint",
+            "corners": 2,
+            "attacking_shots_within_10_seconds": 0,
+            "first_event_team_role_counts": {
+              "attacking": 2,
+              "defending": 0,
+              "none": 0
+            },
+            "leading_players": {
+              "first_defending_events": [
+                {
+                  "player_id": 86340,
+                  "display_name": "C. Sánchez",
+                  "count": 2
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 259527052,
+                "match_id": 2057957,
+                "match_name": "Uruguay - Saudi Arabia",
+                "corner_taker": {
+                  "player_id": 122847,
+                  "display_name": "Salman Al Faraj"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259527059,
+                  "offset_us": 1523888,
+                  "actor": {
+                    "player_id": 122577,
+                    "display_name": "Taisir Al Jassim"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259527011,
+                  "offset_us": 3759179,
+                  "actor": {
+                    "player_id": 86340,
+                    "display_name": "C. Sánchez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground defending duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 259528043,
+                "match_id": 2057957,
+                "match_name": "Uruguay - Saudi Arabia",
+                "corner_taker": {
+                  "player_id": 122615,
+                  "display_name": "Hattan Bahbir"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259528045,
+                  "offset_us": 2126132,
+                  "actor": {
+                    "player_id": 122847,
+                    "display_name": "Salman Al Faraj"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259527898,
+                  "offset_us": 3518001,
+                  "actor": {
+                    "player_id": 86340,
+                    "display_name": "C. Sánchez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground defending duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          },
+          {
+            "situation": "aerial-recorded-follow-up",
+            "corners": 2,
+            "attacking_shots_within_10_seconds": 1,
+            "first_event_team_role_counts": {
+              "attacking": 2,
+              "defending": 0,
+              "none": 0
+            },
+            "leading_players": {
+              "first_defending_events": [
+                {
+                  "player_id": 20460,
+                  "display_name": "M. Cáceres",
+                  "count": 1
+                },
+                {
+                  "player_id": 333571,
+                  "display_name": "L. Torreira",
+                  "count": 1
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 259528860,
+                "match_id": 2057957,
+                "match_name": "Uruguay - Saudi Arabia",
+                "corner_taker": {
+                  "player_id": 122847,
+                  "display_name": "Salman Al Faraj"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259528861,
+                  "offset_us": 1255300,
+                  "actor": {
+                    "player_id": 284147,
+                    "display_name": "Mohammed Kanno"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259528759,
+                  "offset_us": 1553938,
+                  "actor": {
+                    "player_id": 20460,
+                    "display_name": "M. Cáceres"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              },
+              {
+                "corner_event_id": 260304080,
+                "match_id": 2057958,
+                "match_name": "Uruguay - Russia",
+                "corner_taker": {
+                  "player_id": 4513,
+                  "display_name": "D. Cheryshev"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 260304094,
+                  "offset_us": 1763678,
+                  "actor": {
+                    "player_id": 101669,
+                    "display_name": "A. Dzyuba"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 260304032,
+                  "offset_us": 2157637,
+                  "actor": {
+                    "player_id": 333571,
+                    "display_name": "L. Torreira"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          },
+          {
+            "situation": "other-recorded-follow-up",
+            "corners": 1,
+            "attacking_shots_within_10_seconds": 0,
+            "first_event_team_role_counts": {
+              "attacking": 0,
+              "defending": 1,
+              "none": 0
+            },
+            "leading_players": {
+              "first_defending_events": [
+                {
+                  "player_id": 86340,
+                  "display_name": "C. Sánchez",
+                  "count": 1
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 259528903,
+                "match_id": 2057957,
+                "match_name": "Uruguay - Saudi Arabia",
+                "corner_taker": {
+                  "player_id": 122577,
+                  "display_name": "Taisir Al Jassim"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Others on the ball",
+                "first_event_subtype": "Clearance",
+                "first_recorded_follow_up": {
+                  "source_event_id": 259527377,
+                  "offset_us": 813777,
+                  "actor": {
+                    "player_id": 86340,
+                    "display_name": "C. Sánchez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Clearance",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 259527377,
+                  "offset_us": 813777,
+                  "actor": {
+                    "player_id": 86340,
+                    "display_name": "C. Sánchez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Clearance",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          }
+        ],
+        "leading_first_defending_events": [
+          {
+            "player_id": 86340,
+            "display_name": "C. Sánchez",
+            "count": 3
+          },
+          {
+            "player_id": 20460,
+            "display_name": "M. Cáceres",
+            "count": 1
+          },
+          {
+            "player_id": 333571,
+            "display_name": "L. Torreira",
+            "count": 1
+          }
+        ],
+        "leading_first_defending_events_all_source_corners": [
+          {
+            "player_id": 86340,
+            "display_name": "C. Sánchez",
+            "count": 3
+          },
+          {
+            "player_id": 20460,
+            "display_name": "M. Cáceres",
+            "count": 1
+          },
+          {
+            "player_id": 32641,
+            "display_name": "F. Muslera",
+            "count": 1
+          },
+          {
+            "player_id": 333571,
+            "display_name": "L. Torreira",
+            "count": 1
+          }
+        ],
+        "opponent_shots_within_10_seconds": 1
+      },
+      "held_out_match": {
+        "match_id": 2058002,
+        "match_name": "Uruguay - Portugal",
+        "source_corners": 10,
+        "classifiable_corners": 10,
+        "situation_counts": {
+          "short-recorded-endpoint": 5,
+          "aerial-recorded-follow-up": 2,
+          "other-recorded-follow-up": 3
+        },
+        "situation_cards": [
+          {
+            "situation": "short-recorded-endpoint",
+            "corners": 5,
+            "attacking_shots_within_10_seconds": 2,
+            "first_event_team_role_counts": {
+              "attacking": 5,
+              "defending": 0,
+              "none": 0
+            },
+            "leading_players": {
+              "corner_takers": [
+                {
+                  "player_id": 70965,
+                  "display_name": "João Mário",
+                  "count": 2
+                },
+                {
+                  "player_id": 28907,
+                  "display_name": "Raphaël Guerreiro",
+                  "count": 1
+                },
+                {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma",
+                  "count": 1
+                },
+                {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva",
+                  "count": 1
+                }
+              ],
+              "first_attacking_events": [
+                {
+                  "player_id": 28907,
+                  "display_name": "Raphaël Guerreiro",
+                  "count": 3
+                },
+                {
+                  "player_id": 70965,
+                  "display_name": "João Mário",
+                  "count": 2
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 261094415,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 28907,
+                  "display_name": "Raphaël Guerreiro"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261094416,
+                  "offset_us": 1304437,
+                  "actor": {
+                    "player_id": 70965,
+                    "display_name": "João Mário"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261094438,
+                  "offset_us": 4566074,
+                  "actor": {
+                    "player_id": 116349,
+                    "display_name": "M. Vecino"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              },
+              {
+                "corner_event_id": 261095108,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095109,
+                  "offset_us": 1251477,
+                  "actor": {
+                    "player_id": 70965,
+                    "display_name": "João Mário"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261095162,
+                  "offset_us": 7047166,
+                  "actor": {
+                    "player_id": 116269,
+                    "display_name": "D. Laxalt"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground defending duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 261095389,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 70965,
+                  "display_name": "João Mário"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Cross",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095390,
+                  "offset_us": 1642326,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Cross",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261095472,
+                  "offset_us": 2735035,
+                  "actor": {
+                    "player_id": 227894,
+                    "display_name": "J. Giménez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Touch",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              },
+              {
+                "corner_event_id": 261095499,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 70965,
+                  "display_name": "João Mário"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095500,
+                  "offset_us": 1143336,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261095567,
+                  "offset_us": 7033299,
+                  "actor": {
+                    "player_id": 333571,
+                    "display_name": "L. Torreira"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground defending duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 261095893,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Pass",
+                "first_event_subtype": "Simple pass",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095891,
+                  "offset_us": 2088266,
+                  "actor": {
+                    "player_id": 28907,
+                    "display_name": "Raphaël Guerreiro"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Pass",
+                  "sub_event_name": "Simple pass",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": null,
+                  "offset_us": null,
+                  "actor": null,
+                  "team_role": "defending",
+                  "event_name": "No recorded event",
+                  "sub_event_name": "No recorded event",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "no-recorded-actor"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          },
+          {
+            "situation": "aerial-recorded-follow-up",
+            "corners": 2,
+            "attacking_shots_within_10_seconds": 0,
+            "first_event_team_role_counts": {
+              "attacking": 2,
+              "defending": 0,
+              "none": 0
+            },
+            "leading_players": {
+              "corner_takers": [
+                {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma",
+                  "count": 1
+                },
+                {
+                  "player_id": 32599,
+                  "display_name": "Manuel Fernandes",
+                  "count": 1
+                }
+              ],
+              "first_attacking_events": [
+                {
+                  "player_id": 3322,
+                  "display_name": "Cristiano Ronaldo",
+                  "count": 1
+                },
+                {
+                  "player_id": 70134,
+                  "display_name": "Rui Patrício",
+                  "count": 1
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 261095622,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095623,
+                  "offset_us": 1131782,
+                  "actor": {
+                    "player_id": 3322,
+                    "display_name": "Cristiano Ronaldo"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261095692,
+                  "offset_us": 1449826,
+                  "actor": {
+                    "player_id": 21174,
+                    "display_name": "E. Cavani"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 261096233,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 32599,
+                  "display_name": "Manuel Fernandes"
+                },
+                "first_event_team_role": "attacking",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Air duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261096236,
+                  "offset_us": 2582212,
+                  "actor": {
+                    "player_id": 70134,
+                    "display_name": "Rui Patrício"
+                  },
+                  "team_role": "attacking",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261096271,
+                  "offset_us": 2774246,
+                  "actor": {
+                    "player_id": 227894,
+                    "display_name": "J. Giménez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Air duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              }
+            ]
+          },
+          {
+            "situation": "other-recorded-follow-up",
+            "corners": 3,
+            "attacking_shots_within_10_seconds": 2,
+            "first_event_team_role_counts": {
+              "attacking": 0,
+              "defending": 3,
+              "none": 0
+            },
+            "leading_players": {
+              "corner_takers": [
+                {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma",
+                  "count": 1
+                },
+                {
+                  "player_id": 70965,
+                  "display_name": "João Mário",
+                  "count": 1
+                },
+                {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva",
+                  "count": 1
+                }
+              ],
+              "first_attacking_events": [
+                {
+                  "player_id": 8126,
+                  "display_name": "José Fonte",
+                  "count": 1
+                },
+                {
+                  "player_id": 37762,
+                  "display_name": "William Carvalho",
+                  "count": 1
+                },
+                {
+                  "player_id": 70403,
+                  "display_name": "Adrien Silva",
+                  "count": 1
+                }
+              ]
+            },
+            "event_receipts": [
+              {
+                "corner_event_id": 261095314,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 265673,
+                  "display_name": "Bernardo Silva"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Others on the ball",
+                "first_event_subtype": "Clearance",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095388,
+                  "offset_us": 1618645,
+                  "actor": {
+                    "player_id": 7972,
+                    "display_name": "L. Suárez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Clearance",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261095388,
+                  "offset_us": 1618645,
+                  "actor": {
+                    "player_id": 7972,
+                    "display_name": "L. Suárez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Others on the ball",
+                  "sub_event_name": "Clearance",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              },
+              {
+                "corner_event_id": 261095513,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 70965,
+                  "display_name": "João Mário"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Ground loose ball duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095569,
+                  "offset_us": 2264285,
+                  "actor": {
+                    "player_id": 116349,
+                    "display_name": "M. Vecino"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground loose ball duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261095569,
+                  "offset_us": 2264285,
+                  "actor": {
+                    "player_id": 116349,
+                    "display_name": "M. Vecino"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground loose ball duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": false
+              },
+              {
+                "corner_event_id": 261095829,
+                "match_id": 2058002,
+                "match_name": "Uruguay - Portugal",
+                "corner_taker": {
+                  "player_id": 32597,
+                  "display_name": "Ricardo Quaresma"
+                },
+                "first_event_team_role": "defending",
+                "first_event_type": "Duel",
+                "first_event_subtype": "Ground loose ball duel",
+                "first_recorded_follow_up": {
+                  "source_event_id": 261095942,
+                  "offset_us": 1581326,
+                  "actor": {
+                    "player_id": 70095,
+                    "display_name": "C. Rodríguez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground loose ball duel",
+                  "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "first_recorded_defending_event": {
+                  "source_event_id": 261095942,
+                  "offset_us": 1581326,
+                  "actor": {
+                    "player_id": 70095,
+                    "display_name": "C. Rodríguez"
+                  },
+                  "team_role": "defending",
+                  "event_name": "Duel",
+                  "sub_event_name": "Ground loose ball duel",
+                  "selection_rule": "earliest defending-team event after the corner within the fixed inclusive 10-second window",
+                  "join_status": "joined"
+                },
+                "attacking_shot_within_10_seconds": true
+              }
+            ]
+          }
+        ],
+        "attacking_shots_within_10_seconds": 4
+      }
     }
   },
   "blind_folds": [

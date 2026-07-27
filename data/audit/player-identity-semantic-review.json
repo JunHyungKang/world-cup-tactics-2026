@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-players",
+  "reviewer": "final_submission_auditor",
+  "reviewed_at": "2026-07-28T04:37:30+09:00",
+  "public_json_path": "public/data/policy-lab-spike.json",
+  "public_json_sha256": "f32a78e48894402ff52b45f1e6f2d5c6666b4904e5b36a119929de5725a6ee35",
+  "review_basis": {
+    "user_finding": "A location-only statistic without team analysis is not a meaningful tactical product; player identity may add inspectable team-event context but must not be presented as proof that an allocation is correct.",
+    "independent_initial_findings": [
+      "admit only player_id and a normalized shortName-derived display_name",
+      "describe the identity as the actor associated with the first recorded follow-up event rather than a receiver or physical first contact",
+      "bind event ID, actor, team role, event and sub-event names, offset, selection rule, and join status",
+      "keep attribution, transformation notice, and no-endorsement wording visible",
+      "reject fallback player labels and fail closed on every missing actor required by the public fixed example"
+    ],
+    "independent_final_finding": "PASS after the manifest rights_status enum, fail-closed joins, field minimization, exact event receipts, attribution boundary, and raw-free regression were corrected and hash-bound."
+  },
+  "allowed_identity_fields": [
+    "player_id",
+    "display_name"
+  ],
+  "allowed_aggregate_extension": [
+    "count"
+  ],
+  "forbidden_source_fields": [
+    "firstName",
+    "middleName",
+    "lastName",
+    "birthDate",
+    "birthArea",
+    "passportArea",
+    "height",
+    "weight",
+    "foot",
+    "role",
+    "currentTeamId",
+    "currentNationalTeamId"
+  ],
+  "forbidden_assets_and_claims": [
+    "photo or portrait",
+    "flag or crest",
+    "physical first contact",
+    "receiver",
+    "duel winner",
+    "marking assignment",
+    "player reach",
+    "tactical effect",
+    "player or source endorsement"
+  ],
+  "exact_corroboration": {
+    "match_id": 2058002,
+    "match_name": "Uruguay - Portugal",
+    "corner_event_id": 261096233,
+    "corner_taker": {
+      "player_id": 32599,
+      "display_name": "Manuel Fernandes"
+    },
+    "first_recorded_follow_up": {
+      "source_event_id": 261096236,
+      "offset_us": 2582212,
+      "actor": {
+        "player_id": 70134,
+        "display_name": "Rui Patrício"
+      },
+      "team_role": "attacking",
+      "event_name": "Duel",
+      "sub_event_name": "Air duel",
+      "selection_rule": "earliest event after the corner within the fixed inclusive 10-second window",
+      "join_status": "joined"
+    },
+    "semantic_conclusion": "This corroborates the source-linked first recorded follow-up actor only. It does not establish who first touched or received the ball, who won the duel, or whether a tactical decision worked."
+  },
+  "final_result": {
+    "join_ledger_pass": 12,
+    "identity_scope_pass": 139,
+    "exact_receipt_pass": 1,
+    "uncertain": 0,
+    "fail": 0
+  }
+}

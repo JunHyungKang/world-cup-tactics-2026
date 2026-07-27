@@ -31,7 +31,7 @@ const srtTime = (seconds) => {
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")},${String(milliseconds).padStart(3, "0")}`;
 };
 
-check(narration.schema_version === 1 && narration.status === "local-tts-rehearsal-not-final-voice", "narration contract must remain local placeholder TTS");
+check(narration.schema_version === 2 && narration.status === "local-tts-rehearsal-not-final-voice", "narration contract must remain local placeholder TTS");
 check(narration.voice === "Yuna" && narration.locale === "ko_KR", "narration voice contract drifted");
 check(narration.cues.length === story.video.beats.length, "narration must have one cue per story beat");
 for (const [index, cue] of narration.cues.entries()) {
@@ -64,6 +64,7 @@ check(manifest.visual_source.sha256 === visualManifest.video.sha256, "narrated r
 check(manifest.visual_source.manifest_path === visualManifestPath, "narrated visual manifest path drifted");
 check(manifest.visual_source.manifest_sha256 === digest(visualManifestBytes), "narrated visual manifest SHA mismatch");
 check(manifest.voice.status === (finalMode ? "placeholder-tts-requires-human-listening-approval" : "placeholder-local-tts-not-final-voice"), "TTS evidence boundary drifted");
+check(manifest.audio_cue_lead_in_seconds === 0.02, "narration cue lead-in drifted");
 check(Number.isFinite(manifest.video_start_normalization?.source_frame_seconds) &&
   manifest.video_start_normalization.source_frame_seconds >= 0 &&
   manifest.video_start_normalization.source_frame_seconds <= 2 &&
@@ -92,8 +93,11 @@ for (const [index, cue] of manifest.cues.entries()) {
   const contract = narration.cues[index];
   const bytes = await readFile(cue.path);
   check(cue.sha256 === digest(bytes) && cue.bytes === bytes.length, `narration cue ${cue.id} byte binding mismatch`);
-  check(cue.duration_seconds > 0 && cue.duration_seconds <= contract.end - contract.start - 0.3, `narration cue ${cue.id} does not fit its beat`);
-  check(contract.start + 0.2 + cue.duration_seconds <= contract.caption_end, `narration cue ${cue.id} outlasts its caption`);
+  check(cue.duration_seconds > 0 &&
+    cue.duration_seconds <= contract.end - contract.start - manifest.audio_cue_lead_in_seconds - 0.03,
+  `narration cue ${cue.id} does not fit its beat`);
+  check(contract.start + manifest.audio_cue_lead_in_seconds + cue.duration_seconds <= contract.caption_end,
+    `narration cue ${cue.id} outlasts its caption`);
 }
 
 const narratedBytes = await readFile(manifest.narrated_video.path);

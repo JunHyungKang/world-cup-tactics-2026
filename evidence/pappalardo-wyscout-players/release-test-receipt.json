@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "source_id": "pappalardo-wyscout-players",
+  "test_argv": [
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "scripts/player-identity-release.test.mjs"
+  ],
+  "completed_at": "2026-07-28T04:39:25+09:00",
+  "result": "6/6 passed — clean-release Players lineage, field minimization, 12 actor-join ledgers, 29 receipts, Rui Patrício corroboration, and independent evidence binding; ignored raw not required"
+}

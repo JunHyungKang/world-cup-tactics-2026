@@ -364,7 +364,7 @@ export async function probeGitHubPublic(value, fetchImpl = fetch, releaseCommit,
       } catch {
         errors.push("GitHub release commit response did not return JSON");
       }
-      const requiredPaths = ["README.md", "package.json", "prototypes/policy-dojo", "public/data/policy-lab-spike.json"];
+      const requiredPaths = ["README.md", "package.json", "prototypes/opponent-scouting", "public/data/policy-lab-spike.json"];
       for (const path of requiredPaths) {
         const contentsUrl = `${apiUrl}/contents/${path}?ref=${encodeURIComponent(releaseCommit)}`;
         const contentsResponse = await fetchResponse(fetchImpl, contentsUrl, {
@@ -384,8 +384,8 @@ export async function probeGitHubPublic(value, fetchImpl = fetch, releaseCommit,
             }
           } else if (["package.json", "public/data/policy-lab-spike.json"].includes(path) && (Array.isArray(content) || content.type !== "file")) {
             errors.push(`release ${path} is not a public file`);
-          } else if (path === "prototypes/policy-dojo" && (!Array.isArray(content) || content.length === 0)) {
-            errors.push("release prototypes/policy-dojo path is not a nonempty public directory");
+          } else if (path === "prototypes/opponent-scouting" && (!Array.isArray(content) || content.length === 0)) {
+            errors.push("release prototypes/opponent-scouting path is not a nonempty public directory");
           }
         } catch {
           if (path === "README.md") {

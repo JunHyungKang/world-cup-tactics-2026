@@ -4,15 +4,17 @@
   "data_scope": "official-open-historical-tactics",
   "source_ids": [
     "pappalardo-wyscout-events-wc-2018",
-    "pappalardo-wyscout-matches-wc-2018"
+    "pappalardo-wyscout-matches-wc-2018",
+    "pappalardo-wyscout-players"
   ],
   "core_tactical_source_ids": [
     "pappalardo-wyscout-events-wc-2018"
   ],
+  "identity_use_boundary": "No evaluative or performance ranking of a player. Factual event-frequency summaries over the fixed historical sample are allowed and are not player rankings.",
   "data_files": [
     {
       "path": "public/data/policy-lab-spike.json",
-      "sha256": "be1bc2b9ffc4c77aa6fb03e9d73b96c50bd13029efcbee25caa8c8ec552155fc"
+      "sha256": "f32a78e48894402ff52b45f1e6f2d5c6666b4904e5b36a119929de5725a6ee35"
     }
   ]
 }

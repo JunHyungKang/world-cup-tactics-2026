@@ -1,28 +1,28 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "current-build-composite-not-human-evidence",
   "viewport": "1440x900",
-  "submission_story_sha256": "a179cd3d424aadd1ce36c57c2e9455e4abff3e1c86401ff1b8801fe26761c75d",
+  "submission_story_sha256": "645f7931b999068bc18821ce6cb5bfda9128907e377981dfd194e761602b2603",
   "sources": [
     {
-      "path": "docs/assets/final-release/01-two-role-decision.png",
-      "sha256": "198361e8014296a32cbac5f37e2eebd831bfee8309bcb3801a7a0b1dfad330b5",
-      "bytes": 141239
+      "path": "docs/assets/final-release/01-evidence-detail.png",
+      "sha256": "fc8122680fcfc13ebdfd1c8863d197aa96c46270d7d521c43a30129d146c84ee",
+      "bytes": 126533
     },
     {
-      "path": "docs/assets/final-release/02-round-of-16-audit.png",
-      "sha256": "753d5945c319302dfe8a2bbb7ebce97f1dfc40f877db275cc68164e7411013e8",
-      "bytes": 207056
+      "path": "docs/assets/final-release/02-locked-allocation.png",
+      "sha256": "a6e76de03c29a1754a812c9999eef613605a614b9da1ac332148c1e847a96911",
+      "bytes": 141462
     },
     {
-      "path": "docs/assets/final-release/03-final-audit.png",
-      "sha256": "29d060db000c02d9c79599d4d1ee6cc05c8f18f5fb9eb7f097692f31be517764",
-      "bytes": 121334
+      "path": "docs/assets/final-release/03-held-out-review.png",
+      "sha256": "e0f9584af4cc8648534e94210df6cfa9b7e118f78cce32647a61ef7e5fdc06c9",
+      "bytes": 143992
     }
   ],
   "output": {
     "path": "docs/assets/gallery/corner-policy-lab-first-image.png",
-    "sha256": "db557c1d25cd3806a7e3032c33a05d69704bb05696236c3cc69d73c6a3423c49",
-    "bytes": 440166
+    "sha256": "b813da1200715374ace20a044441d1055816a380e5adc4515174adb55c6cff7a",
+    "bytes": 425680
   }
 }

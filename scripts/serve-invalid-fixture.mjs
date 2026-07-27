@@ -5,7 +5,7 @@ import { buildPolicyLabRelease } from "./lib/policy-lab-release.mjs";
 const root = "tmp/invalid-policy-lab-dist";
 await buildPolicyLabRelease({ outputRoot: root });
 const invalidReport = JSON.parse(await readFile(`${root}/data/policy-lab-spike.json`, "utf8"));
-invalidReport.team_scouting.matchup_challenger.status = "PASS";
+invalidReport.team_scouting.corner_situation_rehearsal.status = "REVISE";
 await writeFile(`${root}/data/policy-lab-spike.json`, `${JSON.stringify(invalidReport, null, 2)}\n`, "utf8");
 
 const preview = spawn(process.execPath, [

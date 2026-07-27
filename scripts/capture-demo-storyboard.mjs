@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const outputDirectory = "docs/assets/demo-storyboard";
 const videoPath = "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm";
-const frameSeconds = [2, 8, 14, 20, 32, 38, 49, 56];
+const frameSeconds = [2, 9, 20, 28, 36, 45, 53, 58];
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 await mkdir(outputDirectory, { recursive: true });
@@ -28,7 +28,7 @@ for (const [index, beat] of story.video.beats.entries()) {
   });
 }
 const manifest = {
-  schema_version: 1,
+  schema_version: 2,
   status: "local-rehearsal-not-youtube-evidence",
   source: { path: videoPath, sha256: sha256(videoBytes) },
   viewport: "1440x900",
@@ -36,4 +36,4 @@ const manifest = {
   artifacts,
 };
 await writeFile(`${outputDirectory}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`[PASS] Policy Lab demo storyboard: ${artifacts.length} beat(s)`);
+console.log(`[PASS] Corner Prep Lab demo storyboard: ${artifacts.length} beat(s)`);

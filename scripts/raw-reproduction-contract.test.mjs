@@ -33,19 +33,25 @@ describe("public raw-reproduction evidence contract", () => {
     expect(storyAudit).toContain("docs/policy-lab-demo-captions.ko.srt");
   });
 
-  it("binds both sources to the same immutable raw transform test bytes", async () => {
-    const bytes = await readFile("scripts/derive-corner-scenarios.test.mjs");
-    expect(artifacts.map(({ raw_transform_test }) => raw_transform_test)).toEqual([
-      { path: "scripts/derive-corner-scenarios.test.mjs", sha256: sha256(bytes) },
-      { path: "scripts/derive-corner-scenarios.test.mjs", sha256: sha256(bytes) },
-    ]);
+  it("binds each source to its declared immutable raw transform test bytes", async () => {
+    for (const artifact of artifacts) {
+      const bytes = await readFile(artifact.raw_transform_test.path);
+      expect(artifact.raw_transform_test.sha256).toBe(sha256(bytes));
+    }
   });
 
-  it("preserves two source-specific 7/7 raw-transform receipts", async () => {
+  it("preserves source-specific raw-transform commands and passed-test counts", async () => {
     for (const source of accepted) {
       const receipt = JSON.parse(await readFile(source.acceptance_evidence.artifacts.raw_transform_receipt.path, "utf8"));
-      expect(receipt).toMatchObject({ schema_version: 1, status: "PASS", source_id: source.id, result: "7/7 passed" });
-      expect(receipt.test_argv).toEqual(["node_modules/vitest/vitest.mjs", "run", "scripts/derive-corner-scenarios.test.mjs"]);
+      expect(receipt).toMatchObject({
+        schema_version: 1,
+        status: "PASS",
+        source_id: source.id,
+        result: source.acceptance_evidence.raw_transform_result,
+      });
+      expect(receipt.test_argv).toEqual([
+        ...source.acceptance_evidence.raw_transform_argv,
+      ]);
     }
   });
 
@@ -70,6 +76,7 @@ describe("public raw-reproduction evidence contract", () => {
     expect(accepted.map(({ local_path }) => local_path)).toEqual([
       "data/raw/pappalardo/events.zip and data/raw/pappalardo/events_World_Cup.json (gitignored)",
       "data/raw/pappalardo/matches.zip and data/raw/pappalardo/matches_World_Cup.json (gitignored)",
+      "data/raw/pappalardo/players.json (gitignored)",
     ]);
   });
 

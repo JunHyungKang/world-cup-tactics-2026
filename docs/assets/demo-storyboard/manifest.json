@@ -1,84 +1,84 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
     "path": "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm",
-    "sha256": "86b897279b2dd74d86529d62272cb0cf0c43569aa53284665d3a8d3a114b5a58"
+    "sha256": "6fe44ec75e768e80a05e69f5f11b38e5abecaceab32cfd68b3fed9dc200ec0e0"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "a179cd3d424aadd1ce36c57c2e9455e4abff3e1c86401ff1b8801fe26761c75d",
+  "submission_story_sha256": "645f7931b999068bc18821ce6cb5bfda9128907e377981dfd194e761602b2603",
   "artifacts": [
     {
       "order": 1,
       "id": "hook",
-      "timecode": "0–5s",
-      "proof": "두 팀 · 근거 · 감독의 결정이 첫 화면에 함께 보임",
+      "timecode": "0–6s",
+      "proof": "두 팀의 작은 표본을 분리하고 첫 + 조작을 바로 노출",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "720e4efb451c07ea3453b29b8f0cbf8eebd9041c652fbee298c6b58d2ec23ac1",
-      "bytes": 831880
+      "sha256": "ba27f920172976d72a1fbd39fa29cbde7aedb2e9ab8c02106f1476ad0bf78f5d",
+      "bytes": 481623
     },
     {
       "order": 2,
-      "id": "reference",
-      "timecode": "5–12s",
-      "proof": "두 팀 표본 공개 · 결합안 채택 보류 · 네 확률 · 감독의 수동 선택",
-      "path": "docs/assets/demo-storyboard/02-reference.png",
-      "sha256": "4e7b854956c9c64fb7c21f83012c8cc4f7a9532f6e396ae06c9a3458e604af83",
-      "bytes": 673894
+      "id": "evidence",
+      "timecode": "6–15s",
+      "proof": "구역 집계 뒤의 선수·이벤트·팀·시간 맥락",
+      "path": "docs/assets/demo-storyboard/02-evidence.png",
+      "sha256": "ca2b7f3e1600efca1ad62a2128a63d21e33dd9a81897b736eeabe1bb12a8feee",
+      "bytes": 567172
     },
     {
       "order": 3,
-      "id": "lock",
-      "timecode": "12–16s",
-      "proof": "결과 공개 전 확정 · 선택 변경 불가",
-      "path": "docs/assets/demo-storyboard/03-lock.png",
-      "sha256": "550db963cbe7fb70027dd87e3efcd6dcce26bf7e2487d81994b39e30dd99b24c",
-      "bytes": 494724
+      "id": "allocate",
+      "timecode": "15–25s",
+      "proof": "자동 추천이나 최적화가 아닌 재현 가능한 데모 배분",
+      "path": "docs/assets/demo-storyboard/03-allocate.png",
+      "sha256": "bf94488e84544d4b290cbaf92671363c5db02b9c52edf0e412d543d29bde7455",
+      "bytes": 587591
     },
     {
       "order": 4,
-      "id": "r16",
-      "timecode": "16–27s",
-      "proof": "포르투갈 선택 구역 9/10 · 실제 네 구역 기록",
-      "path": "docs/assets/demo-storyboard/04-r16.png",
-      "sha256": "fe054b2013ae3aecd516bd05204346c67e3b95c4447e852263a58c5f57c44871",
-      "bytes": 485424
+      "id": "lock",
+      "timecode": "25–31s",
+      "proof": "결과 공개 전 확정 · 배분 조작 비활성화",
+      "path": "docs/assets/demo-storyboard/04-lock.png",
+      "sha256": "183dcbc7da3fa9a960dbe9409483745e54119e30b64a4c4f25828cdb17457f18",
+      "bytes": 552368
     },
     {
       "order": 5,
-      "id": "seal",
-      "timecode": "27–34s",
-      "proof": "63% ≥ 60% · 결과 확인 뒤에도 선택 변경 0회",
-      "path": "docs/assets/demo-storyboard/05-seal.png",
-      "sha256": "1cf6bf11d84450c60b02b7e7168dbb132b790da82e15d381272e1da1c2659e39",
-      "bytes": 375880
+      "id": "reveal",
+      "timecode": "31–42s",
+      "proof": "채점이나 성공률 없이 배분과 실제 기록을 나란히 비교",
+      "path": "docs/assets/demo-storyboard/05-reveal.png",
+      "sha256": "35d71d82f280814dc3629d6d2eb29c1e076482d5744d616e5ca9e7d913cfd798",
+      "bytes": 394266
     },
     {
       "order": 6,
-      "id": "final-audit",
-      "timecode": "34–45s",
-      "proof": "55% < 60% · 상대 분석은 다른 팀의 정답이 아님",
-      "path": "docs/assets/demo-storyboard/06-final-audit.png",
-      "sha256": "f6ec67bad320e1c4f78919f1a0974538d04e3bcc517fa6eff09e6be25a83cd04",
-      "bytes": 422696
+      "id": "receipts",
+      "timecode": "42–50s",
+      "proof": "이벤트 ID·선수·팀 역할·후속 이벤트와 인과 한계",
+      "path": "docs/assets/demo-storyboard/06-receipts.png",
+      "sha256": "c783dc501334a2b2daf2bac7d4a477a2cd6ae6910c580aaabbce4068995abf19",
+      "bytes": 453842
     },
     {
       "order": 7,
-      "id": "next-meeting",
-      "timecode": "45–53s",
-      "proof": "확인 결과는 그대로 · 다음 회의 메모만 추가",
-      "path": "docs/assets/demo-storyboard/07-next-meeting.png",
-      "sha256": "12eeb352c2e500a0f7c2ae4b888441f2184390577b15f883616e72a30bcc3820",
-      "bytes": 382739
+      "id": "memo",
+      "timecode": "50–57s",
+      "proof": "공개된 기록을 바꾸지 않는 별도 다음 회의 메모",
+      "path": "docs/assets/demo-storyboard/07-memo.png",
+      "sha256": "2822c972b2883bc801ed7fcbadc43a25de7143918dcdc69b0cc09ab179a57750",
+      "bytes": 421800
     },
     {
       "order": 8,
       "id": "final",
-      "timecode": "53–59.5s",
-      "proof": "마지막 결정은 감독 · 근거와 실패 가능성을 함께 확인",
+      "timecode": "57–59.5s",
+      "proof": "근거와 빈칸은 도구가, 최종 결정은 감독이 담당",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "793598e1993d1404d66f70455f2c922c32fe975e7b3532887488444ea0220626",
-      "bytes": 434642
+      "sha256": "070aadf584b438094eb36584a3ef9b30397490139c3eb240e0b6a79e2266b5d5",
+      "bytes": 481085
     }
   ]
 }

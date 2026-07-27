@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "editorial-overlay-not-product-ui-or-human-evidence",
   "label": "[편집 요약]",
   "transition_ms": 160,
@@ -8,88 +8,64 @@
       "id": "hook",
       "scheduled_seconds": 0,
       "kicker": "60초 제품 데모",
-      "title": "포르투갈전, 두 역할을 어디에 둘까?",
-      "detail": "상대 코너 성향을 보고 감독이 직접 배치",
+      "title": "포르투갈 코너 상황 3유형",
+      "detail": "두 팀 기록을 따로 보고 훈련 10회를 직접 배분",
       "tone": "promise"
     },
     {
-      "id": "reference",
-      "scheduled_seconds": 5,
-      "kicker": "01 · 작은 표본 보완",
-      "title": "포르투갈 공격 14개 · 우루과이 수비 5개",
-      "detail": "두 팀 결합안은 채택 기준 미달 · 상대 공격만 반영",
+      "id": "evidence",
+      "scheduled_seconds": 6,
+      "kicker": "01 · 집계 뒤의 기록",
+      "title": "누가 찼고, 누가 첫 후속 기록에 남았나",
+      "detail": "선수 · 팀 역할 · 이벤트 · 10초 안 슈팅 맥락",
+      "tone": "evidence"
+    },
+    {
+      "id": "allocate",
+      "scheduled_seconds": 15,
+      "kicker": "02 · 감독의 수동 배분",
+      "title": "7·5·2를 열 번으로 단순 환산",
+      "detail": "5·4·1은 데모 선택 · 추천도 최적 배분도 아님",
       "tone": "decision"
     },
     {
       "id": "lock",
-      "scheduled_seconds": 12,
-      "kicker": "02 · 결과 보기 전",
-      "title": "두 역할과 60% 기준을 먼저 확정",
-      "detail": "추천 없음 · 감독의 선택을 한 번만 잠금",
+      "scheduled_seconds": 25,
+      "kicker": "03 · 결과 보기 전",
+      "title": "훈련 10회를 먼저 잠금",
+      "detail": "가려 둔 맞대결 기록은 아직 열지 않음",
       "tone": "lock"
     },
     {
-      "id": "r16",
-      "scheduled_seconds": 16,
-      "kicker": "03 · 포르투갈전 먼저",
-      "title": "실제 10개 중 9개가 선택 구역으로",
-      "detail": "한 경기만으로 정답이라 판정하지 않음",
+      "id": "reveal",
+      "scheduled_seconds": 31,
+      "kicker": "04 · 가려 둔 기록 공개",
+      "title": "5·4·1과 실제 5·2·3",
+      "detail": "차이 0 · 배분 2회 많음 · 실제 2회 많음",
       "tone": "counterexample"
     },
     {
       "id": "receipts",
-      "scheduled_seconds": 20.5,
-      "kicker": "다른 상대에서도 확인",
-      "title": "16강 전체는 63%로 기준 통과",
-      "detail": "8경기 모두 같은 선택 · 선택 변경 0회",
-      "tone": "evidence"
-    },
-    {
-      "id": "counterexample",
-      "scheduled_seconds": 23,
-      "kicker": "한 경기의 한계",
-      "title": "포르투갈전 적중은 보편 정답이 아님",
-      "detail": "상대별 분포가 나빠진 4팀도 함께 공개",
-      "tone": "counterexample"
-    },
-    {
-      "id": "sealed",
-      "scheduled_seconds": 27,
-      "kicker": "04 · 같은 선택 유지",
-      "title": "통과 뒤에도 선택을 바꾸지 않음",
-      "detail": "아직 보지 않은 다음 8경기",
-      "tone": "lock"
-    },
-    {
-      "id": "final-audit",
-      "scheduled_seconds": 30,
-      "kicker": "05 · 같은 선택으로 다시 확인",
-      "title": "다음 8경기는 55%로 기준 미달",
-      "detail": "처음 확정한 60% 기준을 그대로 적용",
-      "tone": "result"
-    },
-    {
-      "id": "boundary",
-      "scheduled_seconds": 36,
-      "kicker": "이 숫자가 뜻하지 않는 것",
-      "title": "55%는 수비 성공률이 아님",
-      "detail": "상대 분석도 자동 추천이나 보편 정답이 아님",
+      "scheduled_seconds": 42,
+      "kicker": "05 · 원자료 영수증",
+      "title": "세 유형의 선수·이벤트 기록",
+      "detail": "10개 중 4개 뒤 슈팅 기록 · 훈련 효과는 판단 불가",
       "tone": "boundary"
     },
     {
-      "id": "next-meeting",
-      "scheduled_seconds": 40,
-      "kicker": "06 · 다음 회의 메모",
-      "title": "선택 밖 기록을 보고 바꿀 점 기록",
-      "detail": "확인 결과는 그대로 · 메모만 추가",
+      "id": "memo",
+      "scheduled_seconds": 50,
+      "kicker": "06 · 다음 회의 질문",
+      "title": "비숏 기타 후속 기록을 다시 보기",
+      "detail": "확인한 기록은 그대로 · 별도 메모만 저장",
       "tone": "decision"
     },
     {
-      "id": "final-hold",
-      "scheduled_seconds": 53,
-      "kicker": "감독의 선택 다시 보기",
-      "title": "마지막 결정은 감독이 합니다",
-      "detail": "상대 근거 · 선택 밖 기록 · 실패 가능성",
+      "id": "final",
+      "scheduled_seconds": 57,
+      "kicker": "감독의 결정 다시 보기",
+      "title": "근거와 빈칸은 도구가 보여 줍니다",
+      "detail": "최종 배분과 다음 결정은 감독이 합니다",
       "tone": "promise"
     }
   ],

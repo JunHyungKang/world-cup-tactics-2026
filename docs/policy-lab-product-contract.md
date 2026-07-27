@@ -1,92 +1,83 @@
-# Corner Policy Lab Product Contract
+# Corner Prep Lab Product Contract
 
-Status: `PROMOTED OFFICIAL CANDIDATE — PUBLIC CANDIDATE LIVE; FINAL STAMP PENDING`
+Status: `PROMOTION IN PROGRESS — PRODUCT AND MOBILE PASS; SOURCE AND RELEASE BINDING REQUIRED`
 
 ## Product identity
 
-Corner Policy Lab is a match-held-out scouting-policy stress test. It is not an
-offline-RL value estimator, a defensive-effect simulator, or an optimal-tactics
-recommender. The manager allocates scarce attention before seeing an excluded
-match, observes where the historical deliveries actually went, inspects a
-deterministic representative contradiction, and revises or abstains.
+Corner Prep Lab is a historical match-preparation rehearsal for one named
+matchup. It is not a success predictor, an optimal-tactics recommender, or a
+simulation of player positioning. The manager reads Portugal's attacking-corner
+records and Uruguay's defensive-situation records separately, allocates ten
+training repetitions, locks the allocation, and then inspects a held-out match.
 
 ## Manager loop
 
-1. See only summaries derived from the fixed 48-match group-stage reference set.
-2. Allocate two scouting-attention tokens across four delivery lanes, or declare
-   `판단 보류` because support is insufficient.
-3. Declare `40%`, `50%`, or `60%` as the minimum delivery-location overlap that
-   will count as meeting the policy's inspection criterion. This is not a
-   defensive-success, shot-prevention, or win-probability threshold.
-4. Lock the areas and criterion before the test match name or outcomes are visible.
-5. Reveal every eligible corner from each still-sealed round-of-16 match.
-6. Inspect location coverage, the predeclared criterion verdict, the full source-event ledger, and the deterministic
-   representative contradiction.
-7. Review the evidence path and forbidden-inference guardrail.
-8. Save the policy, criterion verdict, coverage, and counterexample in an evaluation-receipt ledger.
-   A receipt records an evaluation, not a claim that the policy changed. If the
-   next selection differs, the two visible policy labels provide the actual diff.
-9. After eight rehearsals, lock one final policy and reveal all eight untouched
-   quarter-final-and-later matches without further revision.
+1. See Portugal's `14/14` classifiable group-stage attacking corners and
+   Uruguay's `5/6` classifiable group-stage defensive situations.
+2. Compare three deterministic recorded categories:
+   `숏 구역 전달`, `비숏·공중 후속 기록`, and `비숏·기타 후속 기록`.
+3. Open evidence only when needed: source-linked kicker, first recorded
+   follow-up actor, first-event team role, event type, and ten-second shot record.
+4. Allocate exactly ten rehearsal repetitions. There is no default or model
+   recommendation.
+5. Lock the allocation before the historical Uruguay–Portugal match is visible.
+6. Reveal the held-out `5 / 2 / 3` record, raw differences, three event receipts,
+   and the `4/10` ten-second shot context.
+7. Save the next meeting decision and reason without changing the allocation or
+   revealed records.
 
-### Judge Quick Trial
+The official demonstration uses `5 / 4 / 1`, the largest-remainder conversion
+of Portugal's visible `7 / 5 / 2` group-stage counts to ten repetitions. It is a
+reproducible demonstration choice, not an optimal allocation.
 
-The primary judging path creates one immutable policy snapshot and applies it to
-two sequential held-out audits. After two priorities are selected, `이 정책을
-잠가 두 시험에 적용` commits that snapshot before any held-out identity or
-outcome appears. `16강 8경기 결과 보기` then evaluates all eight round-of-16
-matches and creates eight match-specific receipts with the same policy
-fingerprint and predeclared criterion. The final eight matches remain sealed and the selection controls
-stay disabled. `같은 선택으로 다음 8경기 확인` applies the identical
-snapshot once more; the final receipt states `선택 변경 0회`. The detailed
-one-match-at-a-time revision loop remains available under progressive disclosure.
-After the sealed receipt, the manager chooses `다음 회의에서도 이 구역 유지`, `다음 회의에서 우선 구역
-수정`, or `다음 회의에서 결정 보류` and saves one reason. This separate next-meeting note
-cannot mutate the sealed policy, criterion verdict, overlap result, or receipts. The eight-activation
-judge path never moves a match or changes the policy.
+## Data and semantic invariants
 
-## Data invariants
+- The wider transform contains 603 World Cup 2018 corners across 64 matches;
+  557 endpoints are classifiable and 46 remain unclassified.
+- The wider audit retains the fixed `48 → 8 → 8` match split. The product's
+  first historical example is selected by the lowest source match ID in the
+  fixed round-of-16 partition, not by its result.
+- Portugal's attack record is `7 / 5 / 2`; Uruguay's separate defensive-situation
+  record is `2 / 2 / 1`, with one additional unclassified endpoint.
+- The hidden Uruguay–Portugal attack record is `5 / 2 / 3`.
+- The two teams are never pooled into one success rate or matchup recommendation.
+- `playerId` identifies the player associated with a recorded source event. The
+  UI must say `첫 후속 기록의 선수` or `첫 수비 기록`; it must never say
+  receiver, physical first contact, duel winner, marking assignment, or reach.
+- Event IDs, offsets, team roles, event/sub-event names, deterministic selection
+  rules, and join status remain bound in the public derivative.
+- A count of ten-second shots is a subsequent historical record, not an effect
+  attributed to the manager's allocation.
 
-- Source population is 603 World Cup 2018 corners across 64 matches.
-- Forty-six placeholder endpoints are never converted into actions.
-- The split is fixed before interaction: 48 reference, 8 rehearsal, and 8 final
-  audit matches in ascending source match-ID order, which corresponds to the
-  group stage, round of 16, and quarter-final-and-later tournament phases.
-- The three match-ID partitions are pairwise disjoint.
-- Revealed rehearsal or final-audit matches never enter the reference summary.
-- All 557 valid-action corners appear exactly once across the fixed campaign.
-- Segment classification is visible and fixed: group stage `397/436` (`91.1%`),
-  round of 16 `84/89` (`94.4%`), and quarter-final-and-later `76/78` (`97.4%`).
-- Reference-lane shares include adversarial lower/upper bounds that place all 39
-  missing group-stage endpoints outside or inside the lane; no hidden imputation
-  narrows those bounds.
-- Shot and goal fields are post-decision observations only.
-- The user score is delivery-location coverage, never shot prevention or match
-  outcome change.
+## Knowledge-graph boundary
 
-## Ontology contract
-
-Allowed nodes are `MatchContext`, `ScoutingPolicy`, `CornerRestart`, `DeliveryAction`,
-`ObservedEvent`, `OutcomeProxy`, and `Source`. Allowed edges describe recorded
-membership, action, transition, outcome, and provenance. The graph is presented
-as an evidence path and forbidden-inference guardrail, not as a reasoning engine.
-The UI must expose the
-forbidden relations `DEFENSIVE_DUTY_CAUSED`, `WOULD_PREVENT`, and
-`OPTIMAL_POLICY` wherever a counterexample is interpreted.
+The evidence path may connect `Team`, `Match`, `CornerRestart`, `CornerTaker`,
+`RecordedSituation`, `RecordedFollowUp`, `RecordedShot`, and `SourceReceipt`.
+Allowed edges mean only source-recorded association and provenance.
+`WOULD_PREVENT`, `OPTIMAL_TACTIC`, `MARKED_BY`, and `CAUSED_SUCCESS` remain
+forbidden.
 
 ## Fail-closed behavior
 
-The report remains `REJECT` for causal policy recommendation because observed
-action coverage is 557/603, team-level support is sparse, horizon ranking changes,
-and the match-cluster confidence interval crosses zero. The app may still run the
-historical stress test, but it must recommend no winning lane and must offer a
-user abstention path.
+The release must not build unless Events, Matches, and Players are all
+rights-cleared and accepted in `data/source-manifest.json`. Missing player joins,
+duplicate player IDs, invalid names, a non-PASS situation artifact, or an invalid
+bound report must stop the build or show an error page. No synthetic replacement
+record is allowed.
+
+## Planning consistency
+
+Validation rejected the planning PDF's two-role, two-area hypothesis because the
+team-conditioned proper-score gain disappeared when reduced to the two displayed
+areas. The implementation keeps the submitted scarce-resource choice,
+precommitment, hidden evidence, counterevidence, and next-meeting decision, but
+moves the visible action onto admitted team-event records. The correction is
+stated in-product and in `docs/product-thesis.md`.
 
 ## Promotion decision
 
-An earlier exact-artifact comparison selected Policy Lab over Corner War Room;
-that internal benchmark is not presented as a judge score. The promotion
-preserves causal recommendation `REJECT`, empirical campaign `REVISE`, and human
-evidence `unavailable/no-claim`. Public hosting and GitHub are live as candidate
-evidence. YouTube, DAKER final submission, final commit binding, and final
-public-URL browser evidence are still required before completion can be claimed.
+Product meaning, Korean copy, desktop interaction, and mobile first-action flow
+are `PASS`. Promotion still requires Players acceptance evidence, canonical
+static-build binding, the rebuilt multi-browser matrix, new gallery and video
+artifacts, and exact public-deployment verification. Causal recommendation
+remains `REJECT`; the wider empirical campaign remains `REVISE`.

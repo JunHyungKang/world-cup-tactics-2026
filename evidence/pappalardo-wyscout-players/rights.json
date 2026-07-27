@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "status": "CLEARED",
+  "source_id": "pappalardo-wyscout-players",
+  "source_url": "https://figshare.com/articles/dataset/Players/7765196",
+  "license": "CC BY 4.0 as displayed by the Figshare v3 API; attribution, license link, change indication, and no-endorsement wording required",
+  "evidence_url": "https://api.figshare.com/v2/articles/7765196",
+  "checked_at": "2026-07-28T04:37:30+09:00",
+  "allowed_uses": [
+    "public_prize_entry",
+    "public_github",
+    "hosted_app",
+    "youtube_demo",
+    "derived_distribution"
+  ],
+  "conditions": [
+    "credit Luca Pappalardo and Emanuele Massucco and link the source item",
+    "link CC BY 4.0 and identify the Unicode normalization and event-join transformations",
+    "limit the public identity fields to player_id and normalized display_name",
+    "state that the authors, provider, and named players do not endorse the service",
+    "do not imply that CC BY grants publicity, privacy, personality, trademark, or endorsement rights"
+  ]
+}

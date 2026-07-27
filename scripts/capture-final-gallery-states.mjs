@@ -27,41 +27,95 @@ async function waitForServer() {
   throw new Error("final gallery release server did not start");
 }
 
-async function capture(page, id) {
+async function capture(page, id, proof) {
   const path = `${outputDirectory}/${id}.png`;
   await page.screenshot({ path, animations: "disabled" });
   const bytes = await readFile(path);
-  return { id, path, bytes: bytes.length, sha256: sha256(bytes), viewport: "1440x900" };
+  return {
+    id,
+    proof,
+    path,
+    bytes: bytes.length,
+    sha256: sha256(bytes),
+    viewport: "1440x900",
+  };
+}
+
+async function add(page, name, count) {
+  for (let index = 0; index < count; index += 1) {
+    await page.getByRole("button", { name }).click();
+  }
 }
 
 const artifacts = [];
+let browser;
 try {
   await waitForServer();
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+  browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 900 },
+    deviceScaleFactor: 1,
+  });
   await page.goto(baseUrl);
-  await page.locator('.lane-card[data-lane="short"]').click();
-  await page.locator('.lane-card[data-lane="central-far"]').click();
-  await page.getByRole("button", { name: "최소 위치 겹침률 60% 선택" }).click();
-  artifacts.push(await capture(page, "01-two-role-decision"));
+  await page.getByRole("heading", { name: /포르투갈 코너 상황 3유형/u }).waitFor();
 
-  await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
-  await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
-  await page.getByTestId("opponent-result").evaluate((element) => element.scrollIntoView({ block: "center", behavior: "instant" }));
-  artifacts.push(await capture(page, "02-round-of-16-audit"));
+  const evidenceDetail = page.locator(
+    '[data-routine-card="short-recorded-endpoint"] .evidence-detail',
+  );
+  await evidenceDetail.locator("summary").click();
+  await evidenceDetail.evaluate((element) => {
+    element.scrollIntoView({ block: "center", behavior: "instant" });
+  });
+  artifacts.push(await capture(
+    page,
+    "01-evidence-detail",
+    "14/14와 5/6을 분리하고 선수·팀 역할·후속 이벤트를 연다",
+  ));
+  await evidenceDetail.locator("summary").click();
 
-  await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
-  artifacts.push(await capture(page, "03-final-audit"));
-  await browser.close();
+  await add(page, "숏 구역 전달 훈련 1회 추가", 5);
+  await add(page, "비숏 · 공중 후속 기록 훈련 1회 추가", 4);
+  await add(page, "비숏 · 기타 후속 기록 훈련 1회 추가", 1);
+  await page.getByRole("button", { name: "훈련 10회를 결과 전에 잠그기" }).click();
+  await page.locator(".commit").evaluate((element) => {
+    element.scrollIntoView({ block: "center", behavior: "instant" });
+  });
+  artifacts.push(await capture(
+    page,
+    "02-locked-allocation",
+    "단순 환산한 5/4/1을 맞대결 기록 공개 전에 잠근다",
+  ));
+
+  await page.getByRole("button", { name: "가려 둔 맞대결 첫 전개 보기" }).click();
+  await page.getByLabel("다음 회의에서 훈련 비중 재배분").check();
+  await page.getByRole("textbox", { name: /이유/u }).fill(
+    "비숏 전달 뒤 기타 후속 기록이 예상보다 2회 많아 재배분을 검토",
+  );
+  await page.getByRole("button", { name: "다음 회의 메모 저장" }).click();
+  await page.locator(".difference-grid").evaluate((element) => {
+    element.scrollIntoView({ block: "center", behavior: "instant" });
+  });
+  artifacts.push(await capture(
+    page,
+    "03-held-out-review",
+    "실제 5/2/3과 원시 차이를 보고 다음 회의 메모를 별도로 저장한다",
+  ));
 } finally {
+  await browser?.close();
   server.kill("SIGTERM");
 }
 
 const manifest = {
-  schema_version: 1,
+  schema_version: 2,
   status: "current-candidate-gallery-source-not-public-or-human-evidence",
   release_manifest_sha256: release.manifestSha256,
+  story: "14/14·5/6 → evidence → 5/4/1 non-optimal → lock → 5/2/3 → raw difference → memo",
   artifacts,
 };
-await writeFile(`${outputDirectory}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`[PASS] final gallery states: ${artifacts.length} release=${release.manifestSha256}`);
+await writeFile(
+  `${outputDirectory}/manifest.json`,
+  `${JSON.stringify(manifest, null, 2)}\n`,
+);
+console.log(
+  `[PASS] final Corner Prep Lab gallery states: ${artifacts.length} release=${release.manifestSha256}`,
+);

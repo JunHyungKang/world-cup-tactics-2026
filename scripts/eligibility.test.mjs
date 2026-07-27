@@ -103,6 +103,8 @@ function acceptSource(source, files, capabilities = source.capabilities) {
       accepted_at: "2026-07-17T21:00:00+09:00",
       implementer: "data-implementer",
       reviewer: "independent-reviewer",
+      raw_transform_result: "7/7 passed",
+      raw_transform_argv: ["node_modules/vitest/vitest.mjs", "run", rawTestPath],
       test_argv: testArgv,
       artifacts,
     },
@@ -440,6 +442,22 @@ describe("competition data-scope eligibility contract", () => {
     const transform = source.acceptance_evidence.artifacts.transform;
     driftedFiles.set(resolve("/repo", transform.path), Buffer.from("tampered"));
     expect(await validateEligibilityArtifacts({ ...fixture.input, root: "/repo", readFile: readFixture(driftedFiles), lstat: lstatFixture })).toContain(`${firstId} transform SHA-256 mismatch`);
+    const wrongRawResultSource = {
+      ...source,
+      acceptance_evidence: { ...source.acceptance_evidence, raw_transform_result: "4/4 passed" },
+    };
+    const wrongRawResultManifest = {
+      ...fixture.input.manifest,
+      sources: fixture.input.manifest.sources.map((record) =>
+        record.id === firstId ? wrongRawResultSource : record),
+    };
+    expect(await validateEligibilityArtifacts({
+      ...fixture.input,
+      manifest: wrongRawResultManifest,
+      root: "/repo",
+      readFile: readFixture(fixture.files),
+      lstat: lstatFixture,
+    })).toContain(`${firstId} raw transform receipt does not preserve the admitted source-specific reproduction command and result`);
     expect(runEligibilityAcceptanceTests({ ...fixture.input, root: "/repo", runner: () => ({ status: 1 }) })).toContain(
       `${firstId} acceptance test failed: ${source.acceptance_evidence.test_argv.join(" ")}`,
     );

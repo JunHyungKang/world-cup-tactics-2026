@@ -1,0 +1,13 @@
+ledger,actor_field,source_events_with_actor,joined,missing,structural_status,semantic_status,note
+opponent_reference,corner_taker_player_id,14,14,0,pass,pass,recorded corner actor only
+opponent_reference,first_event_player_id,14,14,0,pass,pass,first recorded follow-up actor only
+opponent_reference,first_attacking_event_player_id,14,14,0,pass,pass,first recorded attacking-team event actor only
+opponent_reference,first_defending_event_player_id,13,13,0,pass,pass,first recorded defending-team event actor only
+manager_defensive_reference,corner_taker_player_id,6,6,0,pass,pass,recorded corner actor only
+manager_defensive_reference,first_event_player_id,6,6,0,pass,pass,first recorded follow-up actor only
+manager_defensive_reference,first_attacking_event_player_id,5,5,0,pass,pass,first recorded attacking-team event actor only
+manager_defensive_reference,first_defending_event_player_id,6,6,0,pass,pass,first recorded defending-team event actor only
+held_out_match,corner_taker_player_id,10,10,0,pass,pass,recorded corner actor only
+held_out_match,first_event_player_id,10,10,0,pass,pass,first recorded follow-up actor only
+held_out_match,first_attacking_event_player_id,10,10,0,pass,pass,first recorded attacking-team event actor only
+held_out_match,first_defending_event_player_id,9,9,0,pass,pass,first recorded defending-team event actor only
