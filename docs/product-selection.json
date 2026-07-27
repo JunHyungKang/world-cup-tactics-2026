@@ -13,8 +13,8 @@
   "data_files": [
     {
       "path": "public/data/policy-lab-spike.json",
-      "sha256": "a0f66a327c5ea94a45e416203e43efb5073bab0f4e76d957de338140c3e2bb1f"
+      "sha256": "be1bc2b9ffc4c77aa6fb03e9d73b96c50bd13029efcbee25caa8c8ec552155fc"
     }
   ],
-  "note": "Selected through an internal exact-artifact comparison, fixed 48-8-8 match holdouts, one immutable policy across both tests, deterministic data and interaction checks, 12/12 four-environment release checks, and explicit separation of product PASS from empirical REVISE and causal REJECT. The internal comparison is selection history, not a judge-facing score."
+  "note": "Selected through an internal exact-artifact comparison and retained after the owner rejected the position-only premise. The canonical implementation preserves the fixed 48-8-8 holdouts and immutable manager policy while adding a group-stage-only, partially pooled Portugal scouting dossier before role placement. A separate two-team matchup challenger tests Uruguay's sparse defensive exposure but remains rejected because its match-cluster uncertainty misses the promotion gate. Deterministic data and interaction checks and the separation of bounded opponent forecast PASS, matchup challenger REJECT, empirical REVISE, and causal REJECT remain mandatory. Internal comparisons are selection history, not judge-facing scores."
 }

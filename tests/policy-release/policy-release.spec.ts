@@ -7,6 +7,10 @@ test("the built release runs the keyless commit and held-out reveal loop", async
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /코너킥 수비/ })).toBeVisible();
   await expect(page.locator(".stage")).toHaveAttribute("data-partitions-disjoint", "true");
+  await expect(page.getByTestId("team-context")).toContainText("포르투갈 조별리그 14개");
+  await expect(page.getByTestId("team-context")).toContainText("우루과이 수비까지 결합 · 채택 안 함");
+  await expect(page.getByTestId("team-context")).toContainText("개선 확률 92.3% < 기준 97.5%");
+  await expect(page.getByTestId("forecast-audit")).toContainText("8강 이후 7.21%↓");
   await page.locator('.lane-card[data-lane="short"]').click();
   await page.locator('.lane-card[data-lane="near"]').click();
   await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();

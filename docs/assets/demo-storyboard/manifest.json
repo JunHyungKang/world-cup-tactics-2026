@@ -3,28 +3,28 @@
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
     "path": "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm",
-    "sha256": "1c90475ca883ed27b4dde4fe2e1f9ed2b82041f6b8a627243eff7654be2ae549"
+    "sha256": "86b897279b2dd74d86529d62272cb0cf0c43569aa53284665d3a8d3a114b5a58"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "7a768437dcd74a819f8b78814456d1969a8cd8e5512729be342c35c1535fbc4a",
+  "submission_story_sha256": "a179cd3d424aadd1ce36c57c2e9455e4abff3e1c86401ff1b8801fe26761c75d",
   "artifacts": [
     {
       "order": 1,
       "id": "hook",
       "timecode": "0–5s",
-      "proof": "감독이 직접 정하는 한 명의 역할",
+      "proof": "두 팀 · 근거 · 감독의 결정이 첫 화면에 함께 보임",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "8b3b761910ac4449d091af0a98b76bbc0c981fc1088c6fb84a4d0d8940c7b5dc",
-      "bytes": 817032
+      "sha256": "720e4efb451c07ea3453b29b8f0cbf8eebd9041c652fbee298c6b58d2ec23ac1",
+      "bytes": 831880
     },
     {
       "order": 2,
       "id": "reference",
       "timecode": "5–12s",
-      "proof": "수비 구역 · 역습 인원 · 통과 기준을 먼저 선택",
+      "proof": "두 팀 표본 공개 · 결합안 채택 보류 · 네 확률 · 감독의 수동 선택",
       "path": "docs/assets/demo-storyboard/02-reference.png",
-      "sha256": "0209162b97b3f790617b58fc309e9bbd80e2576e040a960294790d71baafcb1e",
-      "bytes": 545904
+      "sha256": "4e7b854956c9c64fb7c21f83012c8cc4f7a9532f6e396ae06c9a3458e604af83",
+      "bytes": 673894
     },
     {
       "order": 3,
@@ -32,35 +32,35 @@
       "timecode": "12–16s",
       "proof": "결과 공개 전 확정 · 선택 변경 불가",
       "path": "docs/assets/demo-storyboard/03-lock.png",
-      "sha256": "20f2b3b0a9b95a43e0c2a60e44055b0f90f40f3cd0ba8b5bbd75e6b9be13a542",
-      "bytes": 435133
+      "sha256": "550db963cbe7fb70027dd87e3efcd6dcce26bf7e2487d81994b39e30dd99b24c",
+      "bytes": 494724
     },
     {
       "order": 4,
       "id": "r16",
       "timecode": "16–27s",
-      "proof": "선택 구역 48% · 사전 기준 50%에 미달",
+      "proof": "포르투갈 선택 구역 9/10 · 실제 네 구역 기록",
       "path": "docs/assets/demo-storyboard/04-r16.png",
-      "sha256": "59dedc66de2f6f1c152dcbff293e6541a16c17544e49fa9aff91ea6105366d0c",
-      "bytes": 470796
+      "sha256": "fe054b2013ae3aecd516bd05204346c67e3b95c4447e852263a58c5f57c44871",
+      "bytes": 485424
     },
     {
       "order": 5,
       "id": "seal",
       "timecode": "27–34s",
-      "proof": "결과 확인 뒤에도 선택 변경 0회",
+      "proof": "63% ≥ 60% · 결과 확인 뒤에도 선택 변경 0회",
       "path": "docs/assets/demo-storyboard/05-seal.png",
-      "sha256": "aa2116431d2542830906c61865a033d213b038db53b25fb3a1c79ea7722ea4ed",
-      "bytes": 426215
+      "sha256": "1cf6bf11d84450c60b02b7e7168dbb132b790da82e15d381272e1da1c2659e39",
+      "bytes": 375880
     },
     {
       "order": 6,
       "id": "final-audit",
       "timecode": "34–45s",
-      "proof": "선택 구역 51% · 수비 성공률 아님",
+      "proof": "55% < 60% · 상대 분석은 다른 팀의 정답이 아님",
       "path": "docs/assets/demo-storyboard/06-final-audit.png",
-      "sha256": "eb9b3142708ab5bd6e27df20ed2e262f989e285105765afb37a4b30cc1f5cf3a",
-      "bytes": 384458
+      "sha256": "f6ec67bad320e1c4f78919f1a0974538d04e3bcc517fa6eff09e6be25a83cd04",
+      "bytes": 422696
     },
     {
       "order": 7,
@@ -68,17 +68,17 @@
       "timecode": "45–53s",
       "proof": "확인 결과는 그대로 · 다음 회의 메모만 추가",
       "path": "docs/assets/demo-storyboard/07-next-meeting.png",
-      "sha256": "7c6cf154298e871069b93625934c292b37efab1deb2a623422eb693178fa9bda",
-      "bytes": 393586
+      "sha256": "12eeb352c2e500a0f7c2ae4b888441f2184390577b15f883616e72a30bcc3820",
+      "bytes": 382739
     },
     {
       "order": 8,
       "id": "final",
       "timecode": "53–59.5s",
-      "proof": "마지막 결정은 감독 · 겹침과 벗어남을 함께 확인",
+      "proof": "마지막 결정은 감독 · 근거와 실패 가능성을 함께 확인",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "b6bcbab55c4b181dff2c4ba38567ec0883779a3ccfea9381dcd9efb3374921db",
-      "bytes": 412937
+      "sha256": "793598e1993d1404d66f70455f2c922c32fe975e7b3532887488444ea0220626",
+      "bytes": 434642
     }
   ]
 }

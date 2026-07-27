@@ -14,7 +14,13 @@ test("uses a fixed group-stage reference before revealing a sealed round-of-16 m
   await page.goto("/prototypes/policy-dojo/");
   await expect(page.getByRole("heading", { name: /코너킥 수비/ })).toBeVisible();
   await expect(page.locator(".stage")).toHaveAttribute("data-partitions-disjoint", "true");
-  await expect(page.getByText(/먼저 살펴볼 기록: 조별리그 48경기/)).toBeVisible();
+  await expect(page.getByTestId("team-context")).toContainText("포르투갈 조별리그 14개");
+  await expect(page.getByTestId("team-context")).toContainText("포르투갈 47% · 대회 전체 53%");
+  await expect(page.getByTestId("team-context")).toContainText("우루과이 수비까지 결합 · 채택 안 함");
+  await expect(page.getByTestId("team-context")).toContainText("개선 확률 92.3% < 기준 97.5%");
+  await expect(page.getByTestId("team-context")).toContainText("우루과이가 조별리그에서 수비한 코너는 5/6");
+  await expect(page.getByTestId("forecast-audit")).toContainText("16강 예측 오차 2.14%↓");
+  await expect(page.getByTestId("forecast-audit")).toContainText("16팀 중 12팀 개선, 4팀 악화");
   await expect(page.getByRole("heading", { name: /Uruguay - Portugal/ })).toHaveCount(0);
 
   const quickTrial = page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" });
@@ -154,6 +160,29 @@ test("uses one immutable policy snapshot across both held-out audits", async ({ 
   await expect(page.getByTestId("threshold-verdict")).toContainText("실제 51% · 사전 기준 50%");
   await expect(page.getByTestId("final-receipt")).toContainText("선택 변경 0회");
   await expect(page.getByTestId("final-receipt")).toContainText(policyId);
+});
+
+test("shows the Portugal match before using the tournament as a generalization stress test", async ({ page }) => {
+  await page.goto("/prototypes/policy-dojo/");
+  await expect(page.getByTestId("opponent-result")).toHaveCount(0);
+  await page.locator('.lane-card[data-lane="short"]').click();
+  await page.locator('.lane-card[data-lane="central-far"]').click();
+  await page.getByRole("button", { name: "최소 위치 겹침률 60% 선택" }).click();
+  await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
+  await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
+
+  const opponent = page.getByTestId("opponent-result");
+  await expect(opponent).toContainText("포르투갈의 실제 코너 전달 10개");
+  await expect(opponent).toContainText("감독이 고른 구역으로 9/10개가 왔습니다");
+  await expect(opponent).toContainText("숏 코너5개");
+  await expect(opponent).toContainText("니어포스트1개");
+  await expect(opponent).toContainText("중앙·파포스트4개");
+  await expect(opponent).toContainText("한 경기 기록만으로 선택이 옳았다고 판정하지 않습니다");
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 63% · 사전 기준 60%");
+
+  await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
+  await expect(page.getByTestId("opponent-result")).toHaveCount(0);
+  await expect(page.getByTestId("threshold-verdict")).toContainText("실제 55% · 사전 기준 60%");
 });
 
 test("records a next-meeting decision without changing the sealed policy or results", async ({ page }) => {

@@ -6,6 +6,8 @@ const MEETING_DECISIONS = {
   revise: "다음 회의에서 우선 구역 수정",
   defer: "다음 회의에서 결정 보류",
 };
+const DEMO_MANAGER = "우루과이";
+const DEMO_OPPONENT = "포르투갈";
 
 const app = document.querySelector("#app");
 let report;
@@ -17,6 +19,7 @@ function freshState() {
 
 function validate(value) {
   const campaign = value?.policy_campaign;
+  const scouting = value?.team_scouting;
   const allCampaignTrials = [...(campaign?.rehearsal_matches ?? []), ...(campaign?.final_audit_matches ?? [])].flatMap((match) => match.trials);
   const validCampaign = campaign?.partitions_disjoint === true && campaign.product_status === "PASS" &&
     campaign.empirical_campaign_status === "REVISE" && campaign.causal_recommendation_status === "REJECT" && campaign.reference_match_ids?.length === 48 &&
@@ -26,8 +29,18 @@ function validate(value) {
     allCampaignTrials.every((trial) =>
       !campaign.reference_match_ids.includes(trial.state.match_id) &&
       typeof trial.observed_outcome.defending_outlet_contact === "boolean");
+  const validScouting = scouting?.status === "PASS" &&
+    scouting?.model?.selection_data === "group-stage reference only" &&
+    scouting?.first_fixed_round_of_16_example?.match_name === "Uruguay - Portugal" &&
+    scouting?.first_fixed_round_of_16_example?.opponent_group_stage_classified_corners === 14 &&
+    scouting?.matchup_challenger?.status === "REJECT" &&
+    scouting?.matchup_challenger?.selected?.defending_weight === 0.5 &&
+    scouting?.matchup_challenger?.promotion_gates?.match_cluster_probability_at_least_0975 === false &&
+    scouting?.top_two_coverage?.round_of_16?.tournament_top_two_covered ===
+      scouting?.top_two_coverage?.round_of_16?.team_conditioned_top_two_covered;
   if (value?.status !== "REJECT" || value?.population?.source_corners !== 603 ||
-      value?.gates?.exact_source_population !== true || !value.clustered_bootstrap || !validCampaign) {
+      value?.gates?.exact_source_population !== true || !value.clustered_bootstrap ||
+      !validCampaign || !validScouting) {
     throw new Error("불러온 자료가 이 서비스의 경기 기록과 일치하지 않습니다.");
   }
   return value;
@@ -163,14 +176,31 @@ function supportPath() {
 }
 
 function trainingCard(lane) {
-  const summary = report.policy_campaign.reference_summary;
-  const cell = summary[lane];
-  const total = Object.values(summary).reduce((sum, item) => sum + item.corners, 0);
+  const dossier = report.team_scouting.first_fixed_round_of_16_example;
+  const probability = dossier.opponent_posterior_probabilities[lane];
+  const tournament = report.team_scouting.reference.tournament_probabilities[lane];
+  const raw = dossier.opponent_group_stage_action_counts[lane];
   const roleIndex = state.selected.indexOf(lane);
   const role = roleIndex === 0 ? "수비 리더" : roleIndex === 1 ? "역습 전환" : "";
   return `<button class="lane-card" type="button" data-lane="${lane}" aria-pressed="${state.selected.includes(lane)}" ${state.locked ? "disabled" : ""}>
-    <span>${LABEL[lane]}${role ? `<em>${role}</em>` : ""}</span><strong>${cell.corners}회</strong><small>분류된 ${total}개 중 ${percentage(cell.corners, total)}% · 10초 이내 슈팅 ${cell.shots}회</small>
+    <span>${LABEL[lane]}${role ? `<em>${role}</em>` : ""}</span><strong>${(probability * 100).toFixed(1)}%</strong><small>${DEMO_OPPONENT} 조별리그 ${raw}회 · 대회 평균 ${(tournament * 100).toFixed(1)}%</small>
   </button>`;
+}
+
+function opponentResultMarkup(finalStage) {
+  if (finalStage) return "";
+  const dossier = report.team_scouting.first_fixed_round_of_16_example;
+  const counts = dossier.held_out_opponent_action_counts;
+  const covered = state.selected.reduce((sum, lane) => sum + counts[lane], 0);
+  return `<section class="opponent-result" data-testid="opponent-result" aria-labelledby="opponent-result-title">
+    <div>
+      <p class="eyebrow">상대전 먼저 확인</p>
+      <h3 id="opponent-result-title">${DEMO_OPPONENT}의 실제 코너 전달 ${dossier.held_out_opponent_classified_corners}개</h3>
+      <p>${state.abstained ? "결정을 보류한 상태로 기록만 확인합니다." : `감독이 고른 구역으로 ${covered}/${dossier.held_out_opponent_classified_corners}개가 왔습니다.`}</p>
+    </div>
+    <dl>${LANES.map((lane) => `<div><dt>${LABEL[lane]}</dt><dd>${counts[lane]}개</dd></div>`).join("")}</dl>
+    <small>한 경기 기록만으로 선택이 옳았다고 판정하지 않습니다. 아래 8경기 묶음은 같은 선택이 다른 상대에서도 버티는지 따로 확인합니다.</small>
+  </section>`;
 }
 
 function resultRows(evaluation) {
@@ -207,13 +237,19 @@ function render() {
   const experiment = currentExperiment();
   const evaluation = state.revealed ? evaluatePolicy(experiment) : null;
   const campaign = report.policy_campaign;
+  const scouting = report.team_scouting;
+  const dossier = scouting.first_fixed_round_of_16_example;
+  const matchup = scouting.matchup_challenger;
+  const matchupGain = matchup.partition_scores.all_knockout
+    .improvement_vs_opponent_only.log_loss_reduction_rate * 100;
+  const matchupProbability = matchup.bootstrap.probability_gain_above_zero * 100;
   const finalStage = experiment.kind === "final";
   const verdict = evaluation ? thresholdVerdict(evaluation) : null;
   app.innerHTML = `
     <header class="hero">
       <p class="eyebrow">CORNER POLICY LAB · 2018 월드컵 코너킥 기록</p>
-      <h1>코너킥 수비,<br><span>한 명을 어디에 둘까요?</span></h1>
-      <p class="hero-copy"><strong>수비에 한 명을 더 둘지, 역습을 위해 앞에 남길지 선택하세요.</strong> 결과를 보기 전에 수비 구역과 기준을 확정하면, 2018 월드컵 토너먼트 16경기에 같은 선택을 적용해 선택하지 않은 구역으로 간 코너 기록까지 보여줍니다.</p>
+      <h1>${DEMO_OPPONENT}전 코너킥 수비,<br><span>두 역할을 어디에 둘까요?</span></h1>
+      <p class="hero-copy"><strong>${DEMO_OPPONENT} 조별리그 코너 ${dossier.opponent_group_stage_classified_corners}개와 대회 전체 기록을 함께 보고 선택하세요.</strong> 결과를 보기 전에 수비 구역과 기준을 확정하면, 2018 월드컵 토너먼트 16경기에 같은 선택을 적용해 선택하지 않은 구역으로 간 코너 기록까지 보여줍니다.</p>
       <div class="boundary"><strong>실제 코너 전달이 선택한 구역으로 왔는지만 확인합니다.</strong> 수비 성공이나 승리 확률을 예측하지 않습니다.</div>
       <div class="campaign-map" aria-label="고정 경기 분할"><div><strong>48경기</strong><span>조별리그에서 기준 정하기</span></div><b>→</b><div><strong>8경기</strong><span>16강에서 첫 확인</span></div><b>→</b><div class="sealed"><strong>8경기</strong><span>8강 이후 마지막 확인</span></div></div>
     </header>
@@ -222,7 +258,13 @@ function render() {
       <div class="phase"><span class="active">1 먼저 정하기</span><span class="${state.locked ? "active" : ""}">2 결과 전에 확정</span><span class="${state.revealed ? "active" : ""}">3 실제 기록 확인</span><span class="${finalStage && state.counterexampleOpen ? "active" : ""}">4 다음 회의 메모</span></div>
       <h2 id="policy-title">수비 역할 2명을 어떻게 쓸지 정하세요 <small role="status" aria-live="polite" aria-atomic="true" data-testid="selection-count">${state.selected.length}/2</small></h2>
       <p class="tradeoff">한 명은 수비 구역에 둡니다. 다른 한 명은 두 번째 구역을 맡기거나, 역습을 위해 앞에 남길 수 있습니다.</p>
-      <p class="training-scope">먼저 살펴볼 기록: 조별리그 48경기 · 코너킥 ${campaign.segment_coverage.reference.source_corners}개 중 전달 위치를 확인할 수 있는 ${campaign.reference_corners}개 (${(campaign.segment_coverage.reference.classified_rate * 100).toFixed(1)}%)</p>
+      <div class="team-context" data-testid="team-context">
+        <strong>① 상대 공격 성향 · ${DEMO_OPPONENT} 조별리그 ${dossier.opponent_group_stage_classified_corners}개</strong>
+        <span>근거 비중 ${DEMO_OPPONENT} ${(dossier.opponent_evidence_weight * 100).toFixed(0)}% · 대회 전체 ${(dossier.tournament_prior_weight * 100).toFixed(0)}%</span>
+        <strong class="rejected">② ${DEMO_MANAGER} 수비까지 결합 · 채택 안 함</strong>
+        <span>전체 오차 ${matchupGain.toFixed(2)}%↓ · 개선 확률 ${matchupProbability.toFixed(1)}% &lt; 기준 97.5%</span>
+        <small>${DEMO_MANAGER}가 조별리그에서 수비한 코너는 ${dossier.manager_group_stage_defensive_exposure_classified_corners}/${dossier.manager_group_stage_defensive_exposure_source_corners}뿐입니다. 두 팀 결합안의 95% 불확실성 구간이 0을 지나므로, 아래 확률에는 ${DEMO_OPPONENT} 공격 기록만 반영했습니다.</small>
+      </div>
       <div class="policy-layout">
         <div class="pitch" role="group" aria-label="코너 수비 역할 배치 지도"><span class="corner" aria-hidden="true">●</span><span class="outlet-position ${state.outletKept ? "kept" : ""}" aria-hidden="true">역습 대기</span>${LANES.map((lane) => {
           const roleIndex = state.selected.indexOf(lane);
@@ -234,11 +276,13 @@ function render() {
         </div>
       </div>
       ${roleTradeoffMarkup(evaluation)}
+      <div class="forecast-audit" data-testid="forecast-audit"><span>상대 공격 분포 점검</span><strong>16강 예측 오차 2.14%↓ · 8강 이후 7.21%↓</strong><small>로그손실 기준 · 16팀 중 12팀 개선, 4팀 악화 · 상위 두 구역만 뽑으면 대회 평균안과 전체 적중 수가 같아 자동 추천하지 않음</small></div>
       ${!state.locked ? `<fieldset class="threshold-picker"><legend>실제 코너 전달 중 몇 %가 선택 구역으로 오면 통과로 볼까요?</legend><div>${[40, 50, 60].map((value) => `<button type="button" data-threshold="${value / 100}" aria-label="최소 위치 겹침률 ${value}% 선택" aria-pressed="${state.minimumOverlap === value / 100}">${value}%</button>`).join("")}</div><p>결과를 보기 전에 정하는 확인 기준입니다. 수비 성공률이나 승리 확률이 아닙니다.</p></fieldset>` : ""}
       ${!state.locked && finalStage ? `<div class="policy-actions"><button class="primary" type="button" data-action="final-verify" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>이 선택을 확정하고 마지막 8경기 확인</button><button class="secondary" type="button" data-action="final-abstain">선택을 보류하고 마지막 8경기 확인</button></div>` : !state.locked ? `<div class="policy-actions"><button class="primary" type="button" data-action="quick-lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>이 선택을 확정하고 16경기 확인</button><button class="secondary" type="button" data-action="quick-abstain">선택을 보류하고 16경기 확인</button></div><details class="manual-mode"><summary>16강 경기를 한 경기씩 확인하기</summary><button class="tertiary" type="button" data-action="lock" ${staffingReady() && state.minimumOverlap !== null ? "" : "disabled"}>첫 경기 선택만 확정</button></details>` : !state.revealed ? `
         <div class="receipt" data-testid="lock-receipt"><p><strong>${policyLabel()}</strong>${state.abstained ? "를 결과 공개 전에 선언했습니다." : " 선택을 결과 공개 전에 확정했습니다."}${state.policySnapshot ? ` <span>선택 번호 <span class="policy-id">${state.policySnapshot.fingerprint}</span></span>` : ""}</p><p>${state.abstained ? "" : `${staffingLabel()} · 통과 기준 ${Math.round(state.minimumOverlap * 100)}%도 함께 확정했습니다. `}${state.quickFixed ? "16강 8경기와 아직 보지 않은 8강 이후 8경기에 똑같이 적용합니다. 아직 어느 결과도 공개하지 않았습니다." : `${finalStage ? "8강 이후 8경기" : "이번 16강 경기"}의 이름과 코너 기록은 아직 숨겨져 있습니다.`}</p><button class="primary" type="button" data-action="reveal">${state.quickFixed ? "16강 8경기 결과 보기" : finalStage ? "마지막 8경기 결과 보기" : "이번 16강 경기 결과 보기"}</button></div>` : `
         <section class="scorecard" aria-labelledby="result-title">
           <p class="receipt-label">기준을 정한 48경기 → ${finalStage ? "마지막 확인 8경기" : state.quickFixed ? "16강 첫 확인 8경기" : `16강 경기 ${state.matchIndex + 1}/8`}</p><h2 id="result-title">${experiment.resultName} · ${state.abstained ? "판단 보류 결과" : `선택 구역과 겹침 ${evaluation.covered.length}/${evaluation.trials.length}`}</h2>
+          ${opponentResultMarkup(finalStage)}
           ${verdict ? `<p class="threshold-verdict ${verdict.passed ? "passed" : "missed"}" data-testid="threshold-verdict"><strong>${verdict.label}</strong><span>실제 ${percentage(evaluation.covered.length, evaluation.trials.length)}% · 사전 기준 ${Math.round(state.minimumOverlap * 100)}%</span></p>` : ""}
           ${state.abstained ? `<div class="metrics"><div><strong>보류</strong><span>미리 정한 선택</span></div><div><strong>${new Set(evaluation.trials.map((trial) => trial.observed_action.value)).size}</strong><span>실제 전달 구역</span></div><div><strong>${evaluation.trials.filter((trial) => trial.observed_outcome.attacking_shot).length}</strong><span>10초 이내 슈팅 기록</span></div></div>` : `<div class="metrics"><div><strong>${percentage(evaluation.covered.length, evaluation.trials.length)}%</strong><span>선택 구역과 겹침</span></div><div><strong>${evaluation.uncovered.length}</strong><span>선택 밖 전달</span></div><div><strong>${evaluation.uncoveredShots.length}</strong><span>선택 밖 슈팅 기록</span></div></div>`}
           <p class="causal-warning">이 수치는 수비 성공률이 아닙니다. 선택 구역과의 겹침과 역습 대기 구역 참고 기록은 서로 더하지 않습니다. ${state.quickFixed ? `전달 위치를 확인할 수 없는 ${finalStage ? "2" : "5"}개 기록은 어느 구역에도 넣지 않았습니다. ` : ""}노란 역할 표시는 감독의 선택이며 실제 선수 도달, 수비 성공, 역습 성공을 뜻하지 않습니다.</p>
@@ -249,7 +293,7 @@ function render() {
       ${historyMarkup()}
     </section>
     <aside class="agent" aria-labelledby="agent-title">
-      <div><p class="eyebrow">이 서비스가 말하지 않는 것</p><h2 id="agent-title">이 기록만으로 어느 구역이 더 좋은지는 판단할 수 없습니다.</h2><p>선택한 구역과 실제 코너 전달 위치가 겹쳤는지만 확인합니다. 선수의 도달, 수비 성공, 역습 성공, 경기 결과는 알 수 없어 특정 구역을 추천하지 않습니다.</p></div>
+      <div><p class="eyebrow">이 서비스가 말하지 않는 것</p><h2 id="agent-title">두 팀 결합안도 시험했지만, 근거가 약해 추천에는 쓰지 않았습니다.</h2><p>${DEMO_OPPONENT} 공격 기록을 반영한 네 구역의 분포와 선택 구역의 실제 겹침만 확인합니다. 선수의 도달, 수비 성공, 역습 성공, 경기 결과는 알 수 없습니다.</p></div>
       ${state.locked ? `<details><summary>근거·출처 경로</summary><ol class="path">${supportPath().map((item) => `<li>${item}</li>`).join("")}</ol></details>` : ""}
     </aside>`;
 }

@@ -41,7 +41,7 @@ describe("organizer question receipt recorder", () => {
     const unresolvedQuestionDoc = questionDoc.replace("Status: `WITHDRAWN — NOT NEEDED`", "Status: `DRAFT — NOT SENT`");
     const unresolvedThesis = productThesis
       .replace("Product data scope: `official-open-historical-tactics`", "Product data scope: `unresolved-hybrid`")
-      .replace("Product selection status: `PASS`", "Product selection status: `REVISE — conditional selection`");
+      .replace(/^Product selection status: `[^`]+`$/mu, "Product selection status: `REVISE — conditional selection`");
     const unresolvedPlanning = planningSource.replace(
       "Product data scope: `official-open-historical-tactics`",
       "Product data scope: `unresolved-hybrid`",

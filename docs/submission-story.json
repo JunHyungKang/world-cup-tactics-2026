@@ -2,15 +2,15 @@
   "schema_version": 2,
   "product_id": "corner-policy-lab",
   "gallery": {
-    "title": "Corner Policy Lab — 코너킥 수비, 한 명을 어디에 둘까요?",
-    "one_line": "수비에 한 명을 더 둘지, 역습을 위해 앞에 남길지 먼저 정하세요. 결과를 보기 전에 선택을 확정하면, 2018 월드컵 토너먼트 16경기에 같은 기준을 적용해 선택 밖 코너 기록까지 보여줍니다.",
+    "title": "Corner Policy Lab — 포르투갈전, 두 역할을 어디에 둘까요?",
+    "one_line": "2018 월드컵 포르투갈의 공격 코너 14개와 우루과이가 수비한 코너 5개를 각각 점검합니다. 두 팀 결합안은 근거 기준에 못 미쳐 쓰지 않고, 감독의 선택을 숨겨 둔 상대전과 다른 토너먼트 경기에서 시험합니다.",
     "first_image": "docs/assets/gallery/corner-policy-lab-first-image.png",
     "source_images": [
       "docs/assets/final-release/01-two-role-decision.png",
       "docs/assets/final-release/02-round-of-16-audit.png",
       "docs/assets/final-release/03-final-audit.png"
     ],
-    "hook": "코너킥 수비, 한 명을 어디에 둘까요?"
+    "hook": "포르투갈전, 두 역할을 어디에 둘까요?"
   },
   "campaign": {
     "reference_matches": 48,
@@ -27,10 +27,10 @@
     }
   },
   "video": {
-    "title": "Corner Policy Lab | 코너킥 수비, 한 명을 어디에 둘까요?",
+    "title": "Corner Policy Lab | 포르투갈전, 두 역할을 어디에 둘까요?",
     "duration_limit_seconds": 60,
-    "narrated_duration_seconds": 59.92,
-    "visual_duration_seconds": 59.92,
+    "narrated_duration_seconds": 59.52,
+    "visual_duration_seconds": 60.12,
     "beat_order": ["hook", "reference", "lock", "r16", "seal", "final-audit", "next-meeting", "final"],
     "narration": { "voice": "Yuna", "locale": "ko_KR", "rate_words_per_minute": 185 },
     "interaction": {
@@ -42,24 +42,24 @@
       "meeting_note_seconds": 48
     },
     "beats": [
-      { "id": "hook", "start": 0, "end": 5, "action": "코너킥 수비에 한 명을 더 둘지, 역습을 위해 앞에 남길지 묻는다.", "proof": "감독이 직접 정하는 한 명의 역할" },
-      { "id": "reference", "start": 5, "end": 12, "action": "수비 역할을 숏 코너와 니어포스트에 배치하고, 실제 전달의 절반 이상이 선택 구역으로 오면 통과라고 정한다.", "proof": "수비 구역 · 역습 인원 · 통과 기준을 먼저 선택" },
-      { "id": "lock", "start": 12, "end": 16, "action": "첫 결과를 보기 전에 선택한 역할과 기준을 확정한다.", "proof": "결과 공개 전 확정 · 선택 변경 불가" },
-      { "id": "r16", "start": 16, "end": 27, "action": "같은 선택을 16강 8경기에 적용하고, 선택 구역과 겹친 비율과 선택 밖 코너 기록을 확인한다.", "proof": "선택 구역 48% · 사전 기준 50%에 미달" },
-      { "id": "seal", "start": 27, "end": 34, "action": "첫 결과가 기준에 못 미쳐도 선택을 바꾸지 않고, 아직 보지 않은 다음 8경기를 남겨 둔다.", "proof": "결과 확인 뒤에도 선택 변경 0회" },
-      { "id": "final-audit", "start": 34, "end": 45, "action": "같은 선택을 8강 이후 8경기에 적용하고, 관찰값을 수비 성공률과 구분한다.", "proof": "선택 구역 51% · 수비 성공률 아님" },
+      { "id": "hook", "start": 0, "end": 5, "action": "포르투갈의 코너 성향을 보고 우루과이 수비 두 역할을 어디에 둘지 묻는다.", "proof": "두 팀 · 근거 · 감독의 결정이 첫 화면에 함께 보임" },
+      { "id": "reference", "start": 5, "end": 12, "action": "포르투갈 공격 14개와 우루과이 수비 노출 5개를 구분해 보고, 근거가 약한 두 팀 결합안을 쓰지 않은 뒤 숏과 중앙·파포스트, 60% 기준을 정한다.", "proof": "두 팀 표본 공개 · 결합안 채택 보류 · 네 확률 · 감독의 수동 선택" },
+      { "id": "lock", "start": 12, "end": 16, "action": "첫 결과를 보기 전에 두 역할과 60% 기준을 확정한다.", "proof": "결과 공개 전 확정 · 선택 변경 불가" },
+      { "id": "r16", "start": 16, "end": 27, "action": "숨겨 둔 포르투갈전 10개 전달을 먼저 확인하고, 한 경기만으로 정답을 판정하지 않는 경계를 보여준다.", "proof": "포르투갈 선택 구역 9/10 · 실제 네 구역 기록" },
+      { "id": "seal", "start": 27, "end": 34, "action": "16강 전체 63%를 확인한 뒤에도 선택을 바꾸지 않고, 아직 보지 않은 다음 8경기에 적용한다.", "proof": "63% ≥ 60% · 결과 확인 뒤에도 선택 변경 0회" },
+      { "id": "final-audit", "start": 34, "end": 45, "action": "같은 선택이 8강 이후에는 55%로 기준에 못 미치는 장면을 확인한다.", "proof": "55% < 60% · 상대 분석은 다른 팀의 정답이 아님" },
       { "id": "next-meeting", "start": 45, "end": 53, "action": "선택 밖 코너 기록을 보고 다음 전술 회의에서 바꿀 점과 이유를 남긴다.", "proof": "확인 결과는 그대로 · 다음 회의 메모만 추가" },
-      { "id": "final", "start": 53, "end": 59.5, "action": "확정한 선택, 선택 밖 기록, 다음 회의 메모를 한 화면에서 확인한다.", "proof": "마지막 결정은 감독 · 겹침과 벗어남을 함께 확인" }
+      { "id": "final", "start": 53, "end": 59.5, "action": "포르투갈 근거, 실패한 일반화, 다음 회의 메모를 함께 확인한다.", "proof": "마지막 결정은 감독 · 근거와 실패 가능성을 함께 확인" }
     ]
   },
   "evidence": {
     "scope": "local-rehearsal-only-not-final-public-video-or-youtube-evidence",
     "final_source_of_truth": "submissions/final-demo.json generated after the final public release",
-    "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "0457808bc84f7d062906361feb9f6ad44a6262385b8306fedda06ec4d12836e1" },
+    "release_manifest": { "path": "dist-policy-lab/release-manifest.json", "sha256": "27fa6cd4ca8364322fac7de2160805da920f6a08ca408f2282647f223ec722fc" },
     "visual_manifest": { "path": "output/policy-lab-demo/visual-manifest.json" },
     "narration_manifest": { "path": "output/policy-lab-demo/narration-manifest.json" },
-    "visual_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-visual.webm", "sha256": "8800038448e79a9a07fd04446ab4ed4da61ce9b8f360cc6991e0db12e3a654f0" },
-    "narrated_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm", "sha256": "4a145fc82614a8cec124b071dce905f4e2f94eb5aa018d03979a2956bd9f88c1" }
+    "visual_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-visual.webm", "sha256": "b2b45ef1c0ff940ac647efa5573ebffcbdc20d292c16ac2c8885646e803b4015" },
+    "narrated_video": { "path": "output/policy-lab-demo/corner-policy-lab-60s-narrated.webm", "sha256": "c60962b419f4c1119edfe238c25397f524fb1f9ba991382d38455b5363a6ae33" }
   },
   "claim_boundary": {
     "human_evidence": "unavailable",

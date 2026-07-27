@@ -78,6 +78,10 @@ if (phase === "plan" || phase === "final") {
   const forbiddenOverrides = ["--eligibility-state", "--official-state", "--organizer-question", "--product-thesis", "--planning-source", "--source-manifest", "--product-selection"];
   const suppliedOverrides = forbiddenOverrides.filter((flag) => args.has(flag));
   check(suppliedOverrides.length === 0, "canonical eligibility inputs", suppliedOverrides.length ? `forbidden overrides: ${suppliedOverrides.join(", ")}` : "repository canonical files");
+  if (suppliedOverrides.length > 0) {
+    console.error(`[FAIL] canonical eligibility inputs: forbidden overrides: ${suppliedOverrides.join(", ")}`);
+    process.exit(1);
+  }
   try {
     const [stateText, officialState, organizerQuestion, productThesis, planningSource, manifestText, productSelectionText] = await Promise.all([
       readFile("docs/data-scope-resolution.json", "utf8"),

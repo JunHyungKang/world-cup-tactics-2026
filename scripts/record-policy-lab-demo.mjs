@@ -62,9 +62,11 @@ const release = JSON.parse(releaseBytes.toString("utf8"));
 if (release.release_status !== "candidate-public" || release.causal_recommendation_status !== "REJECT" || release.empirical_campaign_status !== "REVISE") {
   throw new Error("Policy Lab release claim boundary is not recordable");
 }
-const server = spawn(node, ["scripts/serve-policy-release.mjs"], { stdio: "inherit" });
+const reuseVisual = process.argv.includes("--reuse-visual");
 
-try {
+if (!reuseVisual) {
+  const server = spawn(node, ["scripts/serve-policy-release.mjs"], { stdio: "inherit" });
+  try {
   await waitForServer();
   const browser = await chromium.launch();
   try {
@@ -91,10 +93,10 @@ try {
     await page.locator('.lane-card[data-lane="short"]').click();
     mark("priority-short", 5);
     await waitUntil(8);
-    await page.locator('.lane-card[data-lane="near"]').click();
-    mark("priority-near", 8);
+    await page.locator('.lane-card[data-lane="central-far"]').click();
+    mark("priority-central-far", 8);
     await waitUntil(10);
-    await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
+    await page.getByRole("button", { name: "최소 위치 겹침률 60% 선택" }).click();
     mark("minimum-overlap", 10);
     await waitUntil(12);
     await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
@@ -103,8 +105,8 @@ try {
     await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
     mark("r16-reveal", 16);
     await waitUntil(18);
-    await scrollTo(page.getByTestId("counterexample"));
-    mark("r16-summary", 18);
+    await scrollTo(page.getByTestId("opponent-result"));
+    mark("opponent-result", 18);
     await waitUntil(30);
     await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();
     mark("final-reveal", 30);
@@ -142,7 +144,7 @@ try {
       capture_started_at: new Date(Date.now() - Math.round(rawMedia.duration_seconds * 1000)).toISOString(),
       capture_completed_at: new Date().toISOString(),
       actions,
-      interaction_contract: { activations: 8, policy_locks: 1, explicit_scrolls: 2, final_receipt_target_seconds: 45, meeting_note_target_seconds: 52 },
+      interaction_contract: { activations: 8, policy_locks: 1, explicit_scrolls: 2, final_receipt_target_seconds: 34, meeting_note_target_seconds: 48 },
       final_receipt: finalReceipt,
       meeting_note: meetingNote,
       video: { path: rawVideoPath, sha256: digest(rawBytes), bytes: rawBytes.length, audio: "none-local-visual-rehearsal", ...rawMedia },
@@ -151,8 +153,24 @@ try {
   } finally {
     await browser.close();
   }
-} finally {
-  server.kill("SIGTERM");
+  } finally {
+    server.kill("SIGTERM");
+  }
+} else {
+  const [visualManifestBytes, rawBytes] = await Promise.all([
+    readFile(visualManifestPath),
+    readFile(rawVideoPath),
+  ]);
+  const visualManifest = JSON.parse(visualManifestBytes);
+  if (visualManifest.submission_story?.sha256 !== digest(submissionStoryBytes) ||
+      visualManifest.release_manifest?.sha256 !== digest(releaseBytes) ||
+      visualManifest.video?.sha256 !== digest(rawBytes)) {
+    throw new Error("reusable visual rehearsal is not bound to the current story, release, and video bytes");
+  }
+  const rawMedia = probe(rawVideoPath);
+  if (Math.abs(rawMedia.duration_seconds - visualManifest.video.duration_seconds) > 0.001) {
+    throw new Error("reusable visual rehearsal duration drifted");
+  }
 }
 
 const narrationBytes = await readFile(narrationPath);

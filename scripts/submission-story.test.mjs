@@ -49,7 +49,7 @@ function localEvidenceFixture() {
     release_manifest: { sha256: sha256(releaseBytes) },
     actions: Array.from({ length: changedStory.video.interaction.timed_events }, (_, index) => ({ id: `fixture-${index}` })),
     interaction_contract: { activations: 8, policy_locks: 1, explicit_scrolls: 2 },
-    final_receipt: "사전 기준 충족 · 통과 기준 50% · 선택 변경 0회",
+    final_receipt: "사전 기준 미달 · 통과 기준 60% · 선택 변경 0회",
     meeting_note: "확인 결과는 그대로",
     video: { sha256: sha256(visualVideoBytes), duration_seconds: changedStory.video.visual_duration_seconds },
     submission_story: { sha256: storyHash },

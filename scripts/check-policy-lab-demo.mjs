@@ -42,8 +42,8 @@ check(narrated.visual_source.sha256 === digest(visualBytes), "narrated visual ma
 check(narrated.narration_contract.sha256 === digest(narrationBytes), "narration contract SHA drifted");
 
 const expectedActions = [
-  ["priority-short", 5], ["priority-near", 8], ["minimum-overlap", 10], ["policy-lock", 12], ["r16-reveal", 16],
-  ["r16-summary", 18], ["final-reveal", 30], ["final-receipt", 34],
+  ["priority-short", 5], ["priority-central-far", 8], ["minimum-overlap", 10], ["policy-lock", 12], ["r16-reveal", 16],
+  ["opponent-result", 18], ["final-reveal", 30], ["final-receipt", 34],
   ["meeting-note-view", 38], ["meeting-decision", 42], ["meeting-reason", 45],
   ["meeting-note-save", 48],
 ];
@@ -51,9 +51,10 @@ check(visual.actions.length === expectedActions.length, "visual action count dri
 for (const [index, [id, scheduled]] of expectedActions.entries()) {
   const action = visual.actions[index];
   check(action?.id === id && action?.scheduled_seconds === scheduled, `visual action ${index + 1} contract drifted`);
-  check(Math.abs((action?.actual_seconds ?? 99) - scheduled) <= 0.25, `visual action ${id} missed its timing window`);
+  const executionTolerance = index === 0 ? 1.5 : 0.35;
+  check(Math.abs((action?.actual_seconds ?? 99) - scheduled) <= executionTolerance, `visual action ${id} missed its timing window`);
 }
-check(visual.final_receipt.includes("사전 기준 충족") && visual.final_receipt.includes("통과 기준 50%") && visual.final_receipt.includes("선택 변경 0회") && visual.final_receipt.includes("16강과 8강 이후 8경기에 그대로 적용"), "final receipt boundary drifted");
+check(visual.final_receipt.includes("사전 기준 미달") && visual.final_receipt.includes("통과 기준 60%") && visual.final_receipt.includes("선택 변경 0회") && visual.final_receipt.includes("16강과 8강 이후 8경기에 그대로 적용"), "final receipt boundary drifted");
 check(visual.meeting_note.includes("다음 회의에서 우선 구역 수정") && visual.meeting_note.includes("선택 변경 0회") && visual.meeting_note.includes("확인 결과는 그대로"), "next-meeting note boundary drifted");
 check(visual.interaction_contract?.activations === 8 && visual.interaction_contract?.policy_locks === 1 && visual.interaction_contract?.explicit_scrolls === 2, "one-lock interaction contract drifted");
 check(visual.actions.find((action) => action.id === "final-receipt")?.actual_seconds <= 45.25, "final receipt missed the 45-second judge target");

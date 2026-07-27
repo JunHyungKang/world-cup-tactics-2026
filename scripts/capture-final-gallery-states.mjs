@@ -41,12 +41,13 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
   await page.goto(baseUrl);
   await page.locator('.lane-card[data-lane="short"]').click();
-  await page.locator('.lane-card[data-lane="near"]').click();
-  await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
+  await page.locator('.lane-card[data-lane="central-far"]').click();
+  await page.getByRole("button", { name: "최소 위치 겹침률 60% 선택" }).click();
   artifacts.push(await capture(page, "01-two-role-decision"));
 
   await page.getByRole("button", { name: "이 선택을 확정하고 16경기 확인" }).click();
   await page.getByRole("button", { name: "16강 8경기 결과 보기" }).click();
+  await page.getByTestId("opponent-result").evaluate((element) => element.scrollIntoView({ block: "center", behavior: "instant" }));
   artifacts.push(await capture(page, "02-round-of-16-audit"));
 
   await page.getByRole("button", { name: "같은 선택으로 다음 8경기 확인" }).click();

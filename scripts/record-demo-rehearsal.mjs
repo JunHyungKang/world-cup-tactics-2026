@@ -156,7 +156,7 @@ try {
       const overlay = document.createElement("img");
       overlay.id = "gallery-cold-open";
       overlay.src = source;
-      overlay.alt = "코너킥 수비에 한 명을 더 둘지 역습에 남길지 고르고 같은 선택으로 두 경기 묶음을 확인하는 장면";
+      overlay.alt = "포르투갈 코너 성향을 보고 두 수비 역할을 배치한 뒤 숨겨 둔 상대전과 다른 경기에서 같은 선택을 확인하는 장면";
       Object.assign(overlay.style, {
         position: "fixed", inset: "0", width: "100vw", height: "100vh", objectFit: "cover",
         zIndex: "2147483000", background: "#07110d",
@@ -224,11 +224,11 @@ try {
     mark("priority-short", 5);
 
     await waitUntil(8);
-    await page.locator('.lane-card[data-lane="near"]').click();
-    mark("priority-near", 8);
+    await page.locator('.lane-card[data-lane="central-far"]').click();
+    mark("priority-central-far", 8);
 
     await waitUntil(10);
-    await page.getByRole("button", { name: "최소 위치 겹침률 50% 선택" }).click();
+    await page.getByRole("button", { name: "최소 위치 겹침률 60% 선택" }).click();
     mark("minimum-overlap", 10);
 
     await waitUntil(12);
@@ -242,15 +242,15 @@ try {
     mark("r16-reveal", 16);
 
     await waitUntil(18);
-    await scrollTo(page.getByTestId("counterexample"));
-    mark("r16-contradiction", 18);
+    await scrollTo(page.getByTestId("opponent-result"));
+    mark("opponent-result", 18);
 
     await waitUntil(20.5);
-    await scrollTo(page.getByTestId("counterexample"));
+    await scrollTo(page.getByTestId("opponent-result"));
     await updateEditorial("receipts", 20.5);
 
     await waitUntil(23);
-    await scrollTo(page.getByTestId("counterexample"));
+    await scrollTo(page.getByTestId("opponent-result"));
     await updateEditorial("counterexample", 23);
 
     await waitUntil(27);

@@ -2,27 +2,27 @@
   "schema_version": 1,
   "status": "current-build-composite-not-human-evidence",
   "viewport": "1440x900",
-  "submission_story_sha256": "7a768437dcd74a819f8b78814456d1969a8cd8e5512729be342c35c1535fbc4a",
+  "submission_story_sha256": "a179cd3d424aadd1ce36c57c2e9455e4abff3e1c86401ff1b8801fe26761c75d",
   "sources": [
     {
       "path": "docs/assets/final-release/01-two-role-decision.png",
-      "sha256": "30f5a7ff23de4271967c713ecda60800a39a151af57b548a67d286ee54731f27",
-      "bytes": 131846
+      "sha256": "198361e8014296a32cbac5f37e2eebd831bfee8309bcb3801a7a0b1dfad330b5",
+      "bytes": 141239
     },
     {
       "path": "docs/assets/final-release/02-round-of-16-audit.png",
-      "sha256": "c4b6a206bde9b58ffcb07570ea2e4c9e6aed722ce7b141f64383a8281228f7ab",
-      "bytes": 130097
+      "sha256": "753d5945c319302dfe8a2bbb7ebce97f1dfc40f877db275cc68164e7411013e8",
+      "bytes": 207056
     },
     {
       "path": "docs/assets/final-release/03-final-audit.png",
-      "sha256": "02271b00550df29076116712db6c1688a24316594323536de03fe191ea3bc065",
-      "bytes": 149043
+      "sha256": "29d060db000c02d9c79599d4d1ee6cc05c8f18f5fb9eb7f097692f31be517764",
+      "bytes": 121334
     }
   ],
   "output": {
     "path": "docs/assets/gallery/corner-policy-lab-first-image.png",
-    "sha256": "d26dc91ce8f2015864b9407a5621432535c34e78d5b13669e8323c4a2c2e019e",
-    "bytes": 447225
+    "sha256": "db557c1d25cd3806a7e3032c33a05d69704bb05696236c3cc69d73c6a3423c49",
+    "bytes": 440166
   }
 }
