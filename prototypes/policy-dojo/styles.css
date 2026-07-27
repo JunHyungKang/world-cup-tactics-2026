@@ -47,7 +47,13 @@ h1 span { color: #f1c84b; }
 .phase .active { background: #f1c84b; color: #17241e; }
 .training-scope { color: #b7c8c0; font-size: .9rem; }
 .tradeoff { margin: -8px 0 12px; color: #fff4bf; font-size: .84rem; font-weight: 700; }
+.team-context { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; align-items: baseline; margin: 0 0 14px; padding: 11px 13px; border: 1px solid rgba(241,200,75,.38); border-radius: 12px; background: rgba(241,200,75,.07); }
+.team-context strong { color: #fff4bf; font-size: .85rem; }
+.team-context strong.rejected { color: #ffb9a8; }
+.team-context span { color: #f1c84b; font-size: .8rem; font-weight: 800; }
+.team-context small { grid-column: 1 / -1; color: #b7c8c0; font-size: .72rem; }
 .policy-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(240px, .75fr); gap: 16px; align-items: stretch; }
+.policy-layout > *, .lane-cards, .pitch { min-width: 0; }
 
 .pitch {
   position: relative;
@@ -92,6 +98,11 @@ h1 span { color: #f1c84b; }
 .role-tradeoff span { color: #b7c8c0; font-size: .72rem; font-weight: 750; }
 .role-tradeoff strong { color: #fff4bf; font-size: 1rem; }
 .role-tradeoff small { color: #b7c8c0; font-size: .68rem; line-height: 1.35; }
+.forecast-audit { display: grid; grid-template-columns: auto auto 1fr; gap: 6px 12px; align-items: center; margin-top: 10px; padding: 10px 12px; border: 1px solid rgba(131,230,184,.28); border-radius: 12px; background: rgba(131,230,184,.06); }
+.forecast-audit > * { min-width: 0; overflow-wrap: anywhere; }
+.forecast-audit span { color: #83e6b8; font-size: .7rem; font-weight: 850; }
+.forecast-audit strong { color: #e8fff3; font-size: .8rem; }
+.forecast-audit small { color: #b7c8c0; font-size: .67rem; line-height: 1.4; }
 .threshold-picker { min-width: 0; margin: 14px 0 0; padding: 12px 14px; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; }
 .threshold-picker legend { padding: 0 5px; color: #fff4bf; font-size: .86rem; font-weight: 850; }
 .threshold-picker div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -116,6 +127,14 @@ h1 span { color: #f1c84b; }
 .receipt { margin-top: 16px; padding: 16px; border-radius: 16px; background: rgba(0,0,0,.18); }
 .receipt-label, .source { color: #f1c84b; font-weight: 850; }
 .scorecard { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.14); }
+.opponent-result { display: grid; grid-template-columns: 1.2fr .8fr; gap: 12px 20px; margin: 12px 0; padding: 16px; border: 1px solid rgba(241,200,75,.52); border-radius: 16px; background: linear-gradient(135deg, rgba(241,200,75,.13), rgba(131,230,184,.06)); }
+.opponent-result h3 { margin: 2px 0 7px; font-size: 1.12rem; }
+.opponent-result p { margin: 0; color: #fff4bf; line-height: 1.45; }
+.opponent-result dl { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin: 0; }
+.opponent-result dl div { display: grid; gap: 2px; padding: 8px 9px; border-radius: 10px; background: rgba(0,0,0,.2); }
+.opponent-result dt { color: #b7c8c0; font-size: .68rem; }
+.opponent-result dd { margin: 0; color: #fff; font-weight: 850; }
+.opponent-result small { grid-column: 1 / -1; color: #c9c5b9; line-height: 1.45; }
 .threshold-verdict { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid currentColor; border-radius: 12px; }
 .threshold-verdict.passed { color: #83e6b8; background: rgba(131,230,184,.08); }
 .threshold-verdict.missed { color: #ffd0a8; background: rgba(240,165,106,.08); }
@@ -174,6 +193,8 @@ h1 span { color: #f1c84b; }
   .lane-cards { grid-template-columns: 1fr 1fr; }
   .role-tradeoff { grid-template-columns: 1fr; }
   .metrics { grid-template-columns: 1fr; }
+  .opponent-result { grid-template-columns: 1fr; }
+  .opponent-result small { grid-column: auto; }
   .meeting-options { grid-template-columns: 1fr; }
   .event-ledger li { grid-template-columns: 1fr 1fr; }
   .history li { grid-template-columns: 1fr 1fr; }
@@ -199,14 +220,18 @@ h1 span { color: #f1c84b; }
   .tradeoff { margin: -2px 0 7px; font-size: .68rem; }
   .policy-layout { gap: 6px; }
   .training-scope { display: none; }
+  .team-context { grid-template-columns: 1fr; gap: 2px; margin-bottom: 7px; padding: 7px 8px; }
+  .team-context strong { font-size: .7rem; }
+  .team-context span { font-size: .67rem; }
+  .team-context small { display: none; }
   .pitch { display: block; min-height: 172px; border-radius: 12px; }
   .pitch::before { inset-block: 10%; }
   .corner { right: 5px; top: 2px; font-size: 1rem; }
   .zone { padding: 3px; font-size: .58rem; line-height: 1.1; }
   .zone .role-marker { top: 3px; left: 3px; width: 20px; height: 20px; font-size: .68rem; }
   .outlet-position { left: 8px; bottom: 8px; min-width: 72px; min-height: 40px; font-size: .62rem; }
-  .lane-cards { grid-template-columns: repeat(4, 1fr); gap: 4px; }
-  .lane-card { min-height: 44px; padding: 4px 3px; font-size: .64rem; }
+  .lane-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+  .lane-card { min-width: 0; min-height: 44px; padding: 4px 3px; font-size: .64rem; overflow-wrap: anywhere; }
   .lane-card strong { font-size: .8rem; }
   .lane-card small { display: none; }
   .lane-card em { display: block; width: fit-content; margin: 2px 0 0; }
@@ -217,6 +242,10 @@ h1 span { color: #f1c84b; }
   .role-tradeoff span { font-size: .58rem; }
   .role-tradeoff strong { font-size: .74rem; }
   .role-tradeoff small { display: none; }
+  .forecast-audit { grid-template-columns: minmax(0, 1fr); gap: 2px; margin-top: 6px; padding: 6px 7px; }
+  .forecast-audit span { font-size: .58rem; }
+  .forecast-audit strong { font-size: .65rem; }
+  .forecast-audit small { font-size: .56rem; }
   .threshold-picker { margin-top: 7px; padding: 7px 8px; }
   .threshold-picker legend { font-size: .7rem; }
   .threshold-picker button { min-height: 44px; }
@@ -225,6 +254,9 @@ h1 span { color: #f1c84b; }
   .policy-actions { gap: 6px; }
   .policy-actions .primary, .policy-actions .secondary { margin-top: 8px; padding: 5px; font-size: .72rem; }
   .quick-summary { padding: 10px; }
+  .opponent-result { gap: 8px; padding: 10px; }
+  .opponent-result h3 { font-size: .9rem; }
+  .opponent-result p, .opponent-result small { font-size: .7rem; }
   .quick-metrics { grid-template-columns: 1fr 1fr 1fr; }
   .quick-metrics div { padding: 6px; }
   .quick-metrics strong { font-size: .9rem; }

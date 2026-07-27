@@ -9,14 +9,17 @@ is preserved only under `docs/archive/corner-war-room-2026-07-19/`.
 
 The first screen must expose, without a login or API key:
 
-1. `코너킥 수비, 한 명을 어디에 둘까요?`;
-2. the fixed `48경기 기준 정하기 → 8경기 첫 확인 → 같은 선택으로 다음 8경기 확인` split;
-3. one defensive leader and one outlet role that can stay high or become the
+1. `포르투갈전 코너킥 수비, 두 역할을 어디에 둘까요?`;
+2. Portugal's 14 classifiable group-stage corners, the 47/53 opponent/prior
+   weights, and all four delivery probabilities;
+3. the fixed `48경기 기준 정하기 → 8경기 첫 확인 → 같은 선택으로 다음 8경기 확인` split;
+4. one defensive leader and one outlet role that can stay high or become the
    second defensive area;
-4. four delivery-location lanes and a predeclared `40%`, `50%`, or `60%`
+5. four delivery-location lanes and a predeclared `40%`, `50%`, or `60%`
    minimum location-overlap criterion;
-5. `판단 보류`;
-6. the limitation that location overlap and outlet context stay separate.
+6. `판단 보류`;
+7. the limitation that the profile is not a zone recommendation and that
+   location overlap and outlet context stay separate.
 
 This is a policy stress test, not a formation dashboard, reward model, win
 prediction, defensive-success simulator, or optimal-tactics recommender.
@@ -28,22 +31,28 @@ prediction, defensive-success simulator, or optimal-tactics recommender.
    or abstains.
 2. `이 선택을 확정하고 16경기 확인` freezes one policy fingerprint before
    either held-out result appears.
-3. `16강 8경기 결과 보기` evaluates all eight round-of-16 matches.
+3. `16강 8경기 결과 보기` first exposes Portugal's held-out 10 deliveries, then
+   evaluates all eight round-of-16 matches as a separate generalization stress
+   test.
 4. `같은 선택으로 다음 8경기 확인` evaluates the untouched final eight
    matches with the identical fingerprint and records `선택 변경 0회`.
 5. The manager records one separate next-meeting decision and reason. This note
    cannot mutate the sealed policy, criterion, overlap result, or receipts.
 
 The demonstration policy puts the defensive leader at `숏 코너`, moves the
-outlet role to `니어포스트`, and selects `50%`. Its first held-out result is
-`48%` and misses the predeclared criterion; its final result is `51%` and meets
-it. These are delivery-location overlaps only. Outlet-contact context remains
+outlet role to `중앙·파포스트`, and selects `60%`. Portugal's held-out result is
+`9/10`; the round-of-16 aggregate is `63%` and meets the criterion, while the
+final result is `55%` and misses it. The single-match result is never called a
+correct tactic, and the aggregate results are delivery-location overlaps only.
+Outlet-contact context remains
 separate at `64/397`, `14/84`, and `12/76`; the product never adds it to overlap
 or labels it a completed counterattack.
 
 ## Deterministic evidence
 
 - The three match-ID partitions are pairwise disjoint.
+- Portugal's fixed example is selected by the lowest round-of-16 source match
+  ID, not by forecast performance.
 - All eligible held-out corners are evaluated; the UI does not choose favorable
   examples.
 - Every receipt carries the same policy fingerprint, source match/event IDs,

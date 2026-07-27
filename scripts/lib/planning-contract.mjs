@@ -55,7 +55,7 @@ function parseVerifiedAt(officialState) {
   return match ? Date.parse(match[1]) : Number.NaN;
 }
 
-export function validatePlanningContract({ source, officialState, manifest, now = new Date() }) {
+export function validatePlanningContract({ source, officialState, manifest, now = new Date(), planningSubmitted = false }) {
   const errors = [];
   const pages = splitPages(source);
   if (pages.length !== pageContracts.length) errors.push(`editorial contract expects exactly 8 planning pages, found ${pages.length}`);
@@ -107,6 +107,8 @@ export function validatePlanningContract({ source, officialState, manifest, now 
     errors.push("planning candidate contains an unsupported human preference/usability claim");
   }
   const deadline = Date.parse("2026-07-27T10:00:00+09:00");
-  if (now.getTime() >= deadline && source.includes("NOT SUBMITTED")) errors.push("planning deadline has passed while candidate is not submitted");
+  if (now.getTime() >= deadline && source.includes("NOT SUBMITTED") && !planningSubmitted) {
+    errors.push("planning deadline has passed while candidate is not submitted");
+  }
   return errors;
 }

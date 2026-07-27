@@ -157,7 +157,7 @@ run("ffmpeg", [
   "-y", "-i", visualPath, "-i", wavPath,
   "-filter_complex", videoFilter,
   "-map", "[video]", "-map", "1:a:0",
-  "-c:v", "libvpx", "-crf", "18", "-b:v", "0", "-deadline", "good", "-cpu-used", "2",
+  "-c:v", "libvpx", "-crf", "18", "-b:v", "0", "-deadline", "good", "-cpu-used", "4", "-threads", "8",
   "-c:a", "libopus", "-b:a", "96k",
   "-metadata", `title=${finalMode ? "FINAL UPLOAD CANDIDATE — HUMAN REVIEW PENDING" : "LOCAL REHEARSAL — NOT FINAL"}`,
   "-metadata", `comment=${finalMode ? `Frozen public source ${visualManifest.base_url}; not YouTube or human evidence until reviewed and published` : "Not YouTube or human evidence; regenerate from the frozen public URL for submission"}`,

@@ -2,26 +2,28 @@
 
 Status: `LOCAL STATIC RELEASE REHEARSAL PASS — NOT YOUTUBE EVIDENCE`
 
-Gallery title: `Corner Policy Lab — 코너킥 수비, 한 명을 어디에 둘까요?`
+Gallery title: `Corner Policy Lab — 포르투갈전, 두 역할을 어디에 둘까요?`
 
-The manager first assigns a defensive leader and decides whether the outlet role
-stays high or becomes the second defensive area. The primary demo path moves the
-outlet role into the second area, locks that staffing choice and the overlap
-criterion before exposure, then reuses the same fingerprint across two
-sequential held-out audits. Outlet-contact context is displayed separately and
-is never added to location overlap. The manager finally records a separate
-next-meeting decision that cannot mutate the sealed receipt.
+The manager first sees Portugal's 14 classifiable attacking corners, Uruguay's
+separate five classifiable defensive exposures, the rejected two-team challenger,
+a 47/53 blend of opponent evidence and tournament evidence, and all four delivery
+probabilities. The tool recommends no area. The manager assigns the defensive
+leader to short and moves the outlet role to central/far, sets a 60% criterion,
+and locks the choice. The reveal starts with Portugal's held-out 10 corners, then
+uses the submitted 8+8 tournament campaign to test whether the same choice
+generalizes. Outlet-contact context remains separate from location overlap. The
+manager finally records a next-meeting decision without changing the receipt.
 
 | Time | Screen action | Korean narration | Observable proof |
 |---|---|---|---|
-| 0–5s | Slow-zoom the manager choice and ask the choice directly | `코너킥 때 한 명을 수비에 더 둘까요, 역습에 남길까요?` | A first-time viewer can name the decision before methodology |
-| 5–12s | Put the two roles at `숏 코너` and `니어포스트`, then select `50%` | `두 명의 역할과 수비 구역을 고른 뒤, 실제 코너의 절반이 그 구역으로 오면 통과라고 미리 정합니다.` | Two roles, two defensive areas, and the predeclared criterion |
-| 12–16s | Activate `이 선택을 확정하고 16경기 확인` | `결과를 보기 전에 이 선택을 확정합니다.` | One fingerprint binds roles, areas, and criterion before results |
-| 16–27s | Show the result, same-choice receipts, and an outside-selection record | `16강 8경기에서는 실제 코너의 48퍼센트가 선택한 구역으로 왔습니다. 미리 정한 절반에는 못 미쳤습니다. 선택 밖 기록도 함께 봅니다.` | `48% < 50%`, eight receipts, unchanged choice, traceable outside-selection record |
-| 27–34s | Return to the still-hidden final eight without changing the choice | `첫 결과가 기대와 달라도 선택은 바꾸지 않습니다. 보지 않은 다음 8경기에 그대로 적용합니다.` | Disabled selections and unchanged fingerprint |
-| 34–45s | Reveal the final eight and state the interpretation limit | `같은 선택을 8강 이후 8경기에도 적용합니다. 실제 코너의 51퍼센트가 선택한 구역으로 왔습니다. 수비 성공률이나 승리 확률은 아닙니다.` | `51% ≥ 50%`, same choice, no success or win claim |
-| 45–53s | Choose `다음 회의에서 우선 구역 수정`, enter one reason, and save | `선택 밖으로 간 코너를 보고, 다음 전술 회의에서 바꿀 점과 이유를 메모합니다.` | A separate next-meeting note appears without changing the result |
-| 53–59.5s | Hold the receipt and next-meeting note together | `결정은 감독이 합니다. 이 도구는 실제 코너가 선택 구역에 얼마나 왔는지만 보여 줍니다.` | Choice changes remain zero; the manager keeps authority |
+| 0–5s | Hold the Portugal dossier and direct manager question | `포르투갈 코너에 맞춰, 우루과이 수비 두 역할을 배치합니다.` | Both teams, evidence, and manager action are named before methodology |
+| 5–12s | Show Portugal `14개`, Uruguay defensive exposure `5개`, the rejected matchup gate, choose `숏` and `중앙·파`, then select `60%` | `포르투갈 열네 개는 대회 전체로 보정합니다. 우루과이 수비 다섯 개는 표본이 적어 뺐습니다.` | Both samples and the failed matchup gate are visible; the manager chooses, not the model |
+| 12–16s | Activate `이 선택을 확정하고 16경기 확인` | `두 구역과 기준을 결과 전에 잠급니다.` | One fingerprint binds roles, areas, and criterion before results |
+| 16–27s | Reveal the fixed Portugal result before the tournament aggregate | `숨겨 둔 포르투갈전에서는 열 개 중 아홉 개가 선택 구역으로 왔습니다. 한 경기만으로 정답이라 하지는 않습니다.` | Portugal `9/10`, four recorded counts, and an explicit single-match boundary |
+| 27–34s | Show the round-of-16 aggregate and keep the choice sealed | `16강은 육십삼 퍼센트였습니다. 같은 선택을 다음 여덟 경기에 적용합니다.` | `63% ≥ 60%`, eight receipts, no policy change |
+| 34–45s | Reveal the final eight and state the failed generalization | `8강 이후에는 오십오 퍼센트로 기준에 못 미쳤습니다. 상대 분석도 다른 팀에 그대로 통하는 정답은 아닙니다.` | `55% < 60%`, same choice, no causal or universal claim |
+| 45–53s | Choose `다음 회의에서 우선 구역 수정`, enter one reason, and save | `선택 밖 기록을 보고, 다음 전술 회의에서 바꿀 점과 이유를 남깁니다.` | A separate next-meeting note appears without changing the result |
+| 53–59.5s | Hold the receipt and next-meeting note together | `결정은 감독이 합니다. 이 도구는 근거와 실패 가능성을 함께 보여 줍니다.` | Choice changes remain zero; evidence and uncertainty remain visible |
 
 All eleven post-production summaries carry the visible label `[편집 요약]`.
 They are a judging aid over the real product recording, not an unlabeled product
@@ -32,7 +34,8 @@ feature. No generated match footage or simulated football scene is used.
 The desktop and video first frame must contain, without scrolling:
 
 - the product name;
-- `코너킥 수비, 한 명을 어디에 둘까요?`;
+- `포르투갈전 코너킥 수비, 두 역할을 어디에 둘까요?`;
+- Portugal's `14개`, `47%/53%`, and four-way profile;
 - the `48경기 기준 정하기 → 8경기 첫 확인 → 같은 선택으로 다음 8경기 확인` map;
 - the defensive-leader and outlet-role choice;
 - the visible limitation that overlap and outlet context are not combined;
@@ -45,8 +48,8 @@ labels continue to expose the fixed split after interaction.
 
 ## Claim boundary
 
-The narration may say `선택`, `전달 위치`, `겹침`, `선택 밖 기록`, and
-`아직 보지 않은 경기`. It may not claim `수비 성공`, `막았다`, `위험도`, `보상`,
+The narration may say `상대 성향`, `작은 표본`, `선택`, `전달 위치`, `겹침`,
+`선택 밖 기록`, and `아직 보지 않은 경기`. It may not claim `수비 성공`, `막았다`, `위험도`, `보상`,
 `강화학습이 학습했다`, `최적`, or `경기 결과를 바꿨다`.
 
 ## Comparison gate

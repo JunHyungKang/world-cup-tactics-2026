@@ -10,19 +10,23 @@ the clean local stamped release.
 ## Visual path
 
 - `0–5`: gallery cold open with a restrained `1.04×` slow zoom;
-- `5–12`: select two locations and the predeclared 50% criterion;
+- `5–12`: show Portugal's 14-corner sample and 47/53 pooling weights, then
+  select short plus central/far and the predeclared 60% criterion;
 - `12`: lock one policy before either held-out result;
-- `16–27`: cut from the `48% < 50%` verdict to the eight same-policy receipts,
-  the representative counterexample, and the still-sealed final action;
+- `16–27`: reveal Portugal's fixed `9/10` result first, while stating that one
+  match cannot establish a universally correct choice;
+- `27–34`: show the `63% ≥ 60%` round-of-16 stress test and keep the same policy
+  sealed for the next eight;
 - `30`: reveal the sealed final eight with the same policy;
-- `34–40`: show the final receipt, then briefly open the ontology path only to
-  state `관찰 기록 ≠ 인과 효과`;
+- `34–40`: show the `55% < 60%` final receipt and the failed-generalization
+  boundary;
 - `42–48`: record and save the separate next-meeting decision;
 - `53–59.5`: hold the immutable receipt and next-meeting note together.
 
 The action ledger contains twelve scheduled interaction/view events. Each must
-complete within 1.5 seconds of its target. The final frame must preserve the 50%
-criterion, `선택 변경 0회`, the policy fingerprint, and `확인 결과는 그대로입니다`.
+complete within 1.5 seconds of its target. The final frame must preserve the 60%
+criterion, `사전 기준 미달`, `선택 변경 0회`, the policy fingerprint, and
+`확인 결과는 그대로입니다`.
 
 `docs/demo-editorial-treatment.json` controls eleven top-right editorial
 summaries. Every summary is visibly labeled `[편집 요약]`: it is post-production

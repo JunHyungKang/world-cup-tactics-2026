@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, utimes, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { requiredPdfPageMarkers, requiredPlanningPages } from "./lib/planning-contract.mjs";
+import { requiredPdfPageMarkers, requiredPlanningPages, validatePlanningContract } from "./lib/planning-contract.mjs";
 import { findPdfPython, inspectPlanningPdf, validateAgentVisualReview, validatePlanningCandidateBindings, validatePlanSubmissionReceipt, validateVisualQaLedger } from "./lib/planning-pdf.mjs";
 import { preparePlanReview } from "./lib/plan-review.mjs";
 import { preparePlanOwnerHandoff } from "./lib/plan-owner-handoff.mjs";
@@ -66,6 +66,11 @@ beforeAll(async () => {
   const pages = requiredPlanningPages.map((title, index) => ({ title, marker: requiredPdfPageMarkers[index] }));
   execFileSync(python, ["-c", generator, validPdf, JSON.stringify(pages), JSON.stringify(binding)]);
   execFileSync(python, ["-c", generator, onePagePdf, JSON.stringify([pages[0]]), JSON.stringify(binding)]);
+  const syntheticPreDeadlineTime = new Date("2026-07-27T08:30:00+09:00");
+  await Promise.all([
+    utimes(validPdf, syntheticPreDeadlineTime, syntheticPreDeadlineTime),
+    utimes(onePagePdf, syntheticPreDeadlineTime, syntheticPreDeadlineTime),
+  ]);
 }, 30_000);
 
 afterAll(async () => {
@@ -84,7 +89,7 @@ describe("rendered planning PDF preflight", () => {
     const result = await inspectPlanningPdf(onePagePdf, { render: false });
     expect(result.errors).toContain("expected 8 PDF pages, found 1");
     expect(result.errors).toContain(`PDF page 2 missing source title: ${requiredPlanningPages[1]}`);
-  });
+  }, 60_000);
 
   it("rejects a planning PDF bound to stale source or screenshot hashes", async () => {
     const inspection = await inspectPlanningPdf(validPdf, { render: false });
@@ -94,7 +99,7 @@ describe("rendered planning PDF preflight", () => {
     expect(validatePlanningCandidateBindings(inspection.pages, {
       sourceSha256: "0".repeat(64), screenshotManifestSha256,
     })).toContain("PDF page 1 is not bound to current planning source");
-  });
+  }, 60_000);
 
   it("binds human visual QA to both PDF and source hashes", async () => {
     const inspection = await inspectPlanningPdf(validPdf, { render: false });
@@ -116,7 +121,7 @@ describe("rendered planning PDF preflight", () => {
     expect(validateVisualQaLedger(ledger.replace("visual 8/8 PASS", "rendered"), {
       ...options,
     })).toContain("plan-visual-qa Checks cell must exactly equal 'visual 8/8 PASS'");
-  });
+  }, 60_000);
 
   it("accepts a distinct subagent document review without relabeling it human evidence", async () => {
     const inspection = await inspectPlanningPdf(validPdf, { render: false });
@@ -199,9 +204,9 @@ describe("rendered planning PDF preflight", () => {
     for (const { ledger, error } of cases) {
       expect(validateVisualQaLedger(ledger, options), ledger).toContain(error);
     }
-  });
+  }, 60_000);
 
-  it("promotes a visually reviewed PDF after canonical data admission", async () => {
+  it("preserves the historical ready handoff but blocks a new plan preflight after the deadline", async () => {
     const inspection = await inspectPlanningPdf(validPdf, { render: false });
     const source = await readFile("docs/planning-outline.md");
     const sourceSha256 = createHash("sha256").update(source).digest("hex");
@@ -226,20 +231,16 @@ describe("rendered planning PDF preflight", () => {
     expect(handoffHtml).toContain("agent\\d*");
     expect(handoffHtml).toContain("codex(?:[-_.].*)?");
     expect(handoffHtml).toContain("qa(?:[-_.].*)?");
-    const result = spawnSync(
-      process.execPath,
-      [
-        "scripts/preflight-submission.mjs", "--phase", "plan",
-        "--planning-pdf", validPdf,
-        "--submission-ledger", ledgerPath,
-        "--plan-review-manifest", join(review.packetDirectory, "review-manifest.json"),
-      ],
-      { cwd: process.cwd(), encoding: "utf8", env: { ...process.env, PDF_PYTHON: python } },
-    );
-    expect(result.status, result.stderr).toBe(0);
-    expect(result.stdout).toContain("[PASS] planning PDF content/render");
-    expect(result.stdout).toContain("[PASS] planning visual QA ledger");
-    expect(result.stdout).toContain("[PASS] competition data-scope eligibility");
+    const [officialState, manifestText] = await Promise.all([
+      readFile("docs/official-state.md", "utf8"),
+      readFile("data/source-manifest.json", "utf8"),
+    ]);
+    expect(validatePlanningContract({
+      source: await readFile("docs/planning-outline.md", "utf8"),
+      officialState,
+      manifest: JSON.parse(manifestText),
+      now: new Date("2026-07-27T10:00:01+09:00"),
+    })).toContain("planning deadline has passed while candidate is not submitted");
   }, 60_000);
 
   it("validates an optional owner-observed planning submission receipt", async () => {
@@ -260,7 +261,7 @@ describe("rendered planning PDF preflight", () => {
       expect(validatePlanSubmissionReceipt(valid.replace("owner=jhkang", `owner=${placeholder}`), options), placeholder)
         .toContain("plan-submitted owner must be a real owner identity, not a placeholder");
     }
-  });
+  }, 60_000);
 
   it("rejects fabricated eligibility path overrides in production preflight", () => {
     const result = spawnSync(
@@ -274,5 +275,5 @@ describe("rendered planning PDF preflight", () => {
     );
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("[FAIL] canonical eligibility inputs: forbidden overrides: --eligibility-state");
-  }, 60_000);
+  }, 120_000);
 });

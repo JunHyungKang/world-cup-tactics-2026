@@ -14,7 +14,7 @@ describe("Policy Lab committed derivative", () => {
   });
 
   it("pins the immutable raw inputs and deterministic transform", () => {
-    expect(report.transform_version).toBe("policy-lab-spike-v5-role-tradeoff-context");
+    expect(report.transform_version).toBe("policy-lab-spike-v7-matchup-challenger");
     expect(report.provenance.input_sha256).toEqual({
       eventsZip: "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
       events: "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
@@ -93,5 +93,130 @@ describe("Policy Lab committed derivative", () => {
       .flatMap((match) => match.trials);
     expect(heldOutTrials.every((trial) =>
       typeof trial.observed_outcome.defending_outlet_contact === "boolean")).toBe(true);
+  });
+
+  it("uses partial pooling to add team context without pretending sparse raw rates are reliable", () => {
+    const scouting = report.team_scouting;
+    expect(report.gates.team_specific_support).toBe(false);
+    expect(scouting.status).toBe("PASS");
+    expect(scouting.reference).toMatchObject({
+      matches: 48,
+      classified_corners: 397,
+      action_counts: { short: 76, near: 130, "central-far": 165, other: 26 },
+    });
+    expect(scouting.model).toMatchObject({
+      family: "Dirichlet-multinomial partial pooling",
+      selection_data: "group-stage reference only",
+      selected_concentration: 16,
+    });
+    const bestScore = Math.max(...scouting.model.concentration_scores
+      .map((candidate) => candidate.group_stage_leave_one_team_out_log_evidence));
+    expect(scouting.model.concentration_scores.find((candidate) =>
+      candidate.concentration === 16).group_stage_leave_one_team_out_log_evidence).toBe(bestScore);
+    expect(scouting.teams_improved).toBe(12);
+    expect(scouting.teams_evaluated).toBe(16);
+  });
+
+  it("beats the tournament-only forecast in both untouched knockout partitions", () => {
+    const scouting = report.team_scouting;
+    expect(scouting.partition_scores.round_of_16.baseline.corners).toBe(84);
+    expect(scouting.partition_scores.quarter_final_and_later.baseline.corners).toBe(76);
+    expect(scouting.partition_scores.all_knockout.baseline.corners).toBe(160);
+    expect(scouting.partition_scores.round_of_16.improvement.log_loss_reduction_rate)
+      .toBeCloseTo(0.021448078830165047, 12);
+    expect(scouting.partition_scores.quarter_final_and_later.improvement.log_loss_reduction_rate)
+      .toBeCloseTo(0.07212355442624484, 12);
+    expect(scouting.partition_scores.all_knockout.improvement.log_loss_reduction_rate)
+      .toBeCloseTo(0.04586384701843413, 12);
+    expect(scouting.partition_scores.all_knockout.improvement.brier_reduction_rate)
+      .toBeCloseTo(0.04660426794650289, 12);
+    expect(scouting.top_two_coverage).toEqual({
+      round_of_16: {
+        corners: 84,
+        tournament_top_two: ["central-far", "near"],
+        tournament_top_two_covered: 65,
+        team_conditioned_top_two_covered: 65,
+      },
+      quarter_final_and_later: {
+        corners: 76,
+        tournament_top_two: ["central-far", "near"],
+        tournament_top_two_covered: 59,
+        team_conditioned_top_two_covered: 59,
+      },
+    });
+    expect(scouting.bootstrap.mean_log_score_gain_per_corner_interval.lower_95).toBeGreaterThan(0);
+    expect(scouting.bootstrap.probability_gain_above_zero).toBeGreaterThan(0.98);
+  });
+
+  it("rejects the two-team matchup challenger when its match-level uncertainty misses the promotion gate", () => {
+    const challenger = report.team_scouting.matchup_challenger;
+    expect(challenger).toMatchObject({
+      status: "REJECT",
+      fixed_concentration: 16,
+      candidate_defending_weights: [0, 0.25, 0.5, 0.75, 1],
+      selected: {
+        concentration: 16,
+        defending_weight: 0.5,
+      },
+      promotion_gates: {
+        group_stage_selected_defensive_signal: true,
+        round_of_16_log_loss_improved: true,
+        quarter_final_and_later_log_loss_improved: true,
+        all_knockout_log_loss_improved: true,
+        both_holdouts_brier_non_worse: true,
+        match_cluster_interval_lower_above_zero: false,
+        match_cluster_probability_at_least_0975: false,
+      },
+    });
+    expect(challenger.partition_scores.all_knockout.improvement_vs_opponent_only.log_loss_reduction_rate)
+      .toBeCloseTo(0.01011790356833202, 12);
+    expect(challenger.bootstrap.mean_log_score_gain_per_corner_interval.lower_95)
+      .toBeCloseTo(-0.004016932056328984, 12);
+    expect(challenger.bootstrap.mean_log_score_gain_per_corner_interval.upper_95)
+      .toBeCloseTo(0.027364050990838943, 12);
+    expect(challenger.bootstrap.probability_gain_above_zero).toBe(0.9226);
+  });
+
+  it("keeps the team forecast inside its actual evidence boundary", () => {
+    const scouting = report.team_scouting;
+    expect(scouting.claim_boundary.missing_endpoints_are_excluded).toBe(true);
+    expect(scouting.claim_boundary.unsupported).toEqual(expect.arrayContaining([
+      "optimal defensive placement",
+      "shots or goals prevented",
+      "player marking assignments or reach",
+      "causal tactical effects",
+      "persistence from 2018 to 2026",
+    ]));
+    expect(scouting.round_of_16_dossiers).toHaveLength(16);
+    expect(scouting.round_of_16_dossiers.filter((dossier) =>
+      dossier.held_out_opponent_classified_corners === 0)).toHaveLength(1);
+    for (const dossier of scouting.round_of_16_dossiers) {
+      expect(dossier.opponent_group_stage_classified_corners +
+        dossier.opponent_group_stage_placeholder_corners)
+        .toBe(dossier.opponent_group_stage_source_corners);
+      expect(dossier.manager_group_stage_defensive_exposure_classified_corners +
+        dossier.manager_group_stage_defensive_exposure_placeholder_corners)
+        .toBe(dossier.manager_group_stage_defensive_exposure_source_corners);
+      expect(dossier.held_out_opponent_classified_corners +
+        dossier.held_out_opponent_placeholder_corners)
+        .toBe(dossier.held_out_opponent_source_corners);
+      expect(dossier.defensive_exposure_is_not_pooled_into_forecast).toBe(true);
+      expect(Object.values(dossier.matchup_challenger_probabilities)
+        .reduce((sum, value) => sum + value, 0)).toBeCloseTo(1, 12);
+    }
+    const example = scouting.first_fixed_round_of_16_example;
+    expect(example).toMatchObject({
+      selection_rule: "lowest source match ID in the predeclared round-of-16 partition; not selected by forecast result",
+      match_id: 2058002,
+      match_name: "Uruguay - Portugal",
+      manager_team_name: "Uruguay",
+      opponent_team_name: "Portugal",
+      opponent_group_stage_classified_corners: 14,
+      manager_group_stage_defensive_exposure_classified_corners: 5,
+      defensive_exposure_is_not_pooled_into_forecast: true,
+      held_out_opponent_corners: 10,
+      tournament_top_two_covered: 5,
+      team_conditioned_top_two_covered: 9,
+    });
   });
 });

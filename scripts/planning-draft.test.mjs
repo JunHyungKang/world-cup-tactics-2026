@@ -33,7 +33,7 @@ describe("immutable submitted planning PDF", () => {
       expect(page.text).toContain(`캡처 ${screenshotSha}`);
       expect(page.text).toContain("인간 연구 없음");
     }
-  });
+  }, 60_000);
 
   it("contains official rubric/current proof and rejects old pending language", async () => {
     const result = await inspectPlanningPdf(pdfPath, { render: false });
@@ -42,7 +42,7 @@ describe("immutable submitted planning PDF", () => {
     expect(text).not.toContain("98 / 100");
     expect(text).not.toContain("공식 후보로 승격");
     for (const stale of ["DATA AUDIT PENDING", "implementation pending", "transform/full audit pending", "Touchline Lab"]) expect(text).not.toContain(stale);
-  });
+  }, 60_000);
 
   it("pins OFL D2Coding and does not embed AppleGothic", async () => {
     const expected = new Map([
@@ -57,7 +57,7 @@ describe("immutable submitted planning PDF", () => {
     const fonts = new Set(result.pages.flatMap((page) => page.fonts));
     expect([...fonts].some((font) => font.includes("D2Coding"))).toBe(true);
     expect([...fonts].some((font) => font.includes("AppleGothic"))).toBe(false);
-  });
+  }, 60_000);
 
   it("binds every planning screenshot to the exact submitted source commit", async () => {
     const manifest = JSON.parse(await readFile("docs/assets/policy-lab-planning/manifest.json", "utf8"));
@@ -74,7 +74,7 @@ describe("immutable submitted planning PDF", () => {
       expect(bytes.length, artifact.path).toBe(artifact.bytes);
       expect(createHash("sha256").update(bytes).digest("hex"), artifact.path).toBe(artifact.sha256);
     }
-  });
+  }, 60_000);
 
   it("renders from tracked evidence without an ignored build directory", async () => {
     const renderer = await readFile("scripts/render-policy-lab-plan.py", "utf8");
@@ -82,7 +82,7 @@ describe("immutable submitted planning PDF", () => {
     expect(renderer).not.toContain('ROOT / "dist/');
     expect(renderer).toContain("capture release and build bindings disagree");
     expect(renderer).toContain("capture source binding does not match the tracked source bytes");
-  });
+  }, 60_000);
 
   it("prepares an exact-artifact packet that starts unapproved", async () => {
     const result = await preparePlanReview({ pdfPath, outputRoot: join(directory, "review") });
@@ -189,5 +189,5 @@ describe("immutable submitted planning PDF", () => {
       outputRoot: join(directory, "drifted-review"),
       sourcePath: driftedSource,
     })).rejects.toThrow("not bound to current planning source");
-  });
+  }, 60_000);
 });

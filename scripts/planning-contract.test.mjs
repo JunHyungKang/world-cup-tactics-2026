@@ -8,9 +8,14 @@ const [source, officialState, manifestText] = await Promise.all([
   readFile("data/source-manifest.json", "utf8"),
 ]);
 const manifest = JSON.parse(manifestText);
-const verifiedAt = new Date(officialState.match(/^Verified:\s*`([^`]+)`\s+against:/mu)?.[1]);
+const historicalOfficialState = officialState.replace(
+  /^Verified:\s*`[^`]+`\s+against:/mu,
+  "Verified: `2026-07-27T08:00:00+09:00` against:",
+);
+const verifiedAt = new Date("2026-07-27T08:00:00+09:00");
 const validate = (overrides = {}) => validatePlanningContract({
-  source, officialState, manifest, now: new Date(verifiedAt.getTime() + 60 * 60 * 1000), ...overrides,
+  source, officialState: historicalOfficialState, manifest,
+  now: new Date(verifiedAt.getTime() + 60 * 60 * 1000), ...overrides,
 });
 
 describe("current planning PDF source contract", () => {
@@ -29,9 +34,15 @@ describe("current planning PDF source contract", () => {
   });
 
   it("rejects missing official weights and stale official capture", () => {
-    expect(validate({ officialState: officialState.replace("Second-round internal judging is originality 30", "Second-round judging TBD") }))
+    expect(validate({ officialState: historicalOfficialState.replace("Second-round internal judging is originality 30", "Second-round judging TBD") }))
       .toContain("official state missing planning contract marker: Second-round internal judging is originality 30");
     expect(validate({ now: new Date(verifiedAt.getTime() + 25 * 60 * 60 * 1000) }).some((error) => error.startsWith("official state verification is stale"))).toBe(true);
+  });
+
+  it("accepts the immutable post-deadline state only with verified submission evidence", () => {
+    const afterDeadline = new Date("2026-07-27T10:00:01+09:00");
+    expect(validate({ now: afterDeadline })).toContain("planning deadline has passed while candidate is not submitted");
+    expect(validate({ now: afterDeadline, planningSubmitted: true })).toEqual([]);
   });
 
   it("rejects accepted-source drift and fabricated human preference", () => {

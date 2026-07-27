@@ -11,7 +11,9 @@ import {
 
 export const DELIVERY_ACTIONS = Object.freeze(["short", "near", "central-far", "other"]);
 export const HORIZONS = Object.freeze([8, 10, 12, 15]);
-export const POLICY_SPIKE_VERSION = "policy-lab-spike-v5-role-tradeoff-context";
+export const TEAM_PRIOR_CONCENTRATIONS = Object.freeze([0.5, 1, 2, 4, 8, 16, 32, 64, 128]);
+export const MATCHUP_DEFENSE_WEIGHTS = Object.freeze([0, 0.25, 0.5, 0.75, 1]);
+export const POLICY_SPIKE_VERSION = "policy-lab-spike-v7-matchup-challenger";
 
 function attackingPoint(point, eventTeamId, attackingTeamId, mirrorLaterally) {
   const teamFrame = Number(eventTeamId) === Number(attackingTeamId)
@@ -156,6 +158,619 @@ function actionSummary(episodes) {
       shot_rate: selected.length === 0 ? null : shots / selected.length,
     }];
   }));
+}
+
+function actionCounts(episodes) {
+  return Object.fromEntries(DELIVERY_ACTIONS.map((action) => [
+    action,
+    episodes.filter((episode) => episode.observed_action.value === action).length,
+  ]));
+}
+
+function subtractCounts(left, right) {
+  return Object.fromEntries(DELIVERY_ACTIONS.map((action) => [action, left[action] - right[action]]));
+}
+
+function totalCounts(counts) {
+  return DELIVERY_ACTIONS.reduce((sum, action) => sum + counts[action], 0);
+}
+
+function normalizeCounts(counts) {
+  const total = totalCounts(counts);
+  if (total === 0) throw new Error("cannot normalize empty action counts");
+  return Object.fromEntries(DELIVERY_ACTIONS.map((action) => [action, counts[action] / total]));
+}
+
+function teamNames(matches) {
+  const names = new Map();
+  for (const match of matches) {
+    const [homeName = "", awayName = ""] = String(match.label ?? "").split(",")[0].split(" - ");
+    for (const [teamId, team] of Object.entries(match.teamsData ?? {})) {
+      const name = team.side === "home" ? homeName : team.side === "away" ? awayName : "";
+      if (name) names.set(Number(teamId), name);
+    }
+  }
+  return names;
+}
+
+// Lanczos approximation. Inputs here are positive Dirichlet parameters only.
+function logGamma(value) {
+  const coefficients = [
+    676.5203681218851,
+    -1259.1392167224028,
+    771.3234287776531,
+    -176.6150291621406,
+    12.507343278686905,
+    -0.13857109526572012,
+    9.984369578019572e-6,
+    1.5056327351493116e-7,
+  ];
+  if (value < 0.5) return Math.log(Math.PI) - Math.log(Math.sin(Math.PI * value)) - logGamma(1 - value);
+  const shifted = value - 1;
+  let series = 0.9999999999998099;
+  for (let index = 0; index < coefficients.length; index += 1) {
+    series += coefficients[index] / (shifted + index + 1);
+  }
+  const t = shifted + coefficients.length - 0.5;
+  return 0.5 * Math.log(2 * Math.PI) + (shifted + 0.5) * Math.log(t) - t + Math.log(series);
+}
+
+function dirichletMultinomialLogEvidence(counts, priorProbabilities, concentration) {
+  const countTotal = totalCounts(counts);
+  let result = logGamma(concentration) - logGamma(concentration + countTotal);
+  for (const action of DELIVERY_ACTIONS) {
+    const prior = concentration * priorProbabilities[action];
+    result += logGamma(prior + counts[action]) - logGamma(prior);
+  }
+  return result;
+}
+
+function posteriorProbabilities(teamCounts, globalProbabilities, concentration) {
+  const teamTotal = totalCounts(teamCounts);
+  return Object.fromEntries(DELIVERY_ACTIONS.map((action) => [
+    action,
+    (teamCounts[action] + concentration * globalProbabilities[action]) / (teamTotal + concentration),
+  ]));
+}
+
+function probabilityRanking(probabilities) {
+  return DELIVERY_ACTIONS.toSorted((left, right) =>
+    probabilities[right] - probabilities[left] || left.localeCompare(right));
+}
+
+function scoreForecast(episodes, probabilitiesForTeam) {
+  if (episodes.length === 0) {
+    return {
+      corners: 0,
+      negative_log_likelihood: 0,
+      mean_log_loss: null,
+      mean_brier_score: null,
+    };
+  }
+  let negativeLogLikelihood = 0;
+  let brierTotal = 0;
+  for (const episode of episodes) {
+    const probabilities = probabilitiesForTeam(episode.state.attacking_team_id);
+    const observed = episode.observed_action.value;
+    negativeLogLikelihood -= Math.log(probabilities[observed]);
+    brierTotal += DELIVERY_ACTIONS.reduce((sum, action) => {
+      const residual = probabilities[action] - Number(action === observed);
+      return sum + residual * residual;
+    }, 0);
+  }
+  return {
+    corners: episodes.length,
+    negative_log_likelihood: negativeLogLikelihood,
+    mean_log_loss: negativeLogLikelihood / episodes.length,
+    mean_brier_score: brierTotal / episodes.length,
+  };
+}
+
+function scoreForecastByEpisode(episodes, probabilitiesForEpisode) {
+  if (episodes.length === 0) {
+    return {
+      corners: 0,
+      negative_log_likelihood: 0,
+      mean_log_loss: null,
+      mean_brier_score: null,
+    };
+  }
+  let negativeLogLikelihood = 0;
+  let brierTotal = 0;
+  for (const episode of episodes) {
+    const probabilities = probabilitiesForEpisode(episode);
+    const observed = episode.observed_action.value;
+    negativeLogLikelihood -= Math.log(probabilities[observed]);
+    brierTotal += DELIVERY_ACTIONS.reduce((sum, action) => {
+      const residual = probabilities[action] - Number(action === observed);
+      return sum + residual * residual;
+    }, 0);
+  }
+  return {
+    corners: episodes.length,
+    negative_log_likelihood: negativeLogLikelihood,
+    mean_log_loss: negativeLogLikelihood / episodes.length,
+    mean_brier_score: brierTotal / episodes.length,
+  };
+}
+
+function improvement(baseline, candidate) {
+  if (baseline.mean_log_loss === null || candidate.mean_log_loss === null ||
+      baseline.mean_brier_score === null || candidate.mean_brier_score === null) {
+    return {
+      log_loss_reduction: null,
+      log_loss_reduction_rate: null,
+      brier_reduction: null,
+      brier_reduction_rate: null,
+    };
+  }
+  return {
+    log_loss_reduction: baseline.mean_log_loss - candidate.mean_log_loss,
+    log_loss_reduction_rate: (baseline.mean_log_loss - candidate.mean_log_loss) / baseline.mean_log_loss,
+    brier_reduction: baseline.mean_brier_score - candidate.mean_brier_score,
+    brier_reduction_rate: (baseline.mean_brier_score - candidate.mean_brier_score) / baseline.mean_brier_score,
+  };
+}
+
+function matchupProbabilities(
+  attackingCounts,
+  defendingExposureCounts,
+  tournamentProbabilities,
+  concentration,
+  defendingWeight,
+) {
+  const attacking = posteriorProbabilities(
+    attackingCounts,
+    tournamentProbabilities,
+    concentration,
+  );
+  const defending = posteriorProbabilities(
+    defendingExposureCounts,
+    tournamentProbabilities,
+    concentration,
+  );
+  const unnormalized = Object.fromEntries(DELIVERY_ACTIONS.map((action) => [
+    action,
+    attacking[action] *
+      Math.pow(defending[action] / tournamentProbabilities[action], defendingWeight),
+  ]));
+  return normalizeCounts(unnormalized);
+}
+
+function forecastComparisonBootstrap(episodes, baselineForecast, candidateForecast, draws = 10_000) {
+  const matchIds = [...new Set(episodes.map((episode) => episode.state.match_id))].sort((a, b) => a - b);
+  const gainsByMatch = new Map(matchIds.map((matchId) => {
+    const trials = episodes.filter((episode) => episode.state.match_id === matchId);
+    return [matchId, {
+      corners: trials.length,
+      gain: trials.reduce((sum, episode) => {
+        const action = episode.observed_action.value;
+        return sum + Math.log(candidateForecast(episode)[action]) -
+          Math.log(baselineForecast(episode)[action]);
+      }, 0),
+    }];
+  }));
+  const random = seededRandom(0x4d415443);
+  const means = [];
+  for (let draw = 0; draw < draws; draw += 1) {
+    let gain = 0;
+    let corners = 0;
+    for (let index = 0; index < matchIds.length; index += 1) {
+      const sampled = gainsByMatch.get(matchIds[Math.floor(random() * matchIds.length)]);
+      gain += sampled.gain;
+      corners += sampled.corners;
+    }
+    means.push(gain / corners);
+  }
+  means.sort((left, right) => left - right);
+  return {
+    unit: "knockout-match-cluster",
+    draws,
+    seed: "0x4d415443",
+    mean_log_score_gain_per_corner_interval: {
+      lower_95: quantile(means, 0.025),
+      median: quantile(means, 0.5),
+      upper_95: quantile(means, 0.975),
+    },
+    probability_gain_above_zero: means.filter((value) => value > 0).length / means.length,
+  };
+}
+
+function buildMatchupChallenger(
+  reference,
+  referenceIds,
+  rehearsal,
+  finalAudit,
+  opponentOnlyForecast,
+  concentration,
+) {
+  const globalCounts = actionCounts(reference);
+  const attackingTeamIds = [...new Set(reference.map((episode) => episode.state.attacking_team_id))];
+  const defendingTeamIds = [...new Set(reference.map((episode) => episode.state.defending_team_id))];
+  const emptyCounts = actionCounts([]);
+  const attackingCounts = new Map(attackingTeamIds.map((teamId) => [
+    teamId,
+    actionCounts(reference.filter((episode) => episode.state.attacking_team_id === teamId)),
+  ]));
+  const defendingCounts = new Map(defendingTeamIds.map((teamId) => [
+    teamId,
+    actionCounts(reference.filter((episode) => episode.state.defending_team_id === teamId)),
+  ]));
+  const folds = referenceIds.map((matchId) => {
+    const heldOut = reference.filter((episode) => episode.state.match_id === matchId);
+    const heldOutCounts = actionCounts(heldOut);
+    const heldOutAttacking = new Map([...new Set(heldOut.map((episode) => episode.state.attacking_team_id))].map((teamId) => [
+      teamId,
+      actionCounts(heldOut.filter((episode) => episode.state.attacking_team_id === teamId)),
+    ]));
+    const heldOutDefending = new Map([...new Set(heldOut.map((episode) => episode.state.defending_team_id))].map((teamId) => [
+      teamId,
+      actionCounts(heldOut.filter((episode) => episode.state.defending_team_id === teamId)),
+    ]));
+    return {
+      heldOut,
+      tournamentProbabilities: normalizeCounts(subtractCounts(globalCounts, heldOutCounts)),
+      attackingCountsFor: (teamId) => subtractCounts(
+        attackingCounts.get(teamId) ?? emptyCounts,
+        heldOutAttacking.get(teamId) ?? emptyCounts,
+      ),
+      defendingCountsFor: (teamId) => subtractCounts(
+        defendingCounts.get(teamId) ?? emptyCounts,
+        heldOutDefending.get(teamId) ?? emptyCounts,
+      ),
+    };
+  });
+  const candidates = MATCHUP_DEFENSE_WEIGHTS.map((defendingWeight) => {
+    let negativeLogLikelihood = 0;
+    let corners = 0;
+    for (const fold of folds) {
+      const cache = new Map();
+      for (const episode of fold.heldOut) {
+        const key = `${episode.state.attacking_team_id}:${episode.state.defending_team_id}`;
+        if (!cache.has(key)) {
+          cache.set(key, matchupProbabilities(
+            fold.attackingCountsFor(episode.state.attacking_team_id),
+            fold.defendingCountsFor(episode.state.defending_team_id),
+            fold.tournamentProbabilities,
+            concentration,
+            defendingWeight,
+          ));
+        }
+        negativeLogLikelihood -= Math.log(cache.get(key)[episode.observed_action.value]);
+        corners += 1;
+      }
+    }
+    return {
+      concentration,
+      defending_weight: defendingWeight,
+      group_stage_leave_one_match_out_mean_log_loss: negativeLogLikelihood / corners,
+    };
+  });
+  const selected = candidates.toSorted((left, right) =>
+    left.group_stage_leave_one_match_out_mean_log_loss -
+      right.group_stage_leave_one_match_out_mean_log_loss ||
+    left.defending_weight - right.defending_weight)[0];
+  const tournamentProbabilities = normalizeCounts(globalCounts);
+  const probabilitiesFor = (attackingTeamId, defendingTeamId) => matchupProbabilities(
+    attackingCounts.get(attackingTeamId) ?? emptyCounts,
+    defendingCounts.get(defendingTeamId) ?? emptyCounts,
+    tournamentProbabilities,
+    concentration,
+    selected.defending_weight,
+  );
+  const matchupForecast = (episode) => probabilitiesFor(
+    episode.state.attacking_team_id,
+    episode.state.defending_team_id,
+  );
+  const opponentForecast = (episode) => opponentOnlyForecast(episode.state.attacking_team_id);
+  const scorePartition = (episodes) => {
+    const baseline = scoreForecastByEpisode(episodes, opponentForecast);
+    const candidate = scoreForecastByEpisode(episodes, matchupForecast);
+    return {
+      opponent_only: baseline,
+      matchup_conditioned: candidate,
+      improvement_vs_opponent_only: improvement(baseline, candidate),
+    };
+  };
+  const partitions = {
+    round_of_16: scorePartition(rehearsal),
+    quarter_final_and_later: scorePartition(finalAudit),
+    all_knockout: scorePartition([...rehearsal, ...finalAudit]),
+  };
+  const bootstrap = forecastComparisonBootstrap(
+    [...rehearsal, ...finalAudit],
+    opponentForecast,
+    matchupForecast,
+  );
+  const promotionGates = {
+    group_stage_selected_defensive_signal: selected.defending_weight > 0,
+    round_of_16_log_loss_improved:
+      partitions.round_of_16.improvement_vs_opponent_only.log_loss_reduction > 0,
+    quarter_final_and_later_log_loss_improved:
+      partitions.quarter_final_and_later.improvement_vs_opponent_only.log_loss_reduction > 0,
+    all_knockout_log_loss_improved:
+      partitions.all_knockout.improvement_vs_opponent_only.log_loss_reduction > 0,
+    both_holdouts_brier_non_worse:
+      partitions.round_of_16.improvement_vs_opponent_only.brier_reduction >= 0 &&
+      partitions.quarter_final_and_later.improvement_vs_opponent_only.brier_reduction >= 0,
+    match_cluster_interval_lower_above_zero:
+      bootstrap.mean_log_score_gain_per_corner_interval.lower_95 > 0,
+    match_cluster_probability_at_least_0975:
+      bootstrap.probability_gain_above_zero >= 0.975,
+  };
+  return {
+    probabilitiesFor,
+    audit: {
+      status: Object.values(promotionGates).every(Boolean) ? "PASS" : "REJECT",
+      question: "Does adding the manager team's group-stage defensive exposure improve the opponent-only forecast on unseen knockout corners?",
+      selection_data: "group-stage reference only; leave-one-match-out hyperparameter selection",
+      family: "log-linear attack-by-defensive-exposure challenger with Dirichlet partial pooling",
+      formula: "normalize(opponent_attack_posterior * (manager_defensive_exposure_posterior / tournament_probability) ^ defending_weight)",
+      fixed_concentration: concentration,
+      candidate_defending_weights: MATCHUP_DEFENSE_WEIGHTS,
+      selected,
+      partition_scores: partitions,
+      bootstrap,
+      promotion_gates: promotionGates,
+      product_decision: "Do not pool manager defensive exposure into the displayed forecast unless every preregistered promotion gate passes.",
+    },
+  };
+}
+
+function forecastBootstrap(episodes, globalProbabilities, teamProbabilities, draws = 10_000) {
+  const matchIds = [...new Set(episodes.map((episode) => episode.state.match_id))].sort((a, b) => a - b);
+  const gainsByMatch = new Map(matchIds.map((matchId) => {
+    const trials = episodes.filter((episode) => episode.state.match_id === matchId);
+    return [matchId, {
+      corners: trials.length,
+      gain: trials.reduce((sum, episode) => {
+        const action = episode.observed_action.value;
+        return sum + Math.log(teamProbabilities.get(episode.state.attacking_team_id)[action]) -
+          Math.log(globalProbabilities[action]);
+      }, 0),
+    }];
+  }));
+  const random = seededRandom(0x51c0ffee);
+  const means = [];
+  for (let draw = 0; draw < draws; draw += 1) {
+    let gain = 0;
+    let corners = 0;
+    for (let index = 0; index < matchIds.length; index += 1) {
+      const sampled = gainsByMatch.get(matchIds[Math.floor(random() * matchIds.length)]);
+      gain += sampled.gain;
+      corners += sampled.corners;
+    }
+    means.push(gain / corners);
+  }
+  means.sort((a, b) => a - b);
+  return {
+    unit: "knockout-match-cluster",
+    draws,
+    seed: "0x51c0ffee",
+    mean_log_score_gain_per_corner_interval: {
+      lower_95: quantile(means, 0.025),
+      median: quantile(means, 0.5),
+      upper_95: quantile(means, 0.975),
+    },
+    probability_gain_above_zero: means.filter((value) => value > 0).length / means.length,
+  };
+}
+
+export function buildTeamScoutingAudit(allEpisodes, matches) {
+  const eligible = allEpisodes.filter((episode) => episode.observed_action.validity === "observed-endpoint");
+  const matchIds = [...new Set(eligible.map((episode) => episode.state.match_id))].sort((a, b) => a - b);
+  const referenceIds = matchIds.slice(0, 48);
+  const rehearsalIds = matchIds.slice(48, 56);
+  const finalIds = matchIds.slice(56);
+  const referenceSet = new Set(referenceIds);
+  const rehearsalSet = new Set(rehearsalIds);
+  const finalSet = new Set(finalIds);
+  const reference = eligible.filter((episode) => referenceSet.has(episode.state.match_id));
+  const referenceAll = allEpisodes.filter((episode) => referenceSet.has(episode.state.match_id));
+  const rehearsal = eligible.filter((episode) => rehearsalSet.has(episode.state.match_id));
+  const finalAudit = eligible.filter((episode) => finalSet.has(episode.state.match_id));
+  const knockout = [...rehearsal, ...finalAudit];
+  const referenceTeamIds = [...new Set(reference.map((episode) => episode.state.attacking_team_id))].sort((a, b) => a - b);
+  const globalCounts = actionCounts(reference);
+  const globalProbabilities = normalizeCounts(globalCounts);
+  const referenceCountsByTeam = new Map(referenceTeamIds.map((teamId) => [
+    teamId,
+    actionCounts(reference.filter((episode) => episode.state.attacking_team_id === teamId)),
+  ]));
+
+  const concentrationScores = TEAM_PRIOR_CONCENTRATIONS.map((concentration) => ({
+    concentration,
+    group_stage_leave_one_team_out_log_evidence: referenceTeamIds.reduce((sum, teamId) => {
+      const heldOutCounts = referenceCountsByTeam.get(teamId);
+      const trainingCounts = subtractCounts(globalCounts, heldOutCounts);
+      return sum + dirichletMultinomialLogEvidence(
+        heldOutCounts,
+        normalizeCounts(trainingCounts),
+        concentration,
+      );
+    }, 0),
+  }));
+  const selected = concentrationScores.toSorted((left, right) =>
+    right.group_stage_leave_one_team_out_log_evidence - left.group_stage_leave_one_team_out_log_evidence ||
+    left.concentration - right.concentration)[0];
+  const concentration = selected.concentration;
+  const teamProbabilities = new Map(referenceTeamIds.map((teamId) => [
+    teamId,
+    posteriorProbabilities(referenceCountsByTeam.get(teamId), globalProbabilities, concentration),
+  ]));
+  const globalForecast = () => globalProbabilities;
+  const teamForecast = (teamId) => teamProbabilities.get(teamId) ?? globalProbabilities;
+  const scorePartition = (episodes) => {
+    const baseline = scoreForecast(episodes, globalForecast);
+    const candidate = scoreForecast(episodes, teamForecast);
+    return { baseline, team_conditioned: candidate, improvement: improvement(baseline, candidate) };
+  };
+  const partitionScores = {
+    round_of_16: scorePartition(rehearsal),
+    quarter_final_and_later: scorePartition(finalAudit),
+    all_knockout: scorePartition(knockout),
+  };
+  const matchupChallenger = buildMatchupChallenger(
+    reference,
+    referenceIds,
+    rehearsal,
+    finalAudit,
+    teamForecast,
+    concentration,
+  );
+  const topTwoCoverage = (episodes) => {
+    const tournamentTopTwo = probabilityRanking(globalProbabilities).slice(0, 2);
+    return {
+      corners: episodes.length,
+      tournament_top_two: tournamentTopTwo,
+      tournament_top_two_covered: episodes.filter((episode) =>
+        tournamentTopTwo.includes(episode.observed_action.value)).length,
+      team_conditioned_top_two_covered: episodes.filter((episode) =>
+        probabilityRanking(teamForecast(episode.state.attacking_team_id)).slice(0, 2)
+          .includes(episode.observed_action.value)).length,
+    };
+  };
+  const names = teamNames(matches);
+  const knockoutTeamIds = [...new Set(knockout.map((episode) => episode.state.attacking_team_id))].sort((a, b) => a - b);
+  const teamScores = knockoutTeamIds.map((teamId) => {
+    const trials = knockout.filter((episode) => episode.state.attacking_team_id === teamId);
+    const baseline = scoreForecast(trials, globalForecast);
+    const candidate = scoreForecast(trials, teamForecast);
+    const counts = referenceCountsByTeam.get(teamId) ?? actionCounts([]);
+    return {
+      team_id: teamId,
+      team_name: names.get(teamId) ?? `team:${teamId}`,
+      group_stage_classified_corners: totalCounts(counts),
+      group_stage_action_counts: counts,
+      team_evidence_weight: totalCounts(counts) / (totalCounts(counts) + concentration),
+      tournament_prior_weight: concentration / (totalCounts(counts) + concentration),
+      posterior_probabilities: teamForecast(teamId),
+      knockout_classified_corners: trials.length,
+      log_loss_improved: candidate.mean_log_loss < baseline.mean_log_loss,
+      baseline_mean_log_loss: baseline.mean_log_loss,
+      team_conditioned_mean_log_loss: candidate.mean_log_loss,
+    };
+  });
+
+  const matchById = new Map(matches.map((match) => [Number(match.wyId), match]));
+  const dossierFor = (matchId, managerId, opponentTeamId) => {
+    const match = matchById.get(matchId);
+    const opponentReference = reference.filter((episode) =>
+      episode.state.attacking_team_id === opponentTeamId);
+    const opponentReferenceAll = referenceAll.filter((episode) =>
+      episode.state.attacking_team_id === opponentTeamId);
+    const managerExposure = reference.filter((episode) =>
+      episode.state.defending_team_id === managerId);
+    const managerExposureAll = referenceAll.filter((episode) =>
+      episode.state.defending_team_id === managerId);
+    const heldOut = rehearsal.filter((episode) =>
+      episode.state.match_id === matchId && episode.state.attacking_team_id === opponentTeamId);
+    const heldOutAll = allEpisodes.filter((episode) =>
+      episode.state.match_id === matchId && episode.state.attacking_team_id === opponentTeamId);
+    const tournamentTopTwo = probabilityRanking(globalProbabilities).slice(0, 2);
+    const opponentProbabilities = teamForecast(opponentTeamId);
+    const opponentTopTwo = probabilityRanking(opponentProbabilities).slice(0, 2);
+    const baselineScore = scoreForecast(heldOut, globalForecast);
+    const teamScore = scoreForecast(heldOut, teamForecast);
+    return {
+      match_id: matchId,
+      match_name: String(match?.label ?? "").split(",")[0],
+      manager_team_id: managerId,
+      manager_team_name: names.get(managerId) ?? `team:${managerId}`,
+      opponent_team_id: opponentTeamId,
+      opponent_team_name: names.get(opponentTeamId) ?? `team:${opponentTeamId}`,
+      opponent_group_stage_source_corners: opponentReferenceAll.length,
+      opponent_group_stage_classified_corners: opponentReference.length,
+      opponent_group_stage_placeholder_corners: opponentReferenceAll.length - opponentReference.length,
+      opponent_group_stage_action_counts: actionCounts(opponentReference),
+      opponent_posterior_probabilities: opponentProbabilities,
+      opponent_evidence_weight: opponentReference.length / (opponentReference.length + concentration),
+      tournament_prior_weight: concentration / (opponentReference.length + concentration),
+      manager_group_stage_defensive_exposure_source_corners: managerExposureAll.length,
+      manager_group_stage_defensive_exposure_classified_corners: managerExposure.length,
+      manager_group_stage_defensive_exposure_placeholder_corners: managerExposureAll.length - managerExposure.length,
+      manager_group_stage_defensive_exposure_action_counts: actionCounts(managerExposure),
+      defensive_exposure_is_not_pooled_into_forecast: true,
+      matchup_challenger_probabilities: matchupChallenger.probabilitiesFor(opponentTeamId, managerId),
+      held_out_opponent_source_corners: heldOutAll.length,
+      held_out_opponent_classified_corners: heldOut.length,
+      held_out_opponent_placeholder_corners: heldOutAll.length - heldOut.length,
+      held_out_opponent_action_counts: actionCounts(heldOut),
+      held_out_forecast_scores: {
+        tournament_baseline: baselineScore,
+        team_conditioned: teamScore,
+        improvement: improvement(baselineScore, teamScore),
+      },
+      tournament_top_two: tournamentTopTwo,
+      tournament_top_two_covered: heldOut.filter((episode) =>
+        tournamentTopTwo.includes(episode.observed_action.value)).length,
+      team_conditioned_top_two: opponentTopTwo,
+      team_conditioned_top_two_covered: heldOut.filter((episode) =>
+        opponentTopTwo.includes(episode.observed_action.value)).length,
+    };
+  };
+  const roundOf16Dossiers = rehearsalIds.flatMap((matchId) => {
+    const teams = Object.values(matchById.get(matchId)?.teamsData ?? {});
+    const homeId = Number(teams.find((team) => team.side === "home")?.teamId);
+    const awayId = Number(teams.find((team) => team.side === "away")?.teamId);
+    return [dossierFor(matchId, homeId, awayId), dossierFor(matchId, awayId, homeId)];
+  });
+  const firstRehearsalMatch = rehearsalIds[0];
+  const firstExample = roundOf16Dossiers.find((dossier) =>
+    dossier.match_id === firstRehearsalMatch &&
+    dossier.manager_team_id === Number(Object.values(matchById.get(firstRehearsalMatch)?.teamsData ?? {})
+      .find((team) => team.side === "home")?.teamId));
+  const bootstrap = forecastBootstrap(knockout, globalProbabilities, teamProbabilities);
+
+  return {
+    schema_version: 1,
+    question: "Does a group-stage team delivery profile forecast unseen knockout delivery lanes better than the tournament-wide profile?",
+    status: partitionScores.round_of_16.improvement.log_loss_reduction > 0 &&
+      partitionScores.quarter_final_and_later.improvement.log_loss_reduction > 0 &&
+      bootstrap.mean_log_score_gain_per_corner_interval.lower_95 > 0 ? "PASS" : "REVISE",
+    claim_boundary: {
+      supported: "Opponent-specific probabilities for classifiable recorded corner delivery endpoints in this 2018 tournament.",
+      unsupported: [
+        "optimal defensive placement",
+        "shots or goals prevented",
+        "player marking assignments or reach",
+        "causal tactical effects",
+        "persistence from 2018 to 2026",
+      ],
+      missing_endpoints_are_excluded: true,
+    },
+    split_rule: "48 group-stage matches fit and select; 8 round-of-16 matches evaluate; 8 quarter-final-and-later matches audit unchanged",
+    reference: {
+      matches: referenceIds.length,
+      classified_corners: reference.length,
+      action_counts: globalCounts,
+      tournament_probabilities: globalProbabilities,
+    },
+    model: {
+      family: "Dirichlet-multinomial partial pooling",
+      selection_data: "group-stage reference only",
+      candidate_concentrations: TEAM_PRIOR_CONCENTRATIONS,
+      concentration_scores: concentrationScores,
+      selected_concentration: concentration,
+      formula: "(team count + concentration * tournament probability) / (team corners + concentration)",
+    },
+    partition_scores: partitionScores,
+    matchup_challenger: matchupChallenger.audit,
+    top_two_coverage: {
+      round_of_16: topTwoCoverage(rehearsal),
+      quarter_final_and_later: topTwoCoverage(finalAudit),
+    },
+    bootstrap,
+    teams_improved: teamScores.filter((team) => team.log_loss_improved).length,
+    teams_evaluated: teamScores.length,
+    team_profiles: teamScores,
+    round_of_16_dossiers: roundOf16Dossiers,
+    first_fixed_round_of_16_example: {
+      selection_rule: "lowest source match ID in the predeclared round-of-16 partition; not selected by forecast result",
+      ...firstExample,
+      held_out_opponent_corners: firstExample.held_out_opponent_classified_corners,
+    },
+  };
 }
 
 function rankByShotRate(summary) {
@@ -400,6 +1015,7 @@ export function buildPolicyLabSpike(events, matches) {
     clustered_bootstrap: bootstrap,
     reward_sensitivity: reward,
     policy_campaign: buildPolicyCampaign(episodes),
+    team_scouting: buildTeamScoutingAudit(episodes, matches),
     blind_folds: blindFolds,
     leave_one_match_out: leaveOneMatchOut(eligibleEpisodes),
     horizon_sensitivity: byHorizon,

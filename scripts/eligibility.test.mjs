@@ -284,9 +284,9 @@ describe("competition data-scope eligibility contract", () => {
       binding: null,
     };
     const postedMarkdown = "# Organizer Data-Scope Question\n\nStatus: `POSTED — AWAITING ANSWER`\n";
-  const unresolvedThesis = productThesis
+    const unresolvedThesis = productThesis
       .replace("Product data scope: `official-open-historical-tactics`", "Product data scope: `unresolved-hybrid`")
-      .replace("Product selection status: `PASS`", "Product selection status: `REVISE — conditional selection`");
+      .replace(/^Product selection status: `[^`]+`$/mu, "Product selection status: `REVISE — conditional selection`");
     const unresolvedSelection = {
       ...productSelection,
       status: "conditional",

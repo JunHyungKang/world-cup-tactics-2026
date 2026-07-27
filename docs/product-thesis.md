@@ -4,15 +4,173 @@ Product selection ID: `corner-policy-lab`
 
 Product data scope: `official-open-historical-tactics`
 
-Product selection status: `PASS`
+Product selection status: `PASS — bounded opponent-scouting context`
 
-Implementation refinement status: `PASS — role tradeoff`
+Implementation refinement status: `PASS — opponent evidence before role placement`
 
 Causal recommendation status: `REJECT`
 
 Empirical campaign status: `REVISE`
 
-## Winning goal
+Team-conditioned forecast status: `PASS — recorded delivery locations only`
+
+Two-team matchup forecast status: `REJECT — match-cluster uncertainty gate failed`
+
+## 2026-07-27 product correction
+
+The owner correctly rejected the current release's football premise. Tournament-wide
+location overlap is not team analysis, and choosing two popular areas does not become
+a meaningful tactical decision merely because it is locked before a holdout. The
+current public release and demo remain reproducible artifacts, but they are no longer
+the product-quality bar and must not be uploaded as the final video.
+
+The bounded replacement question is:
+
+> 조별리그에서 본 상대팀의 코너킥 전달 성향이 대회 전체 평균보다 미공개
+> 토너먼트의 전달 구역을 더 잘 예측하는가?
+
+The replacement is an **opponent corner training planner**, not a defensive
+placement recommender. The manager sees Portugal's partially pooled group-stage
+profile, then allocates ten rehearsal repetitions across all four delivery areas
+before revealing the held-out match. There is no default or model-recommended
+allocation. The app must show the team sample, the amount borrowed from the
+tournament prior, the opponent's four delivery probabilities, and the unchanged
+held-out audit.
+
+This preserves the submitted planning PDF's core `48 → 8 → 8`, scarce-resource
+choice, precommitment, and no-causal-recommendation structure. The canonical product
+now adds one named-opponent scouting dossier before the submitted two-role placement
+loop. The separate ten-repetition planner remains a challenger because replacing
+the manager loop would break planning-to-implementation consistency. The submitted
+PDF is immutable; implementation may refine the service only if the judge can still
+recognize the submitted loop without an explanation tax.
+
+## Bounded interaction challenger
+
+Status: `PASS` as an isolated prototype; canonical replacement remains `REJECT`.
+
+The exact first-screen question is:
+
+> 포르투갈전 코너 수비 훈련 10회, 어디에 배분할까요?
+
+The visible evidence is Portugal's 14 classifiable group-stage corners, partial
+pooling weights of 47% Portugal evidence and 53% tournament evidence, and the full
+four-way distribution: short `33.5%`, near `27.5%`, central/far `35.5%`, other
+`3.5%`. Uruguay's five classifiable group-stage defensive exposures are shown
+separately. A frozen challenger tests whether they should modify the forecast,
+but the product does not pool them because that challenger misses the promotion
+gate below.
+
+The manager adds or removes one rehearsal repetition at a time until exactly ten
+are allocated, locks the plan, then reveals the fixed Portugal distribution
+`5/1/4/0` from ten classifiable corners in Uruguay–Portugal. The result compares
+the manager's training plan, the pre-match distribution, and the recorded
+locations without scoring the manager's allocation or calling it correct.
+
+The challenger passes three Chromium contracts: named-opponent evidence before
+outcome, exact ten-repetition immutable lock and deterministic reveal, and visible
+aggregate counterevidence plus zero automated accessibility violations. The
+Korean challenger surfaces also pass the repository copy rules. These are machine
+and synthetic-persona results, not human comprehension evidence.
+
+## Team-scouting data gate
+
+Status: `PASS` for a bounded forecast; `REJECT` for optimal tactics.
+
+- Fit population: 397 classifiable group-stage corners from 48 matches.
+- Evaluation population: 84 classifiable round-of-16 corners, untouched during
+  model selection.
+- Final audit population: 76 classifiable quarter-final-and-later corners,
+  untouched during fitting and model selection.
+- Raw per-team rates remain unsafe: 31 of 32 teams have at least one delivery
+  category with fewer than three observations.
+- The replacement therefore uses a Dirichlet-multinomial partial-pooling model.
+  Its prior concentration is selected from `[0.5, 1, 2, 4, 8, 16, 32, 64, 128]`
+  using group-stage leave-one-team-out evidence only; the selected value is `16`.
+- Against the tournament-wide probability baseline, the unchanged team-conditioned
+  forecast lowers multiclass log loss by `2.14%` in the round of 16 and `7.21%`
+  in the final audit, `4.59%` across all 160 knockout corners.
+- Multiclass Brier score improves by `4.66%` across the same 160 corners.
+- Team conditioning improves log loss for 12 of 16 knockout teams; it harms four.
+  The UI must expose uncertainty and never describe every team profile as useful.
+- A two-area compression destroys that aggregate advantage: the tournament top
+  two and each team profile's top two both cover `65/84` round-of-16 endpoints
+  and `59/76` later endpoints. Therefore the old "pick two areas for all teams"
+  campaign remains rejected. The replacement must preserve the four-way
+  probability profile and make a specific opponent the unit of the decision.
+- A deterministic 10,000-draw knockout-match-cluster bootstrap gives a 95% mean
+  log-score-gain interval of approximately `[0.0040, 0.1071]` per corner with
+  `P(gain > 0) = 0.9814`.
+- All 46 placeholder endpoints remain excluded and disclosed. The forecast is for
+  **classifiable recorded endpoints**, not all corners.
+
+The fixed first example is the lowest source match ID in the predeclared round-of-16
+partition, Uruguay–Portugal. Portugal has 14 classifiable group-stage attacking
+corners; Uruguay has only five classifiable group-stage defensive exposures, so the
+two histories are shown separately and the latter is not pooled into the forecast.
+In the ten held-out Portugal corners, the tournament-wide top two areas cover five
+and the team-conditioned top two cover nine. This example is not sufficient proof
+by itself; the 16-match aggregate audit above owns the product claim.
+
+## Two-team matchup challenger gate
+
+Status: `REJECT` for the displayed forecast; `GO` only as disclosed sensitivity
+evidence.
+
+The owner's second criticism is also correct: an opponent attacking profile is
+not yet a two-team matchup analysis. We therefore tested, rather than assumed,
+whether Uruguay's group-stage defensive exposure should alter Portugal's attacking
+profile. The frozen challenger is:
+
+`normalize(opponent attack posterior × (manager defensive-exposure posterior /
+tournament probability)^γ)`.
+
+The shared Dirichlet concentration remains `16`. The interaction weight
+`γ ∈ [0, 0.25, 0.5, 0.75, 1]` is selected only by leave-one-complete-match-out
+group-stage validation; the selected value is `0.5`. Neither knockout partition
+enters fitting or hyperparameter selection.
+
+- Round of 16: log loss `1.1654 → 1.1493`, a `1.39%` reduction.
+- Quarter-final and later: `1.1356 → 1.1290`, a `0.59%` reduction.
+- All 160 knockout corners: `1.1513 → 1.1396`, a `1.01%` reduction.
+- Brier score is non-worse in both held-out partitions.
+- The 10,000-draw knockout-match-cluster interval for mean log-score gain is
+  `[-0.0040, 0.0274]`, with `P(gain > 0) = 0.9226`.
+
+The mean moves in the right direction, but the interval still crosses zero and
+the improvement probability misses the predeclared `0.975` promotion gate.
+Therefore the displayed probabilities remain opponent-only. The UI names the
+Uruguay sample, the observed mean gain, the failed uncertainty gate, and the
+decision not to use the two-team correction. It must not describe this rejected
+challenger as matchup intelligence, model superiority, or a tactical
+recommendation.
+
+## Research boundary
+
+Recent primary work confirms why the product must stop at opponent delivery
+forecasting with this dataset:
+
+- TacticAI uses 7,176 valid corners plus all 22 players' positions, velocities,
+  and profiles to predict receivers and shots and recommend adjustments
+  (`https://www.nature.com/articles/s41467-024-45965-x`).
+- Recent defensive-role inference uses tracking to distinguish man marking and
+  zonal roles and fits team- and delivery-specific context
+  (`https://arxiv.org/abs/2601.00748`).
+- A recent graph-RL corner model uses more than 3,000 corners plus player positions
+  and velocities (`https://arxiv.org/abs/2606.06353`).
+
+Our 603 event endpoints contain no player tracking, marking roles, reach, action
+propensities, xG, or defensive counterfactual rewards. RL, optimal placement,
+marking assignments, shots prevented, and 2026 persistence remain `REJECT`.
+
+## Superseded release record
+
+The sections below describe the submitted PDF and currently deployed position-only
+release. They remain as provenance and planning-consistency constraints. They do
+not override the 2026-07-27 product correction or constitute approval to upload
+the old demo.
+
+### Winning goal
 
 Build the entry judges remember as **the set-piece policy lab that tries to
 disprove the manager before it explains the model**. The manager chooses two
@@ -27,7 +185,7 @@ deterministic representative contradiction, and source-linked ontology paths.
 
 > 조별리그에서 세우고, 토너먼트에서 검증하세요.
 
-## Selection evidence
+### Selection evidence
 
 An earlier exact-artifact same-reviewer comparison informed the internal product
 choice across originality, manager-experience design, functional completeness,
@@ -39,7 +197,7 @@ Corner War Room remains preserved as a byte-bound runner-up under
 `docs/archive/corner-war-room-2026-07-19/`. It is not the selected submission
 product.
 
-## Manager fantasy
+### Manager fantasy
 
 Target user: a football fan acting as the set-piece coach before a knockout
 meeting.
@@ -93,7 +251,7 @@ round of 16, and `12/76` in the final audit. These counts do not prove an outlet
 player was available, reached the ball, or completed a counterattack. They make
 the sacrificed role legible without fabricating its effect.
 
-## Real data and fixed split
+### Real data and fixed split
 
 The source is Pappalardo and Massucco's Figshare Soccer Match Event Dataset. Its
 World Cup 2018 Events and Matches items are admitted under CC BY 4.0. The fixed
@@ -116,7 +274,7 @@ The official DAKER rule permits the participant to choose the year, tournament,
 and player composition. The app still uses 2018 only as a labeled historical
 evidence lens and **must not imply that a 2018 pattern describes a 2026 team**.
 
-## What the calculation means
+### What the calculation means
 
 The evaluated criterion is delivery-location overlap only. The manager predeclares a minimum
 criterion before either holdout is exposed, so the result closes as `사전 기준
@@ -141,7 +299,7 @@ never added to the location-overlap criterion. It is derived from defending-team
 Pass/Clearance segments in the same recorded ten-second window and remains
 unchanged when the manager moves a role.
 
-## Final product gate — role tradeoff refinement
+### Final product gate — role tradeoff refinement
 
 Status: `PASS`
 
@@ -162,7 +320,7 @@ Status: `PASS`
 - Stop signal: reject the refinement if outlet context is combined with overlap,
   described as a caused counterattack, or allowed to change with the role move.
 
-## Ontology as a safety mechanism
+### Ontology as a safety mechanism
 
 Allowed node types are:
 
@@ -183,7 +341,7 @@ is an inspectable evidence path and forbidden-inference guardrail, not a graph
 reasoning engine. Its job is to make provenance visible and prohibited inference
 machine-checkable.
 
-## Representative contradiction
+### Representative contradiction
 
 After a held-out partition is revealed, every classifiable corner is available
 in the record table. The representative contradiction is selected
@@ -198,7 +356,7 @@ This is a stable demonstration example, not the statistically strongest
 counterexample. The exact match, corner event ID, observed action, outcome proxy,
 source, and forbidden relations remain visible.
 
-## Current verified evidence
+### Current verified evidence
 
 - policy data/release contracts: `7/7`;
 - source Chromium interaction contracts: `10/10`;
@@ -215,7 +373,7 @@ GitHub are live as candidate evidence. The final stamped release, YouTube, DAKER
 final submission, physical VoiceOver, and human comprehension or preference
 evidence remain incomplete and must not be claimed.
 
-## Submission completion gate
+### Submission completion gate
 
 The selected product is not submission-ready until all of the following bind to
 one clean commit:

@@ -19,9 +19,9 @@ const [fontBytes, ...sourceBytes] = await Promise.all([
 const images = sourceBytes.map((bytes) => `data:image/png;base64,${bytes.toString("base64")}`);
 const font = `data:font/ttf;base64,${fontBytes.toString("base64")}`;
 const proofCards = [
-  ["1 · 감독이 먼저 선택", "수비에 둘까, 역습에 남길까", "두 명의 역할 · 수비 구역 · 통과 기준", images[0], "#79D5A5"],
-  ["2 · 16강 8경기", "48% < 기준 50%", "선택하지 않은 구역의 코너 기록도 확인", images[1], "#F1C84B"],
-  ["3 · 다음 8경기", "51% ≥ 기준 50%", "같은 선택 적용 · 변경 0회", images[2], "#F0A56A"],
+  ["1 · 두 팀 근거 점검", "공격 14개 · 수비 5개", "결합안은 채택 기준 미달", images[0], "#79D5A5"],
+  ["2 · 숨긴 포르투갈전", "선택 구역 9/10", "한 경기만으로 정답이라 판정하지 않음", images[1], "#F1C84B"],
+  ["3 · 다른 상대까지 확인", "55% < 기준 60%", "같은 선택 · 실패 가능성 · 변경 0회", images[2], "#F0A56A"],
 ];
 const proofHtml = proofCards.map(([step, title, detail, image, color]) => `
   <article class="proof" style="--accent:${color}">
@@ -47,15 +47,15 @@ try {
   </style><main>
     <section class="layout">
       <div class="story">
-        <div class="eyebrow">CORNER POLICY LAB · 결과를 보기 전에 감독의 선택을 확정하세요</div>
-        <h1 class="title">코너킥 수비,<br><span>한 명을 어디에 둘까요?</span></h1>
+        <div class="eyebrow">CORNER POLICY LAB · 상대 근거를 보고 감독이 먼저 정합니다</div>
+        <h1 class="title">포르투갈전,<br><span>두 역할을 어디에?</span></h1>
         <div class="sub">${escapeHtml(story.gallery.one_line)}</div>
         <div class="choices">
-          <div class="choice primary"><b>수비에 한 명 더</b><strong>두 구역 맡기기</strong><em>역습 역할도 수비로</em></div>
-          <div class="choice"><b>역습을 위해 한 명 남기기</b><strong>한 구역 맡기기</strong><em>역습 역할은 전방에</em></div>
+          <div class="choice primary"><b>두 팀 근거</b><strong>공격 14 · 수비 5</strong><em>수비 결합안은 채택 보류</em></div>
+          <div class="choice"><b>감독 결정</b><strong>숏 · 중앙/파</strong><em>60% 기준 · 추천 없음</em></div>
         </div>
-        <div class="campaign"><div><strong>48경기</strong><span>조별리그에서 기준 정하기</span></div><b>→</b><div><strong>8경기</strong><span>16강에서 첫 확인</span></div><b>→</b><div><strong>8경기</strong><span>같은 선택으로 다시 확인</span></div></div>
-        <div class="receipt"><strong>결과 공개 뒤에도 선택 변경 0회</strong><span>겹친 기록과 <em>선택 밖 기록</em>을 함께 확인</span></div>
+        <div class="campaign"><div><strong>14개</strong><span>포르투갈 조별리그 근거</span></div><b>→</b><div><strong>10개</strong><span>숨겨 둔 상대전 확인</span></div><b>→</b><div><strong>8 + 8</strong><span>다른 상대에도 스트레스 테스트</span></div></div>
+        <div class="receipt"><strong>9/10이어도 보편 정답은 아님</strong><span>근거와 <em>실패 가능성</em>을 함께 확인</span></div>
       </div>
       <section class="proofs">${proofHtml}</section>
     </section>

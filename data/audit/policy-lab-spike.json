@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "transform_version": "policy-lab-spike-v5-role-tradeoff-context",
+  "transform_version": "policy-lab-spike-v7-matchup-challenger",
   "provenance": {
     "source_ids": [
       "pappalardo-wyscout-events-wc-2018",
@@ -7609,6 +7609,2026 @@
         "corners": 8
       }
     ]
+  },
+  "team_scouting": {
+    "schema_version": 1,
+    "question": "Does a group-stage team delivery profile forecast unseen knockout delivery lanes better than the tournament-wide profile?",
+    "status": "PASS",
+    "claim_boundary": {
+      "supported": "Opponent-specific probabilities for classifiable recorded corner delivery endpoints in this 2018 tournament.",
+      "unsupported": [
+        "optimal defensive placement",
+        "shots or goals prevented",
+        "player marking assignments or reach",
+        "causal tactical effects",
+        "persistence from 2018 to 2026"
+      ],
+      "missing_endpoints_are_excluded": true
+    },
+    "split_rule": "48 group-stage matches fit and select; 8 round-of-16 matches evaluate; 8 quarter-final-and-later matches audit unchanged",
+    "reference": {
+      "matches": 48,
+      "classified_corners": 397,
+      "action_counts": {
+        "short": 76,
+        "near": 130,
+        "central-far": 165,
+        "other": 26
+      },
+      "tournament_probabilities": {
+        "short": 0.19143576826196473,
+        "near": 0.327455919395466,
+        "central-far": 0.4156171284634761,
+        "other": 0.0654911838790932
+      }
+    },
+    "model": {
+      "family": "Dirichlet-multinomial partial pooling",
+      "selection_data": "group-stage reference only",
+      "candidate_concentrations": [
+        0.5,
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "concentration_scores": [
+        {
+          "concentration": 0.5,
+          "group_stage_leave_one_team_out_log_evidence": -572.2475100064021
+        },
+        {
+          "concentration": 1,
+          "group_stage_leave_one_team_out_log_evidence": -538.1961200752967
+        },
+        {
+          "concentration": 2,
+          "group_stage_leave_one_team_out_log_evidence": -511.98965287121507
+        },
+        {
+          "concentration": 4,
+          "group_stage_leave_one_team_out_log_evidence": -494.57487615144544
+        },
+        {
+          "concentration": 8,
+          "group_stage_leave_one_team_out_log_evidence": -485.5592746723599
+        },
+        {
+          "concentration": 16,
+          "group_stage_leave_one_team_out_log_evidence": -483.07472818700745
+        },
+        {
+          "concentration": 32,
+          "group_stage_leave_one_team_out_log_evidence": -484.3052740846293
+        },
+        {
+          "concentration": 64,
+          "group_stage_leave_one_team_out_log_evidence": -486.6867619767784
+        },
+        {
+          "concentration": 128,
+          "group_stage_leave_one_team_out_log_evidence": -488.7783869227115
+        }
+      ],
+      "selected_concentration": 16,
+      "formula": "(team count + concentration * tournament probability) / (team corners + concentration)"
+    },
+    "partition_scores": {
+      "round_of_16": {
+        "baseline": {
+          "corners": 84,
+          "negative_log_likelihood": 100.0421289296403,
+          "mean_log_loss": 1.1909777253528606,
+          "mean_brier_score": 0.6606522349309887
+        },
+        "team_conditioned": {
+          "corners": 84,
+          "negative_log_likelihood": 97.89641746201984,
+          "mean_log_loss": 1.1654335412145218,
+          "mean_brier_score": 0.6422488983604013
+        },
+        "improvement": {
+          "log_loss_reduction": 0.02554418413833881,
+          "log_loss_reduction_rate": 0.021448078830165047,
+          "brier_reduction": 0.018403336570587348,
+          "brier_reduction_rate": 0.02785631471073393
+        }
+      },
+      "quarter_final_and_later": {
+        "baseline": {
+          "corners": 76,
+          "negative_log_likelihood": 93.01723705727373,
+          "mean_log_loss": 1.2239110139114964,
+          "mean_brier_score": 0.6748060072711588
+        },
+        "team_conditioned": {
+          "corners": 76,
+          "negative_log_likelihood": 86.30850329779453,
+          "mean_log_loss": 1.13563820128677,
+          "mean_brier_score": 0.6296675135428333
+        },
+        "improvement": {
+          "log_loss_reduction": 0.0882728126247263,
+          "log_loss_reduction_rate": 0.07212355442624484,
+          "brier_reduction": 0.04513849372832546,
+          "brier_reduction_rate": 0.06689106682802151
+        }
+      },
+      "all_knockout": {
+        "baseline": {
+          "corners": 160,
+          "negative_log_likelihood": 193.05936598691403,
+          "mean_log_loss": 1.2066210374182127,
+          "mean_brier_score": 0.6673752767925687
+        },
+        "team_conditioned": {
+          "corners": 160,
+          "negative_log_likelihood": 184.2049207598143,
+          "mean_log_loss": 1.1512807547488395,
+          "mean_brier_score": 0.6362727405720563
+        },
+        "improvement": {
+          "log_loss_reduction": 0.055340282669373186,
+          "log_loss_reduction_rate": 0.04586384701843413,
+          "brier_reduction": 0.0311025362205124,
+          "brier_reduction_rate": 0.04660426794650289
+        }
+      }
+    },
+    "matchup_challenger": {
+      "status": "REJECT",
+      "question": "Does adding the manager team's group-stage defensive exposure improve the opponent-only forecast on unseen knockout corners?",
+      "selection_data": "group-stage reference only; leave-one-match-out hyperparameter selection",
+      "family": "log-linear attack-by-defensive-exposure challenger with Dirichlet partial pooling",
+      "formula": "normalize(opponent_attack_posterior * (manager_defensive_exposure_posterior / tournament_probability) ^ defending_weight)",
+      "fixed_concentration": 16,
+      "candidate_defending_weights": [
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "selected": {
+        "concentration": 16,
+        "defending_weight": 0.5,
+        "group_stage_leave_one_match_out_mean_log_loss": 1.2291290302324913
+      },
+      "partition_scores": {
+        "round_of_16": {
+          "opponent_only": {
+            "corners": 84,
+            "negative_log_likelihood": 97.89641746201984,
+            "mean_log_loss": 1.1654335412145218,
+            "mean_brier_score": 0.6422488983604013
+          },
+          "matchup_conditioned": {
+            "corners": 84,
+            "negative_log_likelihood": 96.53860149236736,
+            "mean_log_loss": 1.1492690653853257,
+            "mean_brier_score": 0.6395610766144524
+          },
+          "improvement_vs_opponent_only": {
+            "log_loss_reduction": 0.016164475829196112,
+            "log_loss_reduction_rate": 0.013869925017217873,
+            "brier_reduction": 0.0026878217459489484,
+            "brier_reduction_rate": 0.004185015735816277
+          }
+        },
+        "quarter_final_and_later": {
+          "opponent_only": {
+            "corners": 76,
+            "negative_log_likelihood": 86.30850329779453,
+            "mean_log_loss": 1.13563820128677,
+            "mean_brier_score": 0.6296675135428333
+          },
+          "matchup_conditioned": {
+            "corners": 76,
+            "negative_log_likelihood": 85.80255164238696,
+            "mean_log_loss": 1.1289809426629862,
+            "mean_brier_score": 0.6280104378144329
+          },
+          "improvement_vs_opponent_only": {
+            "log_loss_reduction": 0.006657258623783857,
+            "log_loss_reduction_rate": 0.005862129872208107,
+            "brier_reduction": 0.001657075728400459,
+            "brier_reduction_rate": 0.0026316678131874686
+          }
+        },
+        "all_knockout": {
+          "opponent_only": {
+            "corners": 160,
+            "negative_log_likelihood": 184.2049207598143,
+            "mean_log_loss": 1.1512807547488395,
+            "mean_brier_score": 0.6362727405720563
+          },
+          "matchup_conditioned": {
+            "corners": 160,
+            "negative_log_likelihood": 182.34115313475428,
+            "mean_log_loss": 1.1396322070922142,
+            "mean_brier_score": 0.6340745231844431
+          },
+          "improvement_vs_opponent_only": {
+            "log_loss_reduction": 0.011648547656625263,
+            "log_loss_reduction_rate": 0.01011790356833202,
+            "brier_reduction": 0.002198217387613166,
+            "brier_reduction_rate": 0.003454835084773247
+          }
+        }
+      },
+      "bootstrap": {
+        "unit": "knockout-match-cluster",
+        "draws": 10000,
+        "seed": "0x4d415443",
+        "mean_log_score_gain_per_corner_interval": {
+          "lower_95": -0.004016932056328984,
+          "median": 0.01162968818288635,
+          "upper_95": 0.027364050990838943
+        },
+        "probability_gain_above_zero": 0.9226
+      },
+      "promotion_gates": {
+        "group_stage_selected_defensive_signal": true,
+        "round_of_16_log_loss_improved": true,
+        "quarter_final_and_later_log_loss_improved": true,
+        "all_knockout_log_loss_improved": true,
+        "both_holdouts_brier_non_worse": true,
+        "match_cluster_interval_lower_above_zero": false,
+        "match_cluster_probability_at_least_0975": false
+      },
+      "product_decision": "Do not pool manager defensive exposure into the displayed forecast unless every preregistered promotion gate passes."
+    },
+    "top_two_coverage": {
+      "round_of_16": {
+        "corners": 84,
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 65,
+        "team_conditioned_top_two_covered": 65
+      },
+      "quarter_final_and_later": {
+        "corners": 76,
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 59,
+        "team_conditioned_top_two_covered": 59
+      }
+    },
+    "bootstrap": {
+      "unit": "knockout-match-cluster",
+      "draws": 10000,
+      "seed": "0x51c0ffee",
+      "mean_log_score_gain_per_corner_interval": {
+        "lower_95": 0.004025138120749393,
+        "median": 0.05709924876220704,
+        "upper_95": 0.10714944353829099
+      },
+      "probability_gain_above_zero": 0.9814
+    },
+    "teams_improved": 12,
+    "teams_evaluated": 16,
+    "team_profiles": [
+      {
+        "team_id": 1598,
+        "team_name": "Spain",
+        "group_stage_classified_corners": 15,
+        "group_stage_action_counts": {
+          "short": 3,
+          "near": 6,
+          "central-far": 5,
+          "other": 1
+        },
+        "team_evidence_weight": 0.4838709677419355,
+        "tournament_prior_weight": 0.5161290322580645,
+        "posterior_probabilities": {
+          "short": 0.19557975136101405,
+          "near": 0.36255789388153087,
+          "central-far": 0.3758023888843748,
+          "other": 0.06605996587308036
+        },
+        "knockout_classified_corners": 6,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.0369314890832753,
+        "team_conditioned_mean_log_loss": 1.002611351861843
+      },
+      {
+        "team_id": 2413,
+        "team_name": "England",
+        "group_stage_classified_corners": 14,
+        "group_stage_action_counts": {
+          "short": 0,
+          "near": 3,
+          "central-far": 11,
+          "other": 0
+        },
+        "team_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "posterior_probabilities": {
+          "short": 0.10209907640638119,
+          "near": 0.27464315701091524,
+          "central-far": 0.5883291351805205,
+          "other": 0.03492863140218304
+        },
+        "knockout_classified_corners": 20,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.0985373538912693,
+        "team_conditioned_mean_log_loss": 0.9271387859145612
+      },
+      {
+        "team_id": 4418,
+        "team_name": "France",
+        "group_stage_classified_corners": 11,
+        "group_stage_action_counts": {
+          "short": 2,
+          "near": 5,
+          "central-far": 4,
+          "other": 0
+        },
+        "team_evidence_weight": 0.4074074074074074,
+        "tournament_prior_weight": 0.5925925925925926,
+        "posterior_probabilities": {
+          "short": 0.18751749230338652,
+          "near": 0.3792331374195354,
+          "central-far": 0.39443977983020806,
+          "other": 0.03880959044687004
+        },
+        "knockout_classified_corners": 9,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.235690965824775,
+        "team_conditioned_mean_log_loss": 1.1261105738048949
+      },
+      {
+        "team_id": 5629,
+        "team_name": "Belgium",
+        "group_stage_classified_corners": 16,
+        "group_stage_action_counts": {
+          "short": 2,
+          "near": 5,
+          "central-far": 6,
+          "other": 3
+        },
+        "team_evidence_weight": 0.5,
+        "tournament_prior_weight": 0.5,
+        "posterior_probabilities": {
+          "short": 0.15821788413098237,
+          "near": 0.319977959697733,
+          "central-far": 0.39530856423173805,
+          "other": 0.1264955919395466
+        },
+        "knockout_classified_corners": 22,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.3332127349450205,
+        "team_conditioned_mean_log_loss": 1.2948244982036525
+      },
+      {
+        "team_id": 6380,
+        "team_name": "Brazil",
+        "group_stage_classified_corners": 26,
+        "group_stage_action_counts": {
+          "short": 9,
+          "near": 9,
+          "central-far": 8,
+          "other": 0
+        },
+        "team_evidence_weight": 0.6190476190476191,
+        "tournament_prior_weight": 0.38095238095238093,
+        "posterior_probabilities": {
+          "short": 0.287213626004558,
+          "near": 0.339030826436368,
+          "central-far": 0.3488065251289433,
+          "other": 0.02494902243013074
+        },
+        "knockout_classified_corners": 16,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.3549406687560057,
+        "team_conditioned_mean_log_loss": 1.2930222081078497
+      },
+      {
+        "team_id": 6697,
+        "team_name": "Switzerland",
+        "group_stage_classified_corners": 14,
+        "group_stage_action_counts": {
+          "short": 1,
+          "near": 7,
+          "central-far": 6,
+          "other": 0
+        },
+        "team_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "posterior_probabilities": {
+          "short": 0.13543240973971452,
+          "near": 0.40797649034424854,
+          "central-far": 0.4216624685138539,
+          "other": 0.03492863140218304
+        },
+        "knockout_classified_corners": 10,
+        "log_loss_improved": false,
+        "baseline_mean_log_loss": 1.319083900995929,
+        "team_conditioned_mean_log_loss": 1.3716284601165571
+      },
+      {
+        "team_id": 7047,
+        "team_name": "Sweden",
+        "group_stage_classified_corners": 11,
+        "group_stage_action_counts": {
+          "short": 0,
+          "near": 1,
+          "central-far": 9,
+          "other": 1
+        },
+        "team_evidence_weight": 0.4074074074074074,
+        "tournament_prior_weight": 0.5925925925925926,
+        "posterior_probabilities": {
+          "short": 0.11344341822931243,
+          "near": 0.23108498927138724,
+          "central-far": 0.5796249650153933,
+          "other": 0.07584662748390708
+        },
+        "knockout_classified_corners": 4,
+        "log_loss_improved": false,
+        "baseline_mean_log_loss": 1.1313965960514216,
+        "team_conditioned_mean_log_loss": 1.1830421986558046
+      },
+      {
+        "team_id": 7712,
+        "team_name": "Denmark",
+        "group_stage_classified_corners": 13,
+        "group_stage_action_counts": {
+          "short": 3,
+          "near": 3,
+          "central-far": 6,
+          "other": 1
+        },
+        "team_evidence_weight": 0.4482758620689655,
+        "tournament_prior_weight": 0.5517241379310345,
+        "posterior_probabilities": {
+          "short": 0.20906801007556675,
+          "near": 0.28411361070094676,
+          "central-far": 0.4362025536350213,
+          "other": 0.07061582558846521
+        },
+        "knockout_classified_corners": 2,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.2655968735937346,
+        "team_conditioned_mean_log_loss": 1.1973721219233633
+      },
+      {
+        "team_id": 9598,
+        "team_name": "Croatia",
+        "group_stage_classified_corners": 10,
+        "group_stage_action_counts": {
+          "short": 2,
+          "near": 2,
+          "central-far": 6,
+          "other": 0
+        },
+        "team_evidence_weight": 0.38461538461538464,
+        "tournament_prior_weight": 0.6153846153846154,
+        "posterior_probabilities": {
+          "short": 0.19472970354582445,
+          "near": 0.27843441193567137,
+          "central-far": 0.4865336175159853,
+          "other": 0.04030226700251889
+        },
+        "knockout_classified_corners": 27,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.0833588746453593,
+        "team_conditioned_mean_log_loss": 1.034720834727141
+      },
+      {
+        "team_id": 9905,
+        "team_name": "Portugal",
+        "group_stage_classified_corners": 14,
+        "group_stage_action_counts": {
+          "short": 7,
+          "near": 3,
+          "central-far": 4,
+          "other": 0
+        },
+        "team_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "posterior_probabilities": {
+          "short": 0.3354324097397145,
+          "near": 0.27464315701091524,
+          "central-far": 0.35499580184718726,
+          "other": 0.03492863140218304
+        },
+        "knockout_classified_corners": 10,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.2894379759382344,
+        "team_conditioned_mean_log_loss": 1.0896553916992686
+      },
+      {
+        "team_id": 12274,
+        "team_name": "Argentina",
+        "group_stage_classified_corners": 19,
+        "group_stage_action_counts": {
+          "short": 4,
+          "near": 10,
+          "central-far": 5,
+          "other": 0
+        },
+        "team_evidence_weight": 0.5428571428571428,
+        "tournament_prior_weight": 0.45714285714285713,
+        "posterior_probabilities": {
+          "short": 0.20179920834832674,
+          "near": 0.4354084202950702,
+          "central-far": 0.33285354444044624,
+          "other": 0.029938826916156888
+        },
+        "knockout_classified_corners": 4,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 0.997196318509109,
+        "team_conditioned_mean_log_loss": 0.9657617416908977
+      },
+      {
+        "team_id": 12430,
+        "team_name": "Colombia",
+        "group_stage_classified_corners": 9,
+        "group_stage_action_counts": {
+          "short": 1,
+          "near": 5,
+          "central-far": 2,
+          "other": 1
+        },
+        "team_evidence_weight": 0.36,
+        "tournament_prior_weight": 0.64,
+        "posterior_probabilities": {
+          "short": 0.16251889168765743,
+          "near": 0.40957178841309827,
+          "central-far": 0.3459949622166247,
+          "other": 0.08191435768261965
+        },
+        "knockout_classified_corners": 2,
+        "log_loss_improved": false,
+        "baseline_mean_log_loss": 0.8779908067866098,
+        "team_conditioned_mean_log_loss": 1.0613310640979703
+      },
+      {
+        "team_id": 12913,
+        "team_name": "Japan",
+        "group_stage_classified_corners": 11,
+        "group_stage_action_counts": {
+          "short": 3,
+          "near": 4,
+          "central-far": 4,
+          "other": 0
+        },
+        "team_evidence_weight": 0.4074074074074074,
+        "tournament_prior_weight": 0.5925925925925926,
+        "posterior_probabilities": {
+          "short": 0.22455452934042355,
+          "near": 0.34219610038249837,
+          "central-far": 0.39443977983020806,
+          "other": 0.03880959044687004
+        },
+        "knockout_classified_corners": 5,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.3908002916441593,
+        "team_conditioned_mean_log_loss": 1.2967140479483796
+      },
+      {
+        "team_id": 14358,
+        "team_name": "Russia",
+        "group_stage_classified_corners": 14,
+        "group_stage_action_counts": {
+          "short": 1,
+          "near": 7,
+          "central-far": 4,
+          "other": 2
+        },
+        "team_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "posterior_probabilities": {
+          "short": 0.13543240973971452,
+          "near": 0.40797649034424854,
+          "central-far": 0.35499580184718726,
+          "other": 0.1015952980688497
+        },
+        "knockout_classified_corners": 10,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 1.503868794583839,
+        "team_conditioned_mean_log_loss": 1.3692508516542874
+      },
+      {
+        "team_id": 15473,
+        "team_name": "Mexico",
+        "group_stage_classified_corners": 12,
+        "group_stage_action_counts": {
+          "short": 6,
+          "near": 0,
+          "central-far": 5,
+          "other": 1
+        },
+        "team_evidence_weight": 0.42857142857142855,
+        "tournament_prior_weight": 0.5714285714285714,
+        "posterior_probabilities": {
+          "short": 0.3236775818639798,
+          "near": 0.18711766822598055,
+          "central-far": 0.41606693055055777,
+          "other": 0.07313781935948183
+        },
+        "knockout_classified_corners": 7,
+        "log_loss_improved": false,
+        "baseline_mean_log_loss": 1.0142256773266087,
+        "team_conditioned_mean_log_loss": 1.3335425564879613
+      },
+      {
+        "team_id": 15670,
+        "team_name": "Uruguay",
+        "group_stage_classified_corners": 10,
+        "group_stage_action_counts": {
+          "short": 2,
+          "near": 3,
+          "central-far": 5,
+          "other": 0
+        },
+        "team_evidence_weight": 0.38461538461538464,
+        "tournament_prior_weight": 0.6153846153846154,
+        "posterior_probabilities": {
+          "short": 0.19472970354582445,
+          "near": 0.31689595039720986,
+          "central-far": 0.44807207905444685,
+          "other": 0.04030226700251889
+        },
+        "knockout_classified_corners": 6,
+        "log_loss_improved": true,
+        "baseline_mean_log_loss": 0.9177259773607761,
+        "team_conditioned_mean_log_loss": 0.8605312724968371
+      }
+    ],
+    "round_of_16_dossiers": [
+      {
+        "match_id": 2058002,
+        "match_name": "Uruguay - Portugal",
+        "manager_team_id": 15670,
+        "manager_team_name": "Uruguay",
+        "opponent_team_id": 9905,
+        "opponent_team_name": "Portugal",
+        "opponent_group_stage_source_corners": 14,
+        "opponent_group_stage_classified_corners": 14,
+        "opponent_group_stage_placeholder_corners": 0,
+        "opponent_group_stage_action_counts": {
+          "short": 7,
+          "near": 3,
+          "central-far": 4,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.3354324097397145,
+          "near": 0.27464315701091524,
+          "central-far": 0.35499580184718726,
+          "other": 0.03492863140218304
+        },
+        "opponent_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "manager_group_stage_defensive_exposure_source_corners": 6,
+        "manager_group_stage_defensive_exposure_classified_corners": 5,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 2,
+          "near": 1,
+          "central-far": 2,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.36835327769937787,
+          "near": 0.25599317907579905,
+          "central-far": 0.34581965595286907,
+          "other": 0.02983388727195413
+        },
+        "held_out_opponent_source_corners": 10,
+        "held_out_opponent_classified_corners": 10,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 5,
+          "near": 1,
+          "central-far": 4,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 10,
+            "negative_log_likelihood": 12.894379759382344,
+            "mean_log_loss": 1.2894379759382344,
+            "mean_brier_score": 0.7314810702434504
+          },
+          "team_conditioned": {
+            "corners": 10,
+            "negative_log_likelihood": 10.896553916992685,
+            "mean_log_loss": 1.0896553916992686,
+            "mean_brier_score": 0.6408281111978236
+          },
+          "improvement": {
+            "log_loss_reduction": 0.19978258423896578,
+            "log_loss_reduction_rate": 0.1549377232306175,
+            "brier_reduction": 0.09065295904562687,
+            "brier_reduction_rate": 0.1239306972297395
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 5,
+        "team_conditioned_top_two": [
+          "central-far",
+          "short"
+        ],
+        "team_conditioned_top_two_covered": 9
+      },
+      {
+        "match_id": 2058002,
+        "match_name": "Uruguay - Portugal",
+        "manager_team_id": 9905,
+        "manager_team_name": "Portugal",
+        "opponent_team_id": 15670,
+        "opponent_team_name": "Uruguay",
+        "opponent_group_stage_source_corners": 12,
+        "opponent_group_stage_classified_corners": 10,
+        "opponent_group_stage_placeholder_corners": 2,
+        "opponent_group_stage_action_counts": {
+          "short": 2,
+          "near": 3,
+          "central-far": 5,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.19472970354582445,
+          "near": 0.31689595039720986,
+          "central-far": 0.44807207905444685,
+          "other": 0.04030226700251889
+        },
+        "opponent_evidence_weight": 0.38461538461538464,
+        "tournament_prior_weight": 0.6153846153846154,
+        "manager_group_stage_defensive_exposure_source_corners": 13,
+        "manager_group_stage_defensive_exposure_classified_corners": 12,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 1,
+          "near": 5,
+          "central-far": 6,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.1691902570300466,
+          "near": 0.33420123323942413,
+          "central-far": 0.4662051045590789,
+          "other": 0.03040340517145045
+        },
+        "held_out_opponent_source_corners": 2,
+        "held_out_opponent_classified_corners": 2,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 1,
+          "central-far": 1,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 2,
+            "negative_log_likelihood": 1.994392637018218,
+            "mean_log_loss": 0.997196318509109,
+            "mean_brier_score": 0.5778286772963472
+          },
+          "team_conditioned": {
+            "corners": 2,
+            "negative_log_likelihood": 1.9519829599324352,
+            "mean_log_loss": 0.9759914799662176,
+            "mean_brier_score": 0.5757675321232557
+          },
+          "improvement": {
+            "log_loss_reduction": 0.021204838542891347,
+            "log_loss_reduction_rate": 0.02126445730826036,
+            "brier_reduction": 0.0020611451730915276,
+            "brier_reduction_rate": 0.0035670524051101076
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 2,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 2
+      },
+      {
+        "match_id": 2058003,
+        "match_name": "France - Argentina",
+        "manager_team_id": 4418,
+        "manager_team_name": "France",
+        "opponent_team_id": 12274,
+        "opponent_team_name": "Argentina",
+        "opponent_group_stage_source_corners": 20,
+        "opponent_group_stage_classified_corners": 19,
+        "opponent_group_stage_placeholder_corners": 1,
+        "opponent_group_stage_action_counts": {
+          "short": 4,
+          "near": 10,
+          "central-far": 5,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.20179920834832674,
+          "near": 0.4354084202950702,
+          "central-far": 0.33285354444044624,
+          "other": 0.029938826916156888
+        },
+        "opponent_evidence_weight": 0.5428571428571428,
+        "tournament_prior_weight": 0.45714285714285713,
+        "manager_group_stage_defensive_exposure_source_corners": 8,
+        "manager_group_stage_defensive_exposure_classified_corners": 7,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 0,
+          "near": 3,
+          "central-far": 4,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.16830857206473493,
+          "near": 0.45539913920583563,
+          "central-far": 0.3513221154131209,
+          "other": 0.024970173316308745
+        },
+        "held_out_opponent_source_corners": 4,
+        "held_out_opponent_classified_corners": 4,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 2,
+          "central-far": 2,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 4,
+            "negative_log_likelihood": 3.988785274036436,
+            "mean_log_loss": 0.997196318509109,
+            "mean_brier_score": 0.5778286772963472
+          },
+          "team_conditioned": {
+            "corners": 4,
+            "negative_log_likelihood": 3.8630469667635907,
+            "mean_log_loss": 0.9657617416908977,
+            "mean_brier_score": 0.5737292636220271
+          },
+          "improvement": {
+            "log_loss_reduction": 0.03143457681821127,
+            "log_loss_reduction_rate": 0.03152295714971006,
+            "brier_reduction": 0.004099413674320096,
+            "brier_reduction_rate": 0.0070945140582173915
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 4,
+        "team_conditioned_top_two": [
+          "near",
+          "central-far"
+        ],
+        "team_conditioned_top_two_covered": 4
+      },
+      {
+        "match_id": 2058003,
+        "match_name": "France - Argentina",
+        "manager_team_id": 12274,
+        "manager_team_name": "Argentina",
+        "opponent_team_id": 4418,
+        "opponent_team_name": "France",
+        "opponent_group_stage_source_corners": 12,
+        "opponent_group_stage_classified_corners": 11,
+        "opponent_group_stage_placeholder_corners": 1,
+        "opponent_group_stage_action_counts": {
+          "short": 2,
+          "near": 5,
+          "central-far": 4,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.18751749230338652,
+          "near": 0.3792331374195354,
+          "central-far": 0.39443977983020806,
+          "other": 0.03880959044687004
+        },
+        "opponent_evidence_weight": 0.4074074074074074,
+        "tournament_prior_weight": 0.5925925925925926,
+        "manager_group_stage_defensive_exposure_source_corners": 7,
+        "manager_group_stage_defensive_exposure_classified_corners": 5,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 2,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 0,
+          "near": 2,
+          "central-far": 3,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.16344827872834783,
+          "near": 0.38855862920239315,
+          "central-far": 0.41416499060110346,
+          "other": 0.03382810146815556
+        },
+        "held_out_opponent_source_corners": 0,
+        "held_out_opponent_classified_corners": 0,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 0,
+          "central-far": 0,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 0,
+            "negative_log_likelihood": 0,
+            "mean_log_loss": null,
+            "mean_brier_score": null
+          },
+          "team_conditioned": {
+            "corners": 0,
+            "negative_log_likelihood": 0,
+            "mean_log_loss": null,
+            "mean_brier_score": null
+          },
+          "improvement": {
+            "log_loss_reduction": null,
+            "log_loss_reduction_rate": null,
+            "brier_reduction": null,
+            "brier_reduction_rate": null
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 0,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 0
+      },
+      {
+        "match_id": 2058004,
+        "match_name": "Spain - Russia",
+        "manager_team_id": 1598,
+        "manager_team_name": "Spain",
+        "opponent_team_id": 14358,
+        "opponent_team_name": "Russia",
+        "opponent_group_stage_source_corners": 15,
+        "opponent_group_stage_classified_corners": 14,
+        "opponent_group_stage_placeholder_corners": 1,
+        "opponent_group_stage_action_counts": {
+          "short": 1,
+          "near": 7,
+          "central-far": 4,
+          "other": 2
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.13543240973971452,
+          "near": 0.40797649034424854,
+          "central-far": 0.35499580184718726,
+          "other": 0.1015952980688497
+        },
+        "opponent_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "manager_group_stage_defensive_exposure_source_corners": 7,
+        "manager_group_stage_defensive_exposure_classified_corners": 6,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 3,
+          "near": 0,
+          "central-far": 3,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.16895825423290586,
+          "near": 0.3617601187147183,
+          "central-far": 0.37919524227262513,
+          "other": 0.0900863847797508
+        },
+        "held_out_opponent_source_corners": 5,
+        "held_out_opponent_classified_corners": 5,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 2,
+          "central-far": 1,
+          "other": 2
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 5,
+            "negative_log_likelihood": 8.562473952581243,
+            "mean_log_loss": 1.7124947905162486,
+            "mean_brier_score": 0.8402971911502514
+          },
+          "team_conditioned": {
+            "corners": 5,
+            "negative_log_likelihood": 7.402256818763221,
+            "mean_log_loss": 1.4804513637526442,
+            "mean_brier_score": 0.771474626730989
+          },
+          "improvement": {
+            "log_loss_reduction": 0.23204342676360445,
+            "log_loss_reduction_rate": 0.1355002234451485,
+            "brier_reduction": 0.06882256441926238,
+            "brier_reduction_rate": 0.08190264723490714
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 3,
+        "team_conditioned_top_two": [
+          "near",
+          "central-far"
+        ],
+        "team_conditioned_top_two_covered": 3
+      },
+      {
+        "match_id": 2058004,
+        "match_name": "Spain - Russia",
+        "manager_team_id": 14358,
+        "manager_team_name": "Russia",
+        "opponent_team_id": 1598,
+        "opponent_team_name": "Spain",
+        "opponent_group_stage_source_corners": 18,
+        "opponent_group_stage_classified_corners": 15,
+        "opponent_group_stage_placeholder_corners": 3,
+        "opponent_group_stage_action_counts": {
+          "short": 3,
+          "near": 6,
+          "central-far": 5,
+          "other": 1
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.19557975136101405,
+          "near": 0.36255789388153087,
+          "central-far": 0.3758023888843748,
+          "other": 0.06605996587308036
+        },
+        "opponent_evidence_weight": 0.4838709677419355,
+        "tournament_prior_weight": 0.5161290322580645,
+        "manager_group_stage_defensive_exposure_source_corners": 10,
+        "manager_group_stage_defensive_exposure_classified_corners": 9,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 2,
+          "near": 3,
+          "central-far": 4,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.20152390965799843,
+          "near": 0.36438242274502713,
+          "central-far": 0.3811505155401382,
+          "other": 0.05294315205683625
+        },
+        "held_out_opponent_source_corners": 6,
+        "held_out_opponent_classified_corners": 6,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 4,
+          "central-far": 2,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 6,
+            "negative_log_likelihood": 6.221588934499652,
+            "mean_log_loss": 1.0369314890832753,
+            "mean_brier_score": 0.6072157469856839
+          },
+          "team_conditioned": {
+            "corners": 6,
+            "negative_log_likelihood": 6.015668111171057,
+            "mean_log_loss": 1.002611351861843,
+            "mean_brier_score": 0.5813455690423119
+          },
+          "improvement": {
+            "log_loss_reduction": 0.034320137221432345,
+            "log_loss_reduction_rate": 0.03309778667419378,
+            "brier_reduction": 0.025870177943371986,
+            "brier_reduction_rate": 0.04260459000247554
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 6,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 6
+      },
+      {
+        "match_id": 2058005,
+        "match_name": "Croatia - Denmark",
+        "manager_team_id": 9598,
+        "manager_team_name": "Croatia",
+        "opponent_team_id": 7712,
+        "opponent_team_name": "Denmark",
+        "opponent_group_stage_source_corners": 14,
+        "opponent_group_stage_classified_corners": 13,
+        "opponent_group_stage_placeholder_corners": 1,
+        "opponent_group_stage_action_counts": {
+          "short": 3,
+          "near": 3,
+          "central-far": 6,
+          "other": 1
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.20906801007556675,
+          "near": 0.28411361070094676,
+          "central-far": 0.4362025536350213,
+          "other": 0.07061582558846521
+        },
+        "opponent_evidence_weight": 0.4482758620689655,
+        "tournament_prior_weight": 0.5517241379310345,
+        "manager_group_stage_defensive_exposure_source_corners": 20,
+        "manager_group_stage_defensive_exposure_classified_corners": 19,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 2,
+          "near": 7,
+          "central-far": 9,
+          "other": 1
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.18273748530357878,
+          "near": 0.2952178675309888,
+          "central-far": 0.4549312124287827,
+          "other": 0.06711343473664974
+        },
+        "held_out_opponent_source_corners": 4,
+        "held_out_opponent_classified_corners": 2,
+        "held_out_opponent_placeholder_corners": 2,
+        "held_out_opponent_action_counts": {
+          "short": 1,
+          "near": 0,
+          "central-far": 1,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 2,
+            "negative_log_likelihood": 2.5311937471874693,
+            "mean_log_loss": 1.2655968735937346,
+            "mean_brier_score": 0.7138488284298485
+          },
+          "team_conditioned": {
+            "corners": 2,
+            "negative_log_likelihood": 2.3947442438467266,
+            "mean_log_loss": 1.1973721219233633,
+            "mean_brier_score": 0.6744186755331526
+          },
+          "improvement": {
+            "log_loss_reduction": 0.06822475167037134,
+            "log_loss_reduction_rate": 0.05390717462555297,
+            "brier_reduction": 0.039430152896695936,
+            "brier_reduction_rate": 0.05523599861251411
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 1,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 1
+      },
+      {
+        "match_id": 2058005,
+        "match_name": "Croatia - Denmark",
+        "manager_team_id": 7712,
+        "manager_team_name": "Denmark",
+        "opponent_team_id": 9598,
+        "opponent_team_name": "Croatia",
+        "opponent_group_stage_source_corners": 13,
+        "opponent_group_stage_classified_corners": 10,
+        "opponent_group_stage_placeholder_corners": 3,
+        "opponent_group_stage_action_counts": {
+          "short": 2,
+          "near": 2,
+          "central-far": 6,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.19472970354582445,
+          "near": 0.27843441193567137,
+          "central-far": 0.4865336175159853,
+          "other": 0.04030226700251889
+        },
+        "opponent_evidence_weight": 0.38461538461538464,
+        "tournament_prior_weight": 0.6153846153846154,
+        "manager_group_stage_defensive_exposure_source_corners": 10,
+        "manager_group_stage_defensive_exposure_classified_corners": 9,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 1,
+          "near": 2,
+          "central-far": 5,
+          "other": 1
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.17915120956832203,
+          "near": 0.2614398401351643,
+          "central-far": 0.5144034877877405,
+          "other": 0.04500546250877319
+        },
+        "held_out_opponent_source_corners": 5,
+        "held_out_opponent_classified_corners": 5,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 1,
+          "central-far": 4,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 5,
+            "negative_log_likelihood": 4.628365057378048,
+            "mean_log_loss": 0.9256730114756095,
+            "mean_brier_score": 0.5249319518555413
+          },
+          "team_conditioned": {
+            "corners": 5,
+            "negative_log_likelihood": 4.1603698680342704,
+            "mean_log_loss": 0.8320739736068541,
+            "mean_brier_score": 0.4639570600918962
+          },
+          "improvement": {
+            "log_loss_reduction": 0.09359903786875545,
+            "log_loss_reduction_rate": 0.10111458010377748,
+            "brier_reduction": 0.06097489176364512,
+            "brier_reduction_rate": 0.1161577068191595
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 5,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 5
+      },
+      {
+        "match_id": 2058006,
+        "match_name": "Brazil - Mexico",
+        "manager_team_id": 6380,
+        "manager_team_name": "Brazil",
+        "opponent_team_id": 15473,
+        "opponent_team_name": "Mexico",
+        "opponent_group_stage_source_corners": 13,
+        "opponent_group_stage_classified_corners": 12,
+        "opponent_group_stage_placeholder_corners": 1,
+        "opponent_group_stage_action_counts": {
+          "short": 6,
+          "near": 0,
+          "central-far": 5,
+          "other": 1
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.3236775818639798,
+          "near": 0.18711766822598055,
+          "central-far": 0.41606693055055777,
+          "other": 0.07313781935948183
+        },
+        "opponent_evidence_weight": 0.42857142857142855,
+        "tournament_prior_weight": 0.5714285714285714,
+        "manager_group_stage_defensive_exposure_source_corners": 8,
+        "manager_group_stage_defensive_exposure_classified_corners": 7,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 0,
+          "near": 4,
+          "central-far": 3,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.2823164567712384,
+          "near": 0.21673116562343683,
+          "central-far": 0.43716047116980034,
+          "other": 0.06379190643552442
+        },
+        "held_out_opponent_source_corners": 7,
+        "held_out_opponent_classified_corners": 7,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 4,
+          "central-far": 3,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 7,
+            "negative_log_likelihood": 7.099579741286261,
+            "mean_log_loss": 1.0142256773266087,
+            "mean_brier_score": 0.5904231357346343
+          },
+          "team_conditioned": {
+            "corners": 7,
+            "negative_log_likelihood": 9.33479789541573,
+            "mean_log_loss": 1.3335425564879613,
+            "mean_brier_score": 0.7477634687804656
+          },
+          "improvement": {
+            "log_loss_reduction": -0.31931687916135254,
+            "log_loss_reduction_rate": -0.3148380940256196,
+            "brier_reduction": -0.15734033304583128,
+            "brier_reduction_rate": -0.26648741135467274
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 7,
+        "team_conditioned_top_two": [
+          "central-far",
+          "short"
+        ],
+        "team_conditioned_top_two_covered": 3
+      },
+      {
+        "match_id": 2058006,
+        "match_name": "Brazil - Mexico",
+        "manager_team_id": 15473,
+        "manager_team_name": "Mexico",
+        "opponent_team_id": 6380,
+        "opponent_team_name": "Brazil",
+        "opponent_group_stage_source_corners": 26,
+        "opponent_group_stage_classified_corners": 26,
+        "opponent_group_stage_placeholder_corners": 0,
+        "opponent_group_stage_action_counts": {
+          "short": 9,
+          "near": 9,
+          "central-far": 8,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.287213626004558,
+          "near": 0.339030826436368,
+          "central-far": 0.3488065251289433,
+          "other": 0.02494902243013074
+        },
+        "opponent_evidence_weight": 0.6190476190476191,
+        "tournament_prior_weight": 0.38095238095238093,
+        "manager_group_stage_defensive_exposure_source_corners": 18,
+        "manager_group_stage_defensive_exposure_classified_corners": 18,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 0,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 7,
+          "near": 1,
+          "central-far": 7,
+          "other": 3
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.3616877453130543,
+          "near": 0.2570441202980239,
+          "central-far": 0.3471997172196019,
+          "other": 0.034068417169319784
+        },
+        "held_out_opponent_source_corners": 8,
+        "held_out_opponent_classified_corners": 8,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 3,
+          "near": 3,
+          "central-far": 1,
+          "other": 1
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 8,
+            "negative_log_likelihood": 11.91264486134972,
+            "mean_log_loss": 1.489080607668715,
+            "mean_brier_score": 0.811455881326574
+          },
+          "team_conditioned": {
+            "corners": 8,
+            "negative_log_likelihood": 11.73173824123615,
+            "mean_log_loss": 1.4664672801545187,
+            "mean_brier_score": 0.7565997877090972
+          },
+          "improvement": {
+            "log_loss_reduction": 0.022613327514196424,
+            "log_loss_reduction_rate": 0.015186100334487298,
+            "brier_reduction": 0.05485609361747679,
+            "brier_reduction_rate": 0.06760206547249081
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 4,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 4
+      },
+      {
+        "match_id": 2058007,
+        "match_name": "Belgium - Japan",
+        "manager_team_id": 5629,
+        "manager_team_name": "Belgium",
+        "opponent_team_id": 12913,
+        "opponent_team_name": "Japan",
+        "opponent_group_stage_source_corners": 13,
+        "opponent_group_stage_classified_corners": 11,
+        "opponent_group_stage_placeholder_corners": 2,
+        "opponent_group_stage_action_counts": {
+          "short": 3,
+          "near": 4,
+          "central-far": 4,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.22455452934042355,
+          "near": 0.34219610038249837,
+          "central-far": 0.39443977983020806,
+          "other": 0.03880959044687004
+        },
+        "opponent_evidence_weight": 0.4074074074074074,
+        "tournament_prior_weight": 0.5925925925925926,
+        "manager_group_stage_defensive_exposure_source_corners": 12,
+        "manager_group_stage_defensive_exposure_classified_corners": 10,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 2,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 2,
+          "near": 4,
+          "central-far": 3,
+          "other": 1
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.226873440684291,
+          "near": 0.35709901228007424,
+          "central-far": 0.3733923510146943,
+          "other": 0.04263519602094048
+        },
+        "held_out_opponent_source_corners": 6,
+        "held_out_opponent_classified_corners": 5,
+        "held_out_opponent_placeholder_corners": 1,
+        "held_out_opponent_action_counts": {
+          "short": 3,
+          "near": 1,
+          "central-far": 1,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 5,
+            "negative_log_likelihood": 6.954001458220796,
+            "mean_log_loss": 1.3908002916441593,
+            "mean_brier_score": 0.7939495840973547
+          },
+          "team_conditioned": {
+            "corners": 5,
+            "negative_log_likelihood": 6.483570239741898,
+            "mean_log_loss": 1.2967140479483796,
+            "mean_brier_score": 0.7604920446938541
+          },
+          "improvement": {
+            "log_loss_reduction": 0.09408624369577967,
+            "log_loss_reduction_rate": 0.06764899623694638,
+            "brier_reduction": 0.0334575394035006,
+            "brier_reduction_rate": 0.04214063471239002
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 2,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 2
+      },
+      {
+        "match_id": 2058007,
+        "match_name": "Belgium - Japan",
+        "manager_team_id": 12913,
+        "manager_team_name": "Japan",
+        "opponent_team_id": 5629,
+        "opponent_team_name": "Belgium",
+        "opponent_group_stage_source_corners": 16,
+        "opponent_group_stage_classified_corners": 16,
+        "opponent_group_stage_placeholder_corners": 0,
+        "opponent_group_stage_action_counts": {
+          "short": 2,
+          "near": 5,
+          "central-far": 6,
+          "other": 3
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.15821788413098237,
+          "near": 0.319977959697733,
+          "central-far": 0.39530856423173805,
+          "other": 0.1264955919395466
+        },
+        "opponent_evidence_weight": 0.5,
+        "tournament_prior_weight": 0.5,
+        "manager_group_stage_defensive_exposure_source_corners": 15,
+        "manager_group_stage_defensive_exposure_classified_corners": 15,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 0,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 0,
+          "near": 7,
+          "central-far": 8,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.11629271300537279,
+          "near": 0.35946679283235866,
+          "central-far": 0.43126418082911727,
+          "other": 0.09297631333315129
+        },
+        "held_out_opponent_source_corners": 9,
+        "held_out_opponent_classified_corners": 9,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 1,
+          "near": 2,
+          "central-far": 6,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 9,
+            "negative_log_likelihood": 9.153951441583732,
+            "mean_log_loss": 1.0171057157315258,
+            "mean_brier_score": 0.5786683078588998
+          },
+          "team_conditioned": {
+            "corners": 9,
+            "negative_log_likelihood": 9.69132036806013,
+            "mean_log_loss": 1.0768133742289032,
+            "mean_brier_score": 0.5952387473047752
+          },
+          "improvement": {
+            "log_loss_reduction": -0.05970765849737747,
+            "log_loss_reduction_rate": -0.05870349322974196,
+            "brier_reduction": -0.01657043944587544,
+            "brier_reduction_rate": -0.028635470822977765
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 8,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 8
+      },
+      {
+        "match_id": 2058008,
+        "match_name": "Sweden - Switzerland",
+        "manager_team_id": 7047,
+        "manager_team_name": "Sweden",
+        "opponent_team_id": 6697,
+        "opponent_team_name": "Switzerland",
+        "opponent_group_stage_source_corners": 15,
+        "opponent_group_stage_classified_corners": 14,
+        "opponent_group_stage_placeholder_corners": 1,
+        "opponent_group_stage_action_counts": {
+          "short": 1,
+          "near": 7,
+          "central-far": 6,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.13543240973971452,
+          "near": 0.40797649034424854,
+          "central-far": 0.4216624685138539,
+          "other": 0.03492863140218304
+        },
+        "opponent_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "manager_group_stage_defensive_exposure_source_corners": 20,
+        "manager_group_stage_defensive_exposure_classified_corners": 19,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 13,
+          "near": 0,
+          "central-far": 2,
+          "other": 4
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.24311844549568723,
+          "near": 0.31980777718117787,
+          "central-far": 0.3769788733298089,
+          "other": 0.06009490399332606
+        },
+        "held_out_opponent_source_corners": 11,
+        "held_out_opponent_classified_corners": 10,
+        "held_out_opponent_placeholder_corners": 1,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 3,
+          "central-far": 5,
+          "other": 2
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 10,
+            "negative_log_likelihood": 13.190839009959289,
+            "mean_log_loss": 1.319083900995929,
+            "mean_brier_score": 0.6826145715028963
+          },
+          "team_conditioned": {
+            "corners": 10,
+            "negative_log_likelihood": 13.71628460116557,
+            "mean_log_loss": 1.3716284601165571,
+            "mean_brier_score": 0.6833861856450667
+          },
+          "improvement": {
+            "log_loss_reduction": -0.052544559120628165,
+            "log_loss_reduction_rate": -0.039834129641758344,
+            "brier_reduction": -0.0007716141421704181,
+            "brier_reduction_rate": -0.0011303804143406632
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 8,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 8
+      },
+      {
+        "match_id": 2058008,
+        "match_name": "Sweden - Switzerland",
+        "manager_team_id": 6697,
+        "manager_team_name": "Switzerland",
+        "opponent_team_id": 7047,
+        "opponent_team_name": "Sweden",
+        "opponent_group_stage_source_corners": 12,
+        "opponent_group_stage_classified_corners": 11,
+        "opponent_group_stage_placeholder_corners": 1,
+        "opponent_group_stage_action_counts": {
+          "short": 0,
+          "near": 1,
+          "central-far": 9,
+          "other": 1
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.11344341822931243,
+          "near": 0.23108498927138724,
+          "central-far": 0.5796249650153933,
+          "other": 0.07584662748390708
+        },
+        "opponent_evidence_weight": 0.4074074074074074,
+        "tournament_prior_weight": 0.5925925925925926,
+        "manager_group_stage_defensive_exposure_source_corners": 15,
+        "manager_group_stage_defensive_exposure_classified_corners": 14,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 1,
+          "near": 4,
+          "central-far": 9,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.09315508430043928,
+          "near": 0.21879207879053802,
+          "central-far": 0.6339757687817518,
+          "other": 0.05407706812727087
+        },
+        "held_out_opponent_source_corners": 3,
+        "held_out_opponent_classified_corners": 3,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 1,
+          "near": 1,
+          "central-far": 1,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 3,
+            "negative_log_likelihood": 3.647595577419077,
+            "mean_log_loss": 1.2158651924730257,
+            "mean_brier_score": 0.6978958477413514
+          },
+          "team_conditioned": {
+            "corners": 3,
+            "negative_log_likelihood": 4.186794797995393,
+            "mean_log_loss": 1.3955982659984645,
+            "mean_brier_score": 0.7918852440318244
+          },
+          "improvement": {
+            "log_loss_reduction": -0.17973307352543877,
+            "log_loss_reduction_rate": -0.14782319177989478,
+            "brier_reduction": -0.09398939629047298,
+            "brier_reduction_rate": -0.13467539116998242
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 2,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 2
+      },
+      {
+        "match_id": 2058009,
+        "match_name": "Colombia - England",
+        "manager_team_id": 12430,
+        "manager_team_name": "Colombia",
+        "opponent_team_id": 2413,
+        "opponent_team_name": "England",
+        "opponent_group_stage_source_corners": 17,
+        "opponent_group_stage_classified_corners": 14,
+        "opponent_group_stage_placeholder_corners": 3,
+        "opponent_group_stage_action_counts": {
+          "short": 0,
+          "near": 3,
+          "central-far": 11,
+          "other": 0
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.10209907640638119,
+          "near": 0.27464315701091524,
+          "central-far": 0.5883291351805205,
+          "other": 0.03492863140218304
+        },
+        "opponent_evidence_weight": 0.4666666666666667,
+        "tournament_prior_weight": 0.5333333333333333,
+        "manager_group_stage_defensive_exposure_source_corners": 14,
+        "manager_group_stage_defensive_exposure_classified_corners": 13,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 1,
+          "near": 7,
+          "central-far": 5,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.08703987531176127,
+          "near": 0.31071099034812877,
+          "central-far": 0.5763951417694898,
+          "other": 0.02585399257062008
+        },
+        "held_out_opponent_source_corners": 7,
+        "held_out_opponent_classified_corners": 6,
+        "held_out_opponent_placeholder_corners": 1,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 1,
+          "central-far": 5,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 6,
+            "negative_log_likelihood": 5.506355864164656,
+            "mean_log_loss": 0.9177259773607761,
+            "mean_brier_score": 0.519054537917674
+          },
+          "team_conditioned": {
+            "corners": 6,
+            "negative_log_likelihood": 3.944626304705021,
+            "mean_log_loss": 0.6574377174508369,
+            "mean_brier_score": 0.36110798805200783
+          },
+          "improvement": {
+            "log_loss_reduction": 0.2602882599099392,
+            "log_loss_reduction_rate": 0.2836230708631393,
+            "brier_reduction": 0.15794654986566614,
+            "brier_reduction_rate": 0.30429663614792957
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 6,
+        "team_conditioned_top_two": [
+          "central-far",
+          "near"
+        ],
+        "team_conditioned_top_two_covered": 6
+      },
+      {
+        "match_id": 2058009,
+        "match_name": "Colombia - England",
+        "manager_team_id": 2413,
+        "manager_team_name": "England",
+        "opponent_team_id": 12430,
+        "opponent_team_name": "Colombia",
+        "opponent_group_stage_source_corners": 11,
+        "opponent_group_stage_classified_corners": 9,
+        "opponent_group_stage_placeholder_corners": 2,
+        "opponent_group_stage_action_counts": {
+          "short": 1,
+          "near": 5,
+          "central-far": 2,
+          "other": 1
+        },
+        "opponent_posterior_probabilities": {
+          "short": 0.16251889168765743,
+          "near": 0.40957178841309827,
+          "central-far": 0.3459949622166247,
+          "other": 0.08191435768261965
+        },
+        "opponent_evidence_weight": 0.36,
+        "tournament_prior_weight": 0.64,
+        "manager_group_stage_defensive_exposure_source_corners": 6,
+        "manager_group_stage_defensive_exposure_classified_corners": 6,
+        "manager_group_stage_defensive_exposure_placeholder_corners": 0,
+        "manager_group_stage_defensive_exposure_action_counts": {
+          "short": 0,
+          "near": 3,
+          "central-far": 3,
+          "other": 0
+        },
+        "defensive_exposure_is_not_pooled_into_forecast": true,
+        "matchup_challenger_probabilities": {
+          "short": 0.1383321168367558,
+          "near": 0.43717750775283193,
+          "central-far": 0.3547668720078813,
+          "other": 0.06972350340253099
+        },
+        "held_out_opponent_source_corners": 2,
+        "held_out_opponent_classified_corners": 2,
+        "held_out_opponent_placeholder_corners": 0,
+        "held_out_opponent_action_counts": {
+          "short": 0,
+          "near": 0,
+          "central-far": 2,
+          "other": 0
+        },
+        "held_out_forecast_scores": {
+          "tournament_baseline": {
+            "corners": 2,
+            "negative_log_likelihood": 1.7559816135732196,
+            "mean_log_loss": 0.8779908067866098,
+            "mean_brier_score": 0.48966746822833723
+          },
+          "team_conditioned": {
+            "corners": 2,
+            "negative_log_likelihood": 2.1226621281959406,
+            "mean_log_loss": 1.0613310640979703,
+            "mean_brier_score": 0.6285939914598785
+          },
+          "improvement": {
+            "log_loss_reduction": -0.1833402573113605,
+            "log_loss_reduction_rate": -0.2088179692705145,
+            "brier_reduction": -0.13892652323154125,
+            "brier_reduction_rate": -0.2837160568052242
+          }
+        },
+        "tournament_top_two": [
+          "central-far",
+          "near"
+        ],
+        "tournament_top_two_covered": 2,
+        "team_conditioned_top_two": [
+          "near",
+          "central-far"
+        ],
+        "team_conditioned_top_two_covered": 2
+      }
+    ],
+    "first_fixed_round_of_16_example": {
+      "selection_rule": "lowest source match ID in the predeclared round-of-16 partition; not selected by forecast result",
+      "match_id": 2058002,
+      "match_name": "Uruguay - Portugal",
+      "manager_team_id": 15670,
+      "manager_team_name": "Uruguay",
+      "opponent_team_id": 9905,
+      "opponent_team_name": "Portugal",
+      "opponent_group_stage_source_corners": 14,
+      "opponent_group_stage_classified_corners": 14,
+      "opponent_group_stage_placeholder_corners": 0,
+      "opponent_group_stage_action_counts": {
+        "short": 7,
+        "near": 3,
+        "central-far": 4,
+        "other": 0
+      },
+      "opponent_posterior_probabilities": {
+        "short": 0.3354324097397145,
+        "near": 0.27464315701091524,
+        "central-far": 0.35499580184718726,
+        "other": 0.03492863140218304
+      },
+      "opponent_evidence_weight": 0.4666666666666667,
+      "tournament_prior_weight": 0.5333333333333333,
+      "manager_group_stage_defensive_exposure_source_corners": 6,
+      "manager_group_stage_defensive_exposure_classified_corners": 5,
+      "manager_group_stage_defensive_exposure_placeholder_corners": 1,
+      "manager_group_stage_defensive_exposure_action_counts": {
+        "short": 2,
+        "near": 1,
+        "central-far": 2,
+        "other": 0
+      },
+      "defensive_exposure_is_not_pooled_into_forecast": true,
+      "matchup_challenger_probabilities": {
+        "short": 0.36835327769937787,
+        "near": 0.25599317907579905,
+        "central-far": 0.34581965595286907,
+        "other": 0.02983388727195413
+      },
+      "held_out_opponent_source_corners": 10,
+      "held_out_opponent_classified_corners": 10,
+      "held_out_opponent_placeholder_corners": 0,
+      "held_out_opponent_action_counts": {
+        "short": 5,
+        "near": 1,
+        "central-far": 4,
+        "other": 0
+      },
+      "held_out_forecast_scores": {
+        "tournament_baseline": {
+          "corners": 10,
+          "negative_log_likelihood": 12.894379759382344,
+          "mean_log_loss": 1.2894379759382344,
+          "mean_brier_score": 0.7314810702434504
+        },
+        "team_conditioned": {
+          "corners": 10,
+          "negative_log_likelihood": 10.896553916992685,
+          "mean_log_loss": 1.0896553916992686,
+          "mean_brier_score": 0.6408281111978236
+        },
+        "improvement": {
+          "log_loss_reduction": 0.19978258423896578,
+          "log_loss_reduction_rate": 0.1549377232306175,
+          "brier_reduction": 0.09065295904562687,
+          "brier_reduction_rate": 0.1239306972297395
+        }
+      },
+      "tournament_top_two": [
+        "central-far",
+        "near"
+      ],
+      "tournament_top_two_covered": 5,
+      "team_conditioned_top_two": [
+        "central-far",
+        "short"
+      ],
+      "team_conditioned_top_two_covered": 9,
+      "held_out_opponent_corners": 10
+    }
   },
   "blind_folds": [
     {

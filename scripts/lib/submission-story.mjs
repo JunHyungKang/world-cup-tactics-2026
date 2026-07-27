@@ -14,10 +14,12 @@ export function validateSubmissionStory(story, sources) {
   if (story?.schema_version !== 2) errors.push("submission story schema_version must be 2");
   if (story?.product_id !== "corner-policy-lab") errors.push("submission story must bind corner-policy-lab");
   const gallery = story?.gallery ?? {};
-  if (gallery.hook !== "코너킥 수비, 한 명을 어디에 둘까요?") errors.push("gallery hook drifted from the manager decision");
-  if (!gallery.title?.includes("코너킥 수비") || !gallery.title?.includes("어디에") ||
-      !gallery.one_line?.includes("2018 월드컵") || !gallery.one_line?.includes("선택 밖 코너 기록")) {
-    errors.push("gallery surface must state the manager choice, historical scope, and outside-selection records");
+  if (gallery.hook !== "포르투갈전, 두 역할을 어디에 둘까요?") errors.push("gallery hook drifted from the opponent-specific manager decision");
+  if (!gallery.title?.includes("포르투갈전") || !gallery.title?.includes("어디에") ||
+      !gallery.one_line?.includes("2018 월드컵") || !gallery.one_line?.includes("공격 코너 14개") ||
+      !gallery.one_line?.includes("우루과이") || !gallery.one_line?.includes("수비한 코너 5개") ||
+      !gallery.one_line?.includes("결합안") || !gallery.one_line?.includes("숨겨 둔 상대전")) {
+    errors.push("gallery surface must state both teams, the separate samples, rejected matchup pooling, manager choice, and historical scope");
   }
   if (gallery.first_image !== "docs/assets/gallery/corner-policy-lab-first-image.png" ||
       !Array.isArray(gallery.source_images) || gallery.source_images.length !== 3) {
@@ -37,7 +39,7 @@ export function validateSubmissionStory(story, sources) {
   }
   const video = story?.video ?? {};
   const beats = video.beats;
-  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.92 || video.visual_duration_seconds !== 59.92 ||
+  if (video.duration_limit_seconds !== 60 || video.narrated_duration_seconds !== 59.52 || video.visual_duration_seconds !== 60.12 ||
       !Array.isArray(beats) || beats.length !== exactBeatIds.length || JSON.stringify(video.beat_order) !== JSON.stringify(exactBeatIds)) {
     errors.push("video contract must contain the exact eight-beat sub-60 Policy Lab sequence");
   } else {
@@ -71,6 +73,7 @@ export function validateSubmissionStory(story, sources) {
     ["app", "이 선택을 확정하고 16경기 확인"],
     ["app", "역습 역할 1명"],
     ["app", "선택 구역과의 겹침과 역습 대기 구역 참고 기록은 서로 더하지 않습니다"],
+    ["app", "data-testid=\"opponent-result\""],
     ["app", "선택 변경 0회"],
     ["productThesis", "Product selection ID: `corner-policy-lab`"],
     ["productThesis", "48경기 조별리그 참고"],
@@ -210,7 +213,7 @@ export function validateLocalPolicyDemoEvidence(storyBytes, story, evidence) {
   const visual = evidence.visualManifest;
   const narrated = evidence.narrationManifest;
   if (visual?.status !== "local-static-release-rehearsal-not-youtube-or-human-evidence" || visual?.release_manifest?.sha256 !== story.evidence.release_manifest.sha256) errors.push("visual demo lost its local boundary or release binding");
-  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 8 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 2 || !visual?.final_receipt?.includes("사전 기준 충족") || !visual?.final_receipt?.includes("통과 기준 50%") || !visual?.final_receipt?.includes("선택 변경 0회") || !visual?.meeting_note?.includes("확인 결과는 그대로") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/note/video binding drifted");
+  if (visual?.actions?.length !== story.video.interaction.timed_events || visual?.interaction_contract?.activations !== 8 || visual?.interaction_contract?.policy_locks !== 1 || visual?.interaction_contract?.explicit_scrolls !== 2 || !visual?.final_receipt?.includes("사전 기준 미달") || !visual?.final_receipt?.includes("통과 기준 60%") || !visual?.final_receipt?.includes("선택 변경 0회") || !visual?.meeting_note?.includes("확인 결과는 그대로") || visual?.video?.sha256 !== story.evidence.visual_video.sha256) errors.push("visual demo interaction/receipt/note/video binding drifted");
   if (Math.abs(visual?.video?.duration_seconds - story.video.visual_duration_seconds) > 0.001) errors.push("visual demo duration drifted");
   const visualManifestBytes = evidence.bytes.get(story.evidence.visual_manifest.path);
   const narrationManifestBytes = evidence.bytes.get(story.evidence.narration_manifest.path);

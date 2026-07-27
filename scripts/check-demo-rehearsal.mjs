@@ -88,8 +88,8 @@ if (probe.status === 0) {
 }
 
 const expectedActions = [
-  ["priority-short", 5], ["priority-near", 8], ["minimum-overlap", 10],
-  ["policy-lock", 12], ["r16-reveal", 16], ["r16-contradiction", 18],
+  ["priority-short", 5], ["priority-central-far", 8], ["minimum-overlap", 10],
+  ["policy-lock", 12], ["r16-reveal", 16], ["opponent-result", 18],
   ["final-reveal", 30], ["final-receipt", 34], ["meeting-note-view", 38],
   ["meeting-decision", 42], ["meeting-reason", 45], ["meeting-note-save", 48],
 ];
@@ -99,7 +99,8 @@ for (const [index, [id, scheduled]] of expectedActions.entries()) {
   check(action?.id === id && action?.scheduled_seconds === scheduled, `rehearsal action ${index + 1} drifted`);
   check(action?.actual_seconds >= scheduled && action?.actual_seconds <= scheduled + 1.5, `rehearsal action ${id} missed its 1.5-second window`);
 }
-check(manifest.final_frame?.receipt?.includes("통과 기준 50%"), "final frame must preserve the predeclared criterion");
+check(manifest.final_frame?.receipt?.includes("통과 기준 60%"), "final frame must preserve the predeclared criterion");
+check(manifest.final_frame?.receipt?.includes("사전 기준 미달"), "final frame must preserve the failed final generalization");
 check(manifest.final_frame?.receipt?.includes("선택 변경 0회"), "final frame must prove the choice stayed immutable");
 check(/^P-[0-9a-f]+$/u.test(manifest.final_frame?.policy_fingerprint ?? ""), "final frame must expose the immutable policy fingerprint");
 check(manifest.final_frame?.meeting_note?.includes("다음 회의에서 우선 구역 수정"), "final frame must show the separate next-meeting decision");
