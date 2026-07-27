@@ -2,11 +2,11 @@ import AxeBuilder from "@axe-core/playwright";
 import { createHash } from "node:crypto";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const headline = /포르투갈이 반복한 코너 전개,\s*우루과이는 이미 겪어봤을까요\?/u;
+const headline = /포르투갈 코너 14개만\s*그대로 믿어도 될까요\?/u;
 const signatures = [
   {
     id: "short-attacking-first",
-    label: "숏 코너 뒤 · 공격팀 먼저 기록",
+    label: "숏 구역 전달 뒤 · 공격팀 먼저 기록",
     attack: 7,
     defense: 2,
     heldOut: 5,
@@ -54,7 +54,7 @@ const viewports = [
 ];
 
 function questionToggle(page: Page, id: string) {
-  return page.locator(`[data-select="${id}"]`);
+  return page.locator(`[data-quick-select="${id}"]`);
 }
 
 function questionCard(page: Page, id: string) {
@@ -101,7 +101,7 @@ async function selectTwoQuestions(
       await page.keyboard.press("Enter");
       if (index === selectedIds.length - 1) {
         await expect(page.getByRole("button", {
-          name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+          name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
         })).toBeFocused();
       } else {
         await expect(questionToggle(page, id)).toBeFocused();
@@ -118,7 +118,7 @@ async function selectTwoQuestions(
 
 async function lockQuestions(page: Page) {
   await page.getByRole("button", {
-    name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
   }).click();
   await expect(page.getByTestId("scouting-result")).toHaveCount(0);
   await expect(page.getByTestId("priority-mix")).toContainText(
@@ -135,7 +135,7 @@ async function revealHeldOut(page: Page) {
   }).click();
   const result = page.getByTestId("scouting-result");
   await expect(result).toBeFocused();
-  const selected = result.locator(".comparison-row").filter({ hasText: "내 훈련 질문" }).locator("span");
+  const selected = result.locator(".comparison-row").filter({ hasText: "내 영상 검토 안건" }).locator("span");
   const actual = result.locator(".comparison-row").filter({ hasText: "실제 맞대결" }).locator("span");
   const shots = result.locator(".comparison-row").filter({ hasText: "10초 안 슈팅 기록" }).locator("span");
   await expect(selected).toHaveText(["선택", "선택 밖", "선택", "선택 밖", "선택 밖"]);
@@ -157,13 +157,17 @@ test("BG-01 first-fold named-team evidence, five questions, and 44px controls", 
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);
     await openInitial(page);
-    await expect(page.getByText("0회는 약점이 아닙니다.")).toBeVisible();
-    await expect(page.getByText(/자동 선택이나 순위는 없습니다/)).toBeVisible();
+    await expect(page.getByTestId("team-model")).toContainText(
+      "포르투갈 코너 14개를 월드컵 조별리그 397개로 보정했습니다",
+    );
+    await expect(page.getByTestId("team-model")).toContainText(
+      "우루과이 수비 5개는 예측에 섞지 않았습니다",
+    );
     for (const signature of signatures) {
       await assertTarget(questionToggle(page, signature.id));
     }
     await assertTarget(page.getByRole("button", {
-      name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+      name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
     }));
     if (viewport.width === 390) {
       const firstControl = await questionToggle(page, "short-attacking-first").boundingBox();
@@ -191,7 +195,7 @@ test("BG-02 pointer, touch, and keyboard paths select the same exact two questio
 test("BG-03 one precommit hides held-out evidence and freezes all question controls", async ({ page }) => {
   await openInitial(page);
   await expect(page.getByRole("button", {
-    name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
   })).toBeDisabled();
   await selectTwoQuestions(page);
   await expect(page.getByText(/우루과이–포르투갈 · 포르투갈 코너 10개/)).toHaveCount(0);
@@ -221,7 +225,7 @@ test("BG-05 player-linked receipts expose events without inventing football role
   const result = await completeQuestionLoop(page);
   await expect(result).toContainText("키커: Raphaël Guerreiro");
   await expect(result).toContainText("첫 후속 기록의 선수: João Mário");
-  await expect(result).toContainText("match 2058002 · corner 261094415");
+  await expect(result).toContainText("전반 · 10:10 · match 2058002 · corner 261094415");
   const resultText = await result.innerText();
   for (const unsupportedRole of ["첫 접촉 선수", "수신자", "경합 승자", "마킹 담당"]) {
     expect(resultText).not.toContain(unsupportedRole);
@@ -324,17 +328,16 @@ test("BG-11 zero-observation, recommendation, causality, and outcome claims stay
     "강화학습이 학습했다",
     "실점을 예방했다",
     "훈련이 성공했다",
-    "우루과이의 약점",
+    "우루과이의 약점입니다",
   ]) {
     expect(body).not.toContain(phrase);
   }
-  await expect(page.getByText("0회는 약점이 아닙니다.")).toBeVisible();
-  await expect(page.getByText(/관찰 0회 · 약점 판정 아님/).first()).toBeVisible();
+  await expect(page.getByText(/좋은 위치나 우루과이의 약점을 찾는 서비스가 아닙니다/)).toBeVisible();
   await expect(page.getByText(/이 선택은 전술 추천이 아닙니다/)).toBeVisible();
   await expect(page.getByText(/어떤 훈련이 이를 막았을지는 이 데이터로 알 수 없습니다/)).toBeVisible();
 });
 
-test("BG-12 production marker binds the matchup-question release and exact five-signature data", async ({ page }, testInfo) => {
+test("BG-12 production marker binds the team-model release and exact source-scene data", async ({ page }, testInfo) => {
   await openInitial(page);
   const evidence = await page.evaluate(async () => {
     const marker = await (await fetch("./submission-build.json", { cache: "no-store" })).json();
@@ -385,8 +388,9 @@ test("BG-12 production marker binds the matchup-question release and exact five-
     causal_recommendation_status: "REJECT",
     empirical_campaign_status: "REVISE",
   });
-  expect(evidence.texts).toContain("포르투갈이 반복한 코너 전개");
-  expect(evidence.texts).toContain("훈련 질문 두 개");
+  expect(evidence.texts).toContain("포르투갈 코너 14개만");
+  expect(evidence.texts).toContain("영상 검토 안건 두 개");
+  expect(evidence.texts).toContain("토너먼트 160개 · 16팀 중 12팀 개선");
   expect(evidence.texts).toContain("가려 둔 우루과이–포르투갈 코너 기록 보기");
   expect(evidence.texts).not.toContain("test-only-invalid-artifact");
   expect(evidence.texts).not.toContain("훈련 10회를 어떻게 나눌까요?");
@@ -473,14 +477,14 @@ test("BG-13 focus, status, and next-meeting memo preserve the sealed comparison"
   await lockQuestions(page);
   const result = await revealHeldOut(page);
   const comparisonBefore = await result.locator(".comparison").innerText();
-  await page.getByLabel("다음 회의에서 훈련 질문 다시 선택").check();
+  await page.getByLabel("다음 회의에서 영상 검토 안건 다시 선택").check();
   await page.getByLabel("이유 (120자 이내)")
     .fill("선택 밖 기타 비숏·수비팀 첫 기록이 3장면 남아 다음 회의에서 포함 여부를 검토");
   await page.getByRole("button", { name: "다음 회의 메모 저장" }).click();
   const note = page.getByTestId("meeting-note-receipt");
   await expect(note).toBeFocused();
-  await expect(note).toContainText("다음 회의에서 훈련 질문 다시 선택");
-  await expect(note).toContainText("이미 잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다");
+  await expect(note).toContainText("다음 회의에서 영상 검토 안건 다시 선택");
+  await expect(note).toContainText("이미 잠근 두 안건과 공개된 경기 기록을 바꾸지 않습니다");
   expect(await result.locator(".comparison").innerText()).toBe(comparisonBefore);
 });
 
@@ -520,7 +524,7 @@ test("BG-15 invalid matchup-question data fails closed without substitute contro
   await page.goto("http://127.0.0.1:4174");
   await expect(page.getByRole("alert")).toContainText("팀별 코너 첫 전개 기록을 열 수 없습니다.");
   await expect(page.getByRole("button", {
-    name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
   })).toHaveCount(0);
   await expect(page.getByRole("button", {
     name: "가려 둔 우루과이–포르투갈 코너 기록 보기",

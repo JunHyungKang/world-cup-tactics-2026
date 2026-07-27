@@ -4,9 +4,9 @@ Product selection ID: `corner-policy-lab`
 
 Product data scope: `official-open-historical-tactics`
 
-Product selection status: `PASS — five-signature matchup-question board`
+Product selection status: `PASS — partial-pooled team forecast + source-linked scene review`
 
-Implementation refinement status: `IN PROGRESS — canonical release and video reset`
+Implementation refinement status: `LOCAL RELEASE VERIFIED — stamped public release and video pending`
 
 Causal recommendation status: `REJECT`
 
@@ -15,6 +15,78 @@ Empirical campaign status: `REVISE`
 Event-chain matchup analysis status: `PASS — descriptive recorded sequences only`
 
 Full tactical weakness inference status: `REJECT — no tracking, marking, or role-position data`
+
+## 2026-07-28 fourth product correction
+
+The owner correctly identified that a five-signature count table, even with team
+names and source receipts, was still too close to descriptive statistics. Five
+classifiable Uruguay defensive exposures cannot establish a weakness or identify
+the right response. The previous `Corner Prep Lab` release and video candidate
+`be745424…2648b4` are therefore superseded and forbidden for publication.
+
+The canonical question is now:
+
+> 포르투갈 코너 14개만 그대로 믿어도 될까? 작은 표본을 대회 전체로
+> 보정했을 때 어느 전달 구역부터 보고, 어떤 원본 장면을 먼저 돌려볼까?
+
+The product is **Corner Scout Lab**. It combines two layers without pretending
+that either layer is a full tactical model:
+
+1. a Portugal-specific delivery forecast using Dirichlet-multinomial partial
+   pooling; and
+2. a source-linked scene-review board that keeps Portugal attack and Uruguay
+   defensive-exposure records separate.
+
+The forecast uses Portugal's 14 classifiable group-stage corners with an evidence
+weight of `46.7%` and the 397-corner group-stage tournament profile with a prior
+weight of `53.3%`. The concentration `16` was selected using group-stage
+leave-one-team-out evidence only. Against a tournament-only baseline, the frozen
+team-conditioned model lowers multiclass log loss by `4.59%` across 160 unseen
+knockout corners. A 10,000-draw match-cluster bootstrap keeps the 95% mean
+log-score-gain interval above zero (`0.0040` to `0.1071`).
+
+This changes the first scouting view in a team-specific way. The tournament-wide
+top two delivery areas are `central/far 41.6%` and `near 32.7%`; Portugal's
+partially pooled top two are `central/far 35.5%` and `short 33.5%`. In the fixed
+Uruguay–Portugal example, those Portugal-conditioned top two contain `9/10`
+held-out corners while the tournament-wide top two contain `5/10`. That one
+match is an illustration, not the validation claim; the 160-corner frozen audit
+owns the forecast claim.
+
+Uruguay's five classifiable group-stage defensive exposures are **not** pooled
+into the displayed forecast. The predeclared two-team challenger improves mean
+log loss by `1.01%`, but its match-cluster interval crosses zero and
+`P(gain > 0) = 0.9226` misses the `0.975` gate. Uruguay's sparse sample is used
+only to attach prior-exposure scenes to the manager's review agenda.
+
+The manager chooses exactly two concrete video-review questions. Each control
+shows in how many of Portugal's three group-stage matches the recorded scene
+appeared and in how many of Uruguay's three group-stage matches the corresponding
+defensive exposure appeared. The canonical path selects two patterns that appear
+in all three Portugal matches:
+
+- `short-attacking-first`: Portugal `7 scenes / 3 matches`; Uruguay
+  `2 scenes / 1 match`;
+- `aerial-defending-first`: Portugal `4 scenes / 3 matches`; Uruguay
+  `0 scenes / 0 matches`, which is an observation gap rather than a weakness.
+
+The manager locks these review questions before opening the historical matchup,
+then sees the model check, all held-out scene counts, exact player-event receipts,
+an unselected shot-bearing counterexample, and a separate next-meeting note.
+The app never converts delivery probability into a recommended defensive
+position, marking assignment, training effect, or optimal tactic.
+
+The first screen also reports that the team-conditioned model improves `12` of
+the `16` evaluated knockout teams, rather than implying universal improvement.
+Every public scene receipt carries the source period and corner time alongside
+the match, corner, follow-up, and first-defending event IDs so an analyst can
+find the original sequence without inventing tracking detail.
+
+The corrected implementation passes `122/122` unit and contract tests, `17/17`
+source-interaction checks, the `12/12` static release matrix, and the `56/56`
+pre-release browser matrix across Chromium, Firefox, WebKit, and mobile. These
+are machine checks, not human-comprehension evidence. Stamped public-byte parity,
+the new gallery and video, and their exact-artifact reviews remain open.
 
 ## 2026-07-28 third product correction
 

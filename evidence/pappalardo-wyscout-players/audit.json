@@ -3,11 +3,21 @@
   "status": "PASS",
   "source_id": "pappalardo-wyscout-players",
   "reviewer": "team_tactics_data_audit",
-  "checked_at": "2026-07-28T06:07:40+09:00",
-  "public_json_sha256": "5bd7e5dd4d0221551cb9b5adadb37e8ff18129a6f84abc3e7e8e3b70adc56bf6",
+  "checked_at": "2026-07-28T08:07:45+09:00",
+  "transform_version": "policy-lab-spike-v11-source-time-receipts",
+  "public_json_sha256": "158b93e6e7724ddbe86be814ccee33ee4bf4595f4b86c3e20cba2e69643f36a1",
+  "source_time_review": {
+    "reviewer": "football_claim_audit",
+    "reviewed_at": "2026-07-28T08:07:45+09:00",
+    "status": "PASS",
+    "receipts_reviewed": 29,
+    "source_time_mismatches": 0,
+    "identity_event_mismatches": 0,
+    "ui_match_time_mapping": "PASS"
+  },
   "semantic_review": {
     "path": "data/audit/player-identity-semantic-review.json",
-    "sha256": "fdd608e366ed456c4b5f34bf8efc3009dfa5108875bb3f17243f9461a13cc65b"
+    "sha256": "21486a298ba61cd47cc1c66fb1c3f9c8c462da00f21b983c36042469ce103c2d"
   },
   "window_review": {
     "path": "data/audit/player-join-review.csv",
@@ -30,12 +40,13 @@
     "claim": "actor associated with the first recorded follow-up event only"
   },
   "assertions": [
-    "the user's team-analysis objection is addressed only as inspectable team-event identity context and not as proof that a selected training question is correct",
+    "the user's team-analysis objection is addressed by the validated Portugal forecast plus inspectable team-event context and not by claiming that a selected review question is correct",
     "3603 source rows have non-null unique wyId values and the fixed public example fails closed on a missing required player",
     "all 12 public fixed-example actor ledgers have zero missing joins",
     "248 emitted identity records repeat the same admitted 41 player IDs across source ledgers and matchup questions; they contain only player_id, display_name, and aggregate count where applicable",
     "Rui Patrício is bound to source event 261096236 after corner event 261096233 with the exact first-recorded-follow-up semantic boundary",
-    "forbidden profile fields, likeness assets, contact claims, marking claims, tactical-effect claims, and endorsement claims remain excluded"
+    "all 29 matchup receipts reproduce source period and corner time with zero mismatches and correct 0/45/90/105 minute-base display mapping",
+    "forbidden profile fields, likeness assets, contact claims, marking claims, weakness claims, optimal-tactic claims, tactical-effect claims, and endorsement claims remain excluded"
   ],
   "review_receipt": "data/audit/player-identity-semantic-review.json",
   "review_csv": "data/audit/player-join-review.csv"

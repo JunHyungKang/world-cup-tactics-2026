@@ -26,4 +26,4 @@ const reboundVisualBytes = await readFile(visualManifestPath);
 narrated.submission_story_sha256 = storySha256;
 narrated.visual_source.manifest_sha256 = sha256(reboundVisualBytes);
 await writeFile(narrationManifestPath, `${JSON.stringify(narrated, null, 2)}\n`);
-console.log(`[PASS] local Corner Prep Lab demo bound to story ${storySha256}`);
+console.log(`[PASS] local Corner Scout Lab demo bound to story ${storySha256}`);

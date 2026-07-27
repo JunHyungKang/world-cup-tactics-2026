@@ -16,4 +16,4 @@ if (!reuseVisual) run("scripts/record-demo-rehearsal.mjs");
 run("scripts/render-demo-narration.mjs");
 run("scripts/check-demo-rehearsal.mjs");
 run("scripts/check-policy-lab-demo.mjs");
-console.log("[PASS] canonical Corner Prep Lab local visual and narrated rehearsal pipeline");
+console.log("[PASS] canonical Corner Scout Lab local visual and narrated rehearsal pipeline");

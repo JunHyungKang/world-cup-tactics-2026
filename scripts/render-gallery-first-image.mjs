@@ -23,9 +23,9 @@ const [fontBytes, ...sourceBytes] = await Promise.all([
 const images = sourceBytes.map((bytes) => `data:image/png;base64,${bytes.toString("base64")}`);
 const font = `data:font/ttf;base64,${fontBytes.toString("base64")}`;
 const proofCards = [
-  ["1 · 두 팀의 장면을 대조", "포르투갈 14/14 · 우루과이 5/6", "전개·첫 후속 팀·선수·슈팅을 원본 이벤트로 확인", images[0], "#79D5A5"],
-  ["2 · 먼저 볼 질문을 잠금", "훈련 질문 2개", "우루과이의 경험과 관찰 공백을 보고 감독이 직접 선택", images[1], "#F1C84B"],
-  ["3 · 선택 밖 반례를 확인", "3장면 · 10초 안 슈팅 2장면", "corner 261095314를 다음 회의 질문으로 저장", images[2], "#F0A56A"],
+  ["1 · 작은 표본을 보정", "포르투갈 47% · 대회 53%", "토너먼트 160개에서 대회 평균 대비 로그손실 4.6% 감소", images[0], "#79D5A5"],
+  ["2 · 원본 장면 안건을 잠금", "영상 검토 안건 2개", "포르투갈 3/3경기 반복과 우루과이 관찰 경기를 보고 감독이 선택", images[1], "#F1C84B"],
+  ["3 · 선택 밖 반례를 확인", "3장면 · 10초 안 슈팅 2장면", "corner 261095314를 다음 회의 안건으로 저장", images[2], "#F0A56A"],
 ];
 const proofHtml = proofCards.map(([step, title, detail, image, color]) => `
   <article class="proof" style="--accent:${color}">
@@ -83,31 +83,31 @@ try {
   </style><main>
     <section class="layout">
       <div class="story">
-        <div class="eyebrow">CORNER PREP LAB · 2018 WORLD CUP</div>
-        <h1 class="title">포르투갈의 반복 전개,<br><span>우루과이는 겪어봤을까?</span></h1>
+        <div class="eyebrow">CORNER SCOUT LAB · 2018 WORLD CUP</div>
+        <h1 class="title">포르투갈 코너 14개만<br><span>그대로 믿어도 될까?</span></h1>
         <div class="sub">${escapeHtml(story.gallery.one_line)}</div>
         <div class="choices">
           <div class="choice primary">
             <b>포르투갈이 공격한 코너</b>
             <strong>14/14</strong>
-            <em>반복 전개와 후속 이벤트 확인</em>
+            <em>팀 근거 47% · 대회 기록으로 보정</em>
           </div>
           <div class="choice">
             <b>우루과이가 수비한 코너</b>
             <strong>5/6</strong>
-            <em>같은 장면의 사전 경험 확인</em>
+            <em>예측에 섞지 않고 원본 장면만 확인</em>
           </div>
         </div>
         <div class="campaign">
-          <div><strong>5가지</strong><span>팀별 장면 분류</span></div>
+          <div><strong>397개</strong><span>작은 표본 보정</span></div>
           <b>→</b>
-          <div><strong>2개</strong><span>훈련 질문 잠금</span></div>
+          <div><strong>2개</strong><span>영상 검토 안건 잠금</span></div>
           <b>→</b>
           <div><strong>3 · 2</strong><span>선택 밖 장면 · 슈팅</span></div>
         </div>
         <div class="receipt">
-          <strong>0회는 약점이 아니라 이 표본의 관찰 공백입니다</strong>
-          <span>정답 대신 <em>다음 회의 질문</em>을 남김</span>
+          <strong>모델은 검토 범위를 좁히고, 장면은 감독이 판단합니다</strong>
+          <span>약점 판정 대신 <em>다음 회의 안건</em>을 남김</span>
         </div>
       </div>
       <section class="proofs">${proofHtml}</section>
@@ -139,4 +139,4 @@ await writeFile(
   `${outputDirectory}/manifest.json`,
   `${JSON.stringify(manifest, null, 2)}\n`,
 );
-console.log(`[PASS] Corner Prep Lab gallery first image: ${outputPath} sha256=${manifest.output.sha256}`);
+console.log(`[PASS] Corner Scout Lab gallery first image: ${outputPath} sha256=${manifest.output.sha256}`);

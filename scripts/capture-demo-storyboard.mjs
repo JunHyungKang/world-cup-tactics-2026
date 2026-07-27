@@ -36,4 +36,4 @@ const manifest = {
   artifacts,
 };
 await writeFile(`${outputDirectory}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`[PASS] Corner Prep Lab demo storyboard: ${artifacts.length} beat(s)`);
+console.log(`[PASS] Corner Scout Lab demo storyboard: ${artifacts.length} beat(s)`);

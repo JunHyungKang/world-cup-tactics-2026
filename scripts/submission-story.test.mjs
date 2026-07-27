@@ -126,13 +126,13 @@ function localEvidenceFixture() {
       (_, index) => ({ id: `fixture-${index}` }),
     ),
     interaction_contract: {
-      activations: 8,
+      activations: 6,
       question_selection_activations: 2,
       question_locks: 1,
       explicit_scrolls: 4,
     },
     final_frame: {
-      questions: "내 훈련 질문 선택 · 선택 밖 · 선택 · 선택 밖 · 선택 밖",
+      questions: "내 영상 검토 안건 선택 · 선택 밖 · 선택 · 선택 밖 · 선택 밖",
       held_out: "실제 맞대결 5 · 2 · 0 · 0 · 3",
       shots: "10초 안 슈팅 기록 2 · 0 · 0 · 0 · 2",
       counterevidence:
@@ -140,7 +140,7 @@ function localEvidenceFixture() {
       boundary:
         "실제 맞대결에서는 포르투갈 코너 10개 중 4개 뒤에 슈팅 기록이 있었습니다. 어떤 선택이 이를 바꿨을지는 알 수 없습니다.",
       meeting_note:
-        "다음 회의에서 훈련 질문 다시 선택 · 잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다",
+        "다음 회의에서 영상 검토 안건 다시 선택 · 잠근 두 안건과 공개된 경기 기록을 바꾸지 않습니다",
     },
     video: {
       path: story.evidence.visual_video.path,
@@ -177,7 +177,7 @@ function localEvidenceFixture() {
   return { storyBytes, bytes, visualManifest, narrationManifest };
 }
 
-describe("canonical five-signature Corner Prep Lab submission story", () => {
+describe("canonical team-model and source-scene Corner Scout Lab submission story", () => {
   it("accepts the source story, exact narration, captions, and editorial treatment", () => {
     expect(validateSubmissionStory(story, sources)).toEqual([]);
     expect(
@@ -246,7 +246,7 @@ describe("canonical five-signature Corner Prep Lab submission story", () => {
     const interaction = structuredClone(story);
     interaction.video.interaction.question_selection_activations = 3;
     expect(validateSubmissionStory(interaction, sources)).toContain(
-      "video interaction contract must preserve 13 events, eight activations, two selections, one lock, four scrolls, reveal, counterevidence, and memo timings",
+      "video interaction contract must preserve 13 events, six activations, two selections, one lock, four scrolls, reveal, counterevidence, and memo timings",
     );
   });
 

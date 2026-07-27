@@ -14,7 +14,7 @@
   "data_files": [
     {
       "path": "public/data/policy-lab-spike.json",
-      "sha256": "5bd7e5dd4d0221551cb9b5adadb37e8ff18129a6f84abc3e7e8e3b70adc56bf6"
+      "sha256": "158b93e6e7724ddbe86be814ccee33ee4bf4595f4b86c3e20cba2e69643f36a1"
     }
   ]
 }

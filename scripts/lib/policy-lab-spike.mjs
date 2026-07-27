@@ -25,7 +25,7 @@ export const MATCHUP_SIGNATURES = Object.freeze([
 export const HORIZONS = Object.freeze([8, 10, 12, 15]);
 export const TEAM_PRIOR_CONCENTRATIONS = Object.freeze([0.5, 1, 2, 4, 8, 16, 32, 64, 128]);
 export const MATCHUP_DEFENSE_WEIGHTS = Object.freeze([0, 0.25, 0.5, 0.75, 1]);
-export const POLICY_SPIKE_VERSION = "policy-lab-spike-v10-matchup-question-board";
+export const POLICY_SPIKE_VERSION = "policy-lab-spike-v11-source-time-receipts";
 export const PLAYERS_INPUT_SHA256 = "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e";
 
 function attackingPoint(point, eventTeamId, attackingTeamId, mirrorLaterally) {
@@ -360,6 +360,8 @@ function routineCards(episodes, directory, perspective) {
         corner_event_id: episode.provenance.corner_event_id,
         match_id: episode.state.match_id,
         match_name: episode.provenance.match_name,
+        period: episode.state.period,
+        corner_second: episode.state.corner_second,
         corner_taker: joinedPlayer(
           directory,
           episode._routine?.corner_taker_player_id,

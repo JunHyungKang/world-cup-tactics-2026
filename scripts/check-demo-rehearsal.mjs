@@ -141,7 +141,7 @@ check(
   "final frame must preserve the 4/10 context and causal boundary",
 );
 check(
-  manifest.final_frame?.meeting_note?.includes("다음 회의에서 훈련 질문 다시 선택") &&
+  manifest.final_frame?.meeting_note?.includes("다음 회의에서 영상 검토 안건 다시 선택") &&
     manifest.final_frame?.meeting_note?.includes("잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다"),
   "final frame must preserve the separate immutable next-meeting memo",
 );
@@ -201,7 +201,7 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `[PASS] ${finalMode ? "frozen-public demo visual" : "timed Corner Prep Lab rehearsal"}: ` +
+  `[PASS] ${finalMode ? "frozen-public demo visual" : "timed Corner Scout Lab rehearsal"}: ` +
   `${manifest.video.duration_seconds.toFixed(3)}s, 13 on-time events, ` +
   "two questions → five-signature reveal → unselected counterevidence → immutable memo",
 );

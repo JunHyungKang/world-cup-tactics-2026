@@ -2,15 +2,15 @@
   "schema_version": 3,
   "product_id": "corner-policy-lab",
   "gallery": {
-    "title": "Corner Prep Lab — 두 팀의 코너 전개로 훈련 질문 두 개를 고릅니다",
-    "one_line": "2018 월드컵에서 포르투갈이 공격한 코너 14개와 우루과이가 수비한 코너 6개를 비교합니다. 전개 유형과 다음으로 기록된 이벤트의 팀을 묶어 감독이 먼저 볼 질문 두 개를 고릅니다. 실제 맞대결을 연 뒤 선택하지 않은 슈팅 장면을 다음 회의 질문으로 남깁니다.",
+    "title": "Corner Scout Lab — 포르투갈 14개를 보정하고, 원본 장면 두 안건을 고릅니다",
+    "one_line": "포르투갈 코너 14개를 월드컵 조별리그 397개로 보정해 팀별 전달 성향을 추정합니다. 우루과이의 작은 수비 표본은 예측에 섞지 않고 원본 장면 검토에만 연결합니다. 감독은 실제 맞대결을 열기 전에 영상 검토 안건 두 개를 잠그고, 선택 밖 슈팅 장면을 다음 회의 안건으로 남깁니다.",
     "first_image": "docs/assets/gallery/corner-policy-lab-first-image.png",
     "source_images": [
       "docs/assets/final-release/01-matchup-analysis.png",
       "docs/assets/final-release/02-locked-questions.png",
       "docs/assets/final-release/03-counterevidence.png"
     ],
-    "hook": "포르투갈이 반복한 코너 전개, 우루과이는 이미 겪어봤을까요?"
+    "hook": "포르투갈 코너 14개만 그대로 믿어도 될까요?"
   },
   "manager_decision": {
     "opponent": "Portugal",
@@ -48,7 +48,7 @@
     }
   },
   "video": {
-    "title": "Corner Prep Lab | 두 팀의 코너 전개로 훈련 질문 두 개를 고릅니다",
+    "title": "Corner Scout Lab | 포르투갈 14개를 보정하고 원본 장면을 확인합니다",
     "duration_limit_seconds": 60,
     "visual_duration_target_seconds": 60,
     "narrated_duration_target_seconds": 59.5,
@@ -67,12 +67,12 @@
       "locale": "ko_KR",
       "rate_words_per_minute": 195,
       "cue_rate_overrides": {
-        "final": 280
+        "final": 220
       }
     },
     "interaction": {
       "timed_events": 13,
-      "activations": 8,
+      "activations": 6,
       "question_selection_activations": 2,
       "question_locks": 1,
       "explicit_scrolls": 4,
@@ -85,36 +85,36 @@
         "id": "hook",
         "start": 0,
         "end": 6,
-        "action": "첫 화면에서 포르투갈의 반복 전개와 우루과이의 사전 수비 경험을 대조하고, 먼저 볼 훈련 질문 두 개를 고르는 서비스임을 보여 준다.",
-        "proof": "두 팀 이름 · 14/14와 5/6 · 다섯 장면 분류 · 두 질문 선택"
+        "action": "첫 화면에서 포르투갈 코너 14개를 대회 전체로 보정하고 원본 장면을 확인하는 서비스임을 보여 준다.",
+        "proof": "포르투갈 14/14 · 우루과이 5/6 · 397개 보정 · 영상 검토 안건 선택"
       },
       {
         "id": "evidence",
         "start": 6,
         "end": 15,
-        "action": "숏 코너 뒤 공격팀이 먼저 기록된 질문의 원본 이벤트 체인을 열어 두 팀의 장면, 선수, 팀 역할, 슈팅 기록을 확인한다.",
-        "proof": "위치 빈도 대신 전개 유형 × 후속 이벤트의 팀 × 원본 이벤트 ID"
+        "action": "포르투갈 47%와 대회 사전정보 53%의 부분 풀링, 160개 토너먼트 검증, 우루과이 결합안 기각을 보여 준다.",
+        "proof": "대회 평균 대비 로그손실 4.6% 감소 · 우루과이 결합 개선 확률 92.3% < 97.5%"
       },
       {
         "id": "select",
         "start": 15,
         "end": 25,
-        "action": "aerial-defending-first와 short-attacking-first를 이번 미팅에서 먼저 볼 두 훈련 질문으로 선택한다.",
-        "proof": "같은 우선순위의 수동 선택 · 자동 순위나 자동 선택 없음"
+        "action": "포르투갈 3/3경기에서 반복된 aerial-defending-first와 short-attacking-first를 이번 미팅의 영상 검토 안건으로 선택한다.",
+        "proof": "구체적인 장면 질문 · 포르투갈 경기 반복 수 · 우루과이 관찰 경기 수 · 수동 선택"
       },
       {
         "id": "lock",
         "start": 25,
         "end": 31,
-        "action": "가려 둔 우루과이–포르투갈 코너 기록을 보기 전에 두 질문을 잠근다.",
+        "action": "가려 둔 우루과이–포르투갈 코너 기록을 보기 전에 두 영상 검토 안건을 잠근다.",
         "proof": "맞대결 공개 전 확정 · 선택 조작 비활성화"
       },
       {
         "id": "reveal",
         "start": 31,
         "end": 42,
-        "action": "가려 둔 맞대결의 다섯 전개 횟수 5·2·0·0·3과 10초 안 슈팅 기록 2·0·0·0·2를 공개한다.",
-        "proof": "선택과 선택 밖 기록을 함께 공개하되 선택을 채점하지 않음"
+        "action": "가려 둔 맞대결에서 포르투갈 보정 상위 구역 9/10, 대회 평균 상위 구역 5/10, 선택 안건의 숏 5장면과 공중 경합 뒤 수비팀 기록 0장면을 공개한다.",
+        "proof": "팀 보정 한 경기 확인 · 선택과 선택 밖 기록을 함께 공개하되 선택을 채점하지 않음"
       },
       {
         "id": "counterevidence",
@@ -127,15 +127,15 @@
         "id": "memo",
         "start": 50,
         "end": 57,
-        "action": "다음 회의에서 훈련 질문을 다시 선택하고, 선택 밖 장면을 포함할지 검토한다는 이유를 저장한다.",
-        "proof": "잠근 질문과 공개 기록을 바꾸지 않는 별도 다음 회의 메모"
+        "action": "다음 회의에서 영상 검토 안건을 다시 선택하고, 선택 밖 장면을 포함할지 검토한다는 이유를 저장한다.",
+        "proof": "잠근 안건과 공개 기록을 바꾸지 않는 별도 다음 회의 메모"
       },
       {
         "id": "final",
         "start": 57,
         "end": 59.5,
-        "action": "잠근 두 질문, 실제 5·2·0·0·3, corner 261095314, 저장된 메모를 그대로 둔다.",
-        "proof": "두 팀 기록은 도구가 연결하고 무엇을 먼저 볼지는 감독이 결정"
+        "action": "잠근 두 안건, 실제 5·2·0·0·3, corner 261095314, 저장된 메모를 그대로 둔다.",
+        "proof": "모델은 검토 범위를 좁히고 장면 판단은 감독이 담당"
       }
     ]
   },
@@ -165,7 +165,7 @@
     "causal_recommendation_status": "REJECT",
     "empirical_campaign_status": "REVISE",
     "required_boundaries": [
-      "도구가 정한 순위는 아닙니다.",
+      "우루과이 수비 5개는 예측에 섞지 않았습니다.",
       "0은 이 작은 표본에서 같은 장면을 찾지 못했다는 뜻입니다."
     ],
     "forbidden": [

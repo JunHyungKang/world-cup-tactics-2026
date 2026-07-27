@@ -91,6 +91,6 @@ if (errors.length) {
 }
 console.log(
   contractOnly
-    ? "[PASS] Corner Prep Lab source contract: five team-linked signatures → two manual questions → lock → 5/2/0/0/3 reveal → unselected 261095314 → memo"
-    : "[PASS] canonical five-signature Corner Prep Lab story, gallery, storyboard, narration, and local rehearsal chain",
+    ? "[PASS] Corner Scout Lab source contract: corrected Portugal profile → two manual scene questions → lock → hidden matchup → unselected 261095314 → memo"
+    : "[PASS] canonical Corner Scout Lab team-model and source-scene story, gallery, storyboard, narration, and local rehearsal chain",
 );

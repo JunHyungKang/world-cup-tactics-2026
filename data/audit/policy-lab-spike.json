@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "transform_version": "policy-lab-spike-v10-matchup-question-board",
+  "transform_version": "policy-lab-spike-v11-source-time-receipts",
   "provenance": {
     "source_ids": [
       "pappalardo-wyscout-events-wc-2018",
@@ -9778,6 +9778,8 @@
                 "corner_event_id": 258702322,
                 "match_id": 2057960,
                 "match_name": "Portugal - Spain",
+                "period": "2H",
+                "corner_second": 1568.7016890000004,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -9817,6 +9819,8 @@
                 "corner_event_id": 258702651,
                 "match_id": 2057960,
                 "match_name": "Portugal - Spain",
+                "period": "2H",
+                "corner_second": 2709.0126490000002,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -9853,6 +9857,8 @@
                 "corner_event_id": 258702667,
                 "match_id": 2057960,
                 "match_name": "Portugal - Spain",
+                "period": "2H",
+                "corner_second": 2743.196935,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -9892,6 +9898,8 @@
                 "corner_event_id": 259477229,
                 "match_id": 2057962,
                 "match_name": "Portugal - Morocco",
+                "period": "1H",
+                "corner_second": 236.06661199999996,
                 "corner_taker": {
                   "player_id": 265673,
                   "display_name": "Bernardo Silva"
@@ -9931,6 +9939,8 @@
                 "corner_event_id": 259478187,
                 "match_id": 2057962,
                 "match_name": "Portugal - Morocco",
+                "period": "2H",
+                "corner_second": 128.65997900000002,
                 "corner_taker": {
                   "player_id": 70093,
                   "display_name": "João Moutinho"
@@ -9970,6 +9980,8 @@
                 "corner_event_id": 259479134,
                 "match_id": 2057962,
                 "match_name": "Portugal - Morocco",
+                "period": "2H",
+                "corner_second": 2905.5027170000003,
                 "corner_taker": {
                   "player_id": 243588,
                   "display_name": "Bruno Fernandes"
@@ -10009,6 +10021,8 @@
                 "corner_event_id": 260341439,
                 "match_id": 2057964,
                 "match_name": "Iran - Portugal",
+                "period": "1H",
+                "corner_second": 1044.35312,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -10101,6 +10115,8 @@
                 "corner_event_id": 258702138,
                 "match_id": 2057960,
                 "match_name": "Portugal - Spain",
+                "period": "2H",
+                "corner_second": 1025.0697689999997,
                 "corner_taker": {
                   "player_id": 70093,
                   "display_name": "João Moutinho"
@@ -10140,6 +10156,8 @@
                 "corner_event_id": 259477222,
                 "match_id": 2057962,
                 "match_name": "Portugal - Morocco",
+                "period": "1H",
+                "corner_second": 213.141928,
                 "corner_taker": {
                   "player_id": 265673,
                   "display_name": "Bernardo Silva"
@@ -10179,6 +10197,8 @@
                 "corner_event_id": 259477847,
                 "match_id": 2057962,
                 "match_name": "Portugal - Morocco",
+                "period": "1H",
+                "corner_second": 1960.108722,
                 "corner_taker": {
                   "player_id": 70093,
                   "display_name": "João Moutinho"
@@ -10218,6 +10238,8 @@
                 "corner_event_id": 260341413,
                 "match_id": 2057964,
                 "match_name": "Iran - Portugal",
+                "period": "1H",
+                "corner_second": 993.3702599999999,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -10257,6 +10279,8 @@
                 "corner_event_id": 260341691,
                 "match_id": 2057964,
                 "match_name": "Iran - Portugal",
+                "period": "1H",
+                "corner_second": 1755.2801840000002,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -10329,6 +10353,8 @@
                 "corner_event_id": 260341391,
                 "match_id": 2057964,
                 "match_name": "Iran - Portugal",
+                "period": "1H",
+                "corner_second": 855.8147939999999,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -10368,6 +10394,8 @@
                 "corner_event_id": 260341400,
                 "match_id": 2057964,
                 "match_name": "Iran - Portugal",
+                "period": "1H",
+                "corner_second": 888.499386,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -10495,6 +10523,8 @@
                 "corner_event_id": 259527052,
                 "match_id": 2057957,
                 "match_name": "Uruguay - Saudi Arabia",
+                "period": "1H",
+                "corner_second": 467.96279400000003,
                 "corner_taker": {
                   "player_id": 122847,
                   "display_name": "Salman Al Faraj"
@@ -10534,6 +10564,8 @@
                 "corner_event_id": 259528043,
                 "match_id": 2057957,
                 "match_name": "Uruguay - Saudi Arabia",
+                "period": "2H",
+                "corner_second": 124.54229399999986,
                 "corner_taker": {
                   "player_id": 122615,
                   "display_name": "Hattan Bahbir"
@@ -10599,6 +10631,8 @@
                 "corner_event_id": 259528860,
                 "match_id": 2057957,
                 "match_name": "Uruguay - Saudi Arabia",
+                "period": "2H",
+                "corner_second": 2689.0558170000004,
                 "corner_taker": {
                   "player_id": 122847,
                   "display_name": "Salman Al Faraj"
@@ -10638,6 +10672,8 @@
                 "corner_event_id": 260304080,
                 "match_id": 2057958,
                 "match_name": "Uruguay - Russia",
+                "period": "1H",
+                "corner_second": 996.751303,
                 "corner_taker": {
                   "player_id": 4513,
                   "display_name": "D. Cheryshev"
@@ -10698,6 +10734,8 @@
                 "corner_event_id": 259528903,
                 "match_id": 2057957,
                 "match_name": "Uruguay - Saudi Arabia",
+                "period": "1H",
+                "corner_second": 1549.58203,
                 "corner_taker": {
                   "player_id": 122577,
                   "display_name": "Taisir Al Jassim"
@@ -10838,6 +10876,8 @@
                 "corner_event_id": 261094415,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "1H",
+                "corner_second": 610.124685,
                 "corner_taker": {
                   "player_id": 28907,
                   "display_name": "Raphaël Guerreiro"
@@ -10877,6 +10917,8 @@
                 "corner_event_id": 261095108,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "1H",
+                "corner_second": 2689.946512,
                 "corner_taker": {
                   "player_id": 265673,
                   "display_name": "Bernardo Silva"
@@ -10916,6 +10958,8 @@
                 "corner_event_id": 261095389,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 553.1302260000002,
                 "corner_taker": {
                   "player_id": 70965,
                   "display_name": "João Mário"
@@ -10955,6 +10999,8 @@
                 "corner_event_id": 261095499,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 899.8030310000004,
                 "corner_taker": {
                   "player_id": 70965,
                   "display_name": "João Mário"
@@ -10994,6 +11040,8 @@
                 "corner_event_id": 261095893,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 2122.78273,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -11068,6 +11116,8 @@
                 "corner_event_id": 261095622,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 1294.1563429999997,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -11107,6 +11157,8 @@
                 "corner_event_id": 261096233,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 2987.6632010000003,
                 "corner_taker": {
                   "player_id": 32599,
                   "display_name": "Manuel Fernandes"
@@ -11194,6 +11246,8 @@
                 "corner_event_id": 261095314,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 359.47313399999985,
                 "corner_taker": {
                   "player_id": 265673,
                   "display_name": "Bernardo Silva"
@@ -11233,6 +11287,8 @@
                 "corner_event_id": 261095513,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 930.7978659999999,
                 "corner_taker": {
                   "player_id": 70965,
                   "display_name": "João Mário"
@@ -11272,6 +11328,8 @@
                 "corner_event_id": 261095829,
                 "match_id": 2058002,
                 "match_name": "Uruguay - Portugal",
+                "period": "2H",
+                "corner_second": 1889.2301799999996,
                 "corner_taker": {
                   "player_id": 32597,
                   "display_name": "Ricardo Quaresma"
@@ -11406,6 +11464,8 @@
                   "corner_event_id": 258702322,
                   "match_id": 2057960,
                   "match_name": "Portugal - Spain",
+                  "period": "2H",
+                  "corner_second": 1568.7016890000004,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -11445,6 +11505,8 @@
                   "corner_event_id": 258702651,
                   "match_id": 2057960,
                   "match_name": "Portugal - Spain",
+                  "period": "2H",
+                  "corner_second": 2709.0126490000002,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -11481,6 +11543,8 @@
                   "corner_event_id": 258702667,
                   "match_id": 2057960,
                   "match_name": "Portugal - Spain",
+                  "period": "2H",
+                  "corner_second": 2743.196935,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -11520,6 +11584,8 @@
                   "corner_event_id": 259477229,
                   "match_id": 2057962,
                   "match_name": "Portugal - Morocco",
+                  "period": "1H",
+                  "corner_second": 236.06661199999996,
                   "corner_taker": {
                     "player_id": 265673,
                     "display_name": "Bernardo Silva"
@@ -11559,6 +11625,8 @@
                   "corner_event_id": 259478187,
                   "match_id": 2057962,
                   "match_name": "Portugal - Morocco",
+                  "period": "2H",
+                  "corner_second": 128.65997900000002,
                   "corner_taker": {
                     "player_id": 70093,
                     "display_name": "João Moutinho"
@@ -11598,6 +11666,8 @@
                   "corner_event_id": 259479134,
                   "match_id": 2057962,
                   "match_name": "Portugal - Morocco",
+                  "period": "2H",
+                  "corner_second": 2905.5027170000003,
                   "corner_taker": {
                     "player_id": 243588,
                     "display_name": "Bruno Fernandes"
@@ -11637,6 +11707,8 @@
                   "corner_event_id": 260341439,
                   "match_id": 2057964,
                   "match_name": "Iran - Portugal",
+                  "period": "1H",
+                  "corner_second": 1044.35312,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -11689,6 +11761,8 @@
                   "corner_event_id": 259527052,
                   "match_id": 2057957,
                   "match_name": "Uruguay - Saudi Arabia",
+                  "period": "1H",
+                  "corner_second": 467.96279400000003,
                   "corner_taker": {
                     "player_id": 122847,
                     "display_name": "Salman Al Faraj"
@@ -11728,6 +11802,8 @@
                   "corner_event_id": 259528043,
                   "match_id": 2057957,
                   "match_name": "Uruguay - Saudi Arabia",
+                  "period": "2H",
+                  "corner_second": 124.54229399999986,
                   "corner_taker": {
                     "player_id": 122615,
                     "display_name": "Hattan Bahbir"
@@ -11779,6 +11855,8 @@
                   "corner_event_id": 261094415,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "1H",
+                  "corner_second": 610.124685,
                   "corner_taker": {
                     "player_id": 28907,
                     "display_name": "Raphaël Guerreiro"
@@ -11818,6 +11896,8 @@
                   "corner_event_id": 261095108,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "1H",
+                  "corner_second": 2689.946512,
                   "corner_taker": {
                     "player_id": 265673,
                     "display_name": "Bernardo Silva"
@@ -11857,6 +11937,8 @@
                   "corner_event_id": 261095389,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 553.1302260000002,
                   "corner_taker": {
                     "player_id": 70965,
                     "display_name": "João Mário"
@@ -11896,6 +11978,8 @@
                   "corner_event_id": 261095499,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 899.8030310000004,
                   "corner_taker": {
                     "player_id": 70965,
                     "display_name": "João Mário"
@@ -11935,6 +12019,8 @@
                   "corner_event_id": 261095893,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 2122.78273,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -11996,6 +12082,8 @@
                   "corner_event_id": 260341413,
                   "match_id": 2057964,
                   "match_name": "Iran - Portugal",
+                  "period": "1H",
+                  "corner_second": 993.3702599999999,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -12053,6 +12141,8 @@
                   "corner_event_id": 259528860,
                   "match_id": 2057957,
                   "match_name": "Uruguay - Saudi Arabia",
+                  "period": "2H",
+                  "corner_second": 2689.0558170000004,
                   "corner_taker": {
                     "player_id": 122847,
                     "display_name": "Salman Al Faraj"
@@ -12092,6 +12182,8 @@
                   "corner_event_id": 260304080,
                   "match_id": 2057958,
                   "match_name": "Uruguay - Russia",
+                  "period": "1H",
+                  "corner_second": 996.751303,
                   "corner_taker": {
                     "player_id": 4513,
                     "display_name": "D. Cheryshev"
@@ -12143,6 +12235,8 @@
                   "corner_event_id": 261095622,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 1294.1563429999997,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -12182,6 +12276,8 @@
                   "corner_event_id": 261096233,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 2987.6632010000003,
                   "corner_taker": {
                     "player_id": 32599,
                     "display_name": "Manuel Fernandes"
@@ -12266,6 +12362,8 @@
                   "corner_event_id": 258702138,
                   "match_id": 2057960,
                   "match_name": "Portugal - Spain",
+                  "period": "2H",
+                  "corner_second": 1025.0697689999997,
                   "corner_taker": {
                     "player_id": 70093,
                     "display_name": "João Moutinho"
@@ -12305,6 +12403,8 @@
                   "corner_event_id": 259477222,
                   "match_id": 2057962,
                   "match_name": "Portugal - Morocco",
+                  "period": "1H",
+                  "corner_second": 213.141928,
                   "corner_taker": {
                     "player_id": 265673,
                     "display_name": "Bernardo Silva"
@@ -12344,6 +12444,8 @@
                   "corner_event_id": 259477847,
                   "match_id": 2057962,
                   "match_name": "Portugal - Morocco",
+                  "period": "1H",
+                  "corner_second": 1960.108722,
                   "corner_taker": {
                     "player_id": 70093,
                     "display_name": "João Moutinho"
@@ -12383,6 +12485,8 @@
                   "corner_event_id": 260341691,
                   "match_id": 2057964,
                   "match_name": "Iran - Portugal",
+                  "period": "1H",
+                  "corner_second": 1755.2801840000002,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -12464,6 +12568,8 @@
                   "corner_event_id": 260341391,
                   "match_id": 2057964,
                   "match_name": "Iran - Portugal",
+                  "period": "1H",
+                  "corner_second": 855.8147939999999,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -12545,6 +12651,8 @@
                   "corner_event_id": 260341400,
                   "match_id": 2057964,
                   "match_name": "Iran - Portugal",
+                  "period": "1H",
+                  "corner_second": 888.499386,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"
@@ -12597,6 +12705,8 @@
                   "corner_event_id": 259528903,
                   "match_id": 2057957,
                   "match_name": "Uruguay - Saudi Arabia",
+                  "period": "1H",
+                  "corner_second": 1549.58203,
                   "corner_taker": {
                     "player_id": 122577,
                     "display_name": "Taisir Al Jassim"
@@ -12648,6 +12758,8 @@
                   "corner_event_id": 261095314,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 359.47313399999985,
                   "corner_taker": {
                     "player_id": 265673,
                     "display_name": "Bernardo Silva"
@@ -12687,6 +12799,8 @@
                   "corner_event_id": 261095513,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 930.7978659999999,
                   "corner_taker": {
                     "player_id": 70965,
                     "display_name": "João Mário"
@@ -12726,6 +12840,8 @@
                   "corner_event_id": 261095829,
                   "match_id": 2058002,
                   "match_name": "Uruguay - Portugal",
+                  "period": "2H",
+                  "corner_second": 1889.2301799999996,
                   "corner_taker": {
                     "player_id": 32597,
                     "display_name": "Ricardo Quaresma"

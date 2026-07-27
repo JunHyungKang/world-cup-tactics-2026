@@ -1,18 +1,19 @@
 # First-Place Goal
 
-Status: `ACTIVE — planning submitted; five-signature public release, YouTube, and final DAKER receipt remain`
+Status: `ACTIVE — planning submitted; team-model public release, YouTube, and final DAKER receipt remain`
 
 ## Objective
 
-Finish Corner Prep Lab as a first-place-quality DAKER entry before
+Finish Corner Scout Lab as a first-place-quality DAKER entry before
 `2026-08-03 10:00 KST`: one keyless public app, public GitHub repository,
 sub-60-second YouTube demo, exact browser/hash/license evidence, and a final
 submission ledger.
 
 The product wins only if a judge understands this manager loop in five seconds:
 
-`Portugal repeated what? → Uruguay had faced what? → choose two questions →
-lock → reveal an unselected shot-bearing scene → revise the next meeting`
+`correct Portugal's small sample → reject the underpowered Uruguay forecast
+signal → choose two source-scene questions → lock → reveal the hidden matchup
+and an unselected shot-bearing scene → revise the next meeting`
 
 The old role-placement and `5/4/1` count-allocation products are rejected. Their
 public app, gallery, and video must not be uploaded as the final entry.
@@ -25,12 +26,12 @@ comprehension, and memorability claims stay omitted.
 
 | Gate | Pass condition | Current state |
 |---|---|---|
-| Five-second comprehension — UNEVALUATED / NO CLAIM | a fresh user can say that the app compares Portugal's corner sequences with Uruguay's prior defensive exposure and asks for two review questions | no real participant evidence; synthetic critique is design input only |
-| Manager agency | inspect five team-linked sequences, choose exactly two questions, lock before reveal, open unselected counterevidence, save a separate next-meeting decision | product gate, static-release browser suite `12/12`, and four-project pre-release matrix `56/56` pass; public matrix pending |
+| Five-second comprehension — UNEVALUATED / NO CLAIM | a fresh user can say that the app corrects Portugal's small corner sample, keeps Uruguay's sparse record out of the forecast, and asks for two source-scene review questions | no real participant evidence; synthetic critique is design input only |
+| Manager agency | inspect the corrected Portugal profile and five team-linked scene questions, choose exactly two, lock before reveal, open unselected counterevidence, save a separate next-meeting decision | `17/17` source interactions, `12/12` static release, and `56/56` four-project pre-release checks pass |
 | Claim safety | zero remains an observation gap; no weakness, intent, marking, prevention, optimal tactic, or changed result is inferred | raw/data semantics pass; causal recommendation `REJECT`, wider empirical campaign `REVISE` |
 | Comparative recall — UNEVALUATED / NO CLAIM | a fresh cohort recalls the two-team question and unselected counterexample after delay | unavailable; no comparative-memory claim allowed |
-| Data credibility | accepted Events, Matches, and Players sources; deterministic 603-corner derivative; exact five-signature raw reproduction; narrow identity scope | accepted; Portugal/Uruguay pairs `7/2 · 1/2 · 4/0 · 1/0 · 1/1`, held-out `5/2/0/0/3`, shots `2/0/0/0/2` |
-| Interaction/reliability | pointer, keyboard, touch, hidden result, immutable lock, counterevidence `261095314`, refresh, fail-closed invalid data, responsive layout, Axe, and screenshot evidence | clean full verify, built release `12/12`, and BG-01–11 plus BG-13–15 `56/56` pass; stamped-public BG-12 and exact-public matrix pending |
+| Data credibility | accepted Events, Matches, and Players sources; deterministic 603-corner derivative; partial-pooling fit on 397 corners; frozen 160-corner audit; exact scene receipts; narrow identity scope | team model lowers all-knockout log loss `4.59%`; Uruguay-conditioned challenger remains rejected; Portugal/Uruguay pairs `7/2 · 1/2 · 4/0 · 1/0 · 1/1` remain source-linked |
+| Interaction/reliability | pointer, keyboard, touch, hidden result, immutable lock, counterevidence `261095314`, refresh, fail-closed invalid data, responsive layout, Axe, and screenshot evidence | `122/122` unit/contract, `17/17` source, `12/12` static, and `56/56` pre-release checks pass; stamped exact-public BG-12 remains |
 | Planning package | submitted PDF and exact independent document-QA receipt remain immutable | DAKER accepted PDF `060376c8…` at `2026-07-26T18:38:37+09:00`, submission ID `a072f2fb-6284-4697-bfa3-2c156d2bc1f6` |
 | Final package | new public app, repository, gallery, narrated video, browser report, YouTube URL, and final DAKER receipt all bind the same release | source story and new gallery candidate exist; stamped public app, new final video, YouTube publication, and final DAKER receipt remain |
 
@@ -39,8 +40,9 @@ comprehension, and memorability claims stay omitted.
 1. Preserve the submitted planning PDF and its receipt; do not rewrite or
    resubmit it.
 2. Keep one public story everywhere:
-   `five team-linked sequences → two questions → lock → hidden match →
-   unselected counterevidence → next meeting`.
+   `small-sample correction → rejected sparse Uruguay forecast signal →
+   two source-scene questions → lock → hidden match → unselected
+   counterevidence → next meeting`.
 3. Keep the two teams separate. Never turn Uruguay's five classifiable
    exposures into a weakness score.
 4. Freeze accepted data, identity semantics, Korean copy, responsive behavior,

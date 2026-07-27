@@ -48,17 +48,19 @@ pnpm verify
 On macOS, install Poppler with `brew install poppler` before `pnpm verify`.
 `pnpm dev` and `pnpm build` do not require the Python/Poppler verification tools.
 
-The app is **Corner Prep Lab**: a historical set-piece meeting tool for one
-named matchup. It asks what Portugal repeatedly recorded after corners, whether
-Uruguay had already defended the same sequence, and which two questions the
-manager wants to inspect first. Five event-chain signatures support exactly two
-matchup questions. The locked choice is then challenged by the held-out match
-and an unselected shot-bearing source scene. Player names identify
+The app is **Corner Scout Lab**: a historical set-piece scouting tool for one
+named matchup. It partially pools Portugal's 14 classifiable group-stage corners
+with the 397-corner tournament profile, then shows the frozen 160-corner
+knockout evaluation. Uruguay's five classifiable defensive exposures failed the
+forecast promotion gate and remain separate source-linked review evidence.
+Five event-chain signatures support exactly two video-review questions. The
+locked choice is then challenged by the held-out match and an unselected
+shot-bearing source scene. Player names identify
 only the player associated with a recorded source event; they do not identify a
 receiver, physical first contact, duel winner, or marking assignment. A zero is
 an observation gap, not a weakness. Causal
 recommendation is `REJECT`, and the wider empirical campaign remains `REVISE`.
-The next-meeting note cannot mutate the locked questions, held-out record, or
+The next-meeting note cannot mutate the locked review questions, held-out record, or
 source receipts.
 
 `pnpm data:audit` checks source admission, `pnpm copy:audit` rejects known
@@ -76,7 +78,7 @@ raw files fail that command; they are never silently skipped by the public suite
 
 ## Data, attribution, and limits
 
-Corner Prep Lab uses three records from Luca Pappalardo and Emanuele Massucco's
+Corner Scout Lab uses three records from Luca Pappalardo and Emanuele Massucco's
 Soccer Match Event Dataset:
 
 - [Events, Figshare item 7770599](https://figshare.com/articles/dataset/Events/7770599), DOI `10.6084/m9.figshare.7770599.v1`;

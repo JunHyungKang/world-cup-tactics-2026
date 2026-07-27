@@ -32,14 +32,14 @@
     "product_id": "corner-policy-lab",
     "official_state_sha256": "b78bc9a684910a9d62efb623a1c6f86d6a77182c1ec32cbfebddb6c406d18167",
     "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
-    "product_thesis_sha256": "64adf7a1a4189dde168427658d7b92bd4d6cc5fdcb9311be48a7e4b38ac222c5",
+    "product_thesis_sha256": "32e16063c500121b5098bb2e70ba2fb94582a21fc8c8f323b9684ae45e836a28",
     "planning_source_sha256": "b9e21771f43b042cdf96a12c9159c01c18ec1c03936489c222584e6da115e17c",
-    "source_manifest_sha256": "91f992b606cd37e041d42880e4e18a816095aee1810f99dcec425a633d7697a5",
-    "product_selection_sha256": "34206206fcccb73917075820300ce2716923d663d2d6f03a1f273881c5cff7e9",
+    "source_manifest_sha256": "09adb707af629227124f0dc2f9ccfe8a24ce17a09508e04dfe33026de0f7f59f",
+    "product_selection_sha256": "7dfc49d546e68733399885404fbc6becf60a035a38cca1be5004ce67fe9462e7",
     "derived_binding": {
       "path": "public/data/product-binding.json",
-      "sha256": "f8a140cb518068a1380c7932600e8693483c4110f96855a5c216338c28e2226a"
+      "sha256": "a69571d1037248f38297bbaeea58f516787e5d8786979f8ebd744825840e2edd"
     }
   },
-  "note": "The official DAKER Data-tab rule resolves year eligibility without a board post. Three CC BY 4.0 Figshare sources and the independently tested public derivative are bound to Corner Policy Lab. Events and Matches own the historical team-event evidence; Players supplies only player_id to normalized short display-name joins. No evaluative or performance ranking of a player is allowed; factual event-frequency summaries over the fixed historical sample are allowed and are not player rankings. The selected product keeps Portugal attack, Uruguay defensive exposure, and the held-out match separate, gives no allocation correctness score, and does not claim physical contact, marking, player reach, tactical effect, or persistence to 2026."
+  "note": "The official DAKER Data-tab rule resolves year eligibility without a board post. Three CC BY 4.0 Figshare sources and the independently tested public derivative are bound to Corner Scout Lab. Events and Matches own the historical team-event evidence; Players supplies only player_id to normalized short display-name joins. The selected product partially pools Portugal's 14 classifiable group-stage corners with the 397-corner tournament profile, exposes the frozen 160-corner audit, and rejects the underpowered Uruguay-conditioned challenger. Uruguay defensive exposures and the held-out match remain separate source-scene evidence. No evaluative player ranking, physical-contact claim, marking assignment, player reach, team weakness, tactical effect, optimal tactic, or persistence to 2026 is allowed."
 }

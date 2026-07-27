@@ -14,7 +14,7 @@ describe("Policy Lab committed derivative", () => {
   });
 
   it("pins the immutable raw inputs and deterministic transform", () => {
-    expect(report.transform_version).toBe("policy-lab-spike-v10-matchup-question-board");
+    expect(report.transform_version).toBe("policy-lab-spike-v11-source-time-receipts");
     expect(report.provenance.input_sha256).toEqual({
       eventsZip: "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
       events: "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
@@ -373,6 +373,18 @@ describe("Policy Lab committed derivative", () => {
     });
     expect(otherDefending.held_out_evidence.event_receipts.filter((receipt) =>
       receipt.attacking_shot_within_10_seconds)).toHaveLength(2);
+    for (const question of board.questions) {
+      for (const ledger of [
+        question.opponent_attack,
+        question.manager_defensive_exposure,
+        question.held_out_evidence,
+      ]) {
+        for (const receipt of ledger.event_receipts) {
+          expect(["1H", "2H", "E1", "E2"]).toContain(receipt.period);
+          expect(receipt.corner_second).toBeGreaterThanOrEqual(0);
+        }
+      }
+    }
     expect(board.unclassified_manager_defensive_exposure).toEqual([
       expect.objectContaining({
         corner_event_id: 260303991,

@@ -354,7 +354,7 @@ const manifest = {
 };
 await writeFile(outputManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
 console.log(
-  `[PASS] ${finalMode ? "final narrated upload candidate" : "narrated Corner Prep Lab rehearsal"}: ` +
+  `[PASS] ${finalMode ? "final narrated upload candidate" : "narrated Corner Scout Lab rehearsal"}: ` +
   `duration=${manifest.narrated_video.duration_seconds.toFixed(3)}s ` +
   `sha256=${manifest.narrated_video.sha256}`,
 );
