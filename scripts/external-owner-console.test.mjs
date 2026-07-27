@@ -125,6 +125,8 @@ describe("external owner console", () => {
     expect(html).toContain("에이전트 검토는 사람 참가자 테스트가 아니며");
     expect(html).toContain('value="https://junhyungkang.github.io/world-cup-tactics-2026/"');
     expect(html).toContain('value="https://github.com/JunHyungKang/world-cup-tactics-2026"');
+    expect(html).toContain('host==="youtube.com"');
+    expect(html).toContain('host==="youtu.be"');
     expect(html).not.toContain("59.52초");
     expect(html).not.toContain("리허설만 확인");
     expect(html).not.toContain("READY TO SUBMIT");
