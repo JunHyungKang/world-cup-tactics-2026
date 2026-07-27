@@ -1,10 +1,12 @@
 import { spawn } from "node:child_process";
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { buildPolicyLabRelease } from "./lib/policy-lab-release.mjs";
 
 const root = "tmp/invalid-policy-lab-dist";
 await buildPolicyLabRelease({ outputRoot: root });
-await writeFile(`${root}/data/policy-lab-spike.json`, '{"status":"PASS","policy_campaign":null}\n', "utf8");
+const invalidReport = JSON.parse(await readFile(`${root}/data/policy-lab-spike.json`, "utf8"));
+invalidReport.team_scouting.matchup_challenger.status = "PASS";
+await writeFile(`${root}/data/policy-lab-spike.json`, `${JSON.stringify(invalidReport, null, 2)}\n`, "utf8");
 
 const preview = spawn(process.execPath, [
   "scripts/serve-policy-release.mjs", "--root", root, "--port", "4174",
