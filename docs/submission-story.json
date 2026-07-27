@@ -67,7 +67,7 @@
       "locale": "ko_KR",
       "rate_words_per_minute": 195,
       "cue_rate_overrides": {
-        "final": 240
+        "final": 280
       }
     },
     "interaction": {

@@ -5,7 +5,7 @@
   "locale": "ko_KR",
   "rate_words_per_minute": 195,
   "cue_rate_overrides": {
-    "final": 240
+    "final": 280
   },
   "cues": [
     {
@@ -13,8 +13,8 @@
       "start": 0,
       "end": 6,
       "caption_end": 5.9,
-      "text": "포르투갈의 반복 코너 전개와 우루과이가 겪은 수비 장면을 대조해, 먼저 볼 훈련 질문 두 개를 고릅니다.",
-      "caption": "포르투갈 반복 전개와 우루과이 수비 장면을 대조해\n먼저 볼 훈련 질문 2개를 고릅니다."
+      "text": "포르투갈의 반복 전개와 우루과이의 수비 장면을 대조해, 먼저 볼 질문 두 개를 고릅니다.",
+      "caption": "포르투갈 반복 전개와 우루과이 수비 장면을 대조해\n먼저 볼 질문 두 개를 고릅니다."
     },
     {
       "id": "evidence",
@@ -71,7 +71,7 @@
       "caption_end": 59.4,
       "text": "근거는 도구가 연결하고, 질문은 감독이 고릅니다.",
       "caption": "근거는 도구가 연결하고, 질문은 감독이 고릅니다.",
-      "rate_words_per_minute": 240
+      "rate_words_per_minute": 280
     }
   ]
 }

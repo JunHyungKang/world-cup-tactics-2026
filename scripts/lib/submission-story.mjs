@@ -395,7 +395,7 @@ export function validateNarrationContract(story, narration, captions, demoScript
       narration?.locale !== expected.locale ||
       narration?.rate_words_per_minute !== expected.rate_words_per_minute ||
       !exactValue(narration?.cue_rate_overrides, expected.cue_rate_overrides) ||
-      !exactValue(expected.cue_rate_overrides, { final: 240 })) {
+      !exactValue(expected.cue_rate_overrides, { final: 280 })) {
     errors.push("narration voice and rate contract drifted");
   }
   if (!Array.isArray(narration?.cues) ||

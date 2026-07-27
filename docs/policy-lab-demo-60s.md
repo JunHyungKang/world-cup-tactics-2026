@@ -6,7 +6,7 @@ Gallery title: `Corner Prep Lab — 두 팀의 코너 전개로 훈련 질문 �
 
 | Time | Screen action | Korean narration | Observable proof |
 |---|---|---|---|
-| 0–6s | Hold the named teams, `14/14`, `5/6`, five questions, and the first selection control | `포르투갈의 반복 코너 전개와 우루과이가 겪은 수비 장면을 대조해, 먼저 볼 훈련 질문 두 개를 고릅니다.` | The judge understands the two-team comparison and one direct decision before methodology |
+| 0–6s | Hold the named teams, `14/14`, `5/6`, five questions, and the first selection control | `포르투갈의 반복 전개와 우루과이의 수비 장면을 대조해, 먼저 볼 질문 두 개를 고릅니다.` | The judge understands the two-team comparison and one direct decision before methodology |
 | 6–15s | Open the `숏 코너 뒤 · 공격팀 먼저 기록` event chains, then close them | `위치만 세지 않습니다. 전개 유형, 다음으로 기록된 이벤트의 팀, 선수와 슈팅 기록을 장면마다 연결합니다.` | Portugal attack and Uruguay defensive-exposure scenes, actors, team roles, shots, and source receipts |
 | 15–25s | Select `aerial-defending-first`, then `short-attacking-first` | `공중 경합 뒤 수비팀 기록과 숏 코너 뒤 공격팀 기록을 먼저 봅니다. 도구가 정한 순위는 아닙니다.` | Exactly two manual questions with equal priority and no automatic selection |
 | 25–31s | Lock the two questions before reveal | `실제 맞대결을 열기 전에, 먼저 볼 두 질문을 잠급니다.` | Hidden matchup and disabled selection controls |
