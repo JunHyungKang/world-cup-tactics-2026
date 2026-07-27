@@ -17,7 +17,7 @@
       "scheduled_seconds": 6,
       "kicker": "01 · 작은 표본 보정",
       "title": "포르투갈 47% · 대회 사전정보 53%",
-      "detail": "토너먼트 160개 검증 · 로그손실 4.6% 감소",
+      "detail": "토너먼트 160개 검증 · 확률 예측 오차 4.6% 감소",
       "tone": "evidence"
     },
     {
@@ -25,7 +25,7 @@
       "scheduled_seconds": 15,
       "kicker": "02 · 감독의 영상 검토 안건",
       "title": "포르투갈 3/3경기에서 반복된 두 장면",
-      "detail": "감독이 직접 선택 · 숏 구역 전달 뒤 공격팀 · 공중 경합 뒤 수비팀",
+      "detail": "감독이 직접 선택 · 숏 뒤 포르투갈 선수 · 공중 경합 뒤 상대 수비 선수",
       "tone": "decision"
     },
     {
@@ -48,8 +48,8 @@
       "id": "counterevidence",
       "scheduled_seconds": 42,
       "kicker": "05 · 선택 밖 장면",
-      "title": "그 밖의 전개·수비팀 첫 기록 3장면",
-      "detail": "슈팅 기록 2장면 · corner 261095314",
+      "title": "선택 밖 ‘그 밖의 전개’ 3장면",
+      "detail": "10초 안 슈팅 기록 2장면 · corner 261095314",
       "tone": "boundary"
     },
     {
