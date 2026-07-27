@@ -58,11 +58,11 @@ const expectedGallerySources = [
 ];
 
 const exactSelectCue =
-  "포르투갈이 세 경기 모두 반복한 두 장면을 봅니다. 숏 구역 전달 뒤 포르투갈 기록, 공중 경합 뒤 상대 수비 기록입니다.";
+  "포르투갈의 세 경기에서 반복된 두 흐름을 고릅니다. 숏 구역 전달 뒤 포르투갈 선수, 공중 경합 뒤 상대 수비 선수가 먼저 기록된 흐름입니다.";
 const exactCounterevidenceCue =
-  "선택하지 않은 ‘그 밖의 전개’는 세 장면이었고, 그중 두 장면에 슈팅이 기록됐습니다. 첫 원본 기록을 엽니다.";
+  "선택 밖 ‘그 밖의 전개’는 세 장면이었고, 두 장면은 십 초 안에 슈팅이 기록됐습니다. 첫 이벤트 기록을 확인합니다.";
 const requiredNarrationBoundaries = [
-  "모델은 범위를 좁히고, 장면은 감독이 판단합니다.",
+  "모델은 좁히고, 감독은 판단합니다.",
 ];
 const broadUnsafeNarrationTerms = [
   "약점",
