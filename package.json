@@ -37,6 +37,7 @@
     "planning:draft:inspect": "node scripts/check-planning-draft.mjs",
     "planning:review": "node scripts/prepare-plan-review.mjs",
     "planning:handoff": "node scripts/prepare-plan-owner-handoff.mjs",
+    "demo:contract": "node scripts/check-submission-story.mjs --contract-only",
     "demo:audit": "node scripts/check-submission-story.mjs",
     "gallery:capture": "node scripts/capture-final-gallery-states.mjs",
     "gallery:render": "node scripts/render-gallery-first-image.mjs",
@@ -51,7 +52,7 @@
     "submission:owner-console": "node scripts/prepare-external-owner-console.mjs",
     "submission:drill": "node scripts/drill-release-build.mjs",
     "submission:build": "node scripts/build-release.mjs",
-    "verify": "pnpm typecheck && pnpm test && pnpm release:coherence && pnpm build && pnpm deployment:audit && pnpm harness:audit && pnpm data:audit && pnpm copy:audit && pnpm eligibility:audit && pnpm planning:audit && pnpm demo:audit && pnpm user:audit"
+    "verify": "pnpm typecheck && pnpm test && pnpm release:coherence && pnpm build && pnpm deployment:audit && pnpm harness:audit && pnpm data:audit && pnpm copy:audit && pnpm eligibility:audit && pnpm planning:audit && pnpm demo:contract && pnpm user:audit"
   },
   "dependencies": {
     "react": "19.2.7",

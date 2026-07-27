@@ -23,6 +23,21 @@ describe("GitHub Pages release workflow", () => {
     expect(workflow).toContain("path: ./dist");
   });
 
+  it("keeps clean-runner source verification separate from ignored local video evidence", async () => {
+    const packageJson = JSON.parse(
+      await readFile(new URL("../package.json", import.meta.url), "utf8"),
+    );
+
+    expect(packageJson.scripts["demo:contract"]).toBe(
+      "node scripts/check-submission-story.mjs --contract-only",
+    );
+    expect(packageJson.scripts["demo:audit"]).toBe(
+      "node scripts/check-submission-story.mjs",
+    );
+    expect(packageJson.scripts.verify).toContain("pnpm demo:contract");
+    expect(packageJson.scripts.verify).not.toContain("pnpm demo:audit");
+  });
+
   it("grants only the permissions needed by GitHub Pages", async () => {
     const workflow = await readFile(workflowPath, "utf8");
 
