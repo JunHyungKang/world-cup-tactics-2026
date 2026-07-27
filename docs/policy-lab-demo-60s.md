@@ -16,14 +16,14 @@ manager finally records a next-meeting decision without changing the receipt.
 
 | Time | Screen action | Korean narration | Observable proof |
 |---|---|---|---|
-| 0–5s | Hold the Portugal dossier and direct manager question | `포르투갈 코너에 맞춰, 우루과이 수비 두 역할을 배치합니다.` | Both teams, evidence, and manager action are named before methodology |
-| 5–12s | Show Portugal `14개`, Uruguay defensive exposure `5개`, the rejected matchup gate, choose `숏` and `중앙·파`, then select `60%` | `포르투갈 열네 개는 대회 전체로 보정합니다. 우루과이 수비 다섯 개는 표본이 적어 뺐습니다.` | Both samples and the failed matchup gate are visible; the manager chooses, not the model |
+| 0–5s | Hold the Portugal dossier and direct manager question | `포르투갈 코너 성향을 보고, 우루과이 수비 두 역할을 배치합니다.` | Both teams, evidence, and manager action are named before methodology |
+| 5–12s | Show Portugal `14개`, Uruguay defensive exposure `5개`, the rejected matchup gate, choose `숏` and `중앙·파`, then select `60%` | `포르투갈 열네 개는 대회 전체와 함께 봅니다. 우루과이 수비 결합안은 검증 기준 미달로 제외했습니다.` | Both samples and the failed matchup gate are visible; the manager chooses, not the model |
 | 12–16s | Activate `이 선택을 확정하고 16경기 확인` | `두 구역과 기준을 결과 전에 잠급니다.` | One fingerprint binds roles, areas, and criterion before results |
 | 16–27s | Reveal the fixed Portugal result before the tournament aggregate | `숨겨 둔 포르투갈전에서는 열 개 중 아홉 개가 선택 구역으로 왔습니다. 한 경기만으로 정답이라 하지는 않습니다.` | Portugal `9/10`, four recorded counts, and an explicit single-match boundary |
-| 27–34s | Show the round-of-16 aggregate and keep the choice sealed | `16강은 육십삼 퍼센트였습니다. 같은 선택을 다음 여덟 경기에 적용합니다.` | `63% ≥ 60%`, eight receipts, no policy change |
-| 34–45s | Reveal the final eight and state the failed generalization | `8강 이후에는 오십오 퍼센트로 기준에 못 미쳤습니다. 상대 분석도 다른 팀에 그대로 통하는 정답은 아닙니다.` | `55% < 60%`, same choice, no causal or universal claim |
-| 45–53s | Choose `다음 회의에서 우선 구역 수정`, enter one reason, and save | `선택 밖 기록을 보고, 다음 전술 회의에서 바꿀 점과 이유를 남깁니다.` | A separate next-meeting note appears without changing the result |
-| 53–59.5s | Hold the receipt and next-meeting note together | `결정은 감독이 합니다. 이 도구는 근거와 실패 가능성을 함께 보여 줍니다.` | Choice changes remain zero; evidence and uncertainty remain visible |
+| 27–34s | Show the round-of-16 aggregate and keep the choice sealed | `16강은 육십삼 퍼센트였습니다. 같은 선택이 보편적인지 다음 여덟 경기로 시험합니다.` | `63% ≥ 60%`, eight receipts, no policy change |
+| 34–45s | Reveal the final eight and state the failed generalization | `다음 여덟 경기는 오십오 퍼센트로 기준 미달입니다. 한 상대를 보고 고른 두 구역은 다른 팀의 정답이 아닙니다.` | `55% < 60%`, same choice, no causal or universal claim |
+| 45–53s | Choose `다음 회의에서 우선 구역 수정`, enter one reason, and save | `선택 구역 밖 기록을 보고, 다음 전술 회의에서 바꿀 점과 이유를 남깁니다.` | A separate next-meeting note appears without changing the result |
+| 53–59.5s | Hold the receipt and next-meeting note together | `마지막 결정은 감독이 합니다. 이 도구는 상대 기록과 선택의 한계를 보여 줍니다.` | Choice changes remain zero; evidence and uncertainty remain visible |
 
 All eleven post-production summaries carry the visible label `[편집 요약]`.
 They are a judging aid over the real product recording, not an unlabeled product
