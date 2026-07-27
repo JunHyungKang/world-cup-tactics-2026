@@ -60,4 +60,10 @@ describe("selected-product release coherence", () => {
       expect(errors.length, changed.key).toBeGreaterThan(0);
     }
   });
+
+  it("binds the demo recorder to the canonical submission-story schema", () => {
+    expect(input.demoRecorder).toContain("story.schema_version !== 3");
+    expect(input.demoRecorder).toContain("canonical schema-3 Corner Prep Lab story");
+    expect(input.demoRecorder).not.toContain("story.schema_version !== 4");
+  });
 });

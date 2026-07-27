@@ -80,8 +80,8 @@ const [storyBytes, editorialTreatmentBytes] = await Promise.all([
 ]);
 const story = JSON.parse(storyBytes.toString("utf8"));
 const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
-if (story.schema_version !== 4 || story.product_id !== "corner-policy-lab") {
-  throw new Error("demo recorder requires the canonical schema-4 Corner Prep Lab story");
+if (story.schema_version !== 3 || story.product_id !== "corner-policy-lab") {
+  throw new Error("demo recorder requires the canonical schema-3 Corner Prep Lab story");
 }
 
 let preview;
