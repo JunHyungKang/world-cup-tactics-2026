@@ -1,20 +1,30 @@
-# Corner Prep Lab Product Contract
+# Corner Scout Lab Product Contract
 
-Status: `PROMOTION IN PROGRESS — FIVE-SIGNATURE PRODUCT PASS; CANONICAL RELEASE RESET`
+Status: `LOCAL RELEASE VERIFIED — TEAM MODEL + SOURCE SCENE REVIEW PASS; PUBLIC STAMP PENDING`
 
 ## One-sentence product
 
-Corner Prep Lab compares Portugal's repeated recorded corner sequences with
-the corner situations Uruguay had already defended, lets a manager lock two
-training questions before the historical matchup is shown, and then opens the
-first shot-bearing counterexample outside that choice.
+Corner Scout Lab partially pools Portugal's 14 recorded group-stage corners with
+the 397-corner tournament profile, shows the resulting team-specific delivery
+shift, links Portugal and Uruguay source scenes without pooling the sparse
+Uruguay sample into the forecast, and lets a manager lock two video-review
+questions before the historical matchup is shown.
 
-It is not a location-frequency dashboard, a weakness detector, an optimal-tactic
-recommender, or a player-position simulation.
+It is not a raw location-frequency dashboard, a weakness detector, an
+optimal-tactic recommender, or a player-position simulation.
 
 ## Why this is team analysis
 
-The unit of analysis is not a pitch area alone. Each admitted scene binds:
+The first layer is a validated team forecast rather than a raw rate:
+
+1. Portugal evidence weight `46.7%`;
+2. tournament-prior weight `53.3%`;
+3. all-knockout evaluation on 160 unseen corners;
+4. log-loss reduction `4.59%` against the tournament-only baseline;
+5. `12/16` evaluated knockout teams improve while `4/16` worsen; and
+6. a positive match-cluster 95% log-score-gain interval.
+
+The second layer is not a pitch area alone. Each admitted scene binds:
 
 1. a named attacking or defending team;
 2. the corner taker;
@@ -22,21 +32,29 @@ The unit of analysis is not a pitch area alone. Each admitted scene binds:
 4. the team of the first recorded follow-up;
 5. the first recorded attacking and defending actors when present;
 6. a ten-second attacking-shot record; and
-7. match, corner, and follow-up source IDs.
+7. source period and corner time; and
+8. match, corner, follow-up, and first-defending source IDs.
 
-The app asks three team-specific questions in order:
+The app asks four team-specific questions in order:
 
-`Portugal repeated what? → Uruguay had faced what? → What appeared in their matchup?`
+`What changes after small-sample correction? → Portugal repeated what? → Uruguay
+had faced what? → What appeared in their matchup?`
 
-This is a descriptive comparison of event chains. It becomes a training agenda
-only when the manager chooses two questions. The data does not choose them.
+The forecast narrows the scouting range. The event ledger then becomes a review
+agenda only when the manager chooses two questions. Neither layer assigns a
+defender or claims a training effect.
 
 ## Canonical manager loop
 
 1. See Portugal's `14/14` classifiable group-stage attacking corners and
    Uruguay's `5/6` classifiable group-stage defensive exposures as separate
    records.
-2. Compare five exact `restart family × first recorded follow-up team`
+2. See how partial pooling changes the top two delivery areas from tournament
+   `central/far + near` to Portugal `central/far + short`, plus the frozen
+   160-corner evaluation.
+3. See that the Uruguay-conditioned challenger failed the `0.975` uncertainty
+   gate and is not used in the displayed probabilities.
+4. Compare five exact `restart family × first recorded follow-up team`
    signatures:
 
    | Signature | Portugal | Uruguay |
@@ -47,17 +65,20 @@ only when the manager chooses two questions. The data does not choose them.
    | other non-short + attacking first | 1 | 0 |
    | other non-short + defending first | 1 | 1 |
 
-3. Open the source event chains, actors, and ten-second shot context when needed.
-4. Select exactly two training questions. There is no default, ranking, score,
+5. Compare match recurrence, then open source event chains, actors, and
+   ten-second shot context when needed.
+6. Select exactly two video-review questions. There is no default, ranking, score,
    model recommendation, or “best” answer.
-5. Lock the two questions before any Uruguay–Portugal corner is visible.
-6. Reveal the fixed held-out counts `5 / 2 / 0 / 0 / 3` and shot counts
+7. Lock the two questions before any Uruguay–Portugal corner is visible.
+8. Reveal the fixed one-match team-model check (`9/10` for Portugal's
+   conditioned top two, `5/10` for the tournament top two), held-out counts
+   `5 / 2 / 0 / 0 / 3`, and shot counts
    `2 / 0 / 0 / 0 / 2`.
-7. Open the first shot-bearing scene among the unselected questions. In the
+9. Open the first shot-bearing scene among the unselected questions. In the
    official path it is `other non-short + defending first`, corner `261095314`,
    Bernardo Silva → L. Suárez, followed by a recorded clearance and a Portugal
    shot within ten seconds.
-8. Save one next-meeting decision and reason without changing the locked
+10. Save one next-meeting decision and reason without changing the locked
    questions, revealed counts, or source receipts.
 
 The official demonstration selects `aerial + defending first` and
@@ -109,8 +130,8 @@ record the correction.
 
 ## Promotion gate
 
-Product concept, raw reproducibility, player-identity semantics, initial
-responsive review, and the first static-release browser suite pass. Promotion
-still requires canonical Korean-copy QA, the complete regression and browser
-matrix, a new stamped public release, new gallery images, a newly narrated
-60-second video, public-URL-bound evidence, and submission preflight.
+Product concept, raw reproducibility, player-identity semantics, Korean-copy QA,
+`122/122` unit/contract checks, `17/17` source interactions, the `12/12` static
+release matrix, and the `56/56` pre-release browser matrix pass. Promotion still
+requires a new stamped public release, refreshed gallery review, a newly
+narrated 60-second video, public-URL-bound evidence, and submission preflight.

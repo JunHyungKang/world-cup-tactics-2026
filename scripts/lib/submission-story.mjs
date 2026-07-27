@@ -24,8 +24,8 @@ export const exactEditorialChapters = [
 
 export const exactDemoActions = [
   ["hero-hold", 0],
-  ["evidence-open", 6],
-  ["evidence-close", 12],
+  ["model-view", 6],
+  ["question-view", 12],
   ["aerial-defending-select", 15],
   ["short-attacking-select", 20],
   ["question-lock", 25],
@@ -58,11 +58,11 @@ const expectedGallerySources = [
 ];
 
 const exactSelectCue =
-  "공중 경합 뒤 수비팀 기록과 숏 코너 뒤 공격팀 기록을 먼저 봅니다. 도구가 정한 순위는 아닙니다.";
+  "포르투갈이 세 경기 모두 반복한 두 장면을 봅니다. 숏 구역 전달 뒤 포르투갈 기록, 공중 경합 뒤 상대 수비 기록입니다.";
 const exactCounterevidenceCue =
-  "선택하지 않은 그 밖의 전개는 세 장면이었고, 그중 두 장면에 슈팅이 기록됐습니다. 첫 원본 기록을 엽니다.";
+  "선택하지 않은 ‘그 밖의 전개’는 세 장면이었고, 그중 두 장면에 슈팅이 기록됐습니다. 첫 원본 기록을 엽니다.";
 const requiredNarrationBoundaries = [
-  "도구가 정한 순위는 아닙니다.",
+  "모델은 범위를 좁히고, 장면은 감독이 판단합니다.",
 ];
 const broadUnsafeNarrationTerms = [
   "약점",
@@ -115,24 +115,24 @@ export function validateSubmissionStory(story, sources) {
 
   const gallery = story?.gallery ?? {};
   if (gallery.title !==
-      "Corner Prep Lab — 두 팀의 코너 전개로 훈련 질문 두 개를 고릅니다" ||
+      "Corner Scout Lab — 포르투갈 14개를 보정하고, 원본 장면 두 안건을 고릅니다" ||
       gallery.hook !==
-      "포르투갈이 반복한 코너 전개, 우루과이는 이미 겪어봤을까요?") {
-    errors.push("gallery title and hook must bind the five-signature matchup question");
+      "포르투갈 코너 14개만 그대로 믿어도 될까요?") {
+    errors.push("gallery title and hook must bind the team-model and source-scene question");
   }
-  if (!gallery.one_line?.includes("포르투갈이 공격한 코너 14개") ||
-      !gallery.one_line?.includes("우루과이가 수비한 코너 6개") ||
-      !gallery.one_line?.includes("다음으로 기록된 이벤트의 팀") ||
-      !gallery.one_line?.includes("질문 두 개") ||
-      !gallery.one_line?.includes("선택하지 않은 슈팅 장면") ||
+  if (!gallery.one_line?.includes("포르투갈 코너 14개") ||
+      !gallery.one_line?.includes("월드컵 조별리그 397개") ||
+      !gallery.one_line?.includes("우루과이의 작은 수비 표본") ||
+      !gallery.one_line?.includes("영상 검토 안건 두 개") ||
+      !gallery.one_line?.includes("선택 밖 슈팅 장면") ||
       !gallery.one_line?.includes("다음 회의")) {
     errors.push(
-      "gallery one-line story must state two-team event chains, two locked questions, unselected evidence, and next-meeting use",
+      "gallery one-line story must state partial pooling, sparse Uruguay separation, two locked review questions, unselected evidence, and next-meeting use",
     );
   }
   if (gallery.first_image !== "docs/assets/gallery/corner-policy-lab-first-image.png" ||
       !exactValue(gallery.source_images, expectedGallerySources)) {
-    errors.push("gallery first image must bind the three five-signature product states");
+    errors.push("gallery first image must bind the three team-model and source-scene product states");
   }
 
   const decision = story?.manager_decision ?? {};
@@ -196,7 +196,7 @@ export function validateSubmissionStory(story, sources) {
 
   const interaction = video.interaction ?? {};
   if (interaction.timed_events !== exactDemoActions.length ||
-      interaction.activations !== 8 ||
+      interaction.activations !== 6 ||
       interaction.question_selection_activations !== 2 ||
       interaction.question_locks !== 1 ||
       interaction.explicit_scrolls !== 4 ||
@@ -204,7 +204,7 @@ export function validateSubmissionStory(story, sources) {
       interaction.counterevidence_seconds !== 42 ||
       interaction.meeting_note_seconds !== 55) {
     errors.push(
-      "video interaction contract must preserve 13 events, eight activations, two selections, one lock, four scrolls, reveal, counterevidence, and memo timings",
+      "video interaction contract must preserve 13 events, six activations, two selections, one lock, four scrolls, reveal, counterevidence, and memo timings",
     );
   }
 
@@ -218,7 +218,7 @@ export function validateSubmissionStory(story, sources) {
     );
   }
   if (!exactValue(boundary.required_boundaries, [
-    "도구가 정한 순위는 아닙니다.",
+    "우루과이 수비 5개는 예측에 섞지 않았습니다.",
     "0은 이 작은 표본에서 같은 장면을 찾지 못했다는 뜻입니다.",
   ]) ||
       !Array.isArray(boundary.forbidden) ||
@@ -251,19 +251,20 @@ export function validateSubmissionStory(story, sources) {
   }
 
   const requiredSourceMarkers = [
-    ["app", "포르투갈이 반복한 코너 전개,"],
-    ["app", "훈련에서 먼저 볼 질문 두 개"],
-    ["app", "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기"],
+    ["app", "포르투갈 코너 14개만"],
+    ["app", "월드컵 조별리그 397개로 보정했습니다"],
+    ["app", "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기"],
     ["app", "가려 둔 우루과이–포르투갈 코너 기록 보기"],
     ["app", "data-testid=\"counterevidence\""],
     ["app", "data-testid=\"meeting-note-receipt\""],
-    ["productThesis", "Product selection status: `PASS — five-signature matchup-question board`"],
-    ["productThesis", "select aerial-defending-first and short-attacking-first;"],
+    ["productThesis", "Product selection status: `PASS — partial-pooled team forecast + source-linked scene review`"],
+    ["productThesis", "`aerial-defending-first`"],
+    ["productThesis", "`short-attacking-first`"],
     ["productThesis", "`261095314`"],
     ["planning", "Product selection ID: `corner-policy-lab`"],
     ["planning", "causal recommendation is `REJECT`"],
-    ["judgingMap", "locks two questions"],
-    ["judgingMap", "five-signature story"],
+    ["judgingMap", "locks two concrete video-review questions"],
+    ["judgingMap", "team-model plus source-scene story"],
     ["officialState", "submitter 60%, participant 20%, and public 20%"],
     ["demoScript", gallery.title ?? ""],
   ];
@@ -395,7 +396,7 @@ export function validateNarrationContract(story, narration, captions, demoScript
       narration?.locale !== expected.locale ||
       narration?.rate_words_per_minute !== expected.rate_words_per_minute ||
       !exactValue(narration?.cue_rate_overrides, expected.cue_rate_overrides) ||
-      !exactValue(expected.cue_rate_overrides, { final: 280 })) {
+      !exactValue(expected.cue_rate_overrides, { final: 220 })) {
     errors.push("narration voice and rate contract drifted");
   }
   if (!Array.isArray(narration?.cues) ||
@@ -529,8 +530,9 @@ export function validateEditorialTreatment(treatment) {
     }
   }
   for (const required of [
-    "실제 맞대결 5·2·0·0·3",
-    "자동 선택 없음",
+    "토너먼트 160개 검증",
+    "포르투갈 3/3경기",
+    "포르투갈 보정 상위 구역 9/10",
     "3장면",
     "슈팅 기록 2장면",
     "corner 261095314",
@@ -604,10 +606,10 @@ export function validateLocalPolicyDemoEvidence(storyBytes, story, evidence) {
       !visual?.final_frame?.boundary?.includes("10개 중 4개") ||
       !visual?.final_frame?.boundary?.includes("알 수 없습니다") ||
       !visual?.final_frame?.meeting_note?.includes(
-        "다음 회의에서 훈련 질문 다시 선택",
+        "다음 회의에서 영상 검토 안건 다시 선택",
       ) ||
       !visual?.final_frame?.meeting_note?.includes(
-        "잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다",
+        "잠근 두 안건과 공개된 경기 기록을 바꾸지 않습니다",
       )) {
     errors.push(
       "visual rehearsal question, held-out, counterevidence, or immutable-memo proof drifted",

@@ -128,15 +128,15 @@
         "artifacts": {
           "rights": { "path": "evidence/pappalardo-wyscout-players/rights.json", "sha256": "ff3bfee33a5567deb084f2f4c62643de9ff289f410a38212f5287f815fb7f867" },
           "capability": { "path": "evidence/pappalardo-wyscout-players/capability.json", "sha256": "a23bc43817f52f91db5c15ffd891c28985aba806ffc87c425ebba54ea09a1cda" },
-          "transform": { "path": "scripts/lib/policy-lab-spike.mjs", "sha256": "f7f05e73553135f58b057d90424cebec9b1894865c603ad031fb32617b630840" },
+          "transform": { "path": "scripts/lib/policy-lab-spike.mjs", "sha256": "bb7ceae78841058d17dfa58476252e9a381b44de016e619e86e78e2664e3bc77" },
           "raw_transform_test": { "path": "scripts/policy-lab-spike-reproduction.test.mjs", "sha256": "8b2c44738254266d867469a0cba723531a5c17beeb8e41b68481aec70b3d67a3" },
-          "raw_transform_receipt": { "path": "evidence/pappalardo-wyscout-players/test-receipt.json", "sha256": "c9ac5f1c8b7b2a0da6a6d5f02d6c08f7dc0a521e3daefe9694bba3cb6d05b0f3" },
-          "release_test": { "path": "scripts/player-identity-release.test.mjs", "sha256": "15013b62b07080bf79fe80f6141b20fec16fbff3864595c77f89bc5a772f206e" },
-          "release_test_receipt": { "path": "evidence/pappalardo-wyscout-players/release-test-receipt.json", "sha256": "83279ac4c5d97af36a098ea0e24940304b8169aabe46f05f2c8d03010e24c539" },
-          "semantic_review": { "path": "data/audit/player-identity-semantic-review.json", "sha256": "fdd608e366ed456c4b5f34bf8efc3009dfa5108875bb3f17243f9461a13cc65b" },
+          "raw_transform_receipt": { "path": "evidence/pappalardo-wyscout-players/test-receipt.json", "sha256": "4a7f37d0bdc681f367d3b067ccca2d7132d3058c3c10476ac23a6eee54067441" },
+          "release_test": { "path": "scripts/player-identity-release.test.mjs", "sha256": "dd387162bb4ea4d990860324c9380d7385614b250f552352425bf17ae74f4f69" },
+          "release_test_receipt": { "path": "evidence/pappalardo-wyscout-players/release-test-receipt.json", "sha256": "d94e24ad2de8eff58e35f0665f9a0e70b2c10fb33691b338ac786227b8fe4260" },
+          "semantic_review": { "path": "data/audit/player-identity-semantic-review.json", "sha256": "21486a298ba61cd47cc1c66fb1c3f9c8c462da00f21b983c36042469ce103c2d" },
           "window_review": { "path": "data/audit/player-join-review.csv", "sha256": "c85deac223d3dc2fb6447f9dd7c8f28830e1df36c593627c816b77ddf40cf5e9" },
-          "audit": { "path": "evidence/pappalardo-wyscout-players/audit.json", "sha256": "ec36f6425c6691035ca0a69b266731099727ed68845de278dffac2cf15a6f906" },
-          "derived": { "path": "public/data/policy-lab-spike.json", "sha256": "5bd7e5dd4d0221551cb9b5adadb37e8ff18129a6f84abc3e7e8e3b70adc56bf6" }
+          "audit": { "path": "evidence/pappalardo-wyscout-players/audit.json", "sha256": "8fc16cb3becf0affbd5e06a9162b2554eb63c328f762f5eb7d86a29a82777fa0" },
+          "derived": { "path": "public/data/policy-lab-spike.json", "sha256": "158b93e6e7724ddbe86be814ccee33ee4bf4595f4b86c3e20cba2e69643f36a1" }
         }
       }
     },
@@ -237,5 +237,5 @@
     }
   ],
   "status": "accepted-historical-product-data",
-  "note": "The three CC BY 4.0 Figshare World Cup 2018 sources are accepted for Corner Prep Lab after pinned ZIP/extracted hashes, deterministic transformation, structural and semantic review, five-signature raw reproduction, narrow player-identity checks, source lineage, and attribution checks. Other sources retain their own pending/rejected states."
+  "note": "The three CC BY 4.0 Figshare World Cup 2018 sources are accepted for Corner Scout Lab after pinned ZIP/extracted hashes, deterministic transformation, structural and semantic review, partial-pooled team-model reproduction, five-signature source-scene reproduction, narrow player-identity checks, source lineage, and attribution checks. The Portugal forecast and sparse Uruguay defensive scenes remain separate evidence layers. Other sources retain their own pending/rejected states."
 }

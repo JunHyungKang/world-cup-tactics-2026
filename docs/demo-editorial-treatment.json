@@ -8,31 +8,31 @@
       "id": "hook",
       "scheduled_seconds": 0,
       "kicker": "60초 제품 데모",
-      "title": "포르투갈의 반복 전개, 우루과이는 겪어봤을까",
-      "detail": "두 팀 장면을 대조해 먼저 볼 훈련 질문 2개 선택",
+      "title": "포르투갈 코너 14개만 믿어도 될까",
+      "detail": "대회 전체로 작은 표본을 보정하고 원본 장면까지 확인",
       "tone": "promise"
     },
     {
       "id": "evidence",
       "scheduled_seconds": 6,
-      "kicker": "01 · 팀별 이벤트 연쇄",
-      "title": "위치가 아니라 전개 뒤 첫 기록까지",
-      "detail": "전개 유형 · 첫 후속 팀 · 선수 · 10초 안 슈팅 기록",
+      "kicker": "01 · 작은 표본 보정",
+      "title": "포르투갈 47% · 대회 사전정보 53%",
+      "detail": "토너먼트 160개 검증 · 로그손실 4.6% 감소",
       "tone": "evidence"
     },
     {
       "id": "select",
       "scheduled_seconds": 15,
-      "kicker": "02 · 감독의 두 질문",
-      "title": "공중 경합 뒤 수비팀 / 숏 코너 뒤 공격팀",
-      "detail": "두 질문은 같은 우선순위 · 자동 선택 없음",
+      "kicker": "02 · 감독의 영상 검토 안건",
+      "title": "포르투갈 3/3경기에서 반복된 두 장면",
+      "detail": "감독이 직접 선택 · 숏 구역 전달 뒤 공격팀 · 공중 경합 뒤 수비팀",
       "tone": "decision"
     },
     {
       "id": "lock",
       "scheduled_seconds": 25,
       "kicker": "03 · 맞대결 공개 전",
-      "title": "먼저 볼 두 질문을 잠금",
+      "title": "영상 검토 안건 2개를 잠금",
       "detail": "가려 둔 우루과이–포르투갈 장면은 아직 열지 않음",
       "tone": "lock"
     },
@@ -40,8 +40,8 @@
       "id": "reveal",
       "scheduled_seconds": 31,
       "kicker": "04 · 가려 둔 기록 공개",
-      "title": "실제 맞대결 5·2·0·0·3",
-      "detail": "선택과 선택 밖을 함께 공개 · 0회는 관찰 공백, 능력 판단 아님",
+      "title": "포르투갈 보정 상위 구역 9/10",
+      "detail": "선택 안건 · 숏 5장면 / 공중 경합 뒤 수비 기록 0",
       "tone": "counterexample"
     },
     {
@@ -55,17 +55,17 @@
     {
       "id": "memo",
       "scheduled_seconds": 50,
-      "kicker": "06 · 다음 회의 질문",
+      "kicker": "06 · 다음 회의 안건",
       "title": "선택 밖 장면을 다음 의제로",
-      "detail": "잠근 질문과 공개 기록은 그대로 · 별도 메모만 저장",
+      "detail": "잠근 선택과 공개 기록은 그대로 · 별도 메모만 저장",
       "tone": "decision"
     },
     {
       "id": "final",
       "scheduled_seconds": 57,
-      "kicker": "감독의 질문 다시 보기",
-      "title": "근거는 도구가 연결하고, 질문은 감독이 고릅니다.",
-      "detail": "추적·마킹 정보 없음 · 배치나 훈련 효과 판단 없음",
+      "kicker": "팀 분석과 감독 판단의 경계",
+      "title": "모델은 범위를 좁히고, 장면은 감독이 판단합니다.",
+      "detail": "우루과이 0건은 관찰 공백 · 추적·마킹·훈련 효과 판단 없음",
       "tone": "promise"
     }
   ],

@@ -114,7 +114,7 @@ check(
   "unselected deterministic counterevidence drifted",
 );
 check(
-  visual.final_frame.meeting_note.includes("다음 회의에서 훈련 질문 다시 선택") &&
+  visual.final_frame.meeting_note.includes("다음 회의에서 영상 검토 안건 다시 선택") &&
     visual.final_frame.meeting_note.includes("잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다"),
   "immutable next-meeting note drifted",
 );
@@ -192,7 +192,7 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `[PASS] Corner Prep Lab demo audit: ${Number(narratedMedia.format.duration).toFixed(3)}s, ` +
+  `[PASS] Corner Scout Lab demo audit: ${Number(narratedMedia.format.duration).toFixed(3)}s, ` +
   "13 timed events, 2 question selections, one lock, 8 fitted cues, burned captions, " +
   `SHA=${narrated.narrated_video.sha256}`,
 );

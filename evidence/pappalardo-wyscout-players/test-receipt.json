@@ -9,13 +9,14 @@
     "vite.raw.config.ts",
     "scripts/policy-lab-spike-reproduction.test.mjs"
   ],
-  "completed_at": "2026-07-28T06:03:49+09:00",
+  "completed_at": "2026-07-28T08:03:43+09:00",
   "result": "4/4 passed",
   "assertions": [
     "the committed derivative is reproduced byte-for-value from Events, Matches, and Players raw inputs",
     "the 603-corner source population and future-field boundary remain exact",
     "the model-selection partition does not read either knockout holdout",
     "removing a player required by the public fixed example fails closed",
-    "the five team-linked sequence signatures and their hidden-match receipts reproduce byte-for-value"
+    "the five team-linked sequence signatures and their hidden-match receipts reproduce byte-for-value",
+    "all 29 public matchup receipts reproduce source period and nonnegative corner time without adding inferred tracking fields"
   ]
 }

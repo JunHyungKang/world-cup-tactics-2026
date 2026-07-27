@@ -62,7 +62,7 @@ export function validateReleaseCoherence({
   ]);
   requireText(errors, "pre-release runner", preReleaseRunner, [
     "build-policy-lab.mjs", "serve-policy-release.mjs", 'const baseUrl = "http://127.0.0.1:4173/"',
-    '"--grep-invert", "BG-12 production marker binds the matchup-question release and exact five-signature data"',
+    '"--grep-invert", "BG-12 production marker binds the team-model release and exact source-scene data"',
   ]);
   rejectText(errors, "pre-release runner", preReleaseRunner, [
     /corner-war-room/iu, /node_modules\/vite\/bin\/vite\.js/u,
@@ -71,13 +71,14 @@ export function validateReleaseCoherence({
     "FINAL_EVIDENCE_SOURCE_PATHS", "playwright.final.config.ts",
   ]);
   requireText(errors, "final browser spec", finalSpec, [
-    "포르투갈이 반복한 코너 전개", "우루과이는 이미 겪어봤을까요",
-    "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    "포르투갈 코너 14개만", "그대로 믿어도 될까요",
+    "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
+    "토너먼트 160개 · 16팀 중 12팀 개선",
     "가려 둔 우루과이–포르투갈 코너 기록 보기",
     'manager_loop: "matchup-question-lock"', 'product_id: "corner-policy-lab"',
     "aerial-defending-first", "short-attacking-first",
     'toHaveText(["5", "2", "0", "0", "3"])',
-    "10초 안 슈팅 기록", "261095314",
+    "10초 안 슈팅 기록", "전반 · 10:10", "261095314",
     "meeting-note-receipt", "BG-15",
   ]);
   rejectText(errors, "final browser spec", finalSpec, [
@@ -94,10 +95,10 @@ export function validateReleaseCoherence({
   rejectText(errors, "Pages workflow", pagesWorkflow, [/^\s+pnpm build\s*$/mu]);
 
   requireText(errors, "frozen-public demo recorder", demoRecorder, [
-    "포르투갈이 반복한 코너 전개", "우루과이는 이미 겪어봤을까요",
-    "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    "포르투갈 코너 14개만", "그대로 믿어도 될까요",
+    "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
     "가려 둔 우루과이–포르투갈 코너 기록 보기", "다음 회의 메모 저장",
-    '[data-select="aerial-defending-first"]', '[data-select="short-attacking-first"]',
+    '[data-quick-select="aerial-defending-first"]', '[data-quick-select="short-attacking-first"]',
     "261095314",
     "meeting-note-receipt", "docs/demo-editorial-treatment.json",
   ]);
@@ -134,7 +135,7 @@ export function validateReleaseCoherence({
   }
   const editorialText = JSON.stringify(editorialTreatment);
   requireText(errors, "editorial treatment", editorialText, [
-    "두 질문", "261095314", "관찰 공백",
+    "영상 검토 안건", "261095314", "관찰 공백",
   ]);
   rejectText(errors, "editorial treatment", editorialText, [
     /7·5·2/u, /5·4·1/u, /5·2·3/u, /훈련 10회/u,
@@ -146,10 +147,10 @@ export function validateReleaseCoherence({
   }
 
   requireText(errors, "interaction contract", interactionContract, [
-    "# Corner Prep Lab Interaction Acceptance Contract", "BG-01", "BG-15",
+    "# Corner Scout Lab Interaction Acceptance Contract", "BG-01", "BG-15",
     "7/2", "1/2", "4/0", "1/0", "1/1",
     "`5`, `2`, `0`, `0`, `3`", "`2`, `0`, `0`, `0`, `2`",
-    "Exactly two controls may be selected", "261095314",
+    "Exactly two controls may be selected", "261095314", "160 unseen",
     "observation gap, not a weakness", "`유지`, `다시 선택`, or `보류`",
   ]);
   rejectText(errors, "interaction contract", interactionContract, [
@@ -159,8 +160,8 @@ export function validateReleaseCoherence({
     /corner_situation_rehearsal/u,
   ]);
   requireText(errors, "judging map", judgingMap, [
-    "Observable Corner Prep Lab proof", "five event-chain signatures",
-    "chooses two review questions", "deterministic counterevidence",
+    "Observable Corner Scout Lab proof", "team-model plus source-scene story",
+    "locks two concrete video-review questions", "deterministic counterevidence",
     "observation gap", "next meeting",
   ]);
   rejectText(errors, "judging map", judgingMap, [

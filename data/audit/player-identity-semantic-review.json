@@ -3,9 +3,11 @@
   "status": "PASS",
   "source_id": "pappalardo-wyscout-players",
   "reviewer": "team_tactics_data_audit",
-  "reviewed_at": "2026-07-28T06:07:40+09:00",
+  "reviewed_at": "2026-07-28T08:07:45+09:00",
+  "source_time_reviewer": "football_claim_audit",
+  "transform_version": "policy-lab-spike-v11-source-time-receipts",
   "public_json_path": "public/data/policy-lab-spike.json",
-  "public_json_sha256": "5bd7e5dd4d0221551cb9b5adadb37e8ff18129a6f84abc3e7e8e3b70adc56bf6",
+  "public_json_sha256": "158b93e6e7724ddbe86be814ccee33ee4bf4595f4b86c3e20cba2e69643f36a1",
   "review_basis": {
     "user_finding": "A location-only statistic without team analysis is not a meaningful tactical product; player identity may add inspectable team-event context but must not be presented as proof that a selected training question is correct.",
     "independent_initial_findings": [
@@ -15,7 +17,7 @@
       "keep attribution, transformation notice, and no-endorsement wording visible",
       "reject fallback player labels and fail closed on every missing actor required by the public fixed example"
     ],
-    "independent_final_finding": "PASS after five source-derived sequence signatures were checked across Portugal attack, Uruguay defensive exposure, and the held-out match. The question board repeats already-admitted identity receipts without expanding the 41-player identity set; it preserves fail-closed joins, field minimization, exact event semantics, attribution, and the no-contact/no-marking boundary."
+    "independent_final_finding": "PASS after 29 source-derived matchup receipts were checked against the raw corner events. Period and source-relative corner time match 29/29, player and event joins remain exact, and the UI time conversion uses period bases 0/45/90/105 with fractional seconds floored. These factual fields improve video lookup without adding contact, marking, weakness, optimal-tactic, or causal inference."
   },
   "allowed_identity_fields": [
     "player_id",
@@ -72,6 +74,30 @@
     },
     "semantic_conclusion": "This corroborates the source-linked first recorded follow-up actor only. It does not establish who first touched or received the ball, who won the duel, or whether a tactical decision worked."
   },
+  "receipt_time_review": {
+    "receipts_reviewed": 29,
+    "unique_corner_event_ids": 29,
+    "period_counts": {
+      "1H": 13,
+      "2H": 16,
+      "E1": 0,
+      "E2": 0
+    },
+    "invalid_periods": 0,
+    "invalid_corner_seconds": 0,
+    "source_time_mismatches": 0,
+    "ui_match_time_mapping": "PASS"
+  },
+  "identity_event_review": {
+    "corner_taker_joins": "29/29",
+    "first_follow_up_joins": "29/29",
+    "first_defending_actor_joins": "27/27",
+    "no_recorded_defending_actor": 2,
+    "identity_mentions_checked": 85,
+    "unique_player_ids": 37,
+    "mismatches": 0
+  },
+  "time_claim_boundary": "PASS — period and source-relative corner time are factual source context only; no receiver, first-contact, marking, weakness, optimal-tactic, or causal inference was added.",
   "final_result": {
     "join_ledger_pass": 12,
     "identity_scope_pass": 248,

@@ -39,7 +39,7 @@ try {
   const result = spawnSync(node, [
     "node_modules/@playwright/test/cli.js", "test", "--config=playwright.final.config.ts",
     "--workers=1",
-    "--grep-invert", "BG-12 production marker binds the matchup-question release and exact five-signature data",
+    "--grep-invert", "BG-12 production marker binds the team-model release and exact source-scene data",
   ], {
     stdio: "inherit",
     env: {

@@ -133,7 +133,13 @@ describe("Players source clean-release evidence", () => {
       status: "PASS",
       source_id: "pappalardo-wyscout-players",
       reviewer: "team_tactics_data_audit",
+      source_time_reviewer: "football_claim_audit",
       public_json_sha256: sha256(bytes.derived),
+      receipt_time_review: {
+        receipts_reviewed: 29,
+        source_time_mismatches: 0,
+        ui_match_time_mapping: "PASS",
+      },
       final_result: {
         join_ledger_pass: 12,
         identity_scope_pass: 248,
@@ -149,6 +155,12 @@ describe("Players source clean-release evidence", () => {
       status: "PASS",
       source_id: "pappalardo-wyscout-players",
       reviewer: "team_tactics_data_audit",
+      source_time_review: {
+        reviewer: "football_claim_audit",
+        status: "PASS",
+        receipts_reviewed: 29,
+        source_time_mismatches: 0,
+      },
       public_json_sha256: sha256(bytes.derived),
       semantic_review: { path: paths.semanticReview, sha256: sha256(bytes.semanticReview) },
       window_review: { path: paths.joinReview, sha256: sha256(bytes.joinReview) },

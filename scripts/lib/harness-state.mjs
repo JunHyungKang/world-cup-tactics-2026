@@ -65,36 +65,43 @@ export function validateCurrentHarnessState({
       submissionLedger?.split("\n").find((line) => line.includes("| plan-visual-qa |")) ?? "",
     )?.[1]?.slice(0, 8);
     requireMarkers(errors, "competition board active row", boardRow, [
-      "Corner Prep Lab is the canonical root product", currentPdf,
-      "old `5/4/1` allocation video is superseded",
-      "Portugal/Uruguay signature pairs `7/2 · 1/2 · 4/0 · 1/0 · 1/1`",
-      "held-out counts `5/2/0/0/3`", "shot counts `2/0/0/0/2`",
-      "exactly two matchup questions", "counterevidence `261095314`",
-      "zero means an observation gap, not a weakness",
-      "four-browser static release `12/12`",
-      "pre-release BG matrix `56/56` PASS",
+      "Corner Scout Lab is the canonical root product", currentPdf,
+      "old `5/4/1` allocation video and the five-signature-only video are superseded",
+      "397-corner tournament prior (`47% / 53%`)",
+      "160-corner audit (`4.59%` log-loss reduction)",
+      "P=0.9226 < 0.975", "exactly two video-review questions",
+      "counterevidence `261095314`",
+      "Zero means an observation gap, not a weakness",
+      "`122/122` unit/contract suite", "`17/17` source interactions",
+      "`12/12` static release matrix", "`56/56` pre-release matrix pass",
+      "Exact-public, gallery, and video evidence must still be regenerated",
     ]);
     requireMarkers(errors, "judge gate status", judgeStatus, [
-      "five-signature product proof passed",
+      "team-model and source-scene proof passed",
       "canonical public release and video reset are in progress",
     ]);
     requireMarkers(errors, "README current product", readme, [
-      "The app is **Corner Prep Lab**", "Five event-chain signatures",
-      "exactly two\nmatchup questions", "261095314",
+      "The app is **Corner Scout Lab**", "397-corner tournament profile",
+      "160-corner\nknockout evaluation", "failed the\nforecast promotion gate",
+      "Five event-chain signatures support exactly two video-review questions",
+      "261095314",
       "observation gap, not a weakness", "Causal\nrecommendation is `REJECT`",
     ]);
     requireMarkers(errors, "current product thesis", productThesis, [
       "Product selection ID: `corner-policy-lab`",
-      "Product selection status: `PASS — five-signature matchup-question board`",
+      "Product selection status: `PASS — partial-pooled team forecast + source-linked scene review`",
       "Event-chain matchup analysis status: `PASS — descriptive recorded sequences only`",
       "Full tactical weakness inference status: `REJECT",
-      "`7/2`, `1/2`, `4/0`, `1/0`, and `1/1`",
+      "46.7%", "4.59%", "0.9226",
+      "7 scenes / 3 matches", "4 scenes / 3 matches",
       "corner event `261095314`",
       "Product Gate result: `PASS`",
     ]);
     requireMarkers(errors, "interaction acceptance contract", interactionContract, [
-      "# Corner Prep Lab Interaction Acceptance Contract", "BG-01", "BG-15",
-      "`7/2`, `1/2`, `4/0`, `1/0`, `1/1`",
+      "# Corner Scout Lab Interaction Acceptance Contract", "BG-01", "BG-15",
+      "397 classifiable group-stage corners",
+      "160 classifiable knockout corners", "4.59%",
+      "P(gain > 0) = 0.9226 < 0.975",
       "`5`, `2`, `0`, `0`, `3`", "`2`, `0`, `0`, `0`, `2`",
       "Exactly two controls may be selected", "261095314",
       "observation gap, not a weakness",
@@ -105,22 +112,27 @@ export function validateCurrentHarnessState({
     ]);
     requireMarkers(errors, "current judging map", judgingMap, [
       "제출팀 | 60%", "참가팀 | 20%", "대중 | 20%", "참신성 | 30", "감독 경험 설계 | 25",
-      "Observable Corner Prep Lab proof", "five event-chain signatures",
-      "chooses two review questions", "deterministic counterevidence",
-      "observation gap",
+      "Observable Corner Scout Lab proof", "Portugal `47%` + tournament prior `53%`",
+      "frozen 160-corner audit", "failed Uruguay-conditioning gate",
+      "locks two concrete video-review questions", "observation gaps",
     ]);
-    requireMarkers(errors, "decision registry D75", lineContaining(decisionRegistry, "| D75 |"), [
-      "| accepted |", "`7/2`, `1/2`, `4/0`, `1/0`, and `1/1`",
-      "`5`, `2`, `0`, `0`, and `3`", "two ten-second shots", "`261095314`",
+    requireMarkers(errors, "decision registry D77", lineContaining(decisionRegistry, "| D77 |"), [
+      "| accepted |", "`46.7%`", "397-corner tournament profile",
+      "`4.59%` on 160 unseen knockout corners", "all three Portugal group matches",
     ]);
-    requireMarkers(errors, "decision registry D76", lineContaining(decisionRegistry, "| D76 |"), [
-      "| rejected |", "zero count as a defensive weakness",
-      "`사전 관찰 공백`", "`팀별 이벤트 연쇄 대조`",
+    requireMarkers(errors, "decision registry D78", lineContaining(decisionRegistry, "| D78 |"), [
+      "| rejected |", "`P(gain > 0)=0.9226`", "`0.975` promotion gate",
+      "Keep Uruguay out of the displayed forecast", "`관찰 공백`",
     ]);
-    rejectMarkers(errors, "competition board active row", boardRow, [/CWR remains the root\/submission package/iu, /convert root app/iu]);
+    rejectMarkers(errors, "competition board active row", boardRow, [
+      /CWR remains the root\/submission package/iu,
+      /Corner Prep Lab is the canonical root product/iu,
+      /full release matrix .* pass/iu,
+    ]);
     rejectMarkers(errors, "judge differentiation gate", judgeGate, [/No official scoring weights have been published/iu, /가중치 미공개/iu]);
     rejectMarkers(errors, "README current product", readme, [
       /The app is \*\*Corner War Room\*\*/iu,
+      /The app is \*\*Corner Prep Lab\*\*/iu,
       /place the set-piece defensive leader/iu,
       /allocate exactly ten/iu, /5\s*\/\s*2\s*\/\s*3/u,
       /allocate ten rehearsal/iu,

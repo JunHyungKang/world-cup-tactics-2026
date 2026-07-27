@@ -52,27 +52,23 @@ try {
   });
   await page.goto(baseUrl);
   await page.getByRole("heading", {
-    name: /포르투갈이 반복한 코너 전개.*우루과이는 이미 겪어봤을까요/u,
+    name: /포르투갈 코너 14개만.*그대로 믿어도 될까요/u,
   }).waitFor();
 
-  const evidenceDetail = page.locator(
-    '[data-question-card="short-attacking-first"] .evidence-detail',
-  );
-  await evidenceDetail.locator("summary").click();
-  await evidenceDetail.evaluate((element) => {
+  const teamModel = page.getByTestId("team-model");
+  await teamModel.evaluate((element) => {
     element.scrollIntoView({ block: "center", behavior: "instant" });
   });
   artifacts.push(await capture(
     page,
     "01-matchup-analysis",
-    "포르투갈의 반복 전개와 우루과이가 겪은 같은 장면을 원본 이벤트까지 대조한다",
+    "포르투갈 14개를 조별리그 397개로 보정하고 우루과이의 작은 수비 표본은 예측에서 제외한다",
   ));
-  await evidenceDetail.locator("summary").click();
 
-  await page.locator('[data-select="aerial-defending-first"]').click();
-  await page.locator('[data-select="short-attacking-first"]').click();
+  await page.locator('[data-quick-select="aerial-defending-first"]').click();
+  await page.locator('[data-quick-select="short-attacking-first"]').click();
   await page.getByRole("button", {
-    name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
   }).click();
   await page.locator(".commit").evaluate((element) => {
     element.scrollIntoView({ block: "center", behavior: "instant" });
@@ -80,13 +76,13 @@ try {
   artifacts.push(await capture(
     page,
     "02-locked-questions",
-    "우루과이의 사전 관찰 공백과 양 팀 공통 전개에서 두 질문을 골라 결과 전에 잠근다",
+    "포르투갈 3/3경기에서 반복된 두 장면을 영상 검토 안건으로 골라 결과 전에 잠근다",
   ));
 
   await page.getByRole("button", {
     name: "가려 둔 우루과이–포르투갈 코너 기록 보기",
   }).click();
-  await page.getByLabel("다음 회의에서 훈련 질문 다시 선택").check();
+  await page.getByLabel("다음 회의에서 영상 검토 안건 다시 선택").check();
   await page.getByRole("textbox", { name: /이유/u }).fill(
     "선택하지 않은 그 밖의 전개가 3장면 나와 다음 회의에서 포함 여부를 검토",
   );
@@ -97,7 +93,7 @@ try {
   artifacts.push(await capture(
     page,
     "03-counterevidence",
-    "선택 밖 3장면·10초 안 슈팅 2장면과 원본 corner 261095314를 다음 질문으로 남긴다",
+    "선택 밖 3장면·10초 안 슈팅 2장면과 원본 corner 261095314를 다음 안건으로 남긴다",
   ));
 } finally {
   await browser?.close();
@@ -108,7 +104,7 @@ const manifest = {
   schema_version: 3,
   status: "current-candidate-gallery-source-not-public-or-human-evidence",
   release_manifest_sha256: release.manifestSha256,
-  story: "Portugal sequences × Uruguay exposure → choose two questions → lock → hidden matchup → unselected counterevidence → memo",
+  story: "Portugal partial pooling → source-scene recurrence → choose two review questions → lock → hidden matchup → unselected counterevidence → memo",
   artifacts,
 };
 await writeFile(
@@ -116,5 +112,5 @@ await writeFile(
   `${JSON.stringify(manifest, null, 2)}\n`,
 );
 console.log(
-  `[PASS] final Corner Prep Lab gallery states: ${artifacts.length} release=${release.manifestSha256}`,
+  `[PASS] final Corner Scout Lab gallery states: ${artifacts.length} release=${release.manifestSha256}`,
 );

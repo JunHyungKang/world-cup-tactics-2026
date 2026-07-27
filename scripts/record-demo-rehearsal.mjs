@@ -81,7 +81,7 @@ const [storyBytes, editorialTreatmentBytes] = await Promise.all([
 const story = JSON.parse(storyBytes.toString("utf8"));
 const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
 if (story.schema_version !== 3 || story.product_id !== "corner-policy-lab") {
-  throw new Error("demo recorder requires the canonical schema-3 Corner Prep Lab story");
+  throw new Error("demo recorder requires the canonical schema-3 Corner Scout Lab story");
 }
 
 let preview;
@@ -147,7 +147,7 @@ try {
     const page = await context.newPage();
     await page.goto(baseURL);
     await page.getByRole("heading", {
-      name: /포르투갈이 반복한 코너 전개.*우루과이는 이미 겪어봤을까요/u,
+      name: /포르투갈 코너 14개만.*그대로 믿어도 될까요/u,
     }).waitFor();
 
     await page.evaluate((treatment) => {
@@ -277,30 +277,27 @@ try {
 
     await waitUntil(6);
     await updateEditorial("evidence", 6);
-    await page.locator('[data-question-card="short-attacking-first"] summary').click();
-    mark("evidence-open", 6);
+    mark("model-view", 6);
 
-    await activateAt(
-      "evidence-close",
-      12,
-      page.locator('[data-question-card="short-attacking-first"] summary'),
-    );
+    await waitUntil(12);
+    await scrollTo(page.locator(".quick-question-picker"));
+    mark("question-view", 12);
 
     await waitUntil(15);
     await updateEditorial("select", 15);
-    await page.locator('[data-select="aerial-defending-first"]').click();
+    await page.locator('[data-quick-select="aerial-defending-first"]').click();
     mark("aerial-defending-select", 15);
 
     await activateAt(
       "short-attacking-select",
       20,
-      page.locator('[data-select="short-attacking-first"]'),
+      page.locator('[data-quick-select="short-attacking-first"]'),
     );
 
     await waitUntil(25);
     await updateEditorial("lock", 25);
     await page.getByRole("button", {
-      name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+      name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
     }).click();
     mark("question-lock", 25);
 
@@ -312,7 +309,6 @@ try {
     mark("held-out-reveal", 31);
 
     await waitUntil(33);
-    await scrollTo(page.getByTestId("scouting-result"));
     mark("result-view", 33);
 
     await waitUntil(42);
@@ -322,7 +318,7 @@ try {
 
     await waitUntil(50);
     await updateEditorial("memo", 50);
-    const meetingDecision = page.getByLabel("다음 회의에서 훈련 질문 다시 선택");
+    const meetingDecision = page.getByLabel("다음 회의에서 영상 검토 안건 다시 선택");
     await scrollTo(meetingDecision);
     await meetingDecision.check();
     mark("meeting-decision", 50);
@@ -347,7 +343,7 @@ try {
     const heldOutValues = await page.locator(".actual-row span").allTextContents();
     const shotValues = await page.locator(".comparison-row:last-child span").allTextContents();
     const finalFrame = {
-      questions: `내 훈련 질문 ${questionValues.join(" · ")}`,
+      questions: `내 영상 검토 안건 ${questionValues.join(" · ")}`,
       held_out: `실제 맞대결 ${heldOutValues.join(" · ")}`,
       shots: `10초 안 슈팅 기록 ${shotValues.join(" · ")}`,
       counterevidence: await page.getByTestId("counterevidence").innerText(),
@@ -418,7 +414,7 @@ try {
     };
     await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
     console.log(
-      `[PASS] ${finalMode ? "frozen-public visual candidate" : "60-second Corner Prep Lab rehearsal"}: ` +
+      `[PASS] ${finalMode ? "frozen-public visual candidate" : "60-second Corner Scout Lab rehearsal"}: ` +
       `duration=${media.duration_seconds.toFixed(3)}s events=${actions.length} sha256=${manifest.video.sha256}`,
     );
   } finally {

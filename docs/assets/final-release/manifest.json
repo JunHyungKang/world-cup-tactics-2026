@@ -1,31 +1,31 @@
 {
   "schema_version": 3,
   "status": "current-candidate-gallery-source-not-public-or-human-evidence",
-  "release_manifest_sha256": "f59ef0bf1d334f8491045bed64032fda2d57a149eadd30e0e5c96e8f2c1c1874",
-  "story": "Portugal sequences × Uruguay exposure → choose two questions → lock → hidden matchup → unselected counterevidence → memo",
+  "release_manifest_sha256": "24648b9a9294889b4ca693fd6e36f6d95ad67739f33c7efb9034e6b6027555fb",
+  "story": "Portugal partial pooling → source-scene recurrence → choose two review questions → lock → hidden matchup → unselected counterevidence → memo",
   "artifacts": [
     {
       "id": "01-matchup-analysis",
-      "proof": "포르투갈의 반복 전개와 우루과이가 겪은 같은 장면을 원본 이벤트까지 대조한다",
+      "proof": "포르투갈 14개를 조별리그 397개로 보정하고 우루과이의 작은 수비 표본은 예측에서 제외한다",
       "path": "docs/assets/final-release/01-matchup-analysis.png",
-      "bytes": 173415,
-      "sha256": "61e7563468be2c75970d29ea034e17adcd0329b131b0e025e8da9f083c945f37",
+      "bytes": 295355,
+      "sha256": "63a4aee7285335927b1b6026af7aaac46a796f471f6038b1f7f9f262af45f6a2",
       "viewport": "1440x900"
     },
     {
       "id": "02-locked-questions",
-      "proof": "우루과이의 사전 관찰 공백과 양 팀 공통 전개에서 두 질문을 골라 결과 전에 잠근다",
+      "proof": "포르투갈 3/3경기에서 반복된 두 장면을 영상 검토 안건으로 골라 결과 전에 잠근다",
       "path": "docs/assets/final-release/02-locked-questions.png",
-      "bytes": 145759,
-      "sha256": "997ca3b5cdfad8c8ba3fd24fb67f95d371d3c24ca4b67503ee858ffead3444e6",
+      "bytes": 183315,
+      "sha256": "d2a5d9ffe1fbb0ca10332d52d19384ecd1faaaf3e26c2b04f7d5c648d41d303e",
       "viewport": "1440x900"
     },
     {
       "id": "03-counterevidence",
-      "proof": "선택 밖 3장면·10초 안 슈팅 2장면과 원본 corner 261095314를 다음 질문으로 남긴다",
+      "proof": "선택 밖 3장면·10초 안 슈팅 2장면과 원본 corner 261095314를 다음 안건으로 남긴다",
       "path": "docs/assets/final-release/03-counterevidence.png",
-      "bytes": 158776,
-      "sha256": "d4a26f120808c6eefcb5e66c66f61ad38cf03ebe2938c4cd8a7641b87afd99cd",
+      "bytes": 165862,
+      "sha256": "54fde75402c56a100af6bc4952c0c1c946d9d659af8466fd4a99da5cc373d9e8",
       "viewport": "1440x900"
     }
   ]

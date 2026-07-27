@@ -5,7 +5,7 @@ const demoPriorities = ["aerial-defending-first", "short-attacking-first"];
 
 async function selectDemoPriorities(page: Page) {
   for (const signature of demoPriorities) {
-    await page.locator(`[data-select="${signature}"]`).click();
+    await page.locator(`[data-quick-select="${signature}"]`).click();
   }
   await expect(page.getByTestId("priority-summary")).toHaveText("2/2개 선택 · 0개 남음");
   await expect(page.getByTestId("priority-mix")).toContainText(
@@ -15,14 +15,14 @@ async function selectDemoPriorities(page: Page) {
     "공중 경합·헤더 뒤 · 수비팀 먼저 기록",
   );
   await expect(page.getByTestId("selected-question-labels")).toContainText(
-    "숏 코너 뒤 · 공격팀 먼저 기록",
+    "숏 구역 전달 뒤 · 공격팀 먼저 기록",
   );
 }
 
 async function completeDemo(page: Page) {
   await selectDemoPriorities(page);
   await page.getByRole("button", {
-    name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
   }).click();
   await expect(page.getByTestId("scouting-result")).toHaveCount(0);
   await page.getByRole("button", {
@@ -41,7 +41,7 @@ test("the built release runs the keyless two-question lock and hidden counterevi
 
   await page.goto("/");
   await expect(page.getByRole("heading", {
-    name: /포르투갈이 반복한 코너 전개.*우루과이는 이미 겪어봤을까요/u,
+    name: /포르투갈 코너 14개만.*그대로 믿어도 될까요/u,
   })).toBeVisible();
   await expect(page.locator(".quick-evidence article").filter({
     hasText: "포르투갈이 공격한 코너",
@@ -49,8 +49,10 @@ test("the built release runs the keyless two-question lock and hidden counterevi
   await expect(page.locator(".quick-evidence article").filter({
     hasText: "우루과이가 수비한 코너",
   })).toContainText("5/6");
-  await expect(page.getByText("0회는 약점이 아닙니다.")).toBeVisible();
   await expect(page.getByText("관찰 0회 · 약점 판정 아님")).toHaveCount(2);
+  await expect(page.getByTestId("team-model")).toContainText(
+    "포르투갈 코너 14개를 월드컵 조별리그 397개로 보정했습니다",
+  );
   await expect(page.getByTestId("scouting-result")).toHaveCount(0);
 
   const result = await completeDemo(page);
@@ -80,7 +82,7 @@ test("the built release fails closed when the bound matchup question board is in
   await expect(alert).toBeVisible();
   await expect(alert).toContainText("팀별 코너 첫 전개 기록을 열 수 없습니다");
   await expect(page.getByRole("button", {
-    name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
   })).toHaveCount(0);
   await expect(page.getByRole("button", {
     name: "가려 둔 우루과이–포르투갈 코너 기록 보기",
@@ -92,10 +94,10 @@ test("the locked priorities and revealed result remain immutable after the meeti
   await page.goto("/");
   await selectDemoPriorities(page);
   await page.getByRole("button", {
-    name: "선택한 훈련 질문 2개를 맞대결 공개 전에 잠그기",
+    name: "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
   }).click();
   for (const signature of demoPriorities) {
-    await expect(page.locator(`[data-select="${signature}"]`)).toBeDisabled();
+    await expect(page.locator(`[data-quick-select="${signature}"]`)).toBeDisabled();
   }
   await page.getByRole("button", {
     name: "가려 둔 우루과이–포르투갈 코너 기록 보기",
@@ -103,7 +105,7 @@ test("the locked priorities and revealed result remain immutable after the meeti
   const result = page.getByTestId("scouting-result");
   const comparisonBefore = await result.locator(".comparison").innerText();
 
-  await page.getByLabel("다음 회의에서 훈련 질문 다시 선택").check();
+  await page.getByLabel("다음 회의에서 영상 검토 안건 다시 선택").check();
   await page.getByLabel("이유 (120자 이내)").fill(
     "선택하지 않은 그 밖의 전개가 세 장면 나와 다음 회의에서 포함 여부를 검토",
   );
@@ -111,7 +113,7 @@ test("the locked priorities and revealed result remain immutable after the meeti
 
   const note = page.getByTestId("meeting-note-receipt");
   await expect(note).toBeFocused();
-  await expect(note).toContainText("다음 회의에서 훈련 질문 다시 선택");
-  await expect(note).toContainText("이미 잠근 두 질문과 공개된 경기 기록을 바꾸지 않습니다");
+  await expect(note).toContainText("다음 회의에서 영상 검토 안건 다시 선택");
+  await expect(note).toContainText("이미 잠근 두 안건과 공개된 경기 기록을 바꾸지 않습니다");
   expect(await result.locator(".comparison").innerText()).toBe(comparisonBefore);
 });
