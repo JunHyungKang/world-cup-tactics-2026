@@ -71,7 +71,8 @@ export function validateReleaseCoherence({
     "FINAL_EVIDENCE_SOURCE_PATHS", "playwright.final.config.ts",
   ]);
   requireText(errors, "final browser spec", finalSpec, [
-    "코너킥 수비, 한 명을 어디에 둘까요?", 'product_id: "corner-policy-lab"',
+    "포르투갈전 코너킥 수비,", "두 역할을 어디에 둘까요",
+    "우루과이 수비까지 결합 · 채택 안 함", 'product_id: "corner-policy-lab"',
     "선택 변경 0회", "BG-15",
   ]);
   rejectText(errors, "final browser spec", finalSpec, [
