@@ -3,11 +3,11 @@
   "status": "PASS",
   "source_id": "pappalardo-wyscout-players",
   "reviewer": "team_tactics_data_audit",
-  "reviewed_at": "2026-07-28T08:07:45+09:00",
+  "reviewed_at": "2026-07-28T23:22:41+09:00",
   "source_time_reviewer": "football_claim_audit",
-  "transform_version": "policy-lab-spike-v11-source-time-receipts",
+  "transform_version": "policy-lab-spike-v12-team-comparison-support",
   "public_json_path": "public/data/policy-lab-spike.json",
-  "public_json_sha256": "158b93e6e7724ddbe86be814ccee33ee4bf4595f4b86c3e20cba2e69643f36a1",
+  "public_json_sha256": "9870920d4e5a96a1b64c9e5f7c5de9d0d192d4974e355af9004565962385ea97",
   "review_basis": {
     "user_finding": "A location-only statistic without team analysis is not a meaningful tactical product; player identity may add inspectable team-event context but must not be presented as proof that a selected training question is correct.",
     "independent_initial_findings": [
@@ -17,7 +17,7 @@
       "keep attribution, transformation notice, and no-endorsement wording visible",
       "reject fallback player labels and fail closed on every missing actor required by the public fixed example"
     ],
-    "independent_final_finding": "PASS after 29 source-derived matchup receipts were checked against the raw corner events. Period and source-relative corner time match 29/29, player and event joins remain exact, and the UI time conversion uses period bases 0/45/90/105 with fractional seconds floored. These factual fields improve video lookup without adding contact, marking, weakness, optimal-tactic, or causal inference."
+    "independent_final_finding": "PASS after the v12 repeated-player connection and three-axis support were independently recomputed, all 29 source-derived matchup receipts were shown unchanged from v11, and the visible Korean copy was revised to role-parallel language. The UI names a corner taker and first recorded follow-up actor without arrows, receiver language, first-contact language, pass-target language, or rehearsed-routine inference."
   },
   "allowed_identity_fields": [
     "player_id",
@@ -26,6 +26,11 @@
   "allowed_aggregate_extension": [
     "count"
   ],
+  "localized_aliases": {
+    "Ricardo Quaresma": "콰레스마",
+    "Raphaël Guerreiro": "게헤이루",
+    "C. Sánchez": "C. 산체스"
+  },
   "forbidden_source_fields": [
     "firstName",
     "middleName",
@@ -74,6 +79,82 @@
     },
     "semantic_conclusion": "This corroborates the source-linked first recorded follow-up actor only. It does not establish who first touched or received the ball, who won the duel, or whether a tactical decision worked."
   },
+  "receipt_invariance_review": {
+    "baseline_transform_version": "policy-lab-spike-v11-source-time-receipts",
+    "baseline_public_json_sha256": "158b93e6e7724ddbe86be814ccee33ee4bf4595f4b86c3e20cba2e69643f36a1",
+    "receipt_projection_sha256": "b74c191c94fdc2993844bba6d541d6767f20e91f8d5d07d5186f6191c16a9978",
+    "exactly_equal_to_baseline": true,
+    "receipts_reviewed": 29,
+    "unique_corner_event_ids": 29,
+    "identity_mentions_checked": 85,
+    "unique_player_ids": 37,
+    "raw_mismatches": 0
+  },
+  "repeated_player_connection_review": {
+    "status": "PASS",
+    "connections": 1,
+    "same_receipt_connections_checked": 3,
+    "same_receipt_mismatches": 0,
+    "corner_taker": {
+      "player_id": 32597,
+      "display_name": "Ricardo Quaresma"
+    },
+    "first_recorded_follow_up_actor": {
+      "player_id": 28907,
+      "display_name": "Raphaël Guerreiro"
+    },
+    "recorded_situation": "short-recorded-endpoint",
+    "corners": 3,
+    "matches": 2,
+    "match_ids": [
+      2057960,
+      2057964
+    ],
+    "corner_event_ids": [
+      258702651,
+      258702667,
+      260341439
+    ],
+    "first_follow_up_event_ids": [
+      258702655,
+      258702673,
+      260341441
+    ],
+    "claim_boundary": "This is a repeated same-receipt link between the recorded corner taker and first recorded attacking follow-up actor. It does not establish a receiver, first contact, possession continuation, rehearsed routine, or tactical effect."
+  },
+  "comparison_support_review": {
+    "status": "PASS",
+    "axes": [
+      "recorded_situation",
+      "first_recorded_team_role",
+      "first_recorded_follow_up event_name and sub_event_name"
+    ],
+    "direct_total_by_question": {
+      "short-attacking-first": 2,
+      "aerial-attacking-first": 0,
+      "aerial-defending-first": 0,
+      "other-attacking-first": 0,
+      "other-defending-first": 1
+    },
+    "adjacent_total_by_question": {
+      "short-attacking-first": 0,
+      "aerial-attacking-first": 2,
+      "aerial-defending-first": 2,
+      "other-attacking-first": 1,
+      "other-defending-first": 0
+    },
+    "event_id_mismatches": 0,
+    "projection_sha256": "b1f121a82d2e645ec8134cc0623b54cebae8b294ab75ebc4da9c24d27ce374f2",
+    "claim_boundary": "Direct means three recorded axes match at least one Portugal receipt. Adjacent means only the situation family matches. Neither means the same tactical scene, prior defensive success, weakness, or recommended response."
+  },
+  "ui_claim_review": {
+    "reviewer": "football_claim_audit",
+    "status": "PASS",
+    "unsafe_or_ambiguous_phrases_remaining": 0,
+    "localized_aliases_with_source_names": "PASS",
+    "same_receipt_roles_rendered_without_directional_arrows": "PASS",
+    "claim_boundary": "Visible player-event copy uses explicit corner-taker and first-recorded-event roles. It does not describe a receiver, first contact, pass target, possession continuation, or rehearsed routine."
+  },
   "receipt_time_review": {
     "receipts_reviewed": 29,
     "unique_corner_event_ids": 29,
@@ -100,7 +181,7 @@
   "time_claim_boundary": "PASS — period and source-relative corner time are factual source context only; no receiver, first-contact, marking, weakness, optimal-tactic, or causal inference was added.",
   "final_result": {
     "join_ledger_pass": 12,
-    "identity_scope_pass": 248,
+    "identity_scope_pass": 250,
     "unique_player_ids": 41,
     "matchup_signature_receipts": 29,
     "exact_receipt_pass": 1,

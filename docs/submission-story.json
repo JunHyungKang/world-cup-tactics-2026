@@ -1,16 +1,16 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "product_id": "corner-policy-lab",
   "gallery": {
-    "title": "Corner Scout Lab — 포르투갈 14개를 보정하고, 원본 장면 두 안건을 고릅니다",
-    "one_line": "포르투갈 코너 14개를 월드컵 조별리그 397개로 보정해 팀별 전달 성향을 추정합니다. 우루과이의 작은 수비 표본은 예측에 섞지 않고 원본 장면 검토에만 연결합니다. 감독은 실제 맞대결을 열기 전에 영상 검토 안건 두 개를 잠그고, 선택 밖 슈팅 장면을 다음 회의 안건으로 남깁니다.",
+    "title": "Corner Scout Lab — 포르투갈전, 먼저 볼 코너 영상 두 묶음을 고릅니다",
+    "one_line": "콰레스마의 코너 뒤 첫 기록에 게헤이루가 등장한 장면은 3개(2경기)이며, 패스 대상이나 첫 접촉을 뜻하지 않습니다. 우루과이 기록과 세 조건이 모두 같은 장면만 직접 비교하고, 나머지는 참고 장면이나 관찰 공백으로 남깁니다. 감독은 실제 맞대결을 보기 전에 먼저 볼 영상 두 묶음을 정합니다.",
     "first_image": "docs/assets/gallery/corner-policy-lab-first-image.png",
     "source_images": [
-      "docs/assets/final-release/01-matchup-analysis.png",
+      "docs/assets/final-release/01-team-connections.png",
       "docs/assets/final-release/02-locked-questions.png",
       "docs/assets/final-release/03-counterevidence.png"
     ],
-    "hook": "포르투갈 코너 14개만 그대로 믿어도 될까요?"
+    "hook": "16강 전날, 포르투갈 코너 영상은 무엇부터 볼까요?"
   },
   "manager_decision": {
     "opponent": "Portugal",
@@ -29,6 +29,20 @@
       "manager_defensive_exposure": [2, 2, 0, 0, 1]
     },
     "priority_count": 2,
+    "repeated_player_connection": {
+      "corner_taker": "Ricardo Quaresma",
+      "first_recorded_follow_up_actor": "Raphaël Guerreiro",
+      "corners": 3,
+      "matches": 2,
+      "corner_event_ids": [258702651, 258702667, 260341439]
+    },
+    "comparison_support": {
+      "short-attacking-first": { "direct": 2, "adjacent": 0 },
+      "aerial-attacking-first": { "direct": 0, "adjacent": 2 },
+      "aerial-defending-first": { "direct": 0, "adjacent": 2 },
+      "other-attacking-first": { "direct": 0, "adjacent": 1 },
+      "other-defending-first": { "direct": 1, "adjacent": 0 }
+    },
     "demo_selected_questions": [
       "aerial-defending-first",
       "short-attacking-first"
@@ -48,7 +62,7 @@
     }
   },
   "video": {
-    "title": "Corner Scout Lab | 포르투갈 14개를 보정하고 원본 장면을 확인합니다",
+    "title": "Corner Scout Lab | 포르투갈전, 먼저 볼 코너 영상 두 묶음",
     "duration_limit_seconds": 60,
     "visual_duration_target_seconds": 60,
     "narrated_duration_target_seconds": 59.5,
@@ -85,22 +99,22 @@
         "id": "hook",
         "start": 0,
         "end": 6,
-        "action": "첫 화면에서 포르투갈 코너 14개를 대회 전체로 보정하고 원본 장면을 확인하는 서비스임을 보여 준다.",
-        "proof": "포르투갈 14/14 · 우루과이 5/6 · 397개 보정 · 영상 검토 안건 선택"
+        "action": "16강 전날, 포르투갈 코너 영상 중 먼저 볼 두 묶음을 고르는 상황을 첫 화면에서 보여 준다.",
+        "proof": "키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루 · 3장면 · 2경기 · 패스 대상이나 첫 접촉 의미 없음"
       },
       {
         "id": "evidence",
         "start": 6,
         "end": 15,
-        "action": "포르투갈 47%와 대회 사전정보 53%의 부분 풀링, 160개 토너먼트 검증, 우루과이 결합안 기각을 보여 준다.",
-        "proof": "대회 평균 대비 로그손실 4.6% 감소 · 우루과이 결합 개선 확률 92.3% < 97.5%"
+        "action": "포르투갈의 반복 기록과 우루과이의 직접 비교·참고 장면을 구분한다.",
+        "proof": "숏 코너 직접 비교 2 · 공중볼 뒤 수비팀 기록 참고 2 · C. Sánchez 3장면이 한 경기에 집중"
       },
       {
         "id": "select",
         "start": 15,
         "end": 25,
-        "action": "포르투갈 3/3경기에서 반복된 aerial-defending-first와 short-attacking-first를 이번 미팅의 영상 검토 안건으로 선택한다.",
-        "proof": "구체적인 장면 질문 · 포르투갈 경기 반복 수 · 우루과이 관찰 경기 수 · 수동 선택"
+        "action": "aerial-defending-first와 short-attacking-first를 이번 미팅에서 먼저 볼 영상 묶음으로 선택한다.",
+        "proof": "포르투갈 경기 반복 수 · 관련 선수 · 우루과이 직접 비교와 참고 장면 · 수동 선택"
       },
       {
         "id": "lock",
@@ -113,15 +127,15 @@
         "id": "reveal",
         "start": 31,
         "end": 42,
-        "action": "가려 둔 맞대결에서 포르투갈 보정 상위 구역 9/10, 대회 평균 상위 구역 5/10, 선택 안건의 숏 5장면과 공중 경합 뒤 수비팀 기록 0장면을 공개한다.",
-        "proof": "팀 보정 한 경기 확인 · 선택과 선택 밖 기록을 함께 공개하되 선택을 채점하지 않음"
+        "action": "가려 둔 맞대결에서 선택한 숏 코너 5장면과 공중볼 뒤 수비팀 기록 0장면을 원본 이벤트와 함께 공개한다.",
+        "proof": "선택을 채점하지 않음 · 0은 직접 비교 기록의 관찰 공백 · 전달 구역 모델과 전체 표는 접힌 보조 근거"
       },
       {
         "id": "counterevidence",
         "start": 42,
         "end": 50,
-        "action": "선택하지 않은 other-defending-first의 3장면·2개 슈팅 기록과 첫 원본 영수증 corner 261095314를 연다.",
-        "proof": "선택 밖에서 먼저 확인할 구체적 장면 · Bernardo Silva → L. Suárez"
+        "action": "선택하지 않은 other-defending-first의 3장면·2개 슈팅 기록과 첫 원본 이벤트 corner 261095314를 연다.",
+        "proof": "선택 밖에서 먼저 확인할 구체적 장면 · 키커 Bernardo Silva · 첫 기록에 등장한 선수 L. Suárez"
       },
       {
         "id": "memo",
@@ -134,8 +148,8 @@
         "id": "final",
         "start": 57,
         "end": 59.5,
-        "action": "잠근 두 안건, 실제 5·2·0·0·3, corner 261095314, 저장된 메모를 그대로 둔다.",
-        "proof": "모델은 검토 범위를 좁히고 장면 판단은 감독이 담당"
+        "action": "잠근 두 안건, 선수·이벤트 연결, corner 261095314, 저장된 메모를 그대로 둔다.",
+        "proof": "기록은 장면을 찾고 감독은 영상을 판단"
       }
     ]
   },
@@ -166,7 +180,8 @@
     "empirical_campaign_status": "REVISE",
     "required_boundaries": [
       "우루과이 수비 5개는 예측에 섞지 않았습니다.",
-      "0은 이 작은 표본에서 같은 장면을 찾지 못했다는 뜻입니다."
+      "직접 비교는 전개 방식·첫 기록의 팀·이벤트 유형이 모두 같은 기록입니다.",
+      "0은 이 작은 표본에서 직접 비교할 장면을 찾지 못했다는 뜻입니다."
     ],
     "forbidden": [
       "약점",

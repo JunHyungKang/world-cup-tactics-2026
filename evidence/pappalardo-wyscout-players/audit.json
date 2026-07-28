@@ -3,21 +3,24 @@
   "status": "PASS",
   "source_id": "pappalardo-wyscout-players",
   "reviewer": "team_tactics_data_audit",
-  "checked_at": "2026-07-28T08:07:45+09:00",
-  "transform_version": "policy-lab-spike-v11-source-time-receipts",
-  "public_json_sha256": "158b93e6e7724ddbe86be814ccee33ee4bf4595f4b86c3e20cba2e69643f36a1",
+  "checked_at": "2026-07-28T23:22:41+09:00",
+  "transform_version": "policy-lab-spike-v12-team-comparison-support",
+  "public_json_sha256": "9870920d4e5a96a1b64c9e5f7c5de9d0d192d4974e355af9004565962385ea97",
   "source_time_review": {
     "reviewer": "football_claim_audit",
-    "reviewed_at": "2026-07-28T08:07:45+09:00",
+    "reviewed_at": "2026-07-28T23:22:41+09:00",
     "status": "PASS",
     "receipts_reviewed": 29,
     "source_time_mismatches": 0,
     "identity_event_mismatches": 0,
-    "ui_match_time_mapping": "PASS"
+    "ui_match_time_mapping": "PASS",
+    "v12_repeated_connection": "PASS",
+    "v12_comparison_support": "PASS",
+    "v12_visible_claim_boundary": "PASS"
   },
   "semantic_review": {
     "path": "data/audit/player-identity-semantic-review.json",
-    "sha256": "21486a298ba61cd47cc1c66fb1c3f9c8c462da00f21b983c36042469ce103c2d"
+    "sha256": "0c3a6b69e9564510611361b5eb0a8978a7453d4847457aadda6fc8e28f5b63d5"
   },
   "window_review": {
     "path": "data/audit/player-join-review.csv",
@@ -25,7 +28,7 @@
   },
   "final_result": {
     "join_ledger_pass": 12,
-    "identity_scope_pass": 248,
+    "identity_scope_pass": 250,
     "unique_player_ids": 41,
     "matchup_signature_receipts": 29,
     "exact_receipt_pass": 1,
@@ -43,7 +46,9 @@
     "the user's team-analysis objection is addressed by the validated Portugal forecast plus inspectable team-event context and not by claiming that a selected review question is correct",
     "3603 source rows have non-null unique wyId values and the fixed public example fails closed on a missing required player",
     "all 12 public fixed-example actor ledgers have zero missing joins",
-    "248 emitted identity records repeat the same admitted 41 player IDs across source ledgers and matchup questions; they contain only player_id, display_name, and aggregate count where applicable",
+    "250 emitted identity records repeat the same admitted 41 player IDs across source ledgers, matchup questions, and one repeated-player connection; they contain only player_id, display_name, and aggregate count where applicable",
+    "the only repeated player-event connection is the same-receipt corner-taker Ricardo Quaresma and first recorded follow-up actor Raphaël Guerreiro link in three scenes across two matches; it is not a receiver, first-contact, pass-target, possession-continuation, or rehearsed-routine claim",
+    "Uruguay comparison support is direct only when situation family, first recorded team role, and event/sub-event type all match a Portugal receipt; adjacent support shares only the situation family",
     "Rui Patrício is bound to source event 261096236 after corner event 261096233 with the exact first-recorded-follow-up semantic boundary",
     "all 29 matchup receipts reproduce source period and corner time with zero mismatches and correct 0/45/90/105 minute-base display mapping",
     "forbidden profile fields, likeness assets, contact claims, marking claims, weakness claims, optimal-tactic claims, tactical-effect claims, and endorsement claims remain excluded"

@@ -7,6 +7,6 @@
     "run",
     "scripts/player-identity-release.test.mjs"
   ],
-  "completed_at": "2026-07-28T08:11:52+09:00",
-  "result": "6/6 passed — clean-release Players lineage, 41-player field minimization across 248 emitted records, 12 actor-join ledgers, 29 source-time receipts, five matchup signatures, Rui Patrício corroboration, and independent evidence binding; ignored raw not required"
+  "completed_at": "2026-07-28T23:24:15+09:00",
+  "result": "7/7 passed — clean-release Players lineage, 41-player field minimization across 250 emitted records, 12 actor-join ledgers, 29 invariant source-time receipts, one same-receipt repeated player-event connection, five three-axis comparison-support ledgers, Rui Patrício corroboration, localized-alias binding, and independent evidence binding; ignored raw not required"
 }

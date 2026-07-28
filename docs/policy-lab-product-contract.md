@@ -1,30 +1,30 @@
 # Corner Scout Lab Product Contract
 
-Status: `LOCAL RELEASE VERIFIED — TEAM MODEL + SOURCE SCENE REVIEW PASS; PUBLIC STAMP PENDING`
+Status: `PLAYER-FIRST SOURCE-SCENE CANDIDATE — RELEASE VALIDATION PENDING`
 
 ## One-sentence product
 
-Corner Scout Lab partially pools Portugal's 14 recorded group-stage corners with
-the 397-corner tournament profile, shows the resulting team-specific delivery
-shift, links Portugal and Uruguay source scenes without pooling the sparse
-Uruguay sample into the forecast, and lets a manager lock two video-review
-questions before the historical matchup is shown.
+Corner Scout Lab starts from same-receipt player-event connections in Portugal's
+recorded group-stage corners, separates Uruguay evidence into three-axis direct
+and adjacent receipts, and lets a manager lock two video-review questions before
+the historical matchup is shown.
 
 It is not a raw location-frequency dashboard, a weakness detector, an
 optimal-tactic recommender, or a player-position simulation.
 
-## Why this is team analysis
+## Why this is team-specific scene analysis
 
-The first layer is a validated team forecast rather than a raw rate:
+The first layer is an exact same-receipt player-event connection:
 
-1. Portugal evidence weight `46.7%`;
-2. tournament-prior weight `53.3%`;
-3. all-knockout evaluation on 160 unseen corners;
-4. log-loss reduction `4.59%` against the tournament-only baseline;
-5. `12/16` evaluated knockout teams improve while `4/16` worsen; and
-6. a positive match-cluster 95% log-score-gain interval.
+1. corner taker Ricardo Quaresma (`32597`);
+2. first recorded follow-up actor Raphaël Guerreiro (`28907`);
+3. three receipts across two group-stage matches;
+4. restart source IDs `258702651`, `258702667`, and `260341439`; and
+5. no receiver, first-contact, pass-target, possession-continuation, or
+   rehearsed-routine claim.
 
-The second layer is not a pitch area alone. Each admitted scene binds:
+The second layer compares teams only through explicit recorded axes. Each
+admitted scene binds:
 
 1. a named attacking or defending team;
 2. the corner taker;
@@ -33,52 +33,49 @@ The second layer is not a pitch area alone. Each admitted scene binds:
 5. the first recorded attacking and defending actors when present;
 6. a ten-second attacking-shot record; and
 7. source period and corner time; and
-8. match, corner, follow-up, and first-defending source IDs.
+8. match, corner, follow-up, and first-defending source IDs; and
+9. direct support only when situation family, first recorded team role, and
+   first recorded event/sub-event all match.
 
-The app asks four team-specific questions in order:
+The app asks three team-specific questions in order:
 
-`What changes after small-sample correction? → Portugal repeated what? → Uruguay
-had faced what? → What appeared in their matchup?`
+`Which player-event links repeat for Portugal? → Which Uruguay receipts directly
+match or sit adjacent? → What appeared in their matchup?`
 
-The forecast narrows the scouting range. The event ledger then becomes a review
-agenda only when the manager chooses two questions. Neither layer assigns a
-defender or claims a training effect.
+The event ledger becomes a review agenda only when the manager chooses two
+questions. A collapsed partial-pooling forecast discloses how Portugal's
+14-corner sample was regularized, but it does not lead the interaction, assign a
+defender, or claim a training effect.
 
 ## Canonical manager loop
 
-1. See Portugal's `14/14` classifiable group-stage attacking corners and
-   Uruguay's `5/6` classifiable group-stage defensive exposures as separate
-   records.
-2. See how partial pooling changes the top two delivery areas from tournament
-   `central/far + near` to Portugal `central/far + short`, plus the frozen
-   160-corner evaluation.
-3. See that the Uruguay-conditioned challenger failed the `0.975` uncertainty
-   gate and is not used in the displayed probabilities.
-4. Compare five exact `restart family × first recorded follow-up team`
+1. See the Quaresma/Guerreiro same-receipt connection, its three scenes and two
+   matches, and the no-contact boundary.
+2. See Portugal recurrence and sparse Uruguay source context without combining
+   independent totals into a routine.
+3. Compare five exact `restart family × first recorded follow-up team`
    signatures:
 
-   | Signature | Portugal | Uruguay |
-   |---|---:|---:|
-   | short + attacking first | 7 | 2 |
-   | aerial + attacking first | 1 | 2 |
-   | aerial + defending first | 4 | 0 |
-   | other non-short + attacking first | 1 | 0 |
-   | other non-short + defending first | 1 | 1 |
+   | Signature | Portugal | Uruguay direct | Uruguay adjacent |
+   |---|---:|---:|---:|
+   | short + attacking first | 7 | 2 | 0 |
+   | aerial + attacking first | 1 | 0 | 2 |
+   | aerial + defending first | 4 | 0 | 2 |
+   | other non-short + attacking first | 1 | 0 | 1 |
+   | other non-short + defending first | 1 | 1 | 0 |
 
-5. Compare match recurrence, then open source event chains, actors, and
+4. Compare match recurrence, then open source event chains, actors, and
    ten-second shot context when needed.
-6. Select exactly two video-review questions. There is no default, ranking, score,
+5. Select exactly two video-review questions. There is no default, ranking, score,
    model recommendation, or “best” answer.
-7. Lock the two questions before any Uruguay–Portugal corner is visible.
-8. Reveal the fixed one-match team-model check (`9/10` for Portugal's
-   conditioned top two, `5/10` for the tournament top two), held-out counts
-   `5 / 2 / 0 / 0 / 3`, and shot counts
-   `2 / 0 / 0 / 0 / 2`.
-9. Open the first shot-bearing scene among the unselected questions. In the
+6. Lock the two questions before any Uruguay–Portugal corner is visible.
+7. Reveal the held-out counts `5 / 2 / 0 / 0 / 3` and shot counts
+   `2 / 0 / 0 / 0 / 2`; keep the model check collapsed.
+8. Open the first shot-bearing scene among the unselected questions. In the
    official path it is `other non-short + defending first`, corner `261095314`,
-   Bernardo Silva → L. Suárez, followed by a recorded clearance and a Portugal
-   shot within ten seconds.
-10. Save one next-meeting decision and reason without changing the locked
+   with kicker Bernardo Silva and first recorded follow-up actor L. Suárez,
+   followed by a recorded clearance and a Portugal shot within ten seconds.
+9. Save one next-meeting decision and reason without changing the locked
    questions, revealed counts, or source receipts.
 
 The official demonstration selects `aerial + defending first` and
@@ -87,10 +84,11 @@ selection.
 
 ## Small-sample and semantic boundaries
 
-- `0` means “no scene in this small admitted sample,” not “Uruguay is weak.”
+- `0` means “no three-axis direct receipt in this small admitted sample,” not
+  “Uruguay is weak.”
 - Counts describe recorded events, not team intent or tactical quality.
 - `playerId` identifies the player associated with a source event. The UI may
-  say `키커`, `첫 후속 기록의 선수`, and `첫 수비 기록`; it must not invent a
+  say `키커`, `코너 뒤 첫 기록의 선수`, and `첫 수비 기록`; it must not invent a
   receiver, physical first contact, duel winner, marker, or reachable area.
 - A shot within ten seconds is a later historical event, not an effect caused
   or prevented by the manager's training choice.

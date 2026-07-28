@@ -66,8 +66,8 @@ beforeAll(async () => {
     }, null, 2)}\n`),
     writeFile(fixturePaths.submissionStory, `${JSON.stringify({
       gallery: {
-        title: "Corner Scout Lab — 포르투갈 14개를 보정하고, 원본 장면 두 안건을 고릅니다",
-        one_line: "포르투갈의 작은 표본을 보정하고 감독이 원본 장면 검토 안건을 고릅니다.",
+        title: "Corner Scout Lab — 포르투갈전, 먼저 볼 코너 영상 두 묶음을 고릅니다",
+        one_line: "같은 기록 묶음의 선수 기록과 직접 비교·참고 장면을 보고 감독이 먼저 볼 영상 두 묶음을 고릅니다.",
         first_image: fixturePaths.galleryImage,
       },
     }, null, 2)}\n`),
@@ -159,7 +159,7 @@ describe("external owner console", () => {
     const html = renderOwnerConsole(await buildFixtureModel());
 
     expect(html).toContain("59.84초 영상 재생");
-    expect(html).toContain("Corner Scout Lab — 포르투갈 14개를 보정하고");
+    expect(html).toContain("Corner Scout Lab — 포르투갈전, 먼저 볼 코너 영상 두 묶음");
     expect(html).toContain(expectedFinalVideoSha);
     expect(html).toContain("이 영상으로 YouTube 공개 승인");
     expect(html).toContain("포르투갈 상대 분석 설명 fixture");

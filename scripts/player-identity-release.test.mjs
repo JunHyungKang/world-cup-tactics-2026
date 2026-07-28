@@ -49,12 +49,14 @@ describe("Players source clean-release evidence", () => {
     ]);
     expect(report.provenance.input_sha256.players)
       .toBe("877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e");
+    expect(report.transform_version)
+      .toBe("policy-lab-spike-v12-team-comparison-support");
     expect(rehearsal.status).toBe("PASS");
   });
 
   it("admits only the minimal factual identity fields", () => {
     const identities = collectIdentityRecords(rehearsal);
-    expect(identities).toHaveLength(248);
+    expect(identities).toHaveLength(250);
     expect(new Set(identities.map(({ player_id: id }) => id)).size).toBe(41);
     for (const identity of identities) {
       expect(Object.keys(identity).sort()).toEqual(
@@ -127,6 +129,41 @@ describe("Players source clean-release evidence", () => {
       .toMatch(/does not establish who first touched or received the ball/iu);
   });
 
+  it("binds the repeated same-receipt connection and three-axis comparison support", () => {
+    expect(rehearsal.matchup_question_board.repeated_player_connections).toEqual([
+      expect.objectContaining({
+        corner_taker: { player_id: 32597, display_name: "Ricardo Quaresma" },
+        first_recorded_follow_up_actor: {
+          player_id: 28907,
+          display_name: "Raphaël Guerreiro",
+        },
+        corners: 3,
+        matches: 2,
+        match_ids: [2057960, 2057964],
+        corner_event_ids: [258702651, 258702667, 260341439],
+      }),
+    ]);
+    expect(Object.fromEntries(rehearsal.matchup_question_board.questions.map(
+      ({ id, comparison_support: support }) => [
+        id,
+        { direct: support.direct, adjacent: support.adjacent },
+      ],
+    ))).toEqual({
+      "short-attacking-first": { direct: 2, adjacent: 0 },
+      "aerial-attacking-first": { direct: 0, adjacent: 2 },
+      "aerial-defending-first": { direct: 0, adjacent: 2 },
+      "other-attacking-first": { direct: 0, adjacent: 1 },
+      "other-defending-first": { direct: 1, adjacent: 0 },
+    });
+    expect(review.repeated_player_connection_review.claim_boundary)
+      .toMatch(/does not establish a receiver, first contact, possession continuation, rehearsed routine, or tactical effect/iu);
+    expect(review.localized_aliases).toEqual({
+      "Ricardo Quaresma": "콰레스마",
+      "Raphaël Guerreiro": "게헤이루",
+      "C. Sánchez": "C. 산체스",
+    });
+  });
+
   it("binds the independent PASS, review hashes, and no-endorsement boundary", () => {
     expect(review).toMatchObject({
       schema_version: 1,
@@ -134,6 +171,7 @@ describe("Players source clean-release evidence", () => {
       source_id: "pappalardo-wyscout-players",
       reviewer: "team_tactics_data_audit",
       source_time_reviewer: "football_claim_audit",
+      transform_version: "policy-lab-spike-v12-team-comparison-support",
       public_json_sha256: sha256(bytes.derived),
       receipt_time_review: {
         receipts_reviewed: 29,
@@ -142,7 +180,7 @@ describe("Players source clean-release evidence", () => {
       },
       final_result: {
         join_ledger_pass: 12,
-        identity_scope_pass: 248,
+        identity_scope_pass: 250,
         unique_player_ids: 41,
         matchup_signature_receipts: 29,
         exact_receipt_pass: 1,
@@ -155,6 +193,7 @@ describe("Players source clean-release evidence", () => {
       status: "PASS",
       source_id: "pappalardo-wyscout-players",
       reviewer: "team_tactics_data_audit",
+      transform_version: "policy-lab-spike-v12-team-comparison-support",
       source_time_review: {
         reviewer: "football_claim_audit",
         status: "PASS",

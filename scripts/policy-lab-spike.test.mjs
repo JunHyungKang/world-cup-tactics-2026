@@ -14,7 +14,7 @@ describe("Policy Lab committed derivative", () => {
   });
 
   it("pins the immutable raw inputs and deterministic transform", () => {
-    expect(report.transform_version).toBe("policy-lab-spike-v11-source-time-receipts");
+    expect(report.transform_version).toBe("policy-lab-spike-v12-team-comparison-support");
     expect(report.provenance.input_sha256).toEqual({
       eventsZip: "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
       events: "d789b7cd80671a0dd1263150e997d1450e1ed22cddc8beb7bb2a6266b374a869",
@@ -307,6 +307,23 @@ describe("Policy Lab committed derivative", () => {
       },
     });
     expect(board.questions).toHaveLength(5);
+    expect(board.repeated_player_connections).toEqual([
+      {
+        recorded_situation: "short-recorded-endpoint",
+        corner_taker: {
+          player_id: 32597,
+          display_name: "Ricardo Quaresma",
+        },
+        first_recorded_follow_up_actor: {
+          player_id: 28907,
+          display_name: "Raphaël Guerreiro",
+        },
+        corners: 3,
+        matches: 2,
+        match_ids: [2057960, 2057964],
+        corner_event_ids: [258702651, 258702667, 260341439],
+      },
+    ]);
     expect(board.ontology.forbidden_edges).toEqual(expect.arrayContaining([
       "MARKED_BY",
       "WOULD_PREVENT",
@@ -326,6 +343,12 @@ describe("Policy Lab committed derivative", () => {
         corners: 2,
         opponent_shots_within_10_seconds: 0,
       },
+      comparison_support: {
+        direct: 2,
+        adjacent: 0,
+        direct_corner_event_ids: [259527052, 259528043],
+        adjacent_corner_event_ids: [],
+      },
       held_out_evidence: {
         corners: 5,
         attacking_shots_within_10_seconds: 2,
@@ -342,6 +365,12 @@ describe("Policy Lab committed derivative", () => {
         corners: 2,
         opponent_shots_within_10_seconds: 1,
       },
+      comparison_support: {
+        direct: 0,
+        adjacent: 2,
+        direct_corner_event_ids: [],
+        adjacent_corner_event_ids: [259528860, 260304080],
+      },
       held_out_evidence: {
         corners: 2,
         attacking_shots_within_10_seconds: 0,
@@ -357,6 +386,12 @@ describe("Policy Lab committed derivative", () => {
         thin: true,
         compatible_unclassified_manager_corners: 0,
       },
+      comparison_support: {
+        direct: 0,
+        adjacent: 2,
+        direct_corner_event_ids: [],
+        adjacent_corner_event_ids: [259528860, 260304080],
+      },
       held_out_evidence: { corners: 0, attacking_shots_within_10_seconds: 0 },
     });
     const otherDefending = board.questions.find((question) =>
@@ -368,6 +403,12 @@ describe("Policy Lab committed derivative", () => {
         status: "SEEN_IN_RECORDED_SAMPLE",
         thin: true,
         compatible_unclassified_manager_corners: 1,
+      },
+      comparison_support: {
+        direct: 1,
+        adjacent: 0,
+        direct_corner_event_ids: [259528903],
+        adjacent_corner_event_ids: [],
       },
       held_out_evidence: { corners: 3, attacking_shots_within_10_seconds: 2 },
     });

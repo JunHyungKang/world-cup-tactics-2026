@@ -24,8 +24,8 @@ export const exactEditorialChapters = [
 
 export const exactDemoActions = [
   ["hero-hold", 0],
-  ["model-view", 6],
-  ["question-view", 12],
+  ["team-connection-view", 6],
+  ["question-board-view", 12],
   ["aerial-defending-select", 15],
   ["short-attacking-select", 20],
   ["question-lock", 25],
@@ -52,17 +52,18 @@ export const exactSelectedQuestions = [
 ];
 
 const expectedGallerySources = [
-  "docs/assets/final-release/01-matchup-analysis.png",
+  "docs/assets/final-release/01-team-connections.png",
   "docs/assets/final-release/02-locked-questions.png",
   "docs/assets/final-release/03-counterevidence.png",
 ];
 
 const exactSelectCue =
-  "포르투갈의 세 경기에서 반복된 두 흐름을 고릅니다. 숏 구역 전달 뒤 포르투갈 선수, 공중 경합 뒤 상대 수비 선수가 먼저 기록된 흐름입니다.";
+  "전개 방식과 첫 기록의 팀, 이벤트 유형이 모두 같은 장면만 직접 비교합니다. 나머지는 참고 장면으로 두고, 먼저 볼 두 묶음을 고릅니다.";
 const exactCounterevidenceCue =
-  "선택 밖 ‘그 밖의 전개’는 세 장면이었고, 두 장면은 십 초 안에 슈팅이 기록됐습니다. 첫 이벤트 기록을 확인합니다.";
+  "선택하지 않은 기타 전개는 세 장면이고, 두 장면에서 십 초 안 포르투갈 슈팅이 기록됐습니다.";
 const requiredNarrationBoundaries = [
-  "모델은 좁히고, 감독은 판단합니다.",
+  "패스 대상이나 첫 접촉을 뜻하지는 않습니다.",
+  "기록으로 찾고, 감독이 판단합니다.",
 ];
 const broadUnsafeNarrationTerms = [
   "약점",
@@ -106,8 +107,8 @@ function allVisibleCopy(story) {
 
 export function validateSubmissionStory(story, sources) {
   const errors = [];
-  if (story?.schema_version !== 3) {
-    errors.push("submission story schema_version must be 3");
+  if (story?.schema_version !== 4) {
+    errors.push("submission story schema_version must be 4");
   }
   if (story?.product_id !== "corner-policy-lab") {
     errors.push("submission story must bind corner-policy-lab");
@@ -115,24 +116,24 @@ export function validateSubmissionStory(story, sources) {
 
   const gallery = story?.gallery ?? {};
   if (gallery.title !==
-      "Corner Scout Lab — 포르투갈 14개를 보정하고, 원본 장면 두 안건을 고릅니다" ||
+      "Corner Scout Lab — 포르투갈전, 먼저 볼 코너 영상 두 묶음을 고릅니다" ||
       gallery.hook !==
-      "포르투갈 코너 14개만 그대로 믿어도 될까요?") {
-    errors.push("gallery title and hook must bind the team-model and source-scene question");
+      "16강 전날, 포르투갈 코너 영상은 무엇부터 볼까요?") {
+    errors.push("gallery title and hook must bind the player-first source-scene question");
   }
-  if (!gallery.one_line?.includes("포르투갈 코너 14개") ||
-      !gallery.one_line?.includes("월드컵 조별리그 397개") ||
-      !gallery.one_line?.includes("우루과이의 작은 수비 표본") ||
-      !gallery.one_line?.includes("영상 검토 안건 두 개") ||
-      !gallery.one_line?.includes("선택 밖 슈팅 장면") ||
-      !gallery.one_line?.includes("다음 회의")) {
+  if (!gallery.one_line?.includes("콰레스마의 코너 뒤") ||
+      !gallery.one_line?.includes("게헤이루가 등장한 장면은 3개(2경기)") ||
+      !gallery.one_line?.includes("패스 대상이나 첫 접촉을 뜻하지 않습니다") ||
+      !gallery.one_line?.includes("세 조건이 모두 같은 장면만 직접 비교") ||
+      !gallery.one_line?.includes("참고 장면이나 관찰 공백") ||
+      !gallery.one_line?.includes("먼저 볼 영상 두 묶음")) {
     errors.push(
-      "gallery one-line story must state partial pooling, sparse Uruguay separation, two locked review questions, unselected evidence, and next-meeting use",
+      "gallery one-line story must state the same-receipt player-event boundary, three-axis support, two locked review questions, unselected evidence, and next-meeting use",
     );
   }
   if (gallery.first_image !== "docs/assets/gallery/corner-policy-lab-first-image.png" ||
       !exactValue(gallery.source_images, expectedGallerySources)) {
-    errors.push("gallery first image must bind the three team-model and source-scene product states");
+    errors.push("gallery first image must bind the three player-first source-scene product states");
   }
 
   const decision = story?.manager_decision ?? {};
@@ -149,6 +150,24 @@ export function validateSubmissionStory(story, sources) {
       !exactValue(decision.held_out_shots_within_10_seconds, [2, 0, 0, 0, 2])) {
     errors.push(
       "submission story must preserve the exact five signatures, two selected questions, and held-out count/shot ledgers",
+    );
+  }
+  if (!exactValue(decision.repeated_player_connection, {
+    corner_taker: "Ricardo Quaresma",
+    first_recorded_follow_up_actor: "Raphaël Guerreiro",
+    corners: 3,
+    matches: 2,
+    corner_event_ids: [258702651, 258702667, 260341439],
+  }) ||
+      !exactValue(decision.comparison_support, {
+        "short-attacking-first": { direct: 2, adjacent: 0 },
+        "aerial-attacking-first": { direct: 0, adjacent: 2 },
+        "aerial-defending-first": { direct: 0, adjacent: 2 },
+        "other-attacking-first": { direct: 0, adjacent: 1 },
+        "other-defending-first": { direct: 1, adjacent: 0 },
+      })) {
+    errors.push(
+      "submission story must bind the exact repeated player-event connection and three-axis comparison support",
     );
   }
   const counterevidence = decision.counterevidence ?? {};
@@ -219,7 +238,8 @@ export function validateSubmissionStory(story, sources) {
   }
   if (!exactValue(boundary.required_boundaries, [
     "우루과이 수비 5개는 예측에 섞지 않았습니다.",
-    "0은 이 작은 표본에서 같은 장면을 찾지 못했다는 뜻입니다.",
+    "직접 비교는 전개 방식·첫 기록의 팀·이벤트 유형이 모두 같은 기록입니다.",
+    "0은 이 작은 표본에서 직접 비교할 장면을 찾지 못했다는 뜻입니다.",
   ]) ||
       !Array.isArray(boundary.forbidden) ||
       !["약점", "최적", "AI 추천", "훈련이 막았다", "경기 결과를 바꿨다"]
@@ -251,20 +271,23 @@ export function validateSubmissionStory(story, sources) {
   }
 
   const requiredSourceMarkers = [
-    ["app", "포르투갈 코너 14개만"],
-    ["app", "월드컵 조별리그 397개로 보정했습니다"],
+    ["app", "16강 전날,"],
+    ["app", "반복된 선수·이벤트 연결"],
+    ["app", "패스 대상이나 첫 접촉을 뜻하지 않음"],
+    ["app", "직접 비교"],
     ["app", "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기"],
     ["app", "가려 둔 우루과이–포르투갈 코너 기록 보기"],
     ["app", "data-testid=\"counterevidence\""],
     ["app", "data-testid=\"meeting-note-receipt\""],
-    ["productThesis", "Product selection status: `PASS — partial-pooled team forecast + source-linked scene review`"],
+    ["productThesis", "Product selection status: `REVISE — player-linked scene index under release validation`"],
+    ["productThesis", "same-receipt Quaresma–Guerreiro link"],
     ["productThesis", "`aerial-defending-first`"],
     ["productThesis", "`short-attacking-first`"],
     ["productThesis", "`261095314`"],
     ["planning", "Product selection ID: `corner-policy-lab`"],
     ["planning", "causal recommendation is `REJECT`"],
     ["judgingMap", "locks two concrete video-review questions"],
-    ["judgingMap", "team-model plus source-scene story"],
+    ["judgingMap", "player-first source-scene story"],
     ["officialState", "submitter 60%, participant 20%, and public 20%"],
     ["demoScript", gallery.title ?? ""],
   ];
@@ -530,12 +553,13 @@ export function validateEditorialTreatment(treatment) {
     }
   }
   for (const required of [
-    "토너먼트 단계 코너 160개 검증",
-    "포르투갈 3/3경기",
-    "포르투갈 보정 상위 구역 9/10",
+    "키커 콰레스마 · 이후 첫 기록: 게헤이루",
+    "패스 대상이나 첫 접촉 의미 없음",
+    "직접 비교와 참고 장면",
+    "숏 코너 직접 비교 2",
     "3장면",
-    "슈팅 기록 2장면",
-    "corner 261095314",
+    "포르투갈 슈팅 2장면",
+    "원본 261095314",
     "다음 회의",
   ]) {
     if (!allCopy.includes(required)) {
@@ -597,7 +621,7 @@ export function validateLocalPolicyDemoEvidence(storyBytes, story, evidence) {
       !visual?.final_frame?.held_out?.includes("5 · 2 · 0 · 0 · 3") ||
       !visual?.final_frame?.shots?.includes("2 · 0 · 0 · 0 · 2") ||
       !visual?.final_frame?.counterevidence?.includes(
-        "그 밖의 전개 뒤 · 수비팀 먼저 기록",
+        "기타 전개 · 첫 기록은 수비팀",
       ) ||
       !visual?.final_frame?.counterevidence?.includes(
         "10초 안 포르투갈 슈팅 기록이 2장면",

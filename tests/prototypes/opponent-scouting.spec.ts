@@ -4,13 +4,13 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 const selectedQuestions = [
   {
     id: "aerial-defending-first",
-    label: "공중 경합·헤더 뒤 · 수비팀 먼저 기록",
+    label: "공중볼 경합 · 첫 기록은 수비팀",
     attack: 4,
     defense: 0,
   },
   {
     id: "short-attacking-first",
-    label: "숏 구역 전달 뒤 · 공격팀 먼저 기록",
+    label: "숏 코너 · 첫 기록은 공격팀",
     attack: 7,
     defense: 2,
   },
@@ -51,11 +51,23 @@ async function assertMinimumTarget(locator: Locator) {
   expect(box!.height).toBeGreaterThanOrEqual(44);
 }
 
-test("starts with the corrected Portugal model, five source-scene questions, and no held-out result", async ({ page }) => {
+test("starts with player-linked Portugal routines, five source-scene questions, and no held-out result", async ({ page }) => {
   await page.goto("/prototypes/opponent-scouting/");
   await expect(page.getByRole("heading", {
-    name: /포르투갈 코너 14개만\s*그대로 믿어도 될까요\?/u,
+    name: /16강 전날,\s*포르투갈 코너 영상은 무엇부터 볼까요\?/u,
   })).toBeVisible();
+  const briefing = page.getByTestId("team-routine-brief");
+  await expect(briefing).toContainText(
+    "키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루",
+  );
+  await expect(briefing).toContainText("3장면 · 2경기");
+  await expect(briefing).toContainText("게헤이루");
+  await expect(briefing).toContainText("Raphaël Guerreiro");
+  await expect(briefing).toContainText("5/7장면");
+  await expect(briefing).toContainText("상대 수비");
+  await expect(briefing).toContainText("4/5장면");
+  await expect(briefing).toContainText("C. 산체스");
+  await expect(briefing).toContainText("3장면 · 1경기");
 
   const attackSummary = page.locator(".quick-evidence article")
     .filter({ hasText: "포르투갈이 공격한 코너" });
@@ -71,16 +83,17 @@ test("starts with the corrected Portugal model, five source-scene questions, and
   await expect(unseen).toContainText("포르투갈 공격 · 3/3경기 · 4장면");
   await expect(unseen).toContainText("우루과이 수비 기록 · 0/3경기 · 0장면");
   await expect(unseen).toContainText("관찰 0회 · 약점 판정 아님");
-  await expect(unseen).toContainText("약점이 아니라 관찰 공백입니다");
+  await expect(unseen).toContainText("공백은 약점 판정이 아님");
 
   const familiar = questionCard(page, "short-attacking-first");
   await expect(familiar).toContainText("포르투갈 공격 · 3/3경기 · 7장면");
   await expect(familiar).toContainText("우루과이 수비 기록 · 1/3경기 · 2장면");
-  await expect(familiar).toContainText("같은 분류 2회");
-  await page.getByText("두 팀의 선수·이벤트·슈팅 원장으로 안건 확인하기").click();
+  await expect(familiar).toContainText("같은 전개 기록 2회 · 직접 비교 2회");
+  await page.getByText("선수와 원본 이벤트까지 장면별로 확인하기").click();
   await familiar.getByText("원본 이벤트 체인 9장면 보기").click();
   await expect(familiar).toContainText("Portugal - Spain");
-  await expect(familiar).toContainText("Ricardo Quaresma → João Mário");
+  await expect(familiar).toContainText("키커 Ricardo Quaresma");
+  await expect(familiar).toContainText("첫 기록에 등장한 선수 João Mário");
   await expect(familiar.locator(".scene-columns section").filter({
     hasText: "우루과이 수비 기록",
   })).toContainText("C. Sánchez");
@@ -95,12 +108,17 @@ test("starts with the corrected Portugal model, five source-scene questions, and
   })).not.toContainText("C. Sánchez 첫 수비 기록 · 패스");
 
   const model = page.getByTestId("team-model");
+  await expect(model).not.toHaveAttribute("open", "");
+  await expect(model.getByText("표본 보정과 검증 근거 보기")).toBeVisible();
   await expect(model).toContainText("포르투갈 코너 14개를 월드컵 조별리그 397개로 보정했습니다");
   await expect(model).toContainText("포르투갈 근거 비중47%");
   await expect(model).toContainText("대회 사전정보 비중53%");
   await expect(model).toContainText("토너먼트 160개 · 16팀 중 12팀 개선");
   await expect(model).toContainText("우루과이 수비 5개는 예측에 섞지 않았습니다");
   await expect(page.getByText(/훈련 효과, 수비 성공, 실점 방지, 최적 전술은 판단하지 않습니다/)).toBeVisible();
+  const briefingBox = await briefing.boundingBox();
+  const modelBox = await model.boundingBox();
+  expect(briefingBox!.y).toBeLessThan(modelBox!.y);
 });
 
 test("keeps a 44px first question control in the mobile flow and the commit bar sticky", async ({ page }) => {
@@ -113,7 +131,7 @@ test("keeps a 44px first question control in the mobile flow and the commit bar 
   expect(box!.y).toBeLessThan(844);
   await expect(page.locator(".commit")).toHaveCSS("position", "sticky");
   await expect(questionToggle(page, "aerial-defending-first")).toContainText(
-    "포르투갈 3/3경기 · 우루과이 0/3경기",
+    "포르투갈 3/3경기 · 우루과이 직접 비교 0 · 참고 2",
   );
 });
 
@@ -148,9 +166,11 @@ test("keyboard-selects exactly two questions, locks before reveal, and preserves
 
   const counterevidence = page.getByTestId("counterevidence");
   await expect(counterevidence).toContainText("선택 밖에서 먼저 확인할 슈팅 기록");
-  await expect(counterevidence).toContainText("그 밖의 전개 뒤 · 수비팀 먼저 기록 · 실제 3장면");
+  await expect(counterevidence).toContainText("기타 전개 · 첫 기록은 수비팀 · 실제 3장면");
   await expect(counterevidence).toContainText("corner 261095314");
-  await expect(counterevidence).toContainText("Bernardo Silva → L. Suárez");
+  await expect(counterevidence).toContainText(
+    "키커 Bernardo Silva · 첫 기록에 등장한 선수 L. Suárez",
+  );
   await expect(counterevidence).toContainText("걷어내기");
 
   const comparisonBefore = await result.locator(".comparison").innerText();
@@ -169,13 +189,13 @@ test("keyboard-selects exactly two questions, locks before reveal, and preserves
 test("explains the structural correction and exposes reproducible classification rules", async ({ page }) => {
   await page.goto("/prototypes/opponent-scouting/");
   await expect(page.getByRole("heading", {
-    name: /팀 보정 분포에서 출발해 ‘키커 → 첫 후속 기록 → 10초 안 슈팅’/u,
+    name: /같은 영수증의 선수·이벤트 연결과 세 가지 기록 축만 씁니다/u,
   })).toBeVisible();
   await page.getByText("분류 규칙과 기획 변경 보기").click();
   await expect(page.getByText(/기획서의 위치·임계값 단위는 데이터 검증 뒤 기각했습니다/)).toBeVisible();
   await expect(page.getByText(/두 우선순위 → 결과 전에 확정 → 가려 둔 경기의 반박/)).toBeVisible();
   await page.getByText("자료·분류 규칙·판단 한계").click();
-  await expect(page.getByText(/각 전개는 첫 후속 기록이 공격팀과 수비팀 중 어느 쪽인지 나눕니다/)).toBeVisible();
+  await expect(page.getByText(/각 전개는 코너 뒤 첫 기록이 공격팀과 수비팀 중 어느 쪽인지 나눕니다/)).toBeVisible();
   for (const source of ["Events", "Matches", "Players", "CC BY 4.0"]) {
     await expect(page.getByRole("link", { name: source })).toBeVisible();
   }
@@ -197,7 +217,7 @@ test("keeps zero-observation and recorded-actor wording inside the non-causal bo
   ]) {
     expect(visible).not.toContain(forbidden);
   }
-  expect(visible).toContain("첫 후속 기록");
-  expect(visible).toContain("좋은 위치나 우루과이의 약점을 찾는 서비스가 아닙니다");
+  expect(visible).toContain("코너 뒤 첫 기록");
+  expect(visible).toContain("전술의 정답을 만들어 주는 서비스가 아닙니다");
   expect(visible).toContain("이 선택은 전술 추천이 아닙니다");
 });

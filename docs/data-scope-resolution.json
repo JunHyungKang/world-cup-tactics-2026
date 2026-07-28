@@ -10,12 +10,12 @@
   "scope_evidence": {
     "api_url": "https://daker.ai/api/hackathons/world-cup-manager-tactics-web-challenge",
     "hackathon_updated_at": "2026-07-13T04:47:47.898Z",
-    "checked_at": "2026-07-27T23:46:56+09:00",
+    "checked_at": "2026-07-28T23:30:32+09:00",
     "quote": "특정 연도·대회·선수 구성에 대한 제한은 없으며, 참가자가 자유롭게 설정할 수 있습니다.",
     "stable_fields_sha256": "7d56d0d02e620caa81f00a67a7933190512570cb13689ee14a8e07d136765adc",
     "capture": {
       "path": "docs/official-state.md",
-      "sha256": "b78bc9a684910a9d62efb623a1c6f86d6a77182c1ec32cbfebddb6c406d18167"
+      "sha256": "9e29f9d20580a130f90750ef6a2462999b1d6b7401804a09fa62783d32b1e8ee"
     },
     "independent_review": {
       "reviewer": "eligibility_escape_audit",
@@ -30,16 +30,16 @@
   ],
   "binding": {
     "product_id": "corner-policy-lab",
-    "official_state_sha256": "b78bc9a684910a9d62efb623a1c6f86d6a77182c1ec32cbfebddb6c406d18167",
+    "official_state_sha256": "9e29f9d20580a130f90750ef6a2462999b1d6b7401804a09fa62783d32b1e8ee",
     "organizer_question_sha256": "32bd5881b643ebfc06f05dcd90a6cb7a014ad3c32347b568a1f140ead2f427c2",
-    "product_thesis_sha256": "32e16063c500121b5098bb2e70ba2fb94582a21fc8c8f323b9684ae45e836a28",
+    "product_thesis_sha256": "959a0e43888827d83a7b9971ef98b1c13e7e39769c75d3a3f7891701adff8b70",
     "planning_source_sha256": "b9e21771f43b042cdf96a12c9159c01c18ec1c03936489c222584e6da115e17c",
-    "source_manifest_sha256": "09adb707af629227124f0dc2f9ccfe8a24ce17a09508e04dfe33026de0f7f59f",
-    "product_selection_sha256": "7dfc49d546e68733399885404fbc6becf60a035a38cca1be5004ce67fe9462e7",
+    "source_manifest_sha256": "ce4e94fef4e593d7d7d98a39e3599aa81a0dcab7e59f0e435e1734621dd0ac7d",
+    "product_selection_sha256": "9e8e104b354c72ee63d63186807e042ca53ba761b5f76ce45c76d8f4ecd6cc62",
     "derived_binding": {
       "path": "public/data/product-binding.json",
-      "sha256": "a69571d1037248f38297bbaeea58f516787e5d8786979f8ebd744825840e2edd"
+      "sha256": "0f4851dbe145d7e29118eac5e14097fcb83132096181162ca88bb0f995cff001"
     }
   },
-  "note": "The official DAKER Data-tab rule resolves year eligibility without a board post. Three CC BY 4.0 Figshare sources and the independently tested public derivative are bound to Corner Scout Lab. Events and Matches own the historical team-event evidence; Players supplies only player_id to normalized short display-name joins. The selected product partially pools Portugal's 14 classifiable group-stage corners with the 397-corner tournament profile, exposes the frozen 160-corner audit, and rejects the underpowered Uruguay-conditioned challenger. Uruguay defensive exposures and the held-out match remain separate source-scene evidence. No evaluative player ranking, physical-contact claim, marking assignment, player reach, team weakness, tactical effect, optimal tactic, or persistence to 2026 is allowed."
+  "note": "The official DAKER Data-tab rule resolves year eligibility without a board post. Three CC BY 4.0 Figshare sources and the independently tested public derivative are bound to Corner Scout Lab. Events and Matches own the historical team-event evidence; Players supplies only player_id to normalized short display-name joins. The selected product exposes a same-receipt corner-taker/first-recorded-follow-up-actor connection and three-axis direct versus situation-only adjacent comparison support. Localized aliases remain paired with source names. The Portugal partial-pooling forecast is collapsed context, while Uruguay defensive records and the held-out match remain separate source-scene evidence. No receiver, first-contact, pass-target, rehearsed-routine, evaluative player ranking, marking assignment, player reach, team weakness, tactical effect, optimal tactic, or persistence to 2026 is allowed."
 }

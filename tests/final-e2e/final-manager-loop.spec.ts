@@ -2,47 +2,57 @@ import AxeBuilder from "@axe-core/playwright";
 import { createHash } from "node:crypto";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-const headline = /포르투갈 코너 14개만\s*그대로 믿어도 될까요\?/u;
+const headline = /16강 전날,\s*포르투갈 코너 영상은 무엇부터 볼까요\?/u;
 const signatures = [
   {
     id: "short-attacking-first",
-    label: "숏 구역 전달 뒤 · 공격팀 먼저 기록",
+    label: "숏 코너 · 첫 기록은 공격팀",
     attack: 7,
     defense: 2,
     heldOut: 5,
     shots: 2,
+    direct: 2,
+    adjacent: 0,
   },
   {
     id: "aerial-attacking-first",
-    label: "공중 경합·헤더 뒤 · 공격팀 먼저 기록",
+    label: "공중볼 경합 · 첫 기록은 공격팀",
     attack: 1,
     defense: 2,
     heldOut: 2,
     shots: 0,
+    direct: 0,
+    adjacent: 2,
   },
   {
     id: "aerial-defending-first",
-    label: "공중 경합·헤더 뒤 · 수비팀 먼저 기록",
+    label: "공중볼 경합 · 첫 기록은 수비팀",
     attack: 4,
     defense: 0,
     heldOut: 0,
     shots: 0,
+    direct: 0,
+    adjacent: 2,
   },
   {
     id: "other-attacking-first",
-    label: "그 밖의 전개 뒤 · 공격팀 먼저 기록",
+    label: "기타 전개 · 첫 기록은 공격팀",
     attack: 1,
     defense: 0,
     heldOut: 0,
     shots: 0,
+    direct: 0,
+    adjacent: 1,
   },
   {
     id: "other-defending-first",
-    label: "그 밖의 전개 뒤 · 수비팀 먼저 기록",
+    label: "기타 전개 · 첫 기록은 수비팀",
     attack: 1,
     defense: 1,
     heldOut: 3,
     shots: 2,
+    direct: 1,
+    adjacent: 0,
   },
 ];
 const selectedIds = ["aerial-defending-first", "short-attacking-first"] as const;
@@ -135,6 +145,7 @@ async function revealHeldOut(page: Page) {
   }).click();
   const result = page.getByTestId("scouting-result");
   await expect(result).toBeFocused();
+  await result.getByText("전달 구역 모델과 전체 다섯 분류 표 보기").click();
   const selected = result.locator(".comparison-row").filter({ hasText: "내 영상 검토 안건" }).locator("span");
   const actual = result.locator(".comparison-row").filter({ hasText: "실제 맞대결" }).locator("span");
   const shots = result.locator(".comparison-row").filter({ hasText: "10초 안 슈팅 기록" }).locator("span");
@@ -157,6 +168,18 @@ test("BG-01 first-fold named-team evidence, five questions, and 44px controls", 
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);
     await openInitial(page);
+    await expect(page.getByTestId("team-routine-brief")).toContainText(
+      "키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루",
+    );
+    await expect(page.getByTestId("team-routine-brief")).toContainText(
+      "3장면 · 2경기",
+    );
+    await expect(page.getByTestId("team-routine-brief")).toContainText(
+      "패스 대상이나 첫 접촉을 뜻하지 않음",
+    );
+    await expect(page.getByTestId("team-routine-brief")).toContainText(
+      "키커 Ricardo Quaresma · 첫 기록에 등장한 선수 Raphaël Guerreiro",
+    );
     await expect(page.getByTestId("team-model")).toContainText(
       "포르투갈 코너 14개를 월드컵 조별리그 397개로 보정했습니다",
     );
@@ -214,9 +237,11 @@ test("BG-04 held-out 5-2-0-0-3 and shot 2-0-0-0-2 records do not grade the quest
   await expect(result).toContainText("관찰 횟수는 전술의 강점·약점·효과를 뜻하지 않습니다");
   const counterevidence = page.getByTestId("counterevidence");
   await expect(counterevidence).toContainText("선택 밖에서 먼저 확인할 슈팅 기록");
-  await expect(counterevidence).toContainText("그 밖의 전개 뒤 · 수비팀 먼저 기록 · 실제 3장면");
+  await expect(counterevidence).toContainText("기타 전개 · 첫 기록은 수비팀 · 실제 3장면");
   await expect(counterevidence).toContainText("corner 261095314");
-  await expect(counterevidence).toContainText("Bernardo Silva → L. Suárez");
+  await expect(counterevidence).toContainText(
+    "키커 Bernardo Silva · 첫 기록에 등장한 선수 L. Suárez",
+  );
   await expect(counterevidence).toContainText("10초 안 포르투갈 슈팅 기록 있음");
 });
 
@@ -224,7 +249,7 @@ test("BG-05 player-linked receipts expose events without inventing football role
   await openInitial(page);
   const result = await completeQuestionLoop(page);
   await expect(result).toContainText("키커: Raphaël Guerreiro");
-  await expect(result).toContainText("첫 후속 기록의 선수: João Mário");
+  await expect(result).toContainText("첫 기록에 등장한 선수: João Mário");
   await expect(result).toContainText("전반 · 10:10 · match 2058002 · corner 261094415");
   const resultText = await result.innerText();
   for (const unsupportedRole of ["첫 접촉 선수", "수신자", "경합 승자", "마킹 담당"]) {
@@ -332,7 +357,7 @@ test("BG-11 zero-observation, recommendation, causality, and outcome claims stay
   ]) {
     expect(body).not.toContain(phrase);
   }
-  await expect(page.getByText(/좋은 위치나 우루과이의 약점을 찾는 서비스가 아닙니다/)).toBeVisible();
+  await expect(page.getByText(/전술의 정답을 만들어 주는 서비스가 아닙니다/)).toBeVisible();
   await expect(page.getByText(/이 선택은 전술 추천이 아닙니다/)).toBeVisible();
   await expect(page.getByText(/어떤 훈련이 이를 막았을지는 이 데이터로 알 수 없습니다/)).toBeVisible();
 });
@@ -390,8 +415,11 @@ test("BG-12 production marker binds the team-model release and exact source-scen
     causal_recommendation_status: "REJECT",
     empirical_campaign_status: "REVISE",
   });
-  expect(evidence.texts).toContain("포르투갈 코너 14개만");
-  expect(evidence.texts).toContain("영상 검토 안건 두 개");
+  expect(evidence.texts).toContain("16강 전날");
+  expect(evidence.texts).toContain(
+    "키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루",
+  );
+  expect(evidence.texts).toContain("직접 비교");
   expect(evidence.texts).toContain("가려 둔 우루과이–포르투갈 코너 기록 보기");
   expect(evidence.texts).not.toContain("test-only-invalid-artifact");
   expect(evidence.texts).not.toContain("훈련 10회를 어떻게 나눌까요?");
@@ -441,6 +469,15 @@ test("BG-12 production marker binds the team-model release and exact source-scen
   const board = situation.matchup_question_board;
   expect(board).toMatchObject({
     status: "PASS",
+    repeated_player_connections: [
+      {
+        corner_taker: { display_name: "Ricardo Quaresma" },
+        first_recorded_follow_up_actor: { display_name: "Raphaël Guerreiro" },
+        corners: 3,
+        matches: 2,
+        corner_event_ids: [258702651, 258702667, 260341439],
+      },
+    ],
     selection_contract: {
       priority_count: 2,
       no_default_priorities: true,
@@ -452,18 +489,23 @@ test("BG-12 production marker binds the team-model release and exact source-scen
     opponent_attack: { corners: number };
     manager_defensive_exposure: { corners: number };
     held_out_evidence: { corners: number; attacking_shots_within_10_seconds: number };
+    comparison_support: { direct: number; adjacent: number };
   }) => ({
     id: question.id,
     attack: question.opponent_attack.corners,
     defense: question.manager_defensive_exposure.corners,
     heldOut: question.held_out_evidence.corners,
     shots: question.held_out_evidence.attacking_shots_within_10_seconds,
-  }))).toEqual(signatures.map(({ id, attack, defense, heldOut, shots }) => ({
+    direct: question.comparison_support.direct,
+    adjacent: question.comparison_support.adjacent,
+  }))).toEqual(signatures.map(({ id, attack, defense, heldOut, shots, direct, adjacent }) => ({
     id,
     attack,
     defense,
     heldOut,
     shots,
+    direct,
+    adjacent,
   })));
   const unselectedShot = board.questions
     .find((question: { id: string }) => question.id === "other-defending-first")
@@ -491,7 +533,7 @@ test("BG-13 focus, status, and next-meeting memo preserve the sealed comparison"
   await selectTwoQuestions(page, "keyboard");
   await lockQuestions(page);
   const result = await revealHeldOut(page);
-  const comparisonBefore = await result.locator(".comparison").innerText();
+  const comparisonBefore = await result.locator(".comparison").textContent();
   await page.getByLabel("다음 회의에서 영상 검토 안건 다시 선택").check();
   await page.getByLabel("이유 (120자 이내)")
     .fill("선택 밖 기타 비숏·수비팀 첫 기록이 3장면 남아 다음 회의에서 포함 여부를 검토");
@@ -500,7 +542,7 @@ test("BG-13 focus, status, and next-meeting memo preserve the sealed comparison"
   await expect(note).toBeFocused();
   await expect(note).toContainText("다음 회의에서 영상 검토 안건 다시 선택");
   await expect(note).toContainText("이미 잠근 두 안건과 공개된 경기 기록을 바꾸지 않습니다");
-  expect(await result.locator(".comparison").innerText()).toBe(comparisonBefore);
+  expect(await result.locator(".comparison").textContent()).toBe(comparisonBefore);
 });
 
 test("BG-14 screenshot transcript covers initial, selected, and revealed states", async ({ page }, testInfo) => {

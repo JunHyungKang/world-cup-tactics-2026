@@ -48,10 +48,10 @@ describe("current harness state drift", () => {
   it("rejects stale active claims in each authoritative surface", () => {
     const cases = [
       { key: "board", value: board.replace("Corner Scout Lab is the canonical root product", "CWR remains the root/submission package") },
-      { key: "judgeGate", value: judgeGate.replace("team-model and source-scene proof passed", "implementation unauthorized") },
+      { key: "judgeGate", value: judgeGate.replace("player-first source-scene candidate passed local validation; exact-public package remains", "implementation unauthorized") },
       { key: "readme", value: readme.replace("The app is **Corner Scout Lab**", "The app is **Corner War Room**") },
       { key: "productThesis", value: productThesis.replace("Product selection ID: `corner-policy-lab`", "Product selection ID: `corner-war-room`") },
-      { key: "decisionRegistry", value: decisionRegistry.replace("| D77 |", "| D77-stale |") },
+      { key: "decisionRegistry", value: decisionRegistry.replace("| D81 |", "| D81-stale |") },
       { key: "interactionContract", value: interactionContract.replace("# Corner Scout Lab Interaction Acceptance Contract", "# Corner Policy Lab Interaction Acceptance Contract") },
     ];
     for (const changed of cases) {

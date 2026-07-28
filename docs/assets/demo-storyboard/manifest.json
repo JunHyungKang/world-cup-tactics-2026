@@ -3,82 +3,82 @@
   "status": "local-rehearsal-not-youtube-evidence",
   "source": {
     "path": "output/demo/corner-policy-lab-60s-narrated-rehearsal.webm",
-    "sha256": "6fe44ec75e768e80a05e69f5f11b38e5abecaceab32cfd68b3fed9dc200ec0e0"
+    "sha256": "38e15af7922b656cb128b2b2533d8407a2dcf1a426b4529223da0ab25821d37e"
   },
   "viewport": "1440x900",
-  "submission_story_sha256": "645f7931b999068bc18821ce6cb5bfda9128907e377981dfd194e761602b2603",
+  "submission_story_sha256": "5c32acb45d49ef54ea52f60c5acfc88e0f47f9fd7b27f35930018a5e3f9ec9c3",
   "artifacts": [
     {
       "order": 1,
       "id": "hook",
       "timecode": "0–6s",
-      "proof": "두 팀의 작은 표본을 분리하고 첫 + 조작을 바로 노출",
+      "proof": "키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루 · 3장면 · 2경기 · 패스 대상이나 첫 접촉 의미 없음",
       "path": "docs/assets/demo-storyboard/01-hook.png",
-      "sha256": "ba27f920172976d72a1fbd39fa29cbde7aedb2e9ab8c02106f1476ad0bf78f5d",
-      "bytes": 481623
+      "sha256": "c3cf4e7f7b44df40af983ca02c1f37ab66ff6b43f8800709bd4dc7553c03dd58",
+      "bytes": 542866
     },
     {
       "order": 2,
       "id": "evidence",
       "timecode": "6–15s",
-      "proof": "구역 집계 뒤의 선수·이벤트·팀·시간 맥락",
+      "proof": "숏 코너 직접 비교 2 · 공중볼 뒤 수비팀 기록 참고 2 · C. Sánchez 3장면이 한 경기에 집중",
       "path": "docs/assets/demo-storyboard/02-evidence.png",
-      "sha256": "ca2b7f3e1600efca1ad62a2128a63d21e33dd9a81897b736eeabe1bb12a8feee",
-      "bytes": 567172
+      "sha256": "f5d883b4dc91a772ee81a85994ff449d3ec5fde33d7699b3164ff4c76bb58ef3",
+      "bytes": 644277
     },
     {
       "order": 3,
-      "id": "allocate",
+      "id": "select",
       "timecode": "15–25s",
-      "proof": "자동 추천이나 최적화가 아닌 재현 가능한 데모 배분",
-      "path": "docs/assets/demo-storyboard/03-allocate.png",
-      "sha256": "bf94488e84544d4b290cbaf92671363c5db02b9c52edf0e412d543d29bde7455",
-      "bytes": 587591
+      "proof": "포르투갈 경기 반복 수 · 관련 선수 · 우루과이 직접 비교와 참고 장면 · 수동 선택",
+      "path": "docs/assets/demo-storyboard/03-select.png",
+      "sha256": "fa7badeb603677219f250dc336c1845381e20f4ff6d83f7f0beb1f1ae72cc29c",
+      "bytes": 485182
     },
     {
       "order": 4,
       "id": "lock",
       "timecode": "25–31s",
-      "proof": "결과 공개 전 확정 · 배분 조작 비활성화",
+      "proof": "맞대결 공개 전 확정 · 선택 조작 비활성화",
       "path": "docs/assets/demo-storyboard/04-lock.png",
-      "sha256": "183dcbc7da3fa9a960dbe9409483745e54119e30b64a4c4f25828cdb17457f18",
-      "bytes": 552368
+      "sha256": "73867fc4a403b2c7566c67583e39222a567f5902bd94986186c47fc473850939",
+      "bytes": 428860
     },
     {
       "order": 5,
       "id": "reveal",
       "timecode": "31–42s",
-      "proof": "채점이나 성공률 없이 배분과 실제 기록을 나란히 비교",
+      "proof": "선택을 채점하지 않음 · 0은 직접 비교 기록의 관찰 공백 · 전달 구역 모델과 전체 표는 접힌 보조 근거",
       "path": "docs/assets/demo-storyboard/05-reveal.png",
-      "sha256": "35d71d82f280814dc3629d6d2eb29c1e076482d5744d616e5ca9e7d913cfd798",
-      "bytes": 394266
+      "sha256": "51dd2e64c26823fde96a77a4b1fb70deffeecfcde670b201905b0d9c789e6455",
+      "bytes": 414320
     },
     {
       "order": 6,
-      "id": "receipts",
+      "id": "counterevidence",
       "timecode": "42–50s",
-      "proof": "이벤트 ID·선수·팀 역할·후속 이벤트와 인과 한계",
-      "path": "docs/assets/demo-storyboard/06-receipts.png",
-      "sha256": "c783dc501334a2b2daf2bac7d4a477a2cd6ae6910c580aaabbce4068995abf19",
-      "bytes": 453842
+      "proof": "선택 밖에서 먼저 확인할 구체적 장면 · 키커 Bernardo Silva · 첫 기록에 등장한 선수 L. Suárez",
+      "path": "docs/assets/demo-storyboard/06-counterevidence.png",
+      "sha256": "480d722d65b0d3302ad2ce966f00f74329b72dd7c90c2386fa9cc181a56d6d9e",
+      "bytes": 519828
     },
     {
       "order": 7,
       "id": "memo",
       "timecode": "50–57s",
-      "proof": "공개된 기록을 바꾸지 않는 별도 다음 회의 메모",
+      "proof": "잠근 안건과 공개 기록을 바꾸지 않는 별도 다음 회의 메모",
       "path": "docs/assets/demo-storyboard/07-memo.png",
-      "sha256": "2822c972b2883bc801ed7fcbadc43a25de7143918dcdc69b0cc09ab179a57750",
-      "bytes": 421800
+      "sha256": "d1f39e86ea5926838fecc0eebda01c094218e51496ec0ea9fcece032475d327e",
+      "bytes": 431633
     },
     {
       "order": 8,
       "id": "final",
       "timecode": "57–59.5s",
-      "proof": "근거와 빈칸은 도구가, 최종 결정은 감독이 담당",
+      "proof": "기록은 장면을 찾고 감독은 영상을 판단",
       "path": "docs/assets/demo-storyboard/08-final.png",
-      "sha256": "070aadf584b438094eb36584a3ef9b30397490139c3eb240e0b6a79e2266b5d5",
-      "bytes": 481085
+      "sha256": "62546e548cfdeeb8a31cfa0468423eaeef92fde54ae39513a07d4fe751890632",
+      "bytes": 471537
     }
   ]
 }

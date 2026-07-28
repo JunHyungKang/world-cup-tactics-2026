@@ -2,27 +2,27 @@
   "schema_version": 2,
   "status": "current-build-composite-not-human-evidence",
   "viewport": "1440x900",
-  "submission_story_sha256": "e21932a5f273bd8aee404643075e5c04f5a18621479069b267489385576ff02b",
+  "submission_story_sha256": "5c32acb45d49ef54ea52f60c5acfc88e0f47f9fd7b27f35930018a5e3f9ec9c3",
   "sources": [
     {
-      "path": "docs/assets/final-release/01-matchup-analysis.png",
-      "sha256": "63a4aee7285335927b1b6026af7aaac46a796f471f6038b1f7f9f262af45f6a2",
-      "bytes": 295355
+      "path": "docs/assets/final-release/01-team-connections.png",
+      "sha256": "598e9cd608b3da2b6d2b2b584689c445dab2ebd8997bcb387fa60dcdc1fe2447",
+      "bytes": 244380
     },
     {
       "path": "docs/assets/final-release/02-locked-questions.png",
-      "sha256": "d2a5d9ffe1fbb0ca10332d52d19384ecd1faaaf3e26c2b04f7d5c648d41d303e",
-      "bytes": 183315
+      "sha256": "bef20daedfbff4f29066219a0ac1c24088e77161f5676bc60eb40e140ca0c737",
+      "bytes": 191315
     },
     {
       "path": "docs/assets/final-release/03-counterevidence.png",
-      "sha256": "54fde75402c56a100af6bc4952c0c1c946d9d659af8466fd4a99da5cc373d9e8",
-      "bytes": 165862
+      "sha256": "1050d495d5baa7e2a74cf5a0b00a5663a0d05a8c6b85b22f86fd502bb6394a7d",
+      "bytes": 181041
     }
   ],
   "output": {
     "path": "docs/assets/gallery/corner-policy-lab-first-image.png",
-    "sha256": "ae6c911f9f860aa7f801ca34fbb4c4e107fc267626c113d5187c5d62b6287323",
-    "bytes": 457802
+    "sha256": "79e561e3475681bec971efeff33e60017815c98d46f82524b6128ae72bdf5572",
+    "bytes": 470962
   }
 }

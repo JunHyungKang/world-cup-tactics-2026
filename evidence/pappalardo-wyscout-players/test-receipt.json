@@ -9,7 +9,7 @@
     "vite.raw.config.ts",
     "scripts/policy-lab-spike-reproduction.test.mjs"
   ],
-  "completed_at": "2026-07-28T08:03:43+09:00",
+  "completed_at": "2026-07-28T23:29:25+09:00",
   "result": "4/4 passed",
   "assertions": [
     "the committed derivative is reproduced byte-for-value from Events, Matches, and Players raw inputs",
@@ -17,6 +17,8 @@
     "the model-selection partition does not read either knockout holdout",
     "removing a player required by the public fixed example fails closed",
     "the five team-linked sequence signatures and their hidden-match receipts reproduce byte-for-value",
-    "all 29 public matchup receipts reproduce source period and nonnegative corner time without adding inferred tracking fields"
+    "all 29 public matchup receipts reproduce source period and nonnegative corner time without adding inferred tracking fields",
+    "the same-receipt Quaresma/Guerreiro player-event connection reproduces as three corners across two matches",
+    "all five direct and adjacent comparison-support ledgers reproduce from exact source event IDs"
   ]
 }

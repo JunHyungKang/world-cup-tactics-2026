@@ -1,6 +1,6 @@
 # Official State
 
-Verified: `2026-07-27T23:46:56+09:00` against:
+Verified: `2026-07-28T23:30:32+09:00` against:
 
 - https://daker.ai/public/hackathons/world-cup-manager-tactics-web-challenge
 - https://daker.ai/api/hackathons/world-cup-manager-tactics-web-challenge
@@ -43,7 +43,7 @@ Canonical stable fields from the live API (`id`, `slug`, `tagline`,
 `7d56d0d02e620caa81f00a67a7933190512570cb13689ee14a8e07d136765adc`.
 Volatile counters such as views are deliberately excluded.
 
-## Public candidate release
+## Superseded public release
 
 Verified `2026-07-24T01:53:00+09:00`:
 
@@ -58,8 +58,8 @@ Verified `2026-07-24T01:53:00+09:00`:
 - the exact local bytes pass `12/12` across Chromium, Firefox, WebKit, and Pixel
   7 emulation, including the one-lock 48–8–8 loop and fail-closed invalid data.
 
-This is current-candidate public smoke evidence, not the stamped final BG-12
-report. Byte parity plus local multi-browser tests do not replace a public-URL
-browser run. The final freeze must still add and verify `submission-build.json`,
-run the twelve-screenshot BG-12 suite against the stamped URL, record from that
-exact URL, publish YouTube, and capture owner-observed DAKER receipts.
+This public evidence belongs to a superseded product narrative and is not a
+current final candidate. It must not be used for the final upload. The
+player-first v12 candidate still needs a new stamped deployment, byte-parity
+proof, public BG-12 run, gallery, narrated video, YouTube publication, and
+owner-observed DAKER receipt.

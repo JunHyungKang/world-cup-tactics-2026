@@ -71,7 +71,8 @@ export function validateReleaseCoherence({
     "FINAL_EVIDENCE_SOURCE_PATHS", "playwright.final.config.ts",
   ]);
   requireText(errors, "final browser spec", finalSpec, [
-    "포르투갈 코너 14개만", "그대로 믿어도 될까요",
+    "16강 전날", "포르투갈 코너 영상은 무엇부터 볼까요",
+    "키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루", "직접 비교",
     "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
     "토너먼트 160개 · 16팀 중 12팀 개선",
     "가려 둔 우루과이–포르투갈 코너 기록 보기",
@@ -95,7 +96,7 @@ export function validateReleaseCoherence({
   rejectText(errors, "Pages workflow", pagesWorkflow, [/^\s+pnpm build\s*$/mu]);
 
   requireText(errors, "frozen-public demo recorder", demoRecorder, [
-    "포르투갈 코너 14개만", "그대로 믿어도 될까요",
+    "16강 전날", "포르투갈 코너 영상은 무엇부터 볼까요", "team-routine-brief",
     "선택한 영상 검토 안건 2개를 맞대결 공개 전에 잠그기",
     "가려 둔 우루과이–포르투갈 코너 기록 보기", "다음 회의 메모 저장",
     '[data-quick-select="aerial-defending-first"]', '[data-quick-select="short-attacking-first"]',
@@ -135,6 +136,7 @@ export function validateReleaseCoherence({
   }
   const editorialText = JSON.stringify(editorialTreatment);
   requireText(errors, "editorial treatment", editorialText, [
+    "반복 기록", "패스 대상이나 첫 접촉 의미 없음",
     "영상 검토 안건", "261095314", "관찰 공백",
   ]);
   rejectText(errors, "editorial treatment", editorialText, [
@@ -150,7 +152,8 @@ export function validateReleaseCoherence({
     "# Corner Scout Lab Interaction Acceptance Contract", "BG-01", "BG-15",
     "7/2", "1/2", "4/0", "1/0", "1/1",
     "`5`, `2`, `0`, `0`, `3`", "`2`, `0`, `0`, `0`, `2`",
-    "Exactly two controls may be selected", "261095314", "160 unseen",
+    "Exactly two controls may be selected", "261095314",
+    "same-receipt connection", "three-axis direct",
     "observation gap, not a weakness", "`유지`, `다시 선택`, or `보류`",
   ]);
   rejectText(errors, "interaction contract", interactionContract, [
@@ -160,7 +163,7 @@ export function validateReleaseCoherence({
     /corner_situation_rehearsal/u,
   ]);
   requireText(errors, "judging map", judgingMap, [
-    "Observable Corner Scout Lab proof", "team-model plus source-scene story",
+    "Observable Corner Scout Lab proof", "player-first source-scene story",
     "locks two concrete video-review questions", "deterministic counterevidence",
     "observation gap", "next meeting",
   ]);
