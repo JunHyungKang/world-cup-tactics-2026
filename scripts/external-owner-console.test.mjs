@@ -25,12 +25,16 @@ beforeAll(async () => {
     finalManifest: join(directory, "final-demo.json"),
     youtubeDescription: join(directory, "youtube-description.txt"),
     youtubeThumbnail: join(directory, "youtube-thumbnail.png"),
+    submissionStory: join(directory, "submission-story.json"),
+    galleryImage: join(directory, "gallery.png"),
+    galleryManifest: join(directory, "gallery-manifest.json"),
     outputDirectory: join(directory, "console"),
   };
   const planBytes = Buffer.from("eight-page-reviewed-plan-fixture");
   const finalVideoBytes = Buffer.from("frozen-public-final-video-fixture");
   const descriptionBytes = Buffer.from("포르투갈 상대 분석 설명 fixture\n");
   const thumbnailBytes = Buffer.from("current-thumbnail-fixture");
+  const galleryBytes = Buffer.from("current-gallery-fixture");
   expectedPlanSha = sha256(planBytes);
   expectedFinalVideoSha = sha256(finalVideoBytes);
   const finalManifestBytes = Buffer.from(`${JSON.stringify({
@@ -53,6 +57,20 @@ beforeAll(async () => {
     writeFile(fixturePaths.finalManifest, finalManifestBytes),
     writeFile(fixturePaths.youtubeDescription, descriptionBytes),
     writeFile(fixturePaths.youtubeThumbnail, thumbnailBytes),
+    writeFile(fixturePaths.galleryImage, galleryBytes),
+    writeFile(fixturePaths.galleryManifest, `${JSON.stringify({
+      output: {
+        path: fixturePaths.galleryImage,
+        sha256: sha256(galleryBytes),
+      },
+    }, null, 2)}\n`),
+    writeFile(fixturePaths.submissionStory, `${JSON.stringify({
+      gallery: {
+        title: "Corner Scout Lab — 포르투갈 14개를 보정하고, 원본 장면 두 안건을 고릅니다",
+        one_line: "포르투갈의 작은 표본을 보정하고 감독이 원본 장면 검토 안건을 고릅니다.",
+        first_image: fixturePaths.galleryImage,
+      },
+    }, null, 2)}\n`),
     writeFile(fixturePaths.uploadPackage, `${JSON.stringify({
       status: "PREPARED-AWAITING-OWNER-LISTENING-AND-YOUTUBE-PUBLICATION-APPROVAL",
       release: {
@@ -75,7 +93,7 @@ beforeAll(async () => {
         bytes: finalManifestBytes.length,
       },
       youtube: {
-        title: "Corner Policy Lab | 포르투갈전 코너킥 수비, 두 역할을 어디에 둘까요?",
+        title: "Corner Scout Lab | 포르투갈 코너 14개로 우루과이전 검토 질문을 만듭니다",
         description_path: fixturePaths.youtubeDescription,
         description_sha256: sha256(descriptionBytes),
         description_bytes: descriptionBytes.length,
@@ -141,6 +159,7 @@ describe("external owner console", () => {
     const html = renderOwnerConsole(await buildFixtureModel());
 
     expect(html).toContain("59.84초 영상 재생");
+    expect(html).toContain("Corner Scout Lab — 포르투갈 14개를 보정하고");
     expect(html).toContain(expectedFinalVideoSha);
     expect(html).toContain("이 영상으로 YouTube 공개 승인");
     expect(html).toContain("포르투갈 상대 분석 설명 fixture");
@@ -150,6 +169,7 @@ describe("external owner console", () => {
     expect(html).toContain('host==="youtube.com"');
     expect(html).toContain('host==="youtu.be"');
     expect(html).not.toContain("59.52초");
+    expect(html).not.toContain("두 역할을 어디에 둘까요");
     expect(html).not.toContain("리허설만 확인");
     expect(html).not.toContain("READY TO SUBMIT");
   });
@@ -198,6 +218,7 @@ describe("external owner console", () => {
       [fixturePaths.finalManifest, "video manifest"],
       [fixturePaths.youtubeDescription, "prepared description"],
       [fixturePaths.youtubeThumbnail, "prepared thumbnail"],
+      [fixturePaths.galleryImage, "gallery image"],
     ]) {
       const bytes = await readFile(path);
       try {
