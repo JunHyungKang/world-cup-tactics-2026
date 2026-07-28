@@ -15,11 +15,12 @@ Official page: https://daker.ai/public/hackathons/world-cup-manager-tactics-web-
 
 ## Judge experience
 
-1. Compare Portugal's 14 group-stage attacking corners with the six corners
-   Uruguay faced, keeping the two small samples separate.
-2. Compare five exact `restart family × first recorded follow-up team`
-   signatures, including their kickers, actors, and ten-second shot receipts.
-3. Choose exactly two training questions and lock them before the historical
+1. Start from the same-receipt connection between corner taker Ricardo Quaresma
+   and first recorded follow-up actor Raphaël Guerreiro: three scenes across two
+   matches, with no receiver or first-contact claim.
+2. Compare five exact scene questions using Portugal recurrence and Uruguay
+   three-axis direct/adjacent receipts, including their actors and timestamps.
+3. Choose exactly two video-review questions and lock them before the historical
    Uruguay–Portugal match is revealed.
 4. Reveal all five held-out counts and open the first shot-bearing scene outside
    the manager's choice. The canonical counterexample is corner `261095314`.
@@ -48,18 +49,18 @@ pnpm verify
 On macOS, install Poppler with `brew install poppler` before `pnpm verify`.
 `pnpm dev` and `pnpm build` do not require the Python/Poppler verification tools.
 
-The app is **Corner Scout Lab**: a historical set-piece scouting tool for one
-named matchup. It partially pools Portugal's 14 classifiable group-stage corners
-with the 397-corner tournament profile, then shows the frozen 160-corner
-knockout evaluation. Uruguay's five classifiable defensive exposures failed the
-forecast promotion gate and remain separate source-linked review evidence.
-Five event-chain signatures support exactly two video-review questions. The
-locked choice is then challenged by the held-out match and an unselected
-shot-bearing source scene. Player names identify
-only the player associated with a recorded source event; they do not identify a
-receiver, physical first contact, duel winner, or marking assignment. A zero is
-an observation gap, not a weakness. Causal
-recommendation is `REJECT`, and the wider empirical campaign remains `REVISE`.
+The app is **Corner Scout Lab**: a historical set-piece scene index for one
+named matchup. It connects the corner taker and first recorded follow-up actor
+inside the same source receipt, then separates Uruguay receipts into three-axis
+direct support and situation-only adjacent cases. Five event-chain questions
+support exactly two video-review choices. The locked choice is then challenged
+by the held-out match and an unselected shot-bearing source scene. Player names
+identify only the player associated with a recorded source event; they do not
+identify a receiver, physical first contact, pass target, rehearsed routine,
+duel winner, or marking assignment. The Portugal partial-pooling forecast and
+its 160-corner audit remain collapsed context, not the main interaction. A zero
+is an observation gap, not a weakness. Causal recommendation is `REJECT`, and
+the wider empirical campaign remains `REVISE`.
 The next-meeting note cannot mutate the locked review questions, held-out record, or
 source receipts.
 

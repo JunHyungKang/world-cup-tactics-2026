@@ -25,7 +25,7 @@ export const MATCHUP_SIGNATURES = Object.freeze([
 export const HORIZONS = Object.freeze([8, 10, 12, 15]);
 export const TEAM_PRIOR_CONCENTRATIONS = Object.freeze([0.5, 1, 2, 4, 8, 16, 32, 64, 128]);
 export const MATCHUP_DEFENSE_WEIGHTS = Object.freeze([0, 0.25, 0.5, 0.75, 1]);
-export const POLICY_SPIKE_VERSION = "policy-lab-spike-v11-source-time-receipts";
+export const POLICY_SPIKE_VERSION = "policy-lab-spike-v12-team-comparison-support";
 export const PLAYERS_INPUT_SHA256 = "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e";
 
 function attackingPoint(point, eventTeamId, attackingTeamId, mirrorLaterally) {
@@ -434,6 +434,75 @@ function cardBySignature(cards, signature) {
   return card;
 }
 
+function receiptEventFingerprint(receipt) {
+  const event = receipt.first_recorded_follow_up;
+  return `${event?.event_name ?? "none"}::${event?.sub_event_name ?? "none"}`;
+}
+
+function comparisonSupport(opponent, manager, managerCards) {
+  const opponentFingerprints = new Set(opponent.event_receipts.map(receiptEventFingerprint));
+  const directReceipts = manager.event_receipts.filter((receipt) =>
+    opponentFingerprints.has(receiptEventFingerprint(receipt)));
+  const sameSignatureAdjacent = manager.event_receipts.filter((receipt) =>
+    !opponentFingerprints.has(receiptEventFingerprint(receipt)));
+  const neighboringReceipts = managerCards
+    .filter((candidate) =>
+      candidate.signature !== manager.signature &&
+      candidate.recorded_situation === manager.recorded_situation)
+    .flatMap((candidate) => candidate.event_receipts);
+  return {
+    rule: "direct matches recorded_situation + first_recorded_team_role + first recorded follow-up event/sub-event; adjacent shares recorded_situation but differs on at least one remaining axis",
+    direct: directReceipts.length,
+    adjacent: sameSignatureAdjacent.length + neighboringReceipts.length,
+    direct_corner_event_ids: directReceipts.map((receipt) => receipt.corner_event_id),
+    adjacent_corner_event_ids: [...sameSignatureAdjacent, ...neighboringReceipts]
+      .map((receipt) => receipt.corner_event_id),
+  };
+}
+
+function repeatedPlayerConnections(opponentCards) {
+  const connections = new Map();
+  for (const card of opponentCards) {
+    for (const receipt of card.event_receipts) {
+      const taker = receipt.corner_taker;
+      const followUp = receipt.first_recorded_follow_up;
+      if (!taker || !followUp?.actor || followUp.team_role !== "attacking") continue;
+      const key = [
+        taker.player_id,
+        followUp.actor.player_id,
+        card.recorded_situation,
+      ].join("::");
+      const connection = connections.get(key) ?? {
+        recorded_situation: card.recorded_situation,
+        corner_taker: taker,
+        first_recorded_follow_up_actor: followUp.actor,
+        corners: 0,
+        match_ids: new Set(),
+        corner_event_ids: [],
+      };
+      connection.corners += 1;
+      connection.match_ids.add(receipt.match_id);
+      connection.corner_event_ids.push(receipt.corner_event_id);
+      connections.set(key, connection);
+    }
+  }
+  return [...connections.values()]
+    .map((connection) => ({
+      recorded_situation: connection.recorded_situation,
+      corner_taker: connection.corner_taker,
+      first_recorded_follow_up_actor: connection.first_recorded_follow_up_actor,
+      corners: connection.corners,
+      matches: connection.match_ids.size,
+      match_ids: [...connection.match_ids].sort((a, b) => a - b),
+      corner_event_ids: connection.corner_event_ids,
+    }))
+    .filter((connection) => connection.corners >= 2 && connection.matches >= 2)
+    .sort((a, b) =>
+      b.corners - a.corners ||
+      b.matches - a.matches ||
+      a.corner_taker.player_id - b.corner_taker.player_id);
+}
+
 function buildMatchupQuestionBoard(
   opponentEpisodes,
   managerEpisodes,
@@ -488,6 +557,7 @@ function buildMatchupQuestionBoard(
         "OPTIMAL_TACTIC",
       ],
     },
+    repeated_player_connections: repeatedPlayerConnections(opponentCards),
     questions: MATCHUP_SIGNATURES.map((signature) => {
       const opponent = cardBySignature(opponentCards, signature);
       const manager = cardBySignature(managerCards, signature);
@@ -509,6 +579,7 @@ function buildMatchupQuestionBoard(
           leading_first_defending_events: manager.leading_players.first_defending_events,
           event_receipts: manager.event_receipts,
         },
+        comparison_support: comparisonSupport(opponent, manager, managerCards),
         exposure_assessment: {
           status: manager.corners > 0
             ? "SEEN_IN_RECORDED_SAMPLE"
@@ -517,8 +588,8 @@ function buildMatchupQuestionBoard(
           compatible_unclassified_manager_corners:
             signature === "other-defending-first" ? unclassifiedManagerEpisodes.length : 0,
           interpretation: manager.corners > 0
-            ? "The same recorded signature appears in Uruguay's classifiable group-stage defensive-exposure sample."
-            : "No classifiable Uruguay group-stage defensive-exposure record has this signature; this is not a weakness finding.",
+            ? "The same two-axis situation and first-team signature appears in Uruguay's classifiable group-stage defensive-exposure sample; comparison_support decides whether the event subtype also matches."
+            : "No classifiable Uruguay group-stage defensive-exposure record has this two-axis signature; adjacent records may still exist and this is not a weakness finding.",
         },
         held_out_evidence: {
           corners: heldOut.corners,

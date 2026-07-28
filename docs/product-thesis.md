@@ -4,7 +4,7 @@ Product selection ID: `corner-policy-lab`
 
 Product data scope: `official-open-historical-tactics`
 
-Product selection status: `PASS — partial-pooled team forecast + source-linked scene review`
+Product selection status: `REVISE — player-linked scene index under release validation`
 
 Implementation refinement status: `LOCAL RELEASE VERIFIED — stamped public release and video pending`
 
@@ -15,6 +15,102 @@ Empirical campaign status: `REVISE`
 Event-chain matchup analysis status: `PASS — descriptive recorded sequences only`
 
 Full tactical weakness inference status: `REJECT — no tracking, marking, or role-position data`
+
+## 2026-07-28 fifth product correction
+
+The owner identified the remaining product-level flaw: leading with `14`, `397`,
+`160`, and `4.59%` still made Corner Scout Lab look like a small-sample location
+dashboard. The underlying derivative contained player and event receipts, but
+the first screen hid them behind the forecast and treated a two-axis signature
+as if it were already a meaningful two-team tactical comparison. The release
+`bddb02a…` and video `5048aa…` are therefore superseded and must not be uploaded.
+
+The corrected product question is:
+
+> 2018 월드컵 16강 전날, 포르투갈 코너의 같은 기록 묶음에서 반복된
+> 키커와 첫 기록의 연결은 무엇이고, 우루과이의 사전 수비 기록 중
+> 어느 장면을 직접 비교하거나 참고 영상으로 함께 볼까?
+
+The product remains **Corner Scout Lab**, but its primary value is now a
+source-linked scene index for a set-piece video meeting. It is not a two-team
+tactical model and does not judge whether a defensive response is correct.
+
+The first screen must now show observed team relations before any aggregate
+forecast:
+
+- corner taker `Ricardo Quaresma` and first recorded follow-up actor
+  `Raphaël Guerreiro` form an exact same-receipt connection in three short-area
+  records across two group-stage matches; it is not a receiver, first-contact,
+  pass-target, possession-continuation, or rehearsed-routine claim;
+- Guerreiro is the first recorded Portugal follow-up actor in five of the seven
+  short-corner records, while the broad short category appears across all three
+  Portugal group matches;
+- the first recorded follow-up belongs to the defending team in four of five
+  Portugal aerial records across all three matches;
+- C. Sánchez is the first recorded Uruguay defending actor in three of the five
+  classifiable defensive-exposure records, but all three are from one match, so
+  the concentration is exposed rather than generalized.
+
+The two-team comparison uses three explicit axes:
+
+1. recorded situation family;
+2. team role of the first recorded follow-up; and
+3. first recorded follow-up event and sub-event type.
+
+A Uruguay receipt is shown as `직접 비교` only when all three axes match at
+least one Portugal receipt in the selected question. A receipt that shares the
+situation family but differs on the team-role or event-type axis is shown as a
+`참고 장면`.
+Anything else is not comparison support. The public artifact must carry the
+exact corner event IDs owning both sets; the browser may not infer or decorate
+them independently.
+
+The Portugal partial-pooling forecast remains a collapsed safety note. It is
+useful for disclosing how a 14-corner sample was regularized, but it is not the
+main interaction, a placement recommendation, or proof of the fixed matchup.
+The result view must lead with selected scene evidence and the unselected
+counterexample; the `9/10`, five-column table, and model scores move under
+progressive disclosure.
+
+### Product Gate candidate card
+
+- **Target user / fantasy:** the Uruguay set-piece analyst preparing the 2018
+  round-of-16 video meeting can find source timestamps for Portugal player-event
+  chains without pretending to own tracking data.
+- **Decision / manipulation / consequence:** select exactly two scene-review
+  questions, lock them before the historical matchup opens, see exact three-axis
+  or adjacent Uruguay support, then inspect a held-out player-event receipt and
+  an unselected shot-bearing counterexample.
+- **Real data and decision relevance:** Events, Matches, and Players connect the
+  kicker, first recorded follow-up, first recorded defender, match, period,
+  timestamp, shot flag, and source IDs. These relations determine which scene
+  cards and counterexample appear.
+- **Differentiation:** a provenance-bound scene-query board with a skeptic
+  counterexample, not a formation board, location leaderboard, chatbot, or
+  unsupported tactical recommender.
+- **60-second path:** open with the exact same-receipt Quaresma–Guerreiro link
+  and its no-contact boundary; inspect
+  Portugal recurrence and thin Uruguay support; choose two questions; lock;
+  reveal the matchup; open the unselected `261095314` receipt; save the next
+  meeting note; state that tracking-dependent advice is unavailable.
+- **Smallest implementation / tests:** extend the committed derivative with
+  repeated player connections and three-axis comparison support; require source
+  event IDs, browser-visible player links, mobile first action, accessibility,
+  and fail-closed validation.
+- **Stop signals:** independent aggregates connected as if they were a player
+  chain, `same scene` wording without three-axis support, any weakness/marking/
+  optimal-response claim, or model metrics appearing before the manager action.
+- **Risks:** the Uruguay record remains five classifiable corners and four come
+  from one match; the app indexes source moments but cannot embed licensed match
+  video or infer the missing player setup.
+- **Expected judging value:** team specificity and source traceability improve
+  originality and credibility; player-first scene cards and a precommitted
+  review board improve manager experience without sacrificing reliability.
+
+Product Gate result: `REVISE` until the derivative, source tests, Korean copy,
+four-browser pre-release matrix, public bytes, gallery, and new 60-second demo
+all pass. The old public release and video are not valid final-submission
+artifacts.
 
 ## 2026-07-28 fourth product correction
 

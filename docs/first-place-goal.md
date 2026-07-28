@@ -1,6 +1,6 @@
 # First-Place Goal
 
-Status: `ACTIVE — planning submitted; team-model public release, YouTube, and final DAKER receipt remain`
+Status: `ACTIVE — planning submitted; player-first candidate validation, public release, YouTube, and final DAKER receipt remain`
 
 ## Objective
 
@@ -11,9 +11,9 @@ submission ledger.
 
 The product wins only if a judge understands this manager loop in five seconds:
 
-`correct Portugal's small sample → reject the underpowered Uruguay forecast
-signal → choose two source-scene questions → lock → reveal the hidden matchup
-and an unselected shot-bearing scene → revise the next meeting`
+`same-receipt player-event connection → three-axis direct/adjacent support →
+choose two source-scene questions → lock → reveal the hidden matchup and an
+unselected shot-bearing scene → revise the next meeting`
 
 The old role-placement and `5/4/1` count-allocation products are rejected. Their
 public app, gallery, and video must not be uploaded as the final entry.
@@ -26,21 +26,21 @@ comprehension, and memorability claims stay omitted.
 
 | Gate | Pass condition | Current state |
 |---|---|---|
-| Five-second comprehension — UNEVALUATED / NO CLAIM | a fresh user can say that the app corrects Portugal's small corner sample, keeps Uruguay's sparse record out of the forecast, and asks for two source-scene review questions | no real participant evidence; synthetic critique is design input only |
-| Manager agency | inspect the corrected Portugal profile and five team-linked scene questions, choose exactly two, lock before reveal, open unselected counterevidence, save a separate next-meeting decision | `17/17` source interactions, `12/12` static release, and `56/56` four-project pre-release checks pass |
+| Five-second comprehension — UNEVALUATED / NO CLAIM | a fresh user can say that the app finds source-linked Portugal player-event records, distinguishes direct and adjacent Uruguay evidence, and asks for two video-review questions | no real participant evidence; synthetic critique is design input only |
+| Manager agency | inspect the same-receipt player-event connection and five team-linked scene questions, choose exactly two, lock before reveal, open unselected counterevidence, save a separate next-meeting decision | implemented; local unit/contract suite `123/123` and four-project pre-release browser matrix `56/56` pass |
 | Claim safety | zero remains an observation gap; no weakness, intent, marking, prevention, optimal tactic, or changed result is inferred | raw/data semantics pass; causal recommendation `REJECT`, wider empirical campaign `REVISE` |
 | Comparative recall — UNEVALUATED / NO CLAIM | a fresh cohort recalls the two-team question and unselected counterexample after delay | unavailable; no comparative-memory claim allowed |
-| Data credibility | accepted Events, Matches, and Players sources; deterministic 603-corner derivative; partial-pooling fit on 397 corners; frozen 160-corner audit; exact scene receipts; narrow identity scope | team model lowers all-knockout log loss `4.59%`; Uruguay-conditioned challenger remains rejected; Portugal/Uruguay pairs `7/2 · 1/2 · 4/0 · 1/0 · 1/1` remain source-linked |
-| Interaction/reliability | pointer, keyboard, touch, hidden result, immutable lock, counterevidence `261095314`, refresh, fail-closed invalid data, responsive layout, Axe, and screenshot evidence | `122/122` unit/contract, `17/17` source, `12/12` static, and `56/56` pre-release checks pass; stamped exact-public BG-12 remains |
+| Data credibility | accepted Events, Matches, and Players sources; deterministic 603-corner derivative; exact same-receipt player-event connection; three-axis comparison receipts; narrow identity scope | v12 data, provenance, identity review, raw reproduction `11/11`, eligibility, and release bindings pass |
+| Interaction/reliability | pointer, keyboard, touch, hidden result, immutable lock, counterevidence `261095314`, refresh, fail-closed invalid data, responsive layout, Axe, and screenshot evidence | full local verification passes with `123/123`; Chromium, WebKit, Firefox, and mobile pre-release matrix passes `56/56` |
 | Planning package | submitted PDF and exact independent document-QA receipt remain immutable | DAKER accepted PDF `060376c8…` at `2026-07-26T18:38:37+09:00`, submission ID `a072f2fb-6284-4697-bfa3-2c156d2bc1f6` |
-| Final package | new public app, repository, gallery, narrated video, browser report, YouTube URL, and final DAKER receipt all bind the same release | source story and new gallery candidate exist; stamped public app, new final video, YouTube publication, and final DAKER receipt remain |
+| Final package | new public app, repository, gallery, narrated video, browser report, YouTube URL, and final DAKER receipt all bind the same release | regenerated gallery and 59.88-second local narrated candidate `38e15af7…` pass automated frame/audio/caption audits; independent cold-eye passes content, Korean, five-second comprehension, and football boundaries. Corrected commit, stamped public app, public-browser report, exact-public video, owner listening, YouTube publication, and final DAKER receipt remain |
 
 ## Winning execution lane
 
 1. Preserve the submitted planning PDF and its receipt; do not rewrite or
    resubmit it.
 2. Keep one public story everywhere:
-   `small-sample correction → rejected sparse Uruguay forecast signal →
+   `same-receipt player-event connection → three-axis direct/adjacent support →
    two source-scene questions → lock → hidden match → unselected
    counterevidence → next meeting`.
 3. Keep the two teams separate. Never turn Uruguay's five classifiable
@@ -86,8 +86,9 @@ Therefore:
 
 ## Next concrete artifact
 
-Stamp and deploy the corrected public release, then run the complete
-public-browser matrix, and regenerate the final video from those exact bytes.
+Finish the local narrated rehearsal and cold-eye review, stamp and deploy the
+corrected public release, run the complete public-browser matrix, and regenerate
+the final video from those exact bytes.
 Only after owner listening approval may that video be published to YouTube.
 Keep the final DAKER web-link/video submission untouched until a separate
 action-time confirmation.

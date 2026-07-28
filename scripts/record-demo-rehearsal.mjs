@@ -80,8 +80,8 @@ const [storyBytes, editorialTreatmentBytes] = await Promise.all([
 ]);
 const story = JSON.parse(storyBytes.toString("utf8"));
 const editorialTreatment = JSON.parse(editorialTreatmentBytes.toString("utf8"));
-if (story.schema_version !== 3 || story.product_id !== "corner-policy-lab") {
-  throw new Error("demo recorder requires the canonical schema-3 Corner Scout Lab story");
+if (story.schema_version !== 4 || story.product_id !== "corner-policy-lab") {
+  throw new Error("demo recorder requires the canonical schema-4 Corner Scout Lab story");
 }
 
 let preview;
@@ -147,8 +147,17 @@ try {
     const page = await context.newPage();
     await page.goto(baseURL);
     await page.getByRole("heading", {
-      name: /포르투갈 코너 14개만.*그대로 믿어도 될까요/u,
+      name: /16강 전날,.*포르투갈 코너 영상은 무엇부터 볼까요/u,
     }).waitFor();
+    await page.getByTestId("team-routine-brief").waitFor();
+    const teamBrief = await page.getByTestId("team-routine-brief").innerText();
+    if (!teamBrief.includes("키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루") ||
+        !teamBrief.includes("키커 Ricardo Quaresma · 첫 기록에 등장한 선수 Raphaël Guerreiro") ||
+        !teamBrief.includes("3장면 · 2경기") ||
+        !teamBrief.includes("직접 비교") ||
+        !teamBrief.includes("패스 대상이나 첫 접촉을 뜻하지 않음")) {
+      throw new Error("team-routine-brief is not bound to the player-first comparison story");
+    }
 
     await page.evaluate((treatment) => {
       const style = document.createElement("style");
@@ -277,11 +286,11 @@ try {
 
     await waitUntil(6);
     await updateEditorial("evidence", 6);
-    mark("model-view", 6);
+    mark("team-connection-view", 6);
 
     await waitUntil(12);
     await scrollTo(page.locator(".quick-question-picker"));
-    mark("question-view", 12);
+    mark("question-board-view", 12);
 
     await waitUntil(15);
     await updateEditorial("select", 15);
@@ -313,11 +322,17 @@ try {
 
     await waitUntil(42);
     await updateEditorial("counterevidence", 42);
+    await page.evaluate(() => {
+      document.querySelector("#app").style.zoom = "1.12";
+    });
     await scrollTo(page.getByTestId("counterevidence"));
     mark("counterevidence-view", 42);
 
     await waitUntil(50);
     await updateEditorial("memo", 50);
+    await page.evaluate(() => {
+      document.querySelector("#app").style.zoom = "1";
+    });
     const meetingDecision = page.getByLabel("다음 회의에서 영상 검토 안건 다시 선택");
     await scrollTo(meetingDecision);
     await meetingDecision.check();

@@ -136,7 +136,7 @@ function localEvidenceFixture() {
       held_out: "실제 맞대결 5 · 2 · 0 · 0 · 3",
       shots: "10초 안 슈팅 기록 2 · 0 · 0 · 0 · 2",
       counterevidence:
-        "그 밖의 전개 뒤 · 수비팀 먼저 기록 · 실제 3장면 · 10초 안 포르투갈 슈팅 기록이 2장면 · corner 261095314",
+        "기타 전개 · 첫 기록은 수비팀 · 실제 3장면 · 10초 안 포르투갈 슈팅 기록이 2장면 · corner 261095314",
       boundary:
         "실제 맞대결에서는 포르투갈 코너 10개 중 4개 뒤에 슈팅 기록이 있었습니다. 어떤 선택이 이를 바꿨을지는 알 수 없습니다.",
       meeting_note:
@@ -177,7 +177,7 @@ function localEvidenceFixture() {
   return { storyBytes, bytes, visualManifest, narrationManifest };
 }
 
-describe("canonical team-model and source-scene Corner Scout Lab submission story", () => {
+describe("canonical player-first source-scene Corner Scout Lab submission story", () => {
   it("accepts the source story, exact narration, captions, and editorial treatment", () => {
     expect(validateSubmissionStory(story, sources)).toEqual([]);
     expect(
@@ -198,6 +198,12 @@ describe("canonical team-model and source-scene Corner Scout Lab submission stor
       261095513;
     expect(validateSubmissionStory(changedCounterevidence, sources)).toContain(
       "submission story must bind other-defending-first 3-scene/2-shot counterevidence and corner 261095314",
+    );
+
+    const changedConnection = structuredClone(story);
+    changedConnection.manager_decision.repeated_player_connection.corners = 4;
+    expect(validateSubmissionStory(changedConnection, sources)).toContain(
+      "submission story must bind the exact repeated player-event connection and three-axis comparison support",
     );
   });
 

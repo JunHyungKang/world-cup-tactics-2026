@@ -130,7 +130,7 @@ check(
   "final frame must preserve the five held-out shot counts",
 );
 check(
-  manifest.final_frame?.counterevidence?.includes("그 밖의 전개 뒤 · 수비팀 먼저 기록") &&
+  manifest.final_frame?.counterevidence?.includes("기타 전개 · 첫 기록은 수비팀") &&
     manifest.final_frame?.counterevidence?.includes("10초 안 포르투갈 슈팅 기록이 2장면") &&
     manifest.final_frame?.counterevidence?.includes("corner 261095314"),
   "final frame must preserve the unselected deterministic counterevidence",

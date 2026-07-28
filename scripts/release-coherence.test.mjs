@@ -34,8 +34,8 @@ describe("selected-product release coherence", () => {
       { key: "stampedBuilder", value: input.stampedBuilder.replace("await buildPolicyLabRelease", "await legacyViteBuild") },
       { key: "preReleaseRunner", value: input.preReleaseRunner.replace("build-policy-lab.mjs", "node_modules/vite/bin/vite.js") },
       { key: "invalidFixture", value: input.invalidFixture.replace("corner_situation_rehearsal", "matchup_challenger") },
-      { key: "finalSpec", value: input.finalSpec.replace("포르투갈 코너 14개만", "포르투갈 코너 상황 3유형") },
-      { key: "demoRecorder", value: input.demoRecorder.replace("포르투갈 코너 14개만", "포르투갈 코너 상황 3유형") },
+      { key: "finalSpec", value: input.finalSpec.replace("키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루", "포르투갈 코너 상황 3유형") },
+      { key: "demoRecorder", value: input.demoRecorder.replace("team-routine-brief", "team-situation-rehearsal") },
       { key: "editorialTreatment", value: { ...input.editorialTreatment, label: "[제품 화면]" } },
       { key: "interactionContract", value: input.interactionContract.replace("# Corner Scout Lab", "# Corner War Room") },
       { key: "judgingMap", value: input.judgingMap.replace("Observable Corner Scout Lab proof", "Observable Corner Policy Lab proof") },
@@ -62,8 +62,8 @@ describe("selected-product release coherence", () => {
   });
 
   it("binds the demo recorder to the canonical submission-story schema", () => {
-    expect(input.demoRecorder).toContain("story.schema_version !== 3");
-    expect(input.demoRecorder).toContain("canonical schema-3 Corner Scout Lab story");
-    expect(input.demoRecorder).not.toContain("story.schema_version !== 4");
+    expect(input.demoRecorder).toContain("story.schema_version !== 4");
+    expect(input.demoRecorder).toContain("canonical schema-4 Corner Scout Lab story");
+    expect(input.demoRecorder).not.toContain("story.schema_version !== 3");
   });
 });

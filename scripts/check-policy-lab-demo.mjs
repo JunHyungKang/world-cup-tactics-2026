@@ -108,7 +108,7 @@ check(
   "final frame question-to-five-signature proof drifted",
 );
 check(
-  visual.final_frame.counterevidence.includes("그 밖의 전개 뒤 · 수비팀 먼저 기록") &&
+  visual.final_frame.counterevidence.includes("기타 전개 · 첫 기록은 수비팀") &&
     visual.final_frame.counterevidence.includes("10초 안 포르투갈 슈팅 기록이 2장면") &&
     visual.final_frame.counterevidence.includes("corner 261095314"),
   "unselected deterministic counterevidence drifted",

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "transform_version": "policy-lab-spike-v11-source-time-receipts",
+  "transform_version": "policy-lab-spike-v12-team-comparison-support",
   "provenance": {
     "source_ids": [
       "pappalardo-wyscout-events-wc-2018",
@@ -11412,6 +11412,30 @@
             "OPTIMAL_TACTIC"
           ]
         },
+        "repeated_player_connections": [
+          {
+            "recorded_situation": "short-recorded-endpoint",
+            "corner_taker": {
+              "player_id": 32597,
+              "display_name": "Ricardo Quaresma"
+            },
+            "first_recorded_follow_up_actor": {
+              "player_id": 28907,
+              "display_name": "Raphaël Guerreiro"
+            },
+            "corners": 3,
+            "matches": 2,
+            "match_ids": [
+              2057960,
+              2057964
+            ],
+            "corner_event_ids": [
+              258702651,
+              258702667,
+              260341439
+            ]
+          }
+        ],
         "questions": [
           {
             "id": "short-attacking-first",
@@ -11841,11 +11865,21 @@
                 }
               ]
             },
+            "comparison_support": {
+              "rule": "direct matches recorded_situation + first_recorded_team_role + first recorded follow-up event/sub-event; adjacent shares recorded_situation but differs on at least one remaining axis",
+              "direct": 2,
+              "adjacent": 0,
+              "direct_corner_event_ids": [
+                259527052,
+                259528043
+              ],
+              "adjacent_corner_event_ids": []
+            },
             "exposure_assessment": {
               "status": "SEEN_IN_RECORDED_SAMPLE",
               "thin": false,
               "compatible_unclassified_manager_corners": 0,
-              "interpretation": "The same recorded signature appears in Uruguay's classifiable group-stage defensive-exposure sample."
+              "interpretation": "The same two-axis situation and first-team signature appears in Uruguay's classifiable group-stage defensive-exposure sample; comparison_support decides whether the event subtype also matches."
             },
             "held_out_evidence": {
               "corners": 5,
@@ -12221,11 +12255,21 @@
                 }
               ]
             },
+            "comparison_support": {
+              "rule": "direct matches recorded_situation + first_recorded_team_role + first recorded follow-up event/sub-event; adjacent shares recorded_situation but differs on at least one remaining axis",
+              "direct": 0,
+              "adjacent": 2,
+              "direct_corner_event_ids": [],
+              "adjacent_corner_event_ids": [
+                259528860,
+                260304080
+              ]
+            },
             "exposure_assessment": {
               "status": "SEEN_IN_RECORDED_SAMPLE",
               "thin": true,
               "compatible_unclassified_manager_corners": 0,
-              "interpretation": "The same recorded signature appears in Uruguay's classifiable group-stage defensive-exposure sample."
+              "interpretation": "The same two-axis situation and first-team signature appears in Uruguay's classifiable group-stage defensive-exposure sample; comparison_support decides whether the event subtype also matches."
             },
             "held_out_evidence": {
               "corners": 2,
@@ -12530,11 +12574,21 @@
               "leading_first_defending_events": [],
               "event_receipts": []
             },
+            "comparison_support": {
+              "rule": "direct matches recorded_situation + first_recorded_team_role + first recorded follow-up event/sub-event; adjacent shares recorded_situation but differs on at least one remaining axis",
+              "direct": 0,
+              "adjacent": 2,
+              "direct_corner_event_ids": [],
+              "adjacent_corner_event_ids": [
+                259528860,
+                260304080
+              ]
+            },
             "exposure_assessment": {
               "status": "UNSEEN_IN_RECORDED_SAMPLE",
               "thin": true,
               "compatible_unclassified_manager_corners": 0,
-              "interpretation": "No classifiable Uruguay group-stage defensive-exposure record has this signature; this is not a weakness finding."
+              "interpretation": "No classifiable Uruguay group-stage defensive-exposure record has this two-axis signature; adjacent records may still exist and this is not a weakness finding."
             },
             "held_out_evidence": {
               "corners": 0,
@@ -12613,11 +12667,20 @@
               "leading_first_defending_events": [],
               "event_receipts": []
             },
+            "comparison_support": {
+              "rule": "direct matches recorded_situation + first_recorded_team_role + first recorded follow-up event/sub-event; adjacent shares recorded_situation but differs on at least one remaining axis",
+              "direct": 0,
+              "adjacent": 1,
+              "direct_corner_event_ids": [],
+              "adjacent_corner_event_ids": [
+                259528903
+              ]
+            },
             "exposure_assessment": {
               "status": "UNSEEN_IN_RECORDED_SAMPLE",
               "thin": true,
               "compatible_unclassified_manager_corners": 0,
-              "interpretation": "No classifiable Uruguay group-stage defensive-exposure record has this signature; this is not a weakness finding."
+              "interpretation": "No classifiable Uruguay group-stage defensive-exposure record has this two-axis signature; adjacent records may still exist and this is not a weakness finding."
             },
             "held_out_evidence": {
               "corners": 0,
@@ -12744,11 +12807,20 @@
                 }
               ]
             },
+            "comparison_support": {
+              "rule": "direct matches recorded_situation + first_recorded_team_role + first recorded follow-up event/sub-event; adjacent shares recorded_situation but differs on at least one remaining axis",
+              "direct": 1,
+              "adjacent": 0,
+              "direct_corner_event_ids": [
+                259528903
+              ],
+              "adjacent_corner_event_ids": []
+            },
             "exposure_assessment": {
               "status": "SEEN_IN_RECORDED_SAMPLE",
               "thin": true,
               "compatible_unclassified_manager_corners": 1,
-              "interpretation": "The same recorded signature appears in Uruguay's classifiable group-stage defensive-exposure sample."
+              "interpretation": "The same two-axis situation and first-team signature appears in Uruguay's classifiable group-stage defensive-exposure sample; comparison_support decides whether the event subtype also matches."
             },
             "held_out_evidence": {
               "corners": 3,

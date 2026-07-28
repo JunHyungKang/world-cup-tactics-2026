@@ -2,29 +2,32 @@
 
 Verified: `2026-07-28 KST`
 
-Status: `PASS — team-model and source-scene proof passed; canonical public release and video reset are in progress`
+Status: `REVISE — player-first source-scene candidate passed local validation; exact-public package remains`
 
 ## One-sentence manager fantasy
 
-The judge sees Portugal's 14-corner sample corrected by the tournament profile,
-sees why Uruguay's five-corner defensive sample is rejected as a forecast input,
-locks two source-scene review questions, then opens the first shot-bearing scene
-outside that choice.
+The judge starts with a same-receipt Portugal player-event connection, separates
+Uruguay's three-axis direct support from adjacent records, locks two source-scene
+review questions, then opens the first shot-bearing scene outside that choice.
 
 ## Why this is not another RAG dashboard
 
 The product does not retrieve one similar past scene and ask whether an answer
 looks plausible. It creates a falsifiable attention decision:
 
-1. partially pool Portugal's 14 corners with the 397-corner tournament profile;
-2. validate the frozen team model on 160 unseen knockout corners;
-3. visibly reject the underpowered Uruguay-conditioned challenger;
-4. keep Portugal's attacking corners and Uruguay's defensive exposures separate;
-5. connect five exact restart-family × first-follow-up-team signatures to named
+1. bind the corner taker and first recorded follow-up actor inside the same source
+   receipt;
+2. expose the repeated Quaresma/Guerreiro connection as three scenes across two
+   matches without calling it a pass, first contact, or rehearsed routine;
+3. keep Portugal's attacking corners and Uruguay's defensive records separate;
+4. admit Uruguay as direct support only when situation family, first recorded
+   team role, and event/sub-event type all match;
+5. connect five exact restart-family × first-follow-up-team questions to named
    actors and source IDs;
 6. let the manager choose exactly two questions with no default;
 7. lock the questions before the Uruguay–Portugal match is visible;
-8. reveal the one-match model check, all five held-out counts, and shot records;
+8. reveal all five held-out counts and shot records while aggregate model
+   evidence remains collapsed;
 9. open the first shot-bearing scene outside the manager's choice;
 10. save the next meeting decision without changing the locked questions or
    historical record.
@@ -39,9 +42,9 @@ engine. It joins `Team`, `Match`, `CornerRestart`, `RestartFamily`,
 
 | Official criterion | Current evidence | Remaining gate |
 |---|---|---|
-| Originality 30 | partial pooling, frozen 160-corner audit, a visibly rejected two-team challenger, source-scene precommitment, and deterministic counterevidence | preserve this loop in the stamped public release and final video |
-| Manager experience 25 | understand the team correction, inspect match recurrence, choose two concrete scene questions, lock, reveal the hidden matchup, open corner `261095314`, save the next agenda | local `17/17`, `12/12`, and `56/56` browser gates pass; complete stamped public URL proof |
-| Completeness 25 | 603 corners, 397-corner fit, 160-corner audit, exact `7/2 · 1/2 · 4/0 · 1/0 · 1/1` pairs, source-bound players, and fail-closed release | regenerate gallery, narrated video, hashes, and final artifact review |
+| Originality 30 | exact same-receipt player-event connections, three-axis direct/adjacent support, source-scene precommitment, and deterministic counterevidence | preserve this loop in the stamped public release and final video |
+| Manager experience 25 | inspect player-event recurrence, choose two concrete scene questions, lock, reveal the hidden matchup, open corner `261095314`, save the next agenda | local `123/123` and four-project `56/56` pass; stamped public URL and BG-01–15 proof remain |
+| Completeness 25 | 603 corners, exact 29 source receipts, one repeated 3-scene/2-match player-event connection, `2/0 · 0/2 · 0/2 · 0/1 · 1/0` direct/adjacent support, source-bound players, and fail-closed release | data/review hashes, reproduction `11/11`, eligibility, copy, local release checks, regenerated gallery, and 59.88-second narrated rehearsal `38e15af7…` pass. Independent cold-eye passes content/copy/football boundaries; exact-public gallery/video binding and owner listening remain |
 | Planning/implementation consistency 20 | preserves two priorities, precommitment, hidden evidence, counterevidence, and a next-meeting decision while documenting the rejected location/role hypothesis | bind the corrected public app and video without altering the submitted PDF |
 
 The first-round funnel remains submitter `60%`, participant `20%`, and public
@@ -59,14 +62,12 @@ an optimal tactic, or a changed match result.
 
 ## Verdict
 
-`PASS` for the team-model plus source-scene product concept. The corrected
-`122/122` unit/contract suite, `17/17` source interactions, `12/12` static
-release matrix, and `56/56` pre-release browser matrix pass. The prior public
-release evidence still belongs to the superseded narrative and cannot be reused.
-The previous public app, gallery, and video belong to the rejected `5/4/1`
-allocation product and cannot be uploaded. Final completion requires a newly
-stamped public release, the complete public
-browser matrix, a new gallery and narrated video, independent exact-artifact
-review, YouTube publication, and the separate DAKER submission receipt. No
-local or agent-generated artifact is human evidence or an external submission
-confirmation.
+`REVISE` because exact-public packaging is not complete. The player-first
+candidate passes the full local verification suite (`123/123`) and Chromium,
+WebKit, Firefox, and mobile pre-release matrix (`56/56`), but prior public release
+`bddb02a…` and narrated video `5048aa…` belong to the superseded model-first
+narrative and cannot be reused. Final completion requires a newly stamped public
+release, the complete public browser matrix, a new exact-public gallery and
+narrated video, independent exact-artifact review, YouTube publication, and the
+separate DAKER submission receipt. No local or agent-generated artifact is human
+evidence or an external submission confirmation.

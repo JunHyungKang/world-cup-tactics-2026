@@ -9,13 +9,13 @@ async function selectDemoPriorities(page: Page) {
   }
   await expect(page.getByTestId("priority-summary")).toHaveText("2/2개 선택 · 0개 남음");
   await expect(page.getByTestId("priority-mix")).toContainText(
-    "사전 관찰 공백 1개 · 우루과이도 겪은 장면 1개",
+    "우루과이 직접 비교 없음 1개 · 직접 비교 있음 1개",
   );
   await expect(page.getByTestId("selected-question-labels")).toContainText(
-    "공중 경합·헤더 뒤 · 수비팀 먼저 기록",
+    "공중볼 경합 · 첫 기록은 수비팀",
   );
   await expect(page.getByTestId("selected-question-labels")).toContainText(
-    "숏 구역 전달 뒤 · 공격팀 먼저 기록",
+    "숏 코너 · 첫 기록은 공격팀",
   );
 }
 
@@ -41,8 +41,14 @@ test("the built release runs the keyless two-question lock and hidden counterevi
 
   await page.goto("/");
   await expect(page.getByRole("heading", {
-    name: /포르투갈 코너 14개만.*그대로 믿어도 될까요/u,
+    name: /16강 전날,.*포르투갈 코너 영상은 무엇부터 볼까요/u,
   })).toBeVisible();
+  await expect(page.getByTestId("team-routine-brief")).toContainText(
+    "키커 콰레스마 · 첫 기록에 등장한 선수 게헤이루",
+  );
+  await expect(page.getByTestId("team-routine-brief")).toContainText(
+    "3장면 · 2경기",
+  );
   await expect(page.locator(".quick-evidence article").filter({
     hasText: "포르투갈이 공격한 코너",
   })).toContainText("14/14");
@@ -66,10 +72,12 @@ test("the built release runs the keyless two-question lock and hidden counterevi
   ]);
   await expect(result.locator(".actual-row > span")).toHaveText(["5", "2", "0", "0", "3"]);
   const counterevidence = page.getByTestId("counterevidence");
-  await expect(counterevidence).toContainText("그 밖의 전개 뒤 · 수비팀 먼저 기록 · 실제 3장면");
+  await expect(counterevidence).toContainText("기타 전개 · 첫 기록은 수비팀 · 실제 3장면");
   await expect(counterevidence).toContainText("10초 안 포르투갈 슈팅 기록이 2장면");
   await expect(counterevidence).toContainText("corner 261095314");
-  await expect(counterevidence).toContainText("Bernardo Silva → L. Suárez");
+  await expect(counterevidence).toContainText(
+    "키커 Bernardo Silva · 첫 기록에 등장한 선수 L. Suárez",
+  );
   await expect(result).toContainText("10개 중 4개 뒤에 10초 안 슈팅 기록");
   await expect(result).toContainText("어떤 훈련이 이를 막았을지는 이 데이터로 알 수 없습니다");
   expect(foreignRequests).toEqual([]);

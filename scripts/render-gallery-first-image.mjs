@@ -23,8 +23,8 @@ const [fontBytes, ...sourceBytes] = await Promise.all([
 const images = sourceBytes.map((bytes) => `data:image/png;base64,${bytes.toString("base64")}`);
 const font = `data:font/ttf;base64,${fontBytes.toString("base64")}`;
 const proofCards = [
-  ["1 · 작은 표본을 보정", "포르투갈 47% · 대회 53%", "토너먼트 160개에서 대회 평균 대비 로그손실 4.6% 감소", images[0], "#79D5A5"],
-  ["2 · 원본 장면 안건을 잠금", "영상 검토 안건 2개", "포르투갈 3/3경기 반복과 우루과이 관찰 경기를 보고 감독이 선택", images[1], "#F1C84B"],
+  ["1 · 반복 기록 확인", "3장면 · 2경기", "콰레스마의 코너 뒤 첫 기록에 게헤이루 등장 · 패스 대상 의미 없음", images[0], "#79D5A5"],
+  ["2 · 직접 비교와 참고 구분", "먼저 볼 영상 2묶음", "전개 방식·첫 기록의 팀·이벤트 유형을 확인한 뒤 감독이 선택", images[1], "#F1C84B"],
   ["3 · 선택 밖 반례를 확인", "3장면 · 10초 안 슈팅 2장면", "corner 261095314를 다음 회의 안건으로 저장", images[2], "#F0A56A"],
 ];
 const proofHtml = proofCards.map(([step, title, detail, image, color]) => `
@@ -84,30 +84,31 @@ try {
     <section class="layout">
       <div class="story">
         <div class="eyebrow">CORNER SCOUT LAB · 2018 WORLD CUP</div>
-        <h1 class="title">포르투갈 코너 14개만<br><span>그대로 믿어도 될까?</span></h1>
+        <h1 class="title">16강 전날,<br><span>포르투갈 코너 영상은<br>무엇부터 볼까?</span></h1>
         <div class="sub">${escapeHtml(story.gallery.one_line)}</div>
         <div class="choices">
           <div class="choice primary">
-            <b>포르투갈이 공격한 코너</b>
-            <strong>14/14</strong>
-            <em>팀 근거 47% · 대회 기록으로 보정</em>
+            <b>반복된 선수·이벤트 연결</b>
+            <strong>키커 콰레스마</strong>
+            <span>첫 기록에 등장한 선수 게헤이루</span>
+            <em>같은 기록 묶음 3장면 · 2경기</em>
           </div>
           <div class="choice">
-            <b>우루과이가 수비한 코너</b>
-            <strong>5/6</strong>
-            <em>예측에 섞지 않고 원본 장면만 확인</em>
+            <b>우루과이 비교 장면</b>
+            <strong>직접 비교 · 참고</strong>
+            <em>세 가지 기록 조건으로 구분</em>
           </div>
         </div>
         <div class="campaign">
-          <div><strong>397개</strong><span>작은 표본 보정</span></div>
+          <div><strong>3 · 2</strong><span>장면 · 경기</span></div>
           <b>→</b>
-          <div><strong>2개</strong><span>영상 검토 안건 잠금</span></div>
+          <div><strong>2개</strong><span>먼저 볼 영상 묶음 잠금</span></div>
           <b>→</b>
           <div><strong>3 · 2</strong><span>선택 밖 장면 · 슈팅</span></div>
         </div>
         <div class="receipt">
-          <strong>모델은 검토 범위를 좁히고, 장면은 감독이 판단합니다</strong>
-          <span>약점 판정 대신 <em>다음 회의 안건</em>을 남김</span>
+          <strong>기록은 장면을 찾고, 감독은 영상을 판단합니다</strong>
+          <span>대응 전술 판정 대신 <em>다음 회의 안건</em>을 남김</span>
         </div>
       </div>
       <section class="proofs">${proofHtml}</section>

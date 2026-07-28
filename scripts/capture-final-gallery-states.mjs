@@ -52,17 +52,16 @@ try {
   });
   await page.goto(baseUrl);
   await page.getByRole("heading", {
-    name: /포르투갈 코너 14개만.*그대로 믿어도 될까요/u,
+    name: /16강 전날,.*포르투갈 코너 영상은 무엇부터 볼까요/u,
   }).waitFor();
 
-  const teamModel = page.getByTestId("team-model");
-  await teamModel.evaluate((element) => {
-    element.scrollIntoView({ block: "center", behavior: "instant" });
-  });
+  const teamBrief = page.getByTestId("team-routine-brief");
+  await teamBrief.waitFor();
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   artifacts.push(await capture(
     page,
-    "01-matchup-analysis",
-    "포르투갈 14개를 조별리그 397개로 보정하고 우루과이의 작은 수비 표본은 예측에서 제외한다",
+    "01-team-connections",
+    "콰레스마의 코너 뒤 첫 기록에 게헤이루가 등장한 3장면·2경기와 우루과이 직접 비교·참고 장면을 확인한다",
   ));
 
   await page.locator('[data-quick-select="aerial-defending-first"]').click();
@@ -88,6 +87,7 @@ try {
   );
   await page.getByRole("button", { name: "다음 회의 메모 저장" }).click();
   await page.getByTestId("counterevidence").evaluate((element) => {
+    document.querySelector("#app").style.zoom = "1.12";
     element.scrollIntoView({ block: "center", behavior: "instant" });
   });
   artifacts.push(await capture(
@@ -104,7 +104,7 @@ const manifest = {
   schema_version: 3,
   status: "current-candidate-gallery-source-not-public-or-human-evidence",
   release_manifest_sha256: release.manifestSha256,
-  story: "Portugal partial pooling → source-scene recurrence → choose two review questions → lock → hidden matchup → unselected counterevidence → memo",
+  story: "same-receipt player-event connection → direct/adjacent support → choose two review questions → lock → hidden matchup → unselected counterevidence → memo",
   artifacts,
 };
 await writeFile(

@@ -8,24 +8,24 @@
       "id": "hook",
       "scheduled_seconds": 0,
       "kicker": "60초 제품 데모",
-      "title": "포르투갈 코너 14개만 믿어도 될까",
-      "detail": "대회 전체로 작은 표본을 보정하고 원본 장면까지 확인",
+      "title": "포르투갈 코너 영상은 무엇부터 볼까",
+      "detail": "16강 전날, 우루과이 코치가 먼저 볼 두 묶음을 고릅니다",
       "tone": "promise"
     },
     {
       "id": "evidence",
       "scheduled_seconds": 6,
-      "kicker": "01 · 작은 표본 보정",
-      "title": "포르투갈 47% · 대회 사전정보 53%",
-      "detail": "토너먼트 단계 코너 160개 검증 · 확률 예측 오차 4.6% 감소",
+      "kicker": "01 · 반복 기록",
+      "title": "키커 콰레스마 · 이후 첫 기록: 게헤이루",
+      "detail": "숏 구역 전달 뒤 3장면 · 2경기 · 패스 대상이나 첫 접촉 의미 없음",
       "tone": "evidence"
     },
     {
       "id": "select",
       "scheduled_seconds": 15,
       "kicker": "02 · 감독의 영상 검토 안건",
-      "title": "포르투갈 3/3경기에서 반복된 두 장면",
-      "detail": "감독이 직접 선택 · 숏 뒤 포르투갈 선수 · 공중 경합 뒤 상대 수비 선수",
+      "title": "직접 비교와 참고 장면을 구분",
+      "detail": "숏 코너 직접 비교 2 · 공중볼 뒤 수비 기록 참고 2",
       "tone": "decision"
     },
     {
@@ -40,16 +40,16 @@
       "id": "reveal",
       "scheduled_seconds": 31,
       "kicker": "04 · 가려 둔 기록 공개",
-      "title": "포르투갈 보정 상위 구역 9/10",
-      "detail": "선택 안건 · 숏 5장면 / 공중 경합 뒤 수비 기록 0 · 관찰 공백",
+      "title": "선택한 숏 코너 5장면",
+      "detail": "공중볼 뒤 수비팀 기록 0 · 관찰 공백",
       "tone": "counterexample"
     },
     {
       "id": "counterevidence",
       "scheduled_seconds": 42,
       "kicker": "05 · 선택 밖 장면",
-      "title": "선택 밖 ‘그 밖의 전개’ 3장면",
-      "detail": "10초 안 슈팅 기록 2장면 · corner 261095314",
+      "title": "선택하지 않은 기타 전개 3장면",
+      "detail": "10초 안 포르투갈 슈팅 2장면 · 원본 261095314",
       "tone": "boundary"
     },
     {
@@ -63,9 +63,9 @@
     {
       "id": "final",
       "scheduled_seconds": 57,
-      "kicker": "팀 분석과 감독 판단의 경계",
-      "title": "모델은 범위를 좁히고, 장면은 감독이 판단합니다.",
-      "detail": "우루과이 0건은 관찰 공백 · 추적·마킹·훈련 효과 판단 없음",
+      "kicker": "기록과 감독 판단의 경계",
+      "title": "기록은 장면을 찾고, 감독은 영상을 판단합니다.",
+      "detail": "추적·마킹·훈련 효과 판단 없음",
       "tone": "promise"
     }
   ],
