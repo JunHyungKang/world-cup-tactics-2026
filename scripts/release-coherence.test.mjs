@@ -66,4 +66,10 @@ describe("selected-product release coherence", () => {
     expect(input.demoRecorder).toContain("canonical schema-4 Corner Scout Lab story");
     expect(input.demoRecorder).not.toContain("story.schema_version !== 3");
   });
+
+  it("keeps Korean editorial conclusions from breaking inside a word", () => {
+    expect(input.demoRecorder).toMatch(
+      /#demo-editorial \.demo-title \{[\s\S]*word-break: keep-all;/u,
+    );
+  });
 });
