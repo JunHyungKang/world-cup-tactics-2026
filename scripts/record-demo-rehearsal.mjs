@@ -196,7 +196,12 @@ try {
           font-weight: 850;
           letter-spacing: .08em;
         }
-        #demo-editorial .demo-title { font-size: 21px; line-height: 1.25; font-weight: 900; }
+        #demo-editorial .demo-title {
+          font-size: 20px;
+          line-height: 1.3;
+          font-weight: 900;
+          word-break: keep-all;
+        }
         #demo-editorial .demo-detail {
           margin-top: 5px;
           color: #d4e1da;
